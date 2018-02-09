@@ -1,0 +1,44 @@
+/*
+* Copyright 2018 herd-ui contributors
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+@import '../../styles/shared';
+$side-action-disabled-color: #63b5f2;
+$side-action-enabled-color: $white;
+
+.side-action {
+  text-align: center;
+  padding: 5px;
+  margin: 0px 5px;
+
+  .icon {
+    @include text-styling(18px, bolder,$side-action-disabled-color);
+  }
+
+  label {
+     @include text-styling(13px, bolder, $side-action-disabled-color);
+  }
+}
+
+div.enabled{
+
+  .icon{
+    cursor: pointer;
+    @include text-styling(18px, bolder, $side-action-enabled-color);
+  }
+  label{
+     cursor: pointer;
+     @include text-styling(13px, bolder, $side-action-enabled-color);
+  }
+}

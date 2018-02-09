@@ -1,0 +1,56 @@
+<!--
+ Copyright 2018 herd-ui contributors
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<sd-filter-template [title]="title" [(isFilterContentShown)]="showContent" (removeFilter)="delete()">
+  <div filter-content>
+    <form [formGroup]="partitionFilterForm" novalidate>
+      <button type="button" (click)="clear()" class="btn btn-link">Clear</button>
+      <div class="form-group">
+        <input type="text" class="form-control" formControlName="key" placeholder="Partition Key">
+        <small class="error" *ngIf="partitionFilterForm.errors && partitionFilterForm.errors.keyRequired &&
+        (partitionFilterForm.get('key').touched)">
+          {{ partitionFilterForm.errors.keyRequired }}
+        </small>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" formControlName="value" placeholder="Partition Value">
+        <small class="form-text text-muted"> Multiple values are comma separated </small>
+        <small class="error" *ngIf="partitionFilterForm.errors && partitionFilterForm.errors.valueRequired &&
+        (partitionFilterForm.get('value').touched || partitionFilterForm.get('min').touched || partitionFilterForm.get('max').touched)">
+          {{ partitionFilterForm.errors.valueRequired }}
+        </small>
+      </div>
+      <div class="form-group container">
+        <label>Range</label>
+        <div class="row">
+          <input type="text" class="form-control col" placeholder="Min" formControlName="min" />
+          <div class="input-group-addon col-1">-</div>
+          <input type="text" class="form-control col" placeholder="Max" formControlName="max" />
+          <small class="error" *ngIf="partitionFilterForm.errors && partitionFilterForm.errors.rangeStartTooLarge &&
+        (partitionFilterForm.get('min').touched || partitionFilterForm.get('max').touched)">
+          {{ partitionFilterForm.errors.rangeStartTooLarge }}
+        </small>
+        <small class="error" *ngIf="partitionFilterForm.errors && partitionFilterForm.errors.fullRangeRequired &&
+        (partitionFilterForm.get('min').touched && partitionFilterForm.get('max').touched)">
+          {{ partitionFilterForm.errors.fullRangeRequired }}
+        </small>
+        </div>
+
+      </div>
+      <button type="button" (click)="apply()" name="apply" class="btn btn-link">Apply</button>
+      <button type="button" (click)="cancel()" name="cancel" class="btn btn-link">Cancel</button>
+    </form>
+  </div>
+</sd-filter-template>

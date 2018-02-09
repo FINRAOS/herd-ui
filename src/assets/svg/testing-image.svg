@@ -1,0 +1,19 @@
+<!--
+ Copyright 2018 herd-ui contributors
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+  <path fill="#F00" d="M-.01 2.896v17.75h24V2.896h-24zm1.376 1.542h21.25v7.713c-5.952-1.484-13.075 1.513-14.954 6.956H1.366V4.438z"/>
+  <circle FILL="#0F0" cx="5.899" cy="8.979" r="2.792"/>
+</svg>

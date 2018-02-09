@@ -1,0 +1,64 @@
+<!--
+ Copyright 2018 herd-ui contributors
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<div class="schema-columns">
+  <p-dataTable #dt [value]="content" [rows]="10" reorderableColumns="true"
+    resizableColumns="true" exportFilename="schema-columns"
+    [responsive]="true" emptyMessage="No Columns Registered">
+    <p-header *ngIf="content && content.length">
+      <div class="table-header row justify-content-end">
+        <button type="button" pButton icon="fa-download" iconPos="left" label="Download CSV" (click)="dt.exportCSV()"></button>
+      </div>
+    </p-header>
+    <p-column *ngFor="let col of schemaCols" [style]="col.style" [hidden]="col.hide" [sortable]="col.sortable" [field]="col.field"
+      [header]="col.header">
+      <ng-template let-name="rowData.name" *ngIf="col.templateField === 'name'" pTemplate="body">
+        <sd-ellipsis-overflow>
+          {{name}}
+        </sd-ellipsis-overflow>
+      </ng-template>
+      <ng-template let-type="rowData.type" *ngIf="col.templateField === 'type'" pTemplate="body">
+        <sd-ellipsis-overflow>
+          {{type}}
+        </sd-ellipsis-overflow>
+      </ng-template>
+      <ng-template let-size="rowData.size" *ngIf="col.templateField === 'size'" pTemplate="body">
+        <sd-ellipsis-overflow>
+          {{size}}
+        </sd-ellipsis-overflow>
+      </ng-template>
+      <ng-template let-required="rowData.required" *ngIf="col.templateField === 'required'" pTemplate="body">
+        <sd-ellipsis-overflow>
+          {{required}}
+        </sd-ellipsis-overflow>
+      </ng-template>
+      <ng-template let-defaultValue="rowData.defaultValue" *ngIf="col.templateField === 'defaultValue'" pTemplate="body">
+        <sd-ellipsis-overflow>
+          {{defaultValue}}
+        </sd-ellipsis-overflow>
+      </ng-template>
+      <ng-template let-description="rowData.description"
+      let-bDefColumnDescription="rowData.bDefColumnDescription"
+      *ngIf="col.templateField === 'bDefColumnDescription'" pTemplate="body">
+        <p [innerHTML]="bDefColumnDescription || ''"></p>
+        <div *ngIf="description">
+          <div><b>Technical notes:</b></div>
+          <p>{{description || ''}}</p>
+        </div>
+      </ng-template>
+    </p-column>
+  </p-dataTable>
+
+</div>

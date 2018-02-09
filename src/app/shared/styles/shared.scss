@@ -1,0 +1,102 @@
+/*
+* Copyright 2018 herd-ui contributors
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+@import '../../../styles';
+
+$button-color: #0074d9;
+
+
+@mixin text-styling ($font-size, $font-weight, $font-color: $black){
+        font-size: $font-size;
+        font-weight: $font-weight;
+        color: $font-color;
+}
+
+@mixin unavailable-label{
+        opacity: .7;
+        @include text-styling(15px, 400,grey);
+}
+
+@mixin inner-header {
+        @include text-styling(18px, 700);
+        margin-top: 0;
+}
+
+@mixin side-detail-box ($top-margin:30px, $line-height:1.25rem) {
+        margin-top:$top-margin;
+        line-height: $line-height;
+}
+
+@mixin detail-rectangle ($width, $height, $color:$black) {
+    width:$width;
+    height:$height;
+    background-color: $black;
+}
+
+@mixin detail-header {
+    margin-top: 5px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+@mixin audit-details {
+    font-size: 13px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 $black;
+}
+
+@mixin table-heading {
+    border-radius: 0;
+    background-color: $table-header-color;
+}
+
+@mixin table-contents {
+    border-radius: 0;
+    padding: 10px 10px;
+    line-height: 1.25rem;
+    font-size: 15px;
+}
+
+@mixin tooltip-style {
+    z-index: 100000000;
+    .top {
+      .tooltip-arrow {
+        border-bottom-color: $tooltip-color;
+        border-top-color: $tooltip-color;
+      }
+    }
+    .tooltip-inner {
+      background-color: $tooltip-color;
+      color: $white;
+    }
+}
+
+@mixin button-style {
+    background-color: $button-color;
+    color: white;
+}
+
+@mixin sub-header-label {
+     @include text-styling (24px, bold);
+     margin-bottom:20px;
+}
+
+@mixin data-object-link {
+    @include text-styling (18px, 700, $recommended-format-color);
+    text-decoration: none;
+    padding: 20px 0px;
+}

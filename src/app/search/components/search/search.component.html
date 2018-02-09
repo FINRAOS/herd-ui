@@ -1,0 +1,87 @@
+<!--
+ Copyright 2018 herd-ui contributors
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<div class="container">
+
+  <div class="search-box">
+    <sd-global-search></sd-global-search>
+  </div>
+
+  <div class="row search-result">
+
+    <div class="col-3">
+      <sd-facet [newSearch]="newSearch" [facets]="facets" (facetChange)="facetChange($event)"></sd-facet>
+    </div>
+
+    <div [hidden]="!loading" class="col-9 sd-text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></div>
+
+    <div class="col-9" *ngIf="indexSearchResults && indexSearchResults.length < 1 && !loading" >
+      <div class="bdefs-unavailable">No result found for the search text
+        "{{searchText}}".
+      </div>
+    </div>
+
+    <div class="col-9" [hidden]="loading || !indexSearchResults || indexSearchResults.length === 0">
+
+      <div>Showing <b>{{indexSearchResults && indexSearchResults.length}} results</b> out of {{totalIndexSearchResults}} for <b>"{{searchText}}"</b></div>
+
+      <div class="card" *ngFor="let result of indexSearchResults">
+        <div class="card-header d-flex justify-content-between"
+             *ngIf="result.indexSearchResultType.includes('BUS_OBJCT_DFNTN'); else tagtemplate">
+          <div class="d-flex align-items-start flex-column">
+            <a [routerLink]="['/data-entities', result.indexSearchResultKey.businessObjectDefinitionKey.namespace,
+               result.indexSearchResultKey.businessObjectDefinitionKey.businessObjectDefinitionName]">
+              {{result.displayName ||
+              result.indexSearchResultKey.businessObjectDefinitionKey.businessObjectDefinitionName }}
+            </a>
+            <div class="namespace-bdef-subtitle">
+              {{result.indexSearchResultKey.businessObjectDefinitionKey.namespace}}.{{result.indexSearchResultKey.businessObjectDefinitionKey.businessObjectDefinitionName}}
+            </div>
+          </div>
+          <div>
+            <span class="badge badge-default">Data Entity</span>
+          </div>
+        </div>
+        <ng-template #tagtemplate>
+          <div class="card-header d-flex justify-content-between">
+            <div class="d-flex align-items-start flex-column">
+              <a *ngIf="result.indexSearchResultType.includes('TAG')"
+                 [routerLink]="['/categories', result.indexSearchResultKey.tagKey.tagTypeCode, result.indexSearchResultKey.tagKey.tagCode]">
+                {{result.displayName }}
+              </a>
+            </div>
+            <div>
+              <span class="badge badge-warning">Category</span>
+            </div>
+          </div>
+        </ng-template>
+
+        <div class="card-block">
+          <sd-read-more [text]="result.shortDescription" [maxLength]="200" [hideLink]="true"></sd-read-more>
+
+          <div class="highlight-block">
+            <sd-read-more
+              [text]="makeHighlightFull(result.highlight)"
+              [maxLength]="180"
+              [linkLabel]="(result.highlight.fields.length -1 === 0 ? '...read ' : '...and '+ (result.highlight.fields.length - 1)) + ' more'"
+              [hideLink]="false">
+            </sd-read-more>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
