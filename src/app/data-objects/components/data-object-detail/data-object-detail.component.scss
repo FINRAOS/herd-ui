@@ -1,0 +1,159 @@
+/*
+* Copyright 2018 herd-ui contributors
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+@import '../../../shared/styles/shared';
+$recommended-format-color: $brand-blue;
+$description-body-color: #3c3c3c;
+
+.data-object-detail {
+
+  .header-content {
+    padding-left: 15px;
+    margin-bottom: 20px;
+    max-width: 100%;
+  }
+  .rectangle {
+    @include detail-rectangle(102px, 6px);
+  }
+  .detail-header {
+    @include detail-header;
+  }
+  .detail-title {
+    @include text-styling (42px, 700);
+    padding: 0px;
+  }
+  .data-object-link {
+    @include data-object-link;
+  }
+  .physical-name{
+    margin-bottom: 30px;
+    line-height: 0.5em;
+    span {
+      margin-right: 8px;
+    }
+  }
+  .nav-tabs .nav-link.active{
+    font-weight: bold;
+  }
+
+  .sub-header-label {
+    @include sub-header-label;
+    @include side-detail-box(30px);
+  }
+
+  .description-body {
+    margin-top: 20px;
+    margin-right: 20px;
+    @include text-styling (16px, normal, $description-body-color);
+  }
+
+  .left-blue-border {
+    border-left: 15px solid #0074d9;
+    height: 150px;
+  }
+  .label-container{
+    line-height: 1rem;
+    font-weight: 700;
+  }
+
+  .content-container{
+    line-height: 1rem;
+
+  }
+  .other-data {
+    margin-left: -32px;
+  }
+
+  .details-sub {
+    margin-top: 30px;
+    margin-left: 10px;
+  }
+
+  sd-attribute-definitions {
+    margin-left: 10px;
+  }
+
+  .card-header {
+    @include text-styling (24px, bold);
+  }
+
+  .columns-content {
+    .columns-header {
+      .list-group-item {
+        @include table-heading;
+        @include text-styling(14px, 700, #fff);
+      }
+    }
+    .columns-detail {
+      .list-group-item {
+        @include table-contents;
+      }
+    }
+  }
+
+  sd-storage-units {
+    .columns-detail {
+      background-color: #1a1a1a;
+      margin: 0;
+    }
+  }
+  .underline {
+    text-decoration: underline;
+  }
+
+
+  .sub-header {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: bold;
+
+    .schema {
+  padding-left: 10px;
+}
+  }
+
+
+.partition-details-container {
+  margin:0px;
+  .left-blue-border {
+    border-left: 15px solid #0074d9;
+    height: 60;
+  }
+
+  .details-content {
+    margin-top: 30px;
+    margin-left: 10px;
+  }
+
+  .partition-content {
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+
+  .details-label {
+    span {
+    @include text-styling(13px, 700, #aaa);
+    }
+  }
+
+  .partition-value {
+    line-height: 1rem;
+    sd-ellipsis-overflow {
+     @include text-styling(13px, 300);
+    }
+  }
+}
+
+}

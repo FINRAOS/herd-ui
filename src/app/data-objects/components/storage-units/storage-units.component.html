@@ -1,0 +1,115 @@
+<!--
+ Copyright 2018 herd-ui contributors
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<div class="storage-units">
+  <!--storage unit heading-->
+  <div class="sub-header-label">Storage Units</div>
+  <div *ngIf="content.storageUnits && content.storageUnits.length === 0" layout-padding>
+    <div class="row">
+      <div class="col">No storage-units registered.</div>
+    </div>
+  </div>
+
+  <!--storage units-->
+  <div *ngIf="content.storageUnits && content.storageUnits.length > 0">
+
+    <div class="storage-loop" *ngFor="let storageUnit of content.storageUnits">
+
+      <!--storage details-->
+      <div class="container columns-content">
+        <div class="list-group columns-header">
+          <div class="list-group-item row">
+            <div class="col-3">Storage name</div>
+            <div class="col-1">Status</div>
+            <div class="col-2">Restore expiration</div>
+            <div class="col-6">Details</div>
+          </div>
+        </div>
+        <div class="list-group columns-detail">
+          <div class="list-group-item row">
+            <div class="col-3">{{ storageUnit.storage.name }}</div>
+            <div class="col-1">{{ storageUnit.storageUnitStatus }}</div>
+            <div class="col-2">{{ storageUnit.restoreExpirationOn | date:'short'}}</div>
+            <div class="col-6">
+              <div class="bucket-name" *ngIf="storageUnit.bucketName">
+                <div><b>Bucket name:</b></div>
+                <div>{{ storageUnit.bucketName }}</div>
+              </div>
+              <div *ngIf="storageUnit.storageDirectory">
+                <div class="directory">
+                  <div><b>Directory:</b></div>
+                  <div> {{ storageUnit.storageDirectory.directoryPath }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Storage Unit Status history-->
+      <div class="col align-self-start left-blue-border">
+        <h2 class="row">Status History</h2>
+      </div>
+      <div class="container columns-content"
+           *ngIf="storageUnit.storageUnitStatusHistory && storageUnit.storageUnitStatusHistory.length > 0;">
+        <div class="list-group columns-header">
+          <div class="row list-group-item">
+            <div class="col-2">Status</div>
+            <div class="col-4">Timestamp</div>
+            <div class="col-6">User</div>
+          </div>
+        </div>
+        <div class="list-group columns-detail"
+             *ngFor="let storageUnitStatusChangeEvent of storageUnit.storageUnitStatusHistory">
+          <div class="row list-group-item">
+            <div class="col-2">{{ storageUnitStatusChangeEvent.status }}</div>
+            <div class="col-4">{{ storageUnitStatusChangeEvent.eventTime | date:'short'}}</div>
+            <div class="col-6">{{ storageUnitStatusChangeEvent.userId }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="list-group-item"
+           *ngIf="!storageUnit.storageUnitStatusHistory || storageUnit.storageUnitStatusHistory.length === 0">
+        <div class="col-12">No storage unit status history found</div>
+      </div>
+
+      <!--files-->
+      <div class="col align-self-start left-blue-border">
+        <h2 class="row">Files</h2>
+      </div>
+      <div class="container columns-content" *ngIf="storageUnit.storageFiles && storageUnit.storageFiles.length > 0">
+        <div class="list-group columns-header">
+          <div class="row list-group-item">
+            <div class="col-9">File path</div>
+            <div class="col-2">File size</div>
+            <div class="col-1">Rows</div>
+          </div>
+        </div>
+        <div class="list-group columns-detail files-loop" *ngFor="let storageFile of storageUnit.storageFiles">
+          <div class="row list-group-item">
+            <div class="col-9">{{ storageFile.filePath }}</div>
+            <div class="col-2">{{(storageFile.fileSizeBytes / 1024).toFixed(2) }} kB</div>
+            <div class="col-1">{{ storageFile.rowCount }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="empty-files" *ngIf="!storageUnit.storageFiles || storageUnit.storageFiles.length === 0">
+        <div class="text-left">No files found</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

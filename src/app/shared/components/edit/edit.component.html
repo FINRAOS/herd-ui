@@ -1,0 +1,41 @@
+<!--
+ Copyright 2018 herd-ui contributors
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<div class="row no-gutters" *ngIf="!editMode" (mouseover)="hover=true;" (mouseout)="hover=false;" (click)="enterEdit()" [ngClass]="{ edit: showEditIcon() }">
+  <div class="col" [innerHTML]="text"></div>
+  <div class="col-1" *ngIf="showEditIcon()">
+    <i class="fa fa-pencil"></i>
+  </div>
+</div>
+
+<div class="editor-form" *ngIf="editMode">
+  <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <div class="form-errors" *ngIf="editForm.errors && editForm.touched">
+        <small *ngIf="editForm.errors.valueRequired" class="form-text"> {{ editForm.errors.valueRequired }}</small>
+        <small *ngIf="editForm.errors.illegalCharacters" class="form-text"> {{ editForm.errors.illegalCharacters }}</small>
+      </div>
+      <ckeditor *ngIf="!simpleEdit; else simpleForm" [ngModel]="text" [config]="{extraPlugins: 'divarea' }" formControlName="text">
+      </ckeditor>
+      <ng-template #simpleForm>
+        <input [ngModel]="text" formControlName="text" type="text">
+      </ng-template>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-primary" type="submit">Save</button>
+      <button class="btn btn-danger" type="button" (click)="closeEditor()">Cancel</button>
+    </div>
+  </form>
+</div>

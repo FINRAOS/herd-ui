@@ -1,0 +1,84 @@
+<!--
+ Copyright 2018 herd-ui contributors
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<div class="category-detail-view">
+  <sd-generic-view class="category-detail">
+    <div side-action>
+      <sd-side-actions [actions]="sideActions"></sd-side-actions>
+    </div>
+    <div header-content>
+      <div class="rectangle"></div>
+      <h3 class="detail-header">CATEGORY</h3>
+      <div class="header">
+        <span class="detail-title">{{category.displayName}}</span>
+      </div>
+      <div class="audit-details">
+        Created by {{category.userId }}, last modified by {{category.lastUpdatedByUserId }} on {{ category.updatedTime | date:'short'}}.
+      </div>
+    </div>
+    <div main-content>
+      <sd-truncated-content [showLines]="6" [content]="category.description" [readMoreText]="'show more'" [showLessText]="'show less'"
+        [lastLineRatio]=".33">
+      </sd-truncated-content>
+
+      <!-- Related Categories (tag hierarchy) -->
+      <div class="related-categories">
+        <div *ngIf="(parent |  async) || (tagChildren && tagChildren.length)">
+          <h2>Related Categories</h2>
+          <div class="tag-hierarchy" *ngIf="parent | async; let parent">
+            <a (click)="onCategoryLinkClick(parent)" class="link tag-label">{{parent.displayName}}</a>
+          </div>
+          <div class="tag-hierarchy current-tag">
+            <div class="tag-label-current">{{category.displayName}}</div>
+          </div>
+          <div class="tag-hierarchy child-tag" *ngIf="tagChildren">
+            <a (click)="onCategoryLinkClick(childTag)" *ngFor="let childTag of tagChildren" class="link tag-label">
+              {{childTag.displayName}}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!--Related data entities-->
+      <div class="related-data-entities">
+
+        <h2>Related Data Entities</h2>
+        <hr/>
+
+        <div class="row">
+          <sd-facet class="col-3" [newSearch]="newSearch" [facets]="facets" (facetChange)="facetChange($event)"></sd-facet>
+
+          <div class="col text-center bdefs-unavailable" *ngIf="!loading && results && results.length < 1">No related data entities registered.</div>
+          <div [hidden]="!loading" class="col text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></div>
+          <div class="col-9" [hidden]="loading || results.length < 1">
+            <div>Showing <b>{{results.length}} entities</b></div>
+            <div class="card" *ngFor="let result of results">
+              <div class="card-header d-flex justify-content-between">
+                <div>
+                  <a [routerLink]="['/data-entities', result.namespace,result.businessObjectDefinitionName]">
+                    {{result.displayName || result.businessObjectDefinitionName }}
+                  </a>
+                </div>
+              </div>
+              <div class="card-block">
+                <sd-read-more [text]="result.shortDescription" [maxLength]="300" [hideLink]="true"></sd-read-more>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sd-generic-view>
+</div>

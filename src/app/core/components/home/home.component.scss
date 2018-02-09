@@ -1,0 +1,92 @@
+/*
+* Copyright 2018 herd-ui contributors
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+$home-search-background: #1565c0;
+$search-icon-color: #31a244;
+$header-color: #ffffff;
+$tooltip-color: #696969;
+
+.homepage {
+  .home-search {
+    background-color: $home-search-background;
+    .container {
+      padding: 20px 0;
+      h2 {
+        padding-top:20px;
+        color: $header-color;
+        font-weight:700;
+      }
+      h5 {
+        padding:20px 0px;
+        color: $header-color;
+      }
+      form {
+        div {
+          div {
+            background-color: $search-icon-color;
+          }
+
+        }
+        i {
+          color: #FFFFFF;
+        }
+      }
+    }
+  }
+
+  .container {
+    padding: 20px 0px;
+    .card{
+      border: none !important;
+    }
+    div {
+      h3 {
+        padding: 20px 0;
+      }
+
+    }
+    ul {
+      padding-left: 0;
+      margin: 0;
+      li {
+        list-style-type: none;
+      }
+    }
+  }
+
+  .tag-type-title {
+    display: inline-block;
+  }
+
+  .maze-logo {
+    width: 44px;
+    height: 44px;
+    display: inline-block;
+  }
+
+  .tooltip {
+    .top {
+      .tooltip-arrow {
+        border-bottom-color: $tooltip-color;
+        border-top-color: $tooltip-color;
+      }
+    }
+    .tooltip-inner {
+      background-color: $tooltip-color;
+      color: #fff;
+    }
+  }
+
+}

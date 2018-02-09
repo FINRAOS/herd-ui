@@ -1,0 +1,65 @@
+<!--
+ Copyright 2018 herd-ui contributors
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<div class="container columns-content" *ngIf="content.length !== 0">
+  <div class="list-group columns-header">
+    <div class="row list-group-item">
+      <div class="col-2">Namespace</div>
+      <div class="col-2">Definition name</div>
+      <div class="col-2">Format</div>
+      <div class="col-2">Partition value</div>
+      <div class="col-2">SubPartitions</div>
+      <div class="col-1">Version</div>
+      <div class="col-1"> </div>
+    </div>
+  </div>
+
+  <div class="list-group columns-detail" *ngFor="let bData of content">
+    <div class="row list-group-item">
+      <div class="col-2">
+        <sd-ellipsis-overflow [ellipsisContent]="bData.namespace"></sd-ellipsis-overflow>
+      </div>
+      <div class="col-2">
+        <sd-ellipsis-overflow [ellipsisContent]=" bData.businessObjectDefinitionName "></sd-ellipsis-overflow>
+      </div>
+      <div class="col-2">
+        <sd-ellipsis-overflow [ellipsisContent]="bData.businessObjectFormatUsage + ' : '
+          + bData.businessObjectFormatFileType + ' : ' + bData.businessObjectFormatVersion">
+
+        </sd-ellipsis-overflow>
+      </div>
+      <div class="col-2">
+        <sd-ellipsis-overflow [ellipsisContent]=" bData.partitionValue "></sd-ellipsis-overflow>
+      </div>
+      <div class="col-2">
+        <sd-ellipsis-overflow [ellipsisContent]=" bData.subPartitionValues.join('|')"></sd-ellipsis-overflow>
+      </div>
+      <div class="col-1">{{bData.businessObjectDataVersion}}</div>
+      <div class="col-1">
+        <a [routerLink]="['/data-objects',
+                                        bData.namespace,
+                                        bData.businessObjectDefinitionName,
+                                        bData.businessObjectFormatUsage,
+                                        bData.businessObjectFormatFileType,
+                                        bData.businessObjectFormatVersion,
+                                        bData.partitionValue,
+                                        bData.businessObjectDataVersion,
+                                        {subPartitionValues: bData.subPartitionValues.join('|')}
+                                   ]">Details
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

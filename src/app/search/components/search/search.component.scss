@@ -1,0 +1,220 @@
+/*
+* Copyright 2018 herd-ui contributors
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+sd-search {
+  .container {
+    .search-box {
+      margin: 5px 12px;
+    }
+    .row {
+      margin: 15px 0;
+      .sd-text-center {
+        text-align: center;
+      }
+    }
+  }
+
+  .card {
+    margin: 3px 0;
+  }
+  .card-header {
+    font-weight: bold;
+    .namespace-bdef-subtitle {
+      color: #757575;
+      font-size: 11px;
+      font-weight: normal;
+    }
+  }
+
+  /* copied from old will be processed later*/
+  .global-search {
+    height: 20px;
+    min-width: 400px;
+    padding: 5px;
+    border: 1px solid #e0e0e0;
+  }
+
+  /* to make sure trasition is covered for box shadow styles it was set to important as an override */
+  .global-search-view {
+    sd-truncated-content {
+      .toggle-content {
+        box-shadow: 0 0 rgba(0, 0, 0, 0) !important;
+        text-transform: lowercase !important;
+      }
+      .global-search {
+        min-width: 805px;
+      }
+      div.result-type {
+        cursor: default;
+        border-radius: 5px;
+        display: block;
+        height: 23px;
+        line-height: 21px;
+        margin: 8px 8px 8px 3px;
+        padding: 1px 6px;
+        float: left;
+        box-sizing: inherit;
+        max-width: 100%;
+        position: relative;
+        background: rgb(224, 224, 224);
+        color: rgb(66, 66, 66);
+        font-size: 16px;
+      }
+
+      md-list-item {
+        margin: 2px 0;
+      }
+      md-progress-linear {
+        min-width: 848px;
+      }
+    }
+  }
+
+  .global-search-icon {
+    font-size: 31px;
+    background: #33d087;
+    color: white;
+    height: 32px;
+    width: 30px;
+    cursor: pointer;
+    cursor: hand;
+  }
+
+  .divWrapper {
+    min-width: 847px;
+    display: inline;
+    position: relative;
+  }
+
+  .error-message {
+    color: #ec8a8a;
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+
+  .divWrapper i {
+    position: absolute;
+    right: 0;
+  }
+
+  .divWrapper:focus i {
+    display: none;
+  }
+
+  .global-search::-webkit-input-placeholder { /* WebKit browsers */
+    text-align: left;
+    direction: ltr;
+  }
+
+  .global-search:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    text-align: left;
+    direction: ltr;
+  }
+
+  .global-search::-moz-placeholder { /* Mozilla Firefox 19+ but I'm not sure about working */
+    text-align: left;
+    direction: ltr;
+  }
+
+  .global-search:-ms-input-placeholder { /* Internet Explorer 10+ */
+    text-align: left;
+    direction: ltr;
+  }
+
+  .hidden {
+    visibility: hidden;
+  }
+
+  .visible {
+    visibility: visible;
+  }
+
+  .padding-top-18px {
+    padding-top: 18px;
+  }
+
+  .searchresult-highlight {
+    color: #0c8bea;
+    font-weight: bold;
+  }
+
+  .highlight {
+    font-weight: bold;
+    p {
+      .displaymore {
+        -webkit-line-clamp: inline;
+      }
+    }
+  }
+
+  .highlight-block {
+    margin-top: 13px;
+    font-size: 12px;
+    sd-read-more {
+      .found {
+        color: #33d087;
+      }
+      .highlight {
+        font-weight: bold;
+      }
+      .read {
+        cursor: pointer;
+        color: blue;
+        a:link {
+          text-decoration: none;
+        }
+        a:visited {
+          text-decoration: none;
+        }
+        a:hover {
+          text-decoration: underline;
+        }
+        a:active {
+          text-decoration: underline;
+        }
+      }
+    }
+    sd-truncated-content {
+      .found {
+        color: #33d087;
+      }
+      .highlight {
+        font-weight: bold;
+      }
+      .read {
+        cursor: pointer;
+        color: blue;
+        a:link {
+          text-decoration: none;
+        }
+        a:visited {
+          text-decoration: none;
+        }
+        a:hover {
+          text-decoration: underline;
+        }
+        a:active {
+          text-decoration: underline;
+        }
+      }
+    }
+
+  }
+}
+
+
+
+
+

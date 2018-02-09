@@ -1,0 +1,278 @@
+/*
+* Copyright 2018 herd-ui contributors
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+@import '../../../shared/styles/shared';
+$recommended-format-color: $brand-blue;
+$description-body-color: #3c3c3c;
+$button-hover-color: $table-header-color;
+
+.data-entity-detail {
+
+  .header-content {
+    max-width: 100%;
+  }
+  .rectangle {
+    @include detail-rectangle(102px, 6px);
+  }
+  .detail-header {
+    @include detail-header;
+  }
+  .detail-title {
+    @include text-styling (42px, 700);
+    padding-left: 0px;
+  }
+  .data-object-link {
+    @include data-object-link;
+  }
+  .audit-details {
+    @include audit-details;
+  }
+  .description-label {
+    @include sub-header-label;
+  }
+  .description-body {
+    margin-top: 20px;
+    line-height: 1.25rem;
+    @include text-styling (16px, normal, $description-body-color);
+  }
+
+  /*
+  * overview tab - side details
+  */
+  .side-details {
+    padding: 0px;
+  }
+  .bdef-details>div {
+    @include side-detail-box;
+    .inner-header {
+      @include inner-header;
+    }
+  }
+  /*
+  * bdef formats side details
+  */
+  .bdef-formats>div {
+    @include side-detail-box;
+    p {
+      @include unavailable-label;
+    }
+    .inner-header {
+      @include inner-header;
+    }
+    .descriptive-format-property {
+      color: #898989;
+    }
+    .format-whiteframe {
+      box-shadow: 5px 5px 5px grey;
+      margin-top: 10px;
+      padding: 20px 10px;
+    }
+    .recommended.format-whiteframe {
+      background: $recommended-format-color;
+      color: #fff;
+      padding: 20px 10px;
+    }
+    .recommended.format-whiteframe .format-header {
+      color: inherit;
+    }
+    .format-header {
+      div {
+        margin: 1px;
+        padding: 0px;
+      }
+      color: grey;
+    }
+    .fa {
+      font-size: 1.5rem;
+    }
+    .view-schema-container {
+      margin-top: 10px;
+    }
+    .schema-link {
+      color: $recommended-format-color;
+      text-decoration: none;
+      padding: 0px 80px;
+    }
+    .schema-link:hover {
+      text-decoration: underline;
+    }
+    .recommended .schema-link:hover {
+      color: black;
+    }
+    .recommended .schema-link {
+      color: #fff;
+      padding: 0px 80px;
+    }
+  }
+
+  .pointer {
+    cursor: pointer;
+  }
+  /*
+  * bdef smes side details
+  */
+  .smes-container {
+    @include side-detail-box;
+    padding: 0px;
+    .inner-header {
+      @include inner-header;
+    }
+    p {
+      @include unavailable-label
+    }
+    .smes-content {
+      padding: 0px;
+      .sme-content {
+        padding-bottom: 10px;
+        margin: 5px 0px;
+        .job-title {
+          color: grey;
+        }
+      }
+    }
+  }
+
+  /*
+  * bdef columns tab
+  */
+  .columns-content {
+    .columns-header {
+      .list-group-item {
+        @include table-heading;
+        @include text-styling(14px, 700, #fff);
+      }
+    }
+    .columns-detail {
+      width: 100%;
+      .list-group-item {
+        @include table-contents;
+      }
+    }
+  }
+
+  .tab-contents {
+    margin-top:20px;
+  }
+
+  ngb-tabset {
+    .nav-item {
+      .active{
+        font-weight: bold;
+      }
+    }
+  }
+
+}
+.modal-header {
+  background-color: #2399e5;
+  border-color: #2399e5;
+}
+.ui-button {
+  background-color: #2399e5;
+}
+
+.btn-primary {
+  background-color: #2399e5;
+}
+
+.ace-editor {
+  min-height: 500px;
+  width:100%;
+  overflow: auto;
+}
+
+
+
+p-datatable {
+  .ui-datatable {
+    margin-top: 20px;
+  }
+  td { white-space: normal !important;}
+
+  /deep/ .ui-datatable-tablewrapper {
+    overflow-x: auto;
+  }
+
+  // only needed while their library has the issue take this out once PR is merged into PrimeNg Datatable
+  @media(max-width:35em) {
+    /deep/.ui-datatable-reflow {
+      .ui-datatable-data > tr > td {
+        width: 100% !important;
+      }
+    }
+  }
+
+  /deep/ .table-header {
+    margin: 0;
+  }
+}
+
+
+ngx-graph .graph {
+  .node {
+    text {
+      fill: #ffffff;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+
+  .edge {
+    path  {
+      stroke: #666 !important;
+    }
+  }
+
+  .arrow-head {
+    fill: #666;
+  }
+}
+
+ngx-charts-legend {
+  position: absolute;
+}
+
+.view-lineage {
+    overflow: hidden !important;
+    .modal-dialog {
+      max-width: 95%;
+      min-height: 95%;
+      max-height: 95%;
+    .modal-content {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      .graph-wrapper {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+    }
+  }
+}
+
+.node.parent-child {
+  overflow: auto;
+}
+
+.node.parent-child:hover > rect {
+  stroke: yellow;
+  stroke-width: 2px;
+}
+

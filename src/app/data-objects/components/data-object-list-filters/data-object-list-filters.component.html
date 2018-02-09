@@ -1,0 +1,37 @@
+<!--
+ Copyright 2018 herd-ui contributors
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<div class="data-object-list-filters row">
+  <div class="col-auto">
+    <div ngbDropdown>
+      <button class="btn btn-secondary" id="addFilterDdl" ngbDropdownToggle>Add Filter</button>
+      <div ngbDropdownMenu aria-labelledby="addFilterDdl">
+        <button *ngFor="let type of filterTypes" (click)="addFilter(type)" class="dropdown-item">{{type.displayName}}</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="row filters">
+      <div [ngSwitch]="filter.type" *ngFor="let filter of filters; let i = index;" class="col-4">
+        <sd-partition-filter [(filter)]="filter.data" (filterChange)="filterSaved($event)" (filterDeleted)="deleteFilter($event, i)"
+          *ngSwitchCase="'partition'"> </sd-partition-filter>
+        <sd-attribute-filter [(filter)]="filter.data" (filterChange)="filterSaved($event)" (filterDeleted)="deleteFilter($event, i)"
+          *ngSwitchCase="'attribute'"> </sd-attribute-filter>
+        <sd-latest-valid-version-filter (filterDeleted)="deleteFilter($event, i)" *ngSwitchCase="'lvv'"> </sd-latest-valid-version-filter>
+      </div>
+    </div>
+  </div>
+</div>

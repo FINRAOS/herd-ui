@@ -1,0 +1,26 @@
+{
+    "baseUrlLocal": "http://localhost:4200",
+    "baseUrlNoPassword": "baseUrlNoPassword",
+    "baseUrl8443": "baseUrlNoPassword:8443",
+    "herdHost": "herdHost",
+    "herdHostSaucelab": "herdHostSaucelab",
+    "docTitlePrefix": "Herd-UI",
+    "homePage": "/",
+    "searchUrl": "/search",
+    "dataEntityDetailPath": "/data-entities",
+    "dataEntityBdefPath":"/data-entities/{namespace}/{businessObjectDefinitionName}",
+    "categoryDetailPath": "/categories/",
+    "formatPage": "/formats/",
+    "bdataListPath": "/data-objects/{namespace}/{definitionName}/{usage}/{fileType}/{version}",
+    "bdataDetailPath": "/data-objects/{namespace}/{definitionName}/{usage}/{fileType}/{formatVersion}/{partitionValue}/{dataVersion};{subPartitions}",
+    "sauceUser": "sauceUser",
+    "sauceKey": "sauceKey",
+    "loginUser": "loginUser",
+    "loginPwd": "loginPwd",
+    "noAccessUser": "noAccessUser",
+    "noAccessPassword": "noAccessPassword",
+    "sauceSeleniumAddress": "http://localhost:4445/wd/hub",
+    "authorization": {
+        "basicKey": "basicKey"
+    }
+}

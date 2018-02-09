@@ -1,0 +1,73 @@
+<!--
+ Copyright 2018 herd-ui contributors
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<div class='splash'>
+</div>
+
+
+<div class="card">
+  <div class="card-header">
+    <h2>Login</h2>
+  </div>
+  <div class="card-block">
+    <form class="form-horizontal" [formGroup]="loginForm" (ngSubmit)="onSubmit()" oninvalid="">
+      <div class="row">
+        <div class="col">
+          <div class="form-group" [ngClass]="{'has-danger': username.invalid && (username.dirty || username.touched)}">
+            <label class="sr-only" for="username">User ID</label>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+              <input type="text" name="username" formControlName="username"
+                     class="form-control form-control-danger" id="username"
+                     placeholder="Username" required
+                     autofocus>
+            </div>
+            <span *ngIf="username.invalid && (username.dirty || username.touched)" class="text-danger align-middle">
+                <i class="fa fa-close"></i> Username is required
+              </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-group" [ngClass]="{'has-danger': password.invalid && (password.dirty || password.touched)}">
+            <label class="sr-only" for="password">Password</label>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+              <input type="password" name="password" formControlName="password" class="form-control form-control-danger"
+                     id="password" placeholder="Password"
+                     required>
+            </div>
+            <span *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger align-middle">
+                <i class="fa fa-close"></i> Password is required
+              </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="padding-top: 1rem">
+        <div class="col">
+          <button type="submit" [disabled]="loginForm.invalid || loading" class="btn btn-success"><i class="fa fa-sign-in"></i>
+            Login
+          </button>
+          <img [hidden]="!loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+

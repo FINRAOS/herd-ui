@@ -1,0 +1,64 @@
+/*
+* Copyright 2018 herd-ui contributors
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+@import '../../../shared/styles/shared';
+$button-hover-color: $table-header-color;
+
+.tags-container {
+  button.tag-button {
+    @include button-style;
+    margin: 5px 0px;
+    font-size: 14px;
+    border-radius: 0;
+    white-space: normal;
+    padding: 0.5rem 0.5rem;
+    border: 0;
+  }
+  button.tag-button:not([disabled]):hover {
+    background-color: $button-hover-color;
+  }
+  .inner-header {
+    @include inner-header;
+  }
+  p {
+    @include unavailable-label
+  }
+
+  .list-inline {
+    padding: 0 2px 0 2px;
+  }
+}
+
+/* scss for the edit gasture on mouse over */
+.tags-content {
+  margin: 0;
+  border: 1px solid;
+  border-color: #ffffff;
+  .col-1 {
+    display: none;
+    text-align: center;
+    background-color: #dddddd;
+  }
+}
+
+.edit {
+  border: 1px solid;
+  border-color: #b1aeae;
+}
+
+.edit-icon {
+  display: inline-block !important;
+}
+
