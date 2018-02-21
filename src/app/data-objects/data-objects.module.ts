@@ -25,9 +25,13 @@ import {AttributeFilterComponent} from './components/attribute-filter/attribute-
 import {LatestValidVersionFilterComponent} from './components/latest-valid-version-filter/latest-valid-version-filter.component';
 import {LineageComponent} from './components/lineage/lineage.component';
 import {StorageUnitsComponent} from './components/storage-units/storage-units.component';
+import {CodemirrorModule} from 'ng2-codemirror';
+import {ClipboardModule} from 'ngx-clipboard';
 
 @NgModule({
   imports: [
+    CodemirrorModule,
+    ClipboardModule,
     DataObjectsRoutingModule,
     SharedModule
   ],

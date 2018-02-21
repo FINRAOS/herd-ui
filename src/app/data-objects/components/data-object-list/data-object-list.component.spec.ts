@@ -14,11 +14,11 @@
 * limitations under the License.
 */
 
-import {AlertService} from 'app/core/services/alert.service';
-import {BusinessObjectDataService} from '@herd/angular-client';
+import {AlertService, SuccessAlert, DangerAlert} from 'app/core/services/alert.service';
+import {BusinessObjectDataService, BusinessObjectFormatService, BusinessObjectDataDdl} from '@herd/angular-client';
 import {ActivatedRouteStub} from 'testing/router-stubs';
 import {ActivatedRoute} from '@angular/router';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed, inject} from '@angular/core/testing';
 
 import {DataObjectListComponent} from './data-object-list.component';
 import {SideActionComponent} from 'app/shared/components/side-action/side-action.component';
@@ -35,28 +35,47 @@ import {
   LatestValidVersionFilterComponent
   } from 'app/data-objects/components/latest-valid-version-filter/latest-valid-version-filter.component';
 import {FilterTemplateComponent} from 'app/data-objects/components/filter-template/filter-template.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {HttpModule} from '@angular/http';
 import {DataTable} from 'primeng/primeng';
 import {Observable} from 'rxjs/Observable';
+import {CodemirrorModule} from 'ng2-codemirror';
+import {ClipboardModule} from 'ngx-clipboard';
+import { SpinnerComponent } from 'app/shared/components/spinner/spinner.component';
+import { InlineSVGModule } from 'ng-inline-svg';
+import { format } from 'path';
 
-
-describe('DataObjectListComponent', () => {
+fdescribe('DataObjectListComponent', () => {
   let component: DataObjectListComponent;
   let fixture: ComponentFixture<DataObjectListComponent>;
   const activeRoute: ActivatedRouteStub = new ActivatedRouteStub();
-  let businessObjectDataApi;
+  let businessObjectDataApi , businessObjectFormatApi;
+  const ddl = 'select random string that represents ddl';
+  const format = {
+    namespace : 'testNamespace',
+    businessObjectDefinitionName : 'testBdefName',
+    businessObjectFormatUsage : 'formatUsage',
+    businessObjectFormatFileType : 'fileType',
+    businessObjectFormatVersion : 'version'
+  };
+  const formatNotDefinedDdlError = [ 'Please navigate from the Format Page.' ];
+  const ddlErrors = ['Please apply a Partition filter for the primary partition only.', 'Please apply Latest Valid Version filter' ];
+
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        FormsModule,
         HttpModule,
         NgbModule.forRoot(),
+        CodemirrorModule,
+        ClipboardModule,
         RouterTestingModule,
         DataTableModule,
         ButtonModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        InlineSVGModule
       ],
       declarations: [
         DataObjectListComponent,
@@ -68,10 +87,11 @@ describe('DataObjectListComponent', () => {
         LatestValidVersionFilterComponent,
         FilterTemplateComponent,
         EllipsisOverflowComponent,
-        GenericViewComponent
+        GenericViewComponent,
+        SpinnerComponent
       ],
       providers: [
-        BusinessObjectDataService,
+        BusinessObjectDataService, BusinessObjectFormatService,
         { provide: ActivatedRoute, useValue: activeRoute },
         AlertService
       ]
@@ -97,6 +117,11 @@ describe('DataObjectListComponent', () => {
       .and.returnValue(Observable.of(businessObjectDataKeys));
     spyOn(businessObjectDataApi, 'businessObjectDataSearchBusinessObjectData')
       .and.returnValue(Observable.of(businessObjectSearchResult));
+    spyOn(businessObjectDataApi, 'businessObjectDataGenerateBusinessObjectDataDdl')
+    .and.returnValue(Observable.of({ddl: ddl} as BusinessObjectDataDdl));
+
+    businessObjectFormatApi = fixture.debugElement.injector.get(BusinessObjectFormatService);
+    spyOn(businessObjectFormatApi, 'businessObjectFormatGetBusinessObjectFormat').and.returnValue(Observable.of(format));
   });
 
   it('should create the component without error', () => {
@@ -145,6 +170,49 @@ describe('DataObjectListComponent', () => {
     component.loadData(dataObjectListFiltersChangeEventData);
     expect(component.data.length).toBe(0);
   });
+
+  it('should open model on click of generate DDL button', () => {
+    fixture.detectChanges();
+    const modal = component.open(ddl, '');
+    fixture.detectChanges();
+    expect(component.ddl).toEqual(ddl);
+    modal.close();
+  });
+
+  it('should alert error when ddl is not generated', inject([AlertService], (a: AlertService) => {
+    const s = (businessObjectDataApi.businessObjectDataGenerateBusinessObjectDataDdl as jasmine.Spy);
+    s.and.returnValue(Observable.throw({
+      status: '500',
+      statusText: 'Internal Server Error',
+      url: 'theDDLURL',
+      json: () => {
+        return {message: 'Stuff blew up'}
+      }
+    }));
+    const alertSpy = spyOn(a, 'alert');
+    fixture.detectChanges();
+    component.open(ddl, '');
+    expect(alertSpy).toHaveBeenCalledWith(new DangerAlert('HTTP Error: 500 Internal Server Error',
+     'URL: theDDLURL', 'Info: Stuff blew up'));
+  }));
+
+  it('should alert successful copy information', inject([AlertService],
+    (a: AlertService) => {
+      const alertSpy = spyOn(a, 'alert' );
+      component.alertSuccessfulCopy();
+      expect(alertSpy).toHaveBeenCalledWith(new SuccessAlert('Success!', '', 'DDL Successfully copied to clipboard'));
+    }));
+
+  it('should get errors when generate DDL criteria is not met', () => {
+    let result = component.isInvalidDDLRequest();
+    expect(result).toEqual(formatNotDefinedDdlError);
+    // fixture.detectChanges() detects the format defined in the test
+      fixture.detectChanges();
+       result = component.isInvalidDDLRequest();
+      expect(result).toEqual(ddlErrors);
+  });
+
+
 
 });
 

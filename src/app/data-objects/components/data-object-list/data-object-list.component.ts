@@ -13,23 +13,29 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {
   BusinessObjectDataService, BusinessObjectDataSearchRequest, BusinessObjectData,
-  BusinessObjectDataKey, Attribute
+  BusinessObjectDataKey, BusinessObjectDataDdlRequest, Attribute, BusinessObjectFormatService, BusinessObjectFormat,
+  BusinessObjectDefinition
 } from '@herd/angular-client';
 import { tap, map } from 'rxjs/operators';
-import {ActivatedRoute} from '@angular/router';
-import {Response} from '@angular/http'
-import {default as AppIcons} from '../../../shared/utils/app-icons';
-import {Subscription} from 'rxjs/Subscription';
-import {Observable} from 'rxjs/Observable';
-import {Action} from 'app/shared/components/side-action/side-action.component';
-import {DataTable} from 'primeng/components/datatable/datatable';
+import { ActivatedRoute } from '@angular/router';
+import { Response } from '@angular/http'
+import { default as AppIcons } from '../../../shared/utils/app-icons';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import { Action } from 'app/shared/components/side-action/side-action.component';
+import { DataTable } from 'primeng/components/datatable/datatable';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import {
-  DataObjectListFiltersChangeEventData
+  DataObjectListFiltersChangeEventData, LatestValidVersionFilter
 } from 'app/data-objects/components/data-object-list-filters/data-object-list-filters.component';
-import {AlertService, DangerAlert} from 'app/core/services/alert.service';
+import { AlertService, DangerAlert, SuccessAlert } from 'app/core/services/alert.service';
+import { PartitionFilter } from '../../../../../e2e/app/data-objects/list/data-objects-list.po';
+import { PartitionValueFilter } from '@herd/angular-client';
+import { isNullOrUndefined } from 'util';
+import { isDefined } from '@ng-bootstrap/ng-bootstrap/util/util';
 
 class AttributeField implements Attribute {
   constructor(public name: string, public value: string) {
@@ -64,7 +70,7 @@ class DataObjectRowData {
   private _format: FormatField;
 
   version: number;
-  dataEntity: { namespace: string, name: string };
+  dataEntity: BusinessObjectDefinition;
   subPartitions: string[];
   status: string;
 
@@ -107,10 +113,16 @@ class DataObjectRowData {
 })
 export class DataObjectListComponent implements OnInit {
   @ViewChild(DataTable) private dt: DataTable;
-  dataEntity: { namespace: string, name: string };
-  format: { usage: string, fileType: string, version: number };
+  config = { lineNumbers: true, mode: 'text/x-go', readOnly: true };
+  dataEntity: BusinessObjectDefinition;
+  format: BusinessObjectFormat;
+  ddl = '';
+  partitionValueFilters: Array<PartitionValueFilter>;
+  useLatestValidVersion = false;
+  ddlError: DangerAlert;
   sideActions: Action[] = [];
   loading = false;
+  loadingDDL = false;
   lastLoad: Subscription;
   data: DataObjectRowData[] = [];
   cols = [{
@@ -159,7 +171,66 @@ export class DataObjectListComponent implements OnInit {
     sortable: true
   };
 
-  constructor(private route: ActivatedRoute, private bDataApi: BusinessObjectDataService, private alerter: AlertService) {
+  constructor(private route: ActivatedRoute,
+    private bDataApi: BusinessObjectDataService,
+    private alerter: AlertService,
+    private modalService: NgbModal,
+    private formatService: BusinessObjectFormatService,
+    private alertService: AlertService) {
+  }
+
+  getDDL() {
+    const businessObjectDataDdlRequest: BusinessObjectDataDdlRequest = {
+      namespace: this.dataEntity.namespace,
+      businessObjectDefinitionName: this.dataEntity.businessObjectDefinitionName,
+      businessObjectFormatUsage: this.format.businessObjectFormatUsage,
+      businessObjectFormatFileType: this.format.businessObjectFormatFileType,
+      outputFormat: BusinessObjectDataDdlRequest.OutputFormatEnum.DDL,
+      tableName: this.dataEntity.businessObjectDefinitionName,
+      partitionValueFilters: this.partitionValueFilters,
+      allowMissingData: true
+    };
+    this.loadingDDL = true;
+    this.bDataApi.defaultHeaders.append('skipAlert', 'true');
+    return this.bDataApi.businessObjectDataGenerateBusinessObjectDataDdl(businessObjectDataDdlRequest)
+      .finally(() => {
+        this.bDataApi.defaultHeaders.delete('skipAlert');
+        this.loadingDDL = false;
+      });
+  }
+
+  open(content: TemplateRef<any> | String, windowClass?: string) {
+    // append the modal to the data-entity-detail container so when views are switched it goes away with taht view.
+    const modalReference = this.modalService.open(content, { windowClass: windowClass, size: 'lg', container: '.data-object-list' });
+    this.getDDL().subscribe((response) => {
+      this.ddl = response.ddl;
+    }, (error) => {
+      this.alertService.alert(new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
+        'URL: ' + error.url, 'Info: ' + error.json().message));
+        modalReference.close();
+    });
+    return modalReference;
+  }
+
+  alertSuccessfulCopy() {
+    this.alertService.alert(new SuccessAlert(
+      'Success!', '', 'DDL Successfully copied to clipboard'
+    ))
+  }
+
+  isInvalidDDLRequest() {
+    const errors: String[] = [];
+    if (!this.format) {
+      errors.push('Please navigate from the Format Page.');
+    } else {
+      if (this.partitionValueFilters.length !== 1 || this.partitionValueFilters[0].partitionKey !== this.format.partitionKey) {
+        errors.push('Please apply a Partition filter for the primary partition only.');
+      }
+      if (this.useLatestValidVersion === false) {
+        errors.push('Please apply Latest Valid Version filter');
+      }
+    }
+    return errors.length === 0 ? null : errors;
   }
 
   ngOnInit() {
@@ -169,19 +240,26 @@ export class DataObjectListComponent implements OnInit {
     const params = this.route.snapshot.params;
 
     this.dataEntity = {
-      name: params.dataEntityName,
+      businessObjectDefinitionName: params.dataEntityName,
       namespace: params.namespace
     }
 
     if (params.formatUsage && params.formatFileType && !isNaN(params.formatVersion)) {
-      this.format = {
-        usage: this.route.snapshot.params.formatUsage,
-        fileType: this.route.snapshot.params.formatFileType,
-        version: this.route.snapshot.params.formatVersion,
-      }
+      this.formatService.businessObjectFormatGetBusinessObjectFormat(
+        this.dataEntity.namespace,
+        this.dataEntity.businessObjectDefinitionName,
+        params.formatUsage,
+        params.formatFileType,
+        params.formatVersion
+      ).subscribe((response) => {
+        this.format = response;
+        this.loadData();
+      });
+    } else {
+      this.loadData();
     }
 
-    this.loadData();
+
 
     this.sideActions = [
       new Action(AppIcons.shareIcon, 'Share'),
@@ -195,10 +273,21 @@ export class DataObjectListComponent implements OnInit {
   }
 
   loadData(event?: DataObjectListFiltersChangeEventData) {
+    this.partitionValueFilters = [];
+    this.useLatestValidVersion = false;
+
+    if (event) {
+      if (event.latestValidVersion) {
+        this.useLatestValidVersion = event.latestValidVersion;
+      }
+      if (event.partitionValueFilters) {
+        this.partitionValueFilters = event.partitionValueFilters;
+      }
+    }
+
     if (this.lastLoad && !this.lastLoad.closed) {
       this.lastLoad.unsubscribe();
     }
-
     this.loading = true;
     if (event) {
       this.lastLoad = this.doDataSearch(event).catch((e: Response) => {
@@ -238,15 +327,15 @@ export class DataObjectListComponent implements OnInit {
     if (this.format) {
       return this.bDataApi.businessObjectDataGetAllBusinessObjectDataByBusinessObjectFormat(
         this.dataEntity.namespace,
-        this.dataEntity.name,
-        this.format.usage,
-        this.format.fileType,
-        this.format.version
+        this.dataEntity.businessObjectDefinitionName,
+        this.format.businessObjectFormatUsage,
+        this.format.businessObjectFormatFileType,
+        this.format.businessObjectFormatVersion
       ).map((r) => r.businessObjectDataKeys.length && this.convertToRowData(r.businessObjectDataKeys)) || null;
     } else {
       return this.bDataApi.businessObjectDataGetAllBusinessObjectDataByBusinessObjectDefinition(
         this.dataEntity.namespace,
-        this.dataEntity.name
+        this.dataEntity.businessObjectDefinitionName
       ).map((r) => r.businessObjectDataKeys.length && this.convertToRowData(r.businessObjectDataKeys)) || null;
     }
   }
@@ -257,10 +346,10 @@ export class DataObjectListComponent implements OnInit {
         {
           businessObjectDataSearchKeys: [{
             namespace: this.dataEntity.namespace,
-            businessObjectDefinitionName: this.dataEntity.name,
-            businessObjectFormatUsage: this.format && this.format.usage || undefined,
-            businessObjectFormatFileType: this.format && this.format.fileType || undefined,
-            businessObjectFormatVersion: this.format && this.format.version || undefined,
+            businessObjectDefinitionName: this.dataEntity.businessObjectDefinitionName,
+            businessObjectFormatUsage: this.format && this.format.businessObjectFormatUsage || undefined,
+            businessObjectFormatFileType: this.format && this.format.businessObjectFormatFileType || undefined,
+            businessObjectFormatVersion: this.format && this.format.businessObjectFormatVersion || undefined,
             partitionValueFilters: filterInfo.partitionValueFilters,
             attributeValueFilters: filterInfo.attributeValueFilters,
             filterOnLatestValidVersion: filterInfo.latestValidVersion
@@ -270,37 +359,37 @@ export class DataObjectListComponent implements OnInit {
     }
     this.bDataApi.defaultHeaders.append('skipAlert', 'true');
     return this.bDataApi.businessObjectDataSearchBusinessObjectData(searchRequest).pipe(
-    tap((r) => {
-      // make sure that the singleton clears its skip alert so that if any other component
-      // uses the bDataApi singleton it has the choice of adding it or not
-      this.bDataApi.defaultHeaders.delete('skipAlert');
-      return r;
-    }),
-    map((r) => {
+      tap((r) => {
+        // make sure that the singleton clears its skip alert so that if any other component
+        // uses the bDataApi singleton it has the choice of adding it or not
+        this.bDataApi.defaultHeaders.delete('skipAlert');
+        return r;
+      }),
+      map((r) => {
 
-      const fieldsToShow: string[] = [];
-      if (r.businessObjectDataElements.length) {
-        if (r.businessObjectDataElements[0].attributes) {
-          if (this.cols.indexOf(this.attributesCol) === -1) {
-            this.cols.splice(2, 0, this.attributesCol);
+        const fieldsToShow: string[] = [];
+        if (r.businessObjectDataElements.length) {
+          if (r.businessObjectDataElements[0].attributes) {
+            if (this.cols.indexOf(this.attributesCol) === -1) {
+              this.cols.splice(2, 0, this.attributesCol);
+            }
+          }
+
+          if (r.businessObjectDataElements[0].status) {
+            if (this.cols.indexOf(this.statusCol) === -1) {
+              this.cols.splice(2, 0, this.statusCol);
+            }
           }
         }
-
-        if (r.businessObjectDataElements[0].status) {
-          if (this.cols.indexOf(this.statusCol) === -1) {
-            this.cols.splice(2, 0, this.statusCol);
-          }
-        }
-      }
-      return r.businessObjectDataElements.length && this.convertToRowData(r.businessObjectDataElements) || null
-    }));
+        return r.businessObjectDataElements.length && this.convertToRowData(r.businessObjectDataElements) || null
+      }));
   }
 
   private convertToRowData(data: (BusinessObjectDataKey | BusinessObjectData)[]): DataObjectRowData[] {
     const retval: DataObjectRowData[] = data.map((keyOrData: BusinessObjectData) => {
       const row = new DataObjectRowData();
       row.dataEntity = {
-        name: keyOrData.businessObjectDefinitionName,
+        businessObjectDefinitionName: keyOrData.businessObjectDefinitionName,
         namespace: keyOrData.namespace
       };
       row.format = {

@@ -19,6 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import 'codemirror/mode/go/go'; // styles for codemirror
 import {
   BASE_PATH, ApiModule, Configuration
 } from '@herd/angular-client';
