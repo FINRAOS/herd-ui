@@ -1,0 +1,18 @@
+{
+  "name": "@herd/herd-ui-dist",
+  "version": "$$VERSION",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/finraos/herd-ui.git"
+  },
+  "files": [
+      "dist"
+  ],
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

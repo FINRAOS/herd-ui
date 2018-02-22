@@ -15,6 +15,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
+/herd-ui-dist-package/dist
 /dist
 /tmp
 /out-tsc
