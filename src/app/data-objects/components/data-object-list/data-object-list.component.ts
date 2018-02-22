@@ -207,7 +207,7 @@ export class DataObjectListComponent implements OnInit {
     }, (error) => {
       this.alertService.alert(new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
         'URL: ' + error.url, 'Info: ' + error.json().message));
-        modalReference.close();
+      modalReference.close();
     });
     return modalReference;
   }

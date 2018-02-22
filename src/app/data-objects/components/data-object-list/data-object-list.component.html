@@ -25,7 +25,8 @@
       </span>
       <span *ngIf="format"> Format:
         <a [routerLink]="['/formats', dataEntity.namespace, dataEntity.businessObjectDefinitionName, format.businessObjectFormatUsage, format.businessObjectFormatFileType, format.businessObjectFormatVersion]">
-          {{ format.businessObjectFormatUsage + " : " + format.businessObjectFormatFileType + " : " + format.businessObjectFormatVersion}} </a>
+          {{ format.businessObjectFormatUsage + " : " + format.businessObjectFormatFileType + " : " + format.businessObjectFormatVersion}}
+          </a>
       </span>
     </div>
   </div>
@@ -42,7 +43,7 @@
             Showing {{data.length}} results
           </span>
           <div container="body" [ngbTooltip]="(isInvalidDDLRequest() && tooltipWarnings) || ''">
-            <button class="btn btn-primary"  (click)="open(extractDdl, '')" [disabled]="isInvalidDDLRequest()">Generate DDL</button> &nbsp;
+            <button class="btn btn-primary" (click)="open(extractDdl, '')" [disabled]="isInvalidDDLRequest()">Generate DDL</button> &nbsp;
           </div>
           <button type="button" pButton icon="fa-download" iconPos="left" label="Download CSV" (click)="export(dt)"></button>
         </div>
@@ -75,12 +76,13 @@
 
         </ng-template>
         <ng-template let-dataEntity="rowData.dataEntity" let-format="rowData.format" *ngIf="col.templateField === 'format'" pTemplate="body">
-          <a [routerLink]="['/formats', dataEntity.namespace, dataEntity.businessObjectDefinitionName, format.usage, format.fileType, format.version]"> {{ format }} </a>
+          <a [routerLink]="['/formats', dataEntity.namespace, dataEntity.businessObjectDefinitionName, format.usage, format.fileType, format.version]">
+          {{ format }} </a>
         </ng-template>
         <ng-template let-subPartitions="rowData.subPartitions" let-dataEntity="rowData.dataEntity" let-format="rowData.format" let-partition="rowData.partition"
           let-version="rowData.version" *ngIf="col.templateField === 'link'" pTemplate="body">
           <a [routerLink]="['/data-objects', dataEntity.namespace, dataEntity.businessObjectDefinitionName, format.usage, format.fileType, format.version, partition.value, version, {subPartitionValues: subPartitions.join('|')}]">
-          View Data Object</a>
+            View Data Object</a>
         </ng-template>
       </p-column>
     </p-dataTable>
@@ -104,10 +106,10 @@
   <sd-spinner style="z-index: 100000000;" *ngIf="loadingDDL"></sd-spinner>
 </ng-template>
 
-<ng-template #tooltipWarnings> 
-  <div *ngIf="isInvalidDDLRequest()"> 
+<ng-template #tooltipWarnings>
+  <div *ngIf="isInvalidDDLRequest()">
     To generate DDL:
-    <li *ngFor="let error of isInvalidDDLRequest()"> 
+    <li *ngFor="let error of isInvalidDDLRequest()">
       {{ error }}
     </li>
   </div>

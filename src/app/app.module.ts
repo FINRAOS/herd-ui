@@ -30,7 +30,7 @@ import { RouteReuseStrategy, Router } from '@angular/router';
 import { CustomRouteReuseStrategy } from 'app/core/services/custom-route-reuse-strategy.service';
 import { CustomLocation } from 'app/core/services/custom-location.service';
 import { Location } from '@angular/common';
-import { HttpClientModule  } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { HttpInterceptorModule } from 'ng-http-interceptor';
 
 export function appApiConfigFactory(): Configuration {
