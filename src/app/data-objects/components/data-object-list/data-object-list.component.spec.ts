@@ -59,8 +59,6 @@ fdescribe('DataObjectListComponent', () => {
     businessObjectFormatFileType : 'fileType',
     businessObjectFormatVersion : 'version'
   };
-  const formatNotDefinedDdlError = [ 'Please navigate from the Format Page.' ];
-  const ddlErrors = ['Please apply a Partition filter for the primary partition only.', 'Please apply Latest Valid Version filter' ];
 
 
   beforeEach(async(() => {
@@ -155,6 +153,11 @@ fdescribe('DataObjectListComponent', () => {
     component.loadData(dataObjectListFiltersChangeEventData);
     expect(component.lastLoad).toBeTruthy();
     expect(component.data.length).toBeGreaterThan(0);
+
+    const tempEvent = {...dataObjectListFiltersChangeEventData, latestValidVersion: true, partitionValueFilters: undefined};
+    component.loadData(tempEvent);
+    expect(component.useLatestValidVersion).toBe(true);
+
   });
 
   it('should show empty message on server 400 error while load data', () => {
@@ -204,16 +207,36 @@ fdescribe('DataObjectListComponent', () => {
     }));
 
   it('should get errors when generate DDL criteria is not met', () => {
+    // generate ddl when format is not defined
     let result = component.isInvalidDDLRequest();
-    expect(result).toEqual(formatNotDefinedDdlError);
-    // fixture.detectChanges() detects the format defined in the test
-      fixture.detectChanges();
-       result = component.isInvalidDDLRequest();
-      expect(result).toEqual(ddlErrors);
+    expect(result).toEqual(['Please navigate from the Format Page.']);
+
+    // generate ddl when format is defined (fixture.detectChanges() detects the defined format)
+    fixture.detectChanges();
+    result = component.isInvalidDDLRequest();
+    expect(result).toEqual(['Please apply a Partition filter for the primary partition only.',
+       'Please apply Latest Valid Version filter' ]);
+
+    // generate ddl when partition filter is not defined
+    component.useLatestValidVersion = true;
+    fixture.detectChanges();
+    result = component.isInvalidDDLRequest();
+    expect(result).toEqual(['Please apply a Partition filter for the primary partition only.']);
+
+    // generate ddl when the latestValidVersion is not defined
+    component.useLatestValidVersion = false;
+    component.format.partitionKey = 'key';
+    component.partitionValueFilters = [{partitionKey : 'key',
+        partitionValues : ['val']}];
+    result = component.isInvalidDDLRequest();
+    expect(result).toEqual(['Please apply Latest Valid Version filter']);
+
+    // happy path for generate ddl
+    component.useLatestValidVersion = true;
+    fixture.detectChanges();
+    result = component.isInvalidDDLRequest();
+    expect(result).toEqual(null);
   });
-
-
-
 });
 
 const testParam = {
