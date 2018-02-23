@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
  Copyright 2018 herd-ui contributors
 
@@ -13,11 +14,69 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 247.77 140.48">
-  <defs>
-    <style>.cls-1{fill:#FFFFFF;}</style>
-  </defs>
-  <title>Untitled-1</title>
-  <path class="cls-1"
-        d="M184,93.89c-12.39,0-21.72-9.52-22.61-22.2,0-.7,0-1.4,0-2.11s0-1.29,0-1.92C162.3,55,171.62,45.52,184,45.52a20.28,20.28,0,0,1,18.54,12.16l18.55-8.77c-5.51-11-16.29-22.43-37.09-22.43-13.63,0-25.62,5.16-33.73,14-8.08-8.14-20-12.64-34.06-12.64H80.73v49c0,9.9-5.26,17-16.79,17S47,86.75,47,76.85v-49H25.1V77.6c0,20.55,12,35.34,38.85,35.34,26.12,0,38.08-13.91,38.69-33.85l0,0V46.65h13.66c15.29,0,23.06,10,23.06,22.93,0,10.93-6.62,20.5-18.22,22.62l-16,19.24h11.13c13.93,0,25.81-4.51,33.88-12.63,8.11,8.91,20.13,14.13,33.79,14.13,20.8,0,31.7-11.65,37.09-22.43l-18.55-8.77A20.28,20.28,0,0,1,184,93.89Z"/>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="382px" height="494px" viewBox="0 0 382 494" enable-background="new 0 0 382 494" xml:space="preserve">  <image id="image0" width="382" height="494" x="0" y="0"
+    xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAX4AAAHuCAMAAACvYpeNAAAABGdBTUEAALGPC/xhBQAAACBjSFJN
+AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAllBMVEUAAAAAnv8Anv8Anv8A
+nv8Anv8Anv8Anv8Anv8Anv8Anv8Anv8Anv8Anv8Anv8Anv9mxf//////////////////////////
+//////////////////////////////////9Atv8Anv8gqv9Atv+v4f////9gwv/P7f8QpP+Az//f
+8/+f2//v+f9wyP+P1f+/5/9QvP8wsP9RbrPrAAAAIXRSTlMAUDDvYBDfr7+AcEDPIJ+P7xBw3yCP
+70CfYL+AMFCvz0DAi2dCAAAAAWJLR0QR4rU9ugAAAAd0SU1FB+EKDQsjNDpezs4AAAwXSURBVHja
+7d1rWxpJE4DhKB5QUV8TE6Mmu9siKIoi///PvWqEeOAw01U11VjP83GvmJ3cYE9Nz4hfvhARETXU
+2rr3EURuPbU2vI8hbptbKaXtTe/DiFo7PbXFAuTSTnpp1/tIIraXprVZgJpus/WXP7X2vA8nWu30
+ph3v44nVTnpXZ9/7kAK1lz7UWvM+qDDtt9KMDjgDN1MnzazDJUATHaY5tbgEsG8tzY89COtmL/yT
+2IMwrpMWxyWAZYdpWexB2LWxVJ89CLvWWxX4Uzr0Ps7P2eayhX96CcAehEEHFfUTtyENqrLwT2MP
+QrmKC/90AeISQLPKC/809iAUq77wT2MPQq3d+vopbXEJoNN6jn5iD0Kn52eqsmIPQqHtXH1uQyqU
+tfBPYw9CVu7CP4lLAEmb9a63Zi1A7EHk15bqJ/Yg8tuR4yduQ+a2J6f/E3sQGckX/mnsQdRPY+Gf
+xG3Iuuks/NPYg6jVmq5+Sm1uQ1ZvX2/hny5A7EFUrvYdliodcgau1vJnqrJiD6JSazb67EFUymDh
+n8YlwNJMFv5J7EEsKePWeq3Yg1hUrWeqsuI25PxqPlOVVYsFaE71n6nKiglodtYL/6QD739okdkv
+/JM6nAA+pLDwX1T9g5wA3idf+LuXvep/mBPA2wTPVD3Xv+r1avBzAniT7Jmq68FNr1ePnxPAq0TP
+VF3cDnu92vxsQUzLf5j2ecmfVu8r2QN9KX/peV7yM/l5EHTSbtbUeX130+tJ+NkCemm9/tx5cT/s
+9YT8nABe2qy55dC97X0s4zuIE8BLGzUWoP6o19Ph5wQwab/iAvRhyZfxcwKYVOUphxlLvpCfE8Ck
+tWUL0MwlX8rPCWDS/sKna+cs+WJ+TgDT5j5fO3/JV+BP3v/sYtqbuQAtWvLh12zz4wK0eMmHX7d3
+e0DLlnz4lVv/uwVaYcmHX7vNl7tflZZ8+PV72gStuOTDb9D6/6ou+fCrd/T1W118+LU6/v6jPj78
+Op38zLGHX6XTs0x8+MVlLfnw63R8nrXkw6/Rr9wlH355v/OXfPiFHZ1Klnz4ZfjCJR9+QZmXWPBr
+dPKPlj38tTv9VxEf/lqpLfnw1+9YPOXDn53GlA9/XkpTPvw5KQ6a8Nctey8ffnmCvXz4hR2dGy35
+8C/v+KfZkg//sk5sVx34F2U1aMK/POkdRPgFye8gwp+d8aAJ/4JkD43AL8pwbwH+ZanexIK/Xso3
+seCvkf5NLPgrZ3ETC/6K2dzEgr9KZjex4F+ex6AJ/0umN7HgX1zDewvwv8r+Jhb8c2viJhb8c2rm
+Jhb8sytm1YnJX9Z7Pxz/b2/v2PylrT7R+L96g8fmPypo6gzI/6WIvYa4/Mfe4rH5y5o94/EXNXvG
+4y9q9gzIX9LsGZC/pNkzIH9Js2dE/oJmz4j8Bc2eIfnLmT1D8pcze8bkL2b2jMl/5M0em7+Y2TMo
+/y9v99j8pcyeUflPveFj8xcye4blP/eWj81fxuwZlr+M2TMufxGzZ1z+ImbPwPwlzJ6B+UuYPSPz
+FzB7RuYvYPaMzF/A7Bma33/2DM3vP3vG5nefPWPzu8+ewfm9Z8/g/N6zZ3B+79kzOr/z7Bmd33n2
+DM+fNXvySwPVqj97fjtXO2PDX3f2PDt9/CL4tar3wxY/T56/CH61qs+eP86PX74GfrVOKlJ9Oz2a
+fg38elX6+Oyz36+/BH69KsyeP4/ffgn8ii0Z4x8HzfdfAb9iC2fPf09nfAX8ii2YPV8GTfgtmzN7
+/vh+POcL4Nds5uz5etCE37SPs+fbQRN+097Pnj+PF/95+HV7PXvOGDTht+3v7Dlz0ITftsns+c9J
+pT8Ov3JPs+f8QRN+4056374uXfLht/Ov84fhdw1++OMGP/xxgx/+uMEPf9zghz9u8MMfN/jhjxv8
+8McNfvjjBj/8cYMf/rjBD3/c4Ic/bvDDHzf44Y8b/PDHDX744wY//HGDH/64wQ9/3OCHP27wwx83
++OGPG/zwxw1++OMGP/xxgx/+uMEPf9zghz9u8MMfN/jhjxv88McNfvjjBj/8cYMf/rjBD3/c4Ic/
+bvDDHzf4g/Bfd7vd/uBNd4//6boa//re3t7O29Ye/5M3X/n83YfB/Wi06GvPzr6f/579a27XH83b
+7a0Fr2qr3d7Z2Vv3diyQv3t3PxpW/yu+nZ2f/poe2N7G4UL29221dzZW70Uw4h/3b6/y/qKz89//
+7R50Ms8jncPVeg0M+C/uLmu852d1df9wnen/tBxt767MS6DN/3B/o/MXXg3G+a/A40uwse9N2zj/
+w63wbf+2m9sHwSvwuBCV/02gxz/Wtf/T8FbyPZC2Sn8FtJz6mWfa5d0MLmSvQMmrkBWaapeiRSh1
+Nja9mVea/+lbQDAKPZ6JDwpdhLxdq3crWoNSe8OberX5xS/A1m55a5A3ab1GY9EL0Nop7QXwBq2b
+8DugtBfAmzPjBRCdhAt7AbwxMxoORP6pVdBJ2Nsyq5uu7AXoFHObxlsys0vZKSBtF3Ip7O2Y2/BO
+uALtesuvNP/jECr8BuiUcCHsjShI+g2QdrzxV5r/8Qwgm0FTx/0M4C0oaygcgdxnUG9AacJrgHTg
+exHmzSduJF2AXM/A3nrybsbCBWgNfklD2b2wlBwvAbztVOpLTwDwi7oV+m97nYC94Qrx7zj5e7tp
+dSUdgHz8vdmC+3urBff3Rgvu721WlD/8okYyfof531tMN+n8eQi/q3/TG9DeXtpJ9x8a3v/05lJP
+eANmq9nxx1tLveFY5t+GX5R0/Gz0Brw3lkGXK7T8e1tZJHwApcnl35vKJOHy3+D07y1l0o1w+W/u
+CVxvKZvuZfzNbf54QxklvPve2PTj7WTUUPgjME09fejtZJVw+Wlq79ObySzh5kNDw7+3klk3Mv6G
+9h68lewSPnzbzPDpjWSX8OzbzNvfG8kw4a2XRt7+3kaWjct/+3sTWSa8897E29+byDTZ8NnE7O8t
+ZJrw7d/Apa+3kG2yt38DOz/eQLbJ3v4t+IXJ3v72P/Xl7WOcbPbfhl+Y7IMfzO/6evNYJ9t4Nv+Z
+R28e64YifvO7jt485ske+rQe/b11zJPNntarj7eOfaKTr/W+W6MSo8vBoNvtjv/8GqPuYHBp9rnn
+f5OdfI1nn4bgh6NBd/bbcNy/Vfp9F3OS3XU0/nmLJuxHd+PF/8aL/qXh/35chXlextue5vaX/Uo3
+/a77I/n/a3ai1Wdrlflr/eaJi1ujg5DwG4+epvh1Z+7rgcGvfxGuPraLf0H4Zt8BokdObBd/K/zs
+D9kc68+iVxJ+28XfSF/yCZsD9aMRPfFjOvmb4As/XU39G0C072N6z8VC/2os0n88BStfBohuupje
+8TXQl36071P3qkckGj1Nt3309aUfq/CnvuoxSbbdTM+9heor+4vORZbnXm196c80/03zCkC072D5
+sKGyvvQn+l+nuAkkuudiectFV38o/I0Sb7pW3IGQHIfl6KPLL/005bc96B3YWHAYlqOPqr7ewv8n
+veVHcuFl+biDpr7wx3k+dqF2aKJdtxXhl/4miY+pTT+ic6/h5Kmor/7mT2msdWyiTU/DyVORX//N
+n5La5tvn59d/8yte+0omYsPBX09fa7fhTddaRyd50N9w8Nfj1535J2mtPpLJcxX4ZY8Sz03r1pfk
+xGR43aXGb7L2pNSFv1LST++dk9biLxn8V4Ffc7PtdUoPgEr4DXcdtPSNln61fR/RZW/5/NLfXDA3
+pXOv6O1RPr/ws9PM+UWXveXzW+w4PKe16f+5+W0uupLe5Pm5+YUfHAg//PDDD/8K8lvpq+06wJ9X
+AQcIP/zwww8//PDDDz/88MMPP/zwww8//PDDDz/88MMPP/zwww8//PDDDz/88MMPP/zwww8//PDD
+Dz/88PsfIPzwww8//PDDDz/88MMPP/zwww8//PDDDz/88MMPP/zwww8//PDDDz/88MMPP/zwww8/
+/PDDDz/88MPvf4Dwww8//PDDDz/88MMPP/zwww8//PDDDz/88MMPP/zwww8//PDDDz/88MMPP/zw
+ww8//PDDDz/88MMPv/8Bwg8//PDDDz/88MMPP/zwww8//PDDDz/88MMPP/zwww8//Hb8xR+h3QEW
+8I+Dn4iIiOjz9X/YwnIRzyeIZAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxNy0xMC0xM1QxMTozNTo1
+Mi0wNzowMH8KdCcAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTctMTAtMTNUMTE6MzU6NTItMDc6MDAO
+V8ybAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAABJRU5ErkJggg==" />
 </svg>
