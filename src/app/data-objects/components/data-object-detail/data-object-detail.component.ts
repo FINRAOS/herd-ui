@@ -14,10 +14,10 @@
 * limitations under the License.
 */
 import { BusinessObjectFormat, BusinessObjectDataService, BusinessObjectData, BusinessObjectFormatService } from '@herd/angular-client';
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {default as AppIcons} from '../../../shared/utils/app-icons';
-import {Action} from '../../../shared/components/side-action/side-action.component';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { default as AppIcons } from '../../../shared/utils/app-icons';
+import { Action } from '../../../shared/components/side-action/side-action.component';
 
 export interface DataObjectDetailRequest {
   namespace: string,
@@ -88,10 +88,7 @@ export class DataObjectDetailComponent implements OnInit {
           this.request.namespace, this.request.dataEntityName,
           this.request.formatUsage, this.request.formatFileType,
           this.request.formatVersion).subscribe((formatResponse) => {
-            const subPartitionKeys = this.findSubPartitionKeys(formatResponse);
-            const indexOfPartitionKey = subPartitionKeys.indexOf(retVal.businessObjectData.partitionKey);
-            subPartitionKeys.splice(indexOfPartitionKey, 1);
-            this.businessObjectData.subPartitionKeys = subPartitionKeys;
+            this.businessObjectData.subPartitionKeys = this.findSubPartitionKeys(formatResponse);
           });
       }
     });
