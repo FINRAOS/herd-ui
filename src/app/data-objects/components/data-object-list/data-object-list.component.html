@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<sd-generic-view class="category-detail">
+<sd-generic-view class="data-object-list">
   <div side-action>
     <sd-side-actions [actions]="sideActions"></sd-side-actions>
   </div>
@@ -21,11 +21,12 @@
     <div class="main-header">Data Objects</div>
     <div class="sub-header">
       <span> Physical Name:
-        <a [routerLink]="['/data-entities', dataEntity.namespace, dataEntity.name]">{{ dataEntity.name }} </a>
+        <a [routerLink]="['/data-entities', dataEntity.namespace, dataEntity.businessObjectDefinitionName]">{{ dataEntity.businessObjectDefinitionName }} </a>
       </span>
       <span *ngIf="format"> Format:
-        <a [routerLink]="['/formats', dataEntity.namespace, dataEntity.name, format.usage, format.fileType, format.version]">
-        {{ format.usage + " : " + format.fileType + " : " + format.version}} </a>
+        <a [routerLink]="['/formats', dataEntity.namespace, dataEntity.businessObjectDefinitionName, format.businessObjectFormatUsage, format.businessObjectFormatFileType, format.businessObjectFormatVersion]">
+          {{ format.businessObjectFormatUsage + " : " + format.businessObjectFormatFileType + " : " + format.businessObjectFormatVersion}}
+          </a>
       </span>
     </div>
   </div>
@@ -33,14 +34,17 @@
     <sd-data-object-list-filters (filtersChange)="loadData($event)">
 
     </sd-data-object-list-filters>
-    <p-dataTable #dt [value]="data"  [rows]="10" reorderableColumns="true"
-      resizableColumns="true" exportFilename="data-objects" [loading]="loading" paginatorPosition="both"
-       [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[10, 25, 50, 100]" [responsive]="true">
-      <p-header *ngIf="data && data.length" >
+    <p-dataTable #dt [value]="data" [rows]="10" reorderableColumns="true" resizableColumns="true" exportFilename="data-objects"
+      [loading]="loading" paginatorPosition="both" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[10, 25, 50, 100]"
+      [responsive]="true">
+      <p-header *ngIf="data && data.length">
         <div class="table-header row justify-content-end">
           <span class="col">
-              Showing {{data.length}} results
+            Showing {{data.length}} results
           </span>
+          <div container="body" [ngbTooltip]="(isInvalidDDLRequest() && tooltipWarnings) || ''">
+            <button class="btn btn-primary" (click)="open(extractDdl, '')" [disabled]="isInvalidDDLRequest()">Generate DDL</button> &nbsp;
+          </div>
           <button type="button" pButton icon="fa-download" iconPos="left" label="Download CSV" (click)="export(dt)"></button>
         </div>
       </p-header>
@@ -72,13 +76,41 @@
 
         </ng-template>
         <ng-template let-dataEntity="rowData.dataEntity" let-format="rowData.format" *ngIf="col.templateField === 'format'" pTemplate="body">
-          <a [routerLink]="['/formats', dataEntity.namespace, dataEntity.name, format.usage, format.fileType, format.version]"> {{ format }} </a>
+          <a [routerLink]="['/formats', dataEntity.namespace, dataEntity.businessObjectDefinitionName, format.usage, format.fileType, format.version]">
+          {{ format }} </a>
         </ng-template>
         <ng-template let-subPartitions="rowData.subPartitions" let-dataEntity="rowData.dataEntity" let-format="rowData.format" let-partition="rowData.partition"
           let-version="rowData.version" *ngIf="col.templateField === 'link'" pTemplate="body">
-          <a [routerLink]="['/data-objects', dataEntity.namespace, dataEntity.name, format.usage, format.fileType, format.version, partition.value, version, {subPartitionValues: subPartitions.join('|')}]"> View Data Object</a>
+          <a [routerLink]="['/data-objects', dataEntity.namespace, dataEntity.businessObjectDefinitionName, format.usage, format.fileType, format.version, partition.value, version, {subPartitionValues: subPartitions.join('|')}]">
+            View Data Object</a>
         </ng-template>
       </p-column>
     </p-dataTable>
   </div>
 </sd-generic-view>
+
+<ng-template #extractDdl let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">DDL</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <codemirror class="ace-editor" [(ngModel)]="ddl" [config]="config"></codemirror>
+  </div>
+  <div class="modal-footer">
+    <button [hidden]="ddlError" class="btn btn-default" [class.btn-success]="true" type="button" ngxClipboard [cbContent]="ddl"
+      (cbOnSuccess)="alertSuccessfulCopy()">Copy</button>
+  </div>
+  <sd-spinner style="z-index: 100000000;" *ngIf="loadingDDL"></sd-spinner>
+</ng-template>
+
+<ng-template #tooltipWarnings>
+  <div *ngIf="isInvalidDDLRequest()">
+    To generate DDL:
+    <li *ngFor="let error of isInvalidDDLRequest()">
+      {{ error }}
+    </li>
+  </div>
+</ng-template>

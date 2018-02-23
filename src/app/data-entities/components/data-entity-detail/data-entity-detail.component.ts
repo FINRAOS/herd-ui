@@ -41,7 +41,6 @@ import { WarningAlert } from './../../../core/services/alert.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/alert.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import 'codemirror/mode/go/go';
 import * as shape from 'd3-shape';
 import { EditEvent } from 'app/shared/components/edit/edit.component';
 import { Observable } from 'rxjs/Observable';

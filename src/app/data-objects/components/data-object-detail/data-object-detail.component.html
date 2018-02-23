@@ -30,26 +30,24 @@
         </div>
         <div class="sub-header">
           <span>
-              Physical Name:
-              <a
-                [routerLink]="['/data-entities',
+            Physical Name:
+            <a [routerLink]="['/data-entities',
                 businessObjectData.namespace, businessObjectData.businessObjectDefinitionName]">
-                {{businessObjectData.businessObjectDefinitionName}}
-              </a>
-            </span>
+              {{businessObjectData.businessObjectDefinitionName}}
+            </a>
+          </span>
           <span class="schema">
-              Schema:
-              <a [routerLink]="['/formats',
+            Schema:
+            <a [routerLink]="['/formats',
                 businessObjectData.namespace,
                 businessObjectData.businessObjectDefinitionName,
                 businessObjectData.businessObjectFormatUsage,
                 businessObjectData.businessObjectFormatFileType,
                 businessObjectData.businessObjectFormatVersion]">
-                {{businessObjectData.businessObjectFormatUsage}}
-                :{{businessObjectData.businessObjectFormatFileType}}
-                :{{businessObjectData.businessObjectFormatVersion }}
-              </a>
-            </span>
+              {{businessObjectData.businessObjectFormatUsage}} :{{businessObjectData.businessObjectFormatFileType}} :{{businessObjectData.businessObjectFormatVersion
+              }}
+            </a>
+          </span>
         </div>
       </div>
     </div>
@@ -68,7 +66,8 @@
                   <span class="col-6">Key</span>
                   <span class="col-6">Value</span>
                 </div>
-                <div class="row partition-value">
+
+                <div class="row partition-value" *ngIf="businessObjectData.subPartitionKeys && businessObjectData.subPartitionKeys.length === 0">
                   <div class="col-6">
                     <sd-ellipsis-overflow [ellipsisContent]="businessObjectData.partitionKey">
                     </sd-ellipsis-overflow>
@@ -77,14 +76,19 @@
                     <sd-ellipsis-overflow [ellipsisContent]="businessObjectData.partitionValue"></sd-ellipsis-overflow>
                   </div>
                 </div>
+
                 <div class="row partition-value" *ngFor="let subPartitionKey of businessObjectData.subPartitionKeys; let i = index">
                   <div class="col-6">
                     <sd-ellipsis-overflow [ellipsisContent]="subPartitionKey"></sd-ellipsis-overflow>
                   </div>
                   <div class="col-6">
-                    <sd-ellipsis-overflow [ellipsisContent]="businessObjectData.subPartitionValues[i]"></sd-ellipsis-overflow>
+                    <sd-ellipsis-overflow [ellipsisContent]="i === 0 ? businessObjectData.partitionValue : businessObjectData.subPartitionValues[i - 1]"></sd-ellipsis-overflow>
                   </div>
                 </div>
+
+ 
+
+ 
               </div>
             </div>
           </div>
@@ -106,15 +110,14 @@
                   <div class="col-4">
                     <select *ngIf="businessObjectDataVersions.length > 1" class="version-select" [(ngModel)]="businessObjectDataVersionSelected"
                       (change)="go(businessObjectDataVersionSelected)" title="selector">
-                  <option *ngFor="let businessObjectDataVersion of businessObjectDataVersions"
-                          [ngValue]="businessObjectDataVersion" [selected]="businessObjectDataVersionSelected">
-                    {{ businessObjectDataVersion }}
-                  </option>
-                </select>
+                      <option *ngFor="let businessObjectDataVersion of businessObjectDataVersions" [ngValue]="businessObjectDataVersion" [selected]="businessObjectDataVersionSelected">
+                        {{ businessObjectDataVersion }}
+                      </option>
+                    </select>
                     <span *ngIf="businessObjectDataVersions.length === 1" class="detail-value">
-                   <span *ngFor="let businessObjectDataVersion of businessObjectDataVersions">
-                     {{ businessObjectDataVersion }}
-                     </span>
+                      <span *ngFor="let businessObjectDataVersion of businessObjectDataVersions">
+                        {{ businessObjectDataVersion }}
+                      </span>
                     </span>
                   </div>
                   <div class="col-4 id">{{ businessObjectData.id }}</div>
@@ -160,8 +163,7 @@
       <div layout="column" *ngIf="businessObjectData.businessObjectDataStatusHistory && businessObjectData.businessObjectDataStatusHistory.length === 0">
         <div class="unavailable-label">No status history found.</div>
       </div>
-      <div class="container columns-content"
-           *ngIf="businessObjectData.businessObjectDataStatusHistory && businessObjectData.businessObjectDataStatusHistory.length !== 0">
+      <div class="container columns-content" *ngIf="businessObjectData.businessObjectDataStatusHistory && businessObjectData.businessObjectDataStatusHistory.length !== 0">
         <div class="list-group columns-header">
           <div class="row list-group-item">
             <div class="col-2">Status</div>

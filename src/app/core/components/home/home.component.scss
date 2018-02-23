@@ -13,6 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+@import '../../../shared/styles/shared';
 $home-search-background: #1565c0;
 $search-icon-color: #31a244;
 $header-color: #ffffff;
@@ -77,16 +78,7 @@ $tooltip-color: #696969;
   }
 
   .tooltip {
-    .top {
-      .tooltip-arrow {
-        border-bottom-color: $tooltip-color;
-        border-top-color: $tooltip-color;
-      }
-    }
-    .tooltip-inner {
-      background-color: $tooltip-color;
-      color: #fff;
-    }
+    @include tooltip-style;
   }
 
 }
