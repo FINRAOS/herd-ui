@@ -17,7 +17,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "ptor": "protractor",
-    "e2e-ci": "npm run ptor -- protractor.conf.ci.js --suite home,category,dataEntityList,dataEntityColumns,dataEntityOverview",
+    "e2e-ci": "npm run ptor -- protractor.conf.ci.js --suite home,search,category,dataEntityList,dataEntityColumns,dataEntityOverview",
     "e2e-ci-smoke": "npm run ptor -- protractor.conf.ci.js --specs e2e/app/smoke/smoke.e2e-spec.ts",
     "e2e-smoke": "npm run ptor -- protractor.conf.js --specs e2e/app/smoke/smoke.e2e-spec.ts",
     "e2e-compile": "tsc -p ./e2e/tsconfig.e2e.json",

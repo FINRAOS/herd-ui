@@ -32,7 +32,7 @@ export class SearchPage extends BasePo {
 
   // first result verification
   private _loadingIcon = element(by.css('.search-result .sd-text-center'));
-  private _searchResultDescription = element(by.css('.search-result .col-9 div'));
+  private _searchResultDescription = element(by.css('.search-result .col-9 > div:first-child'));
   private _searchResultCount = element.all(by.css('.search-result .col-9 .card'));
 
   // first search result
@@ -43,7 +43,7 @@ export class SearchPage extends BasePo {
   private _dataEntitySubtitle = element(by.className('.search-result .col-9 .card-header div namespace-bdef-subtitle'));
 
   // hit highlight testing
-  private _highlightFound = element(by.css('sd-read-more div span span'));
+  private _highlightFound = element.all(by.css('sd-read-more div span span')).first();
   private _highlightReadmoreLink = element(by.css('sd-read-more div a'));
 
   // facets
@@ -53,9 +53,10 @@ export class SearchPage extends BasePo {
   private _facetCards = element.all(by.css('sd-facet div.card'));
 
   // first facet verification
-  private _firstFacetHeader = element(by.css('sd-facet div.card div.card-header'));
-  private _firstFacetBody = element(by.css('sd-facet div.card div.card-block'));
-  private _tristateCheckbox = element(by.css('sd-tri-state div'));
+  private _firstFacet = element.all(by.css('sd-facet div.card')).first();
+  private _firstFacetHeader = this._firstFacet.element(by.css('div.card-header'));
+  private _firstFacetBody =  this._firstFacet.element(by.css('div.card-block'));
+  private _tristateCheckbox = this._firstFacetBody.element(by.css('ul li:first-child sd-tri-state div'));
 
   async selectHitMatchType(type: keyof typeof HitMatchTypes | 'all' = 'all') {
     // make sure the match type filter is shown

@@ -27,27 +27,12 @@ describe('Search page', () => {
   const baseE2e = new BaseE2e();
   let page: SearchPage;
 
-  beforeAll(() => {
-    const requests = operations.postRequests();
-    dataManager.setUp(requests.options);
-  });
-
-  afterAll(() => {
-    const requests = operations.deleteRequests();
-    dataManager.tearDown(requests.options);
-  });
-
   beforeEach(() => {
     page = new SearchPage();
   });
 
-  it('search box is present and search term is entered', async () => {
-    await page.navigateTo();
-    await page.search(searchTerm);
-    await expect(browser.getCurrentUrl()).toBe(await page.searchResultUrl);
-  });
-
-  it('Number of search result and description is matching', async () => {
+  it('number of search result and description is matching', async () => {
+    // goes to home page and searches from there
     await page.navigateTo();
     await page.search(searchTerm);
     await expect(browser.getCurrentUrl()).toBe(await page.searchResultUrl);

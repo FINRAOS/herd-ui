@@ -154,3 +154,11 @@ export const deleteRequests = function () {
     }]
   }
 };
+
+export const initRequests = {
+  posts: postRequests()
+};
+
+export const tearDownRequests = {
+  deletes: deleteRequests()
+};
