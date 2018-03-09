@@ -26,102 +26,108 @@ const shartTestFiles = false;
 const maxInstances = 1;
 const seleniumVersion = '3.4.0';
 const tunnelId = process.env.SCP_TUNNEL;
-const screenResolution = '1400x1050'
+const screenResolution = '1400x1050';
 
+let browsers = [{
+  screenResolution,
+  'tunnel-identifier': tunnelId,
+  build,
+  seleniumVersion: "3.5.0",
+  name: "Windows 10 chrome Latest-1",
+  username: conf.sauceUser,
+  accessKey: conf.sauceKey,
+  platform: "Windows 10",
+  browserName: "chrome",
+  chromeOptions: {
+    prefs: {
+      'credentials_enable_service': false,
+      'profile': {
+        'password_manager_enabled': false
+      }
+    },
+    args: [
+      '--disable-cache',
+      '--disable-application-cache',
+      '--disable-offline-load-stale-cache',
+      '--disk-cache-size=0',
+      '--v8-cache-options=off'
+    ]
+  },
+  version: "latest-1",
+  maxInstances,
+  shartTestFiles
+}];
+const otherBrowsers = [
+
+  {
+    screenResolution,
+    'tunnel-identifier': tunnelId,
+    build,
+    seleniumVersion,
+    name: "Windows 10 Firefox latest-1",
+    username: conf.sauceUser,
+    accessKey: conf.sauceKey,
+    platform: "Windows 10",
+    browserName: "firefox",
+    maxInstances,
+    shartTestFiles,
+    version: 'latest-1'
+  },
+  {
+    build,
+    seleniumVersion,
+    screenResolution,
+    "name": "Mac 10.12 safari 11.0",
+    "username": conf.sauceUser,
+    "accessKey": conf.sauceKey,
+    "tunnel-identifier": tunnelId,
+    "platform": "macOS 10.12",
+    "browserName": "safari",
+    "version": "11.0",
+    maxInstances,
+    shartTestFiles
+  },
+  {
+    screenResolution,
+    'tunnel-identifier': tunnelId,
+    build,
+    seleniumVersion: "3.5.0",
+    name: "Windows 10 Edge latest",
+    username: conf.sauceUser,
+    accessKey: conf.sauceKey,
+    platform: "Windows 10",
+    version: 'latest',
+    browserName: "microsoftedge",
+    maxInstances,
+    shartTestFiles
+  },
+  {
+    screenResolution,
+    'tunnel-identifier': tunnelId,
+    build,
+    iedriverVersion: seleniumVersion,
+    'ie.ensureCleanSession': true,
+    'ie.enableElementCacheCleanup': true,
+    name: "Windows 10 IE 11",
+    username: conf.sauceUser,
+    accessKey: conf.sauceKey,
+    platform: "Windows 10",
+    browserName: "internet explorer",
+    version: "11",
+    unexpectedAlertBehaviour: "ignore",
+    maxInstances,
+    shartTestFiles
+  }
+];
+
+if ( !process.env.RUN_CHROME_ONLY) {
+  browsers = browsers.concat(otherBrowsers);
+}
 
 exports.config = {
   SELENIUM_PROMISE_MANAGER: 0,
   seleniumAddress: conf.sauceSeleniumAddress,
-  multiCapabilities: [
-    {
-      screenResolution,
-      'tunnel-identifier': tunnelId,
-      build,
-      seleniumVersion,
-      name: "Windows 10 Firefox latest-1",
-      username: conf.sauceUser,
-      accessKey: conf.sauceKey,
-      platform: "Windows 10",
-      browserName: "firefox",
-      maxInstances,
-      shartTestFiles,
-      version: 'latest-1'
-    },
-    {
-      build,
-      seleniumVersion,
-      screenResolution,
-      "name": "Mac 10.12 safari 11.0",
-      "username": conf.sauceUser,
-      "accessKey": conf.sauceKey,
-      "tunnel-identifier": tunnelId,
-      "platform": "macOS 10.12",
-      "browserName": "safari",
-      "version": "11.0",
-      maxInstances,
-      shartTestFiles
-    },
-    {
-      screenResolution,
-      'tunnel-identifier': tunnelId,
-      build,
-      seleniumVersion: "3.5.0",
-      name: "Windows 10 Edge latest",
-      username: conf.sauceUser,
-      accessKey: conf.sauceKey,
-      platform: "Windows 10",
-      version: 'latest',
-      browserName: "microsoftedge",
-      maxInstances,
-      shartTestFiles
-    },
-    {
-      screenResolution,
-      'tunnel-identifier': tunnelId,
-      build,
-      iedriverVersion: seleniumVersion,
-      'ie.ensureCleanSession': true,
-      'ie.enableElementCacheCleanup': true,
-      name: "Windows 10 IE 11",
-      username: conf.sauceUser,
-      accessKey: conf.sauceKey,
-      platform: "Windows 10",
-      browserName: "internet explorer",
-      version: "11",
-      unexpectedAlertBehaviour: "ignore",
-      maxInstances,
-      shartTestFiles
-    },
-    {
-      screenResolution,
-      'tunnel-identifier': tunnelId,
-      build,
-      seleniumVersion: "3.5.0",
-      name: "Windows 10 chrome Latest-1",
-      username: conf.sauceUser,
-      accessKey: conf.sauceKey,
-      platform: "Windows 10",
-      browserName: "chrome",
-      chromeOptions: {
-        prefs: {
-          'credentials_enable_service': false,
-          'profile': {
-            'password_manager_enabled': false
-          }
-        },
-        args: [
-          '--disable-cache',
-          '--disable-application-cache',
-          '--disable-offline-load-stale-cache',
-          '--disk-cache-size=0',
-          '--v8-cache-options=off'
-        ]
-      },
-      version: "latest-1",
-      maxInstances,
-      shartTestFiles
-    }
-  ],
+  multiCapabilities: browsers,
   maxSessions: 10,
   getPageTimeout: 240000,
   allScriptsTimeout: 240000,
