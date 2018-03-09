@@ -16,16 +16,16 @@
 <div class="storage-units">
   <!--storage unit heading-->
   <div class="sub-header-label">Storage Units</div>
-  <div *ngIf="content.storageUnits && content.storageUnits.length === 0" layout-padding>
+  <div *ngIf="unitsWithAttrMap && unitsWithAttrMap.length === 0" layout-padding>
     <div class="row">
       <div class="col">No storage-units registered.</div>
     </div>
   </div>
 
   <!--storage units-->
-  <div *ngIf="content.storageUnits && content.storageUnits.length > 0">
+  <div *ngIf="unitsWithAttrMap && unitsWithAttrMap.length > 0">
 
-    <div class="storage-loop" *ngFor="let storageUnit of content.storageUnits">
+    <div class="storage-loop" *ngFor="let storageUnit of unitsWithAttrMap">
 
       <!--storage details-->
       <div class="container columns-content">
@@ -43,15 +43,25 @@
             <div class="col-1">{{ storageUnit.storageUnitStatus }}</div>
             <div class="col-2">{{ storageUnit.restoreExpirationOn | date:'short'}}</div>
             <div class="col-6">
-              <div class="bucket-name" *ngIf="storageUnit.bucketName">
+              <div class="bucket-name" *ngIf="storageUnit.attrMap['bucket.name']">
                 <div><b>Bucket name:</b></div>
-                <div>{{ storageUnit.bucketName }}</div>
+                <div>{{ storageUnit.attrMap['bucket.name'] }}</div>
               </div>
-              <div *ngIf="storageUnit.storageDirectory">
-                <div class="directory">
-                  <div><b>Directory:</b></div>
-                  <div> {{ storageUnit.storageDirectory.directoryPath }}</div>
-                </div>
+              <div *ngIf="storageUnit.storageDirectory" class="directory">
+                <div><b>Directory:</b></div>
+                <div> {{ storageUnit.storageDirectory.directoryPath }}</div>
+              </div>
+              <div *ngIf="storageUnit.attrMap['jdbc.url']">
+                <div><b>JDBC Url:</b></div>
+                <div>{{ storageUnit.attrMap['jdbc.username'] }}</div>
+              </div>
+              <div *ngIf="storageUnit.attrMap['jdbc.username']">
+                <div><b>JDBC Username:</b></div>
+                <div>{{ storageUnit.attrMap['jdbc.username'] }}</div>
+              </div>
+              <div *ngIf="storageUnit.attrMap['jdbc.user.credential.name']">
+                <div><b>JDBC User Credential Name:</b></div>
+                <div>{{ storageUnit.attrMap['jdbc.user.credential.name'] }}</div>
               </div>
             </div>
           </div>
@@ -62,8 +72,7 @@
       <div class="col align-self-start left-blue-border">
         <h2 class="row">Status History</h2>
       </div>
-      <div class="container columns-content"
-           *ngIf="storageUnit.storageUnitStatusHistory && storageUnit.storageUnitStatusHistory.length > 0;">
+      <div class="container columns-content" *ngIf="storageUnit.storageUnitStatusHistory && storageUnit.storageUnitStatusHistory.length > 0;">
         <div class="list-group columns-header">
           <div class="row list-group-item">
             <div class="col-2">Status</div>
@@ -71,8 +80,7 @@
             <div class="col-6">User</div>
           </div>
         </div>
-        <div class="list-group columns-detail"
-             *ngFor="let storageUnitStatusChangeEvent of storageUnit.storageUnitStatusHistory">
+        <div class="list-group columns-detail" *ngFor="let storageUnitStatusChangeEvent of storageUnit.storageUnitStatusHistory">
           <div class="row list-group-item">
             <div class="col-2">{{ storageUnitStatusChangeEvent.status }}</div>
             <div class="col-4">{{ storageUnitStatusChangeEvent.eventTime | date:'short'}}</div>
@@ -80,8 +88,7 @@
           </div>
         </div>
       </div>
-      <div class="list-group-item"
-           *ngIf="!storageUnit.storageUnitStatusHistory || storageUnit.storageUnitStatusHistory.length === 0">
+      <div class="list-group-item" *ngIf="!storageUnit.storageUnitStatusHistory || storageUnit.storageUnitStatusHistory.length === 0">
         <div class="col-12">No storage unit status history found</div>
       </div>
 

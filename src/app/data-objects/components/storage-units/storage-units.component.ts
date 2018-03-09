@@ -13,7 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation, OnChanges, SimpleChanges } from '@angular/core';
+import { StorageUnit } from '@herd/angular-client';
 
 @Component({
   selector: 'sd-storage-units',
@@ -21,13 +22,29 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./storage-units.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class StorageUnitsComponent implements OnInit {
+export class StorageUnitsComponent implements OnInit, OnChanges {
 
-  @Input() content;
+  @Input() storageUnits: StorageUnit[];
+  unitsWithAttrMap: {[Property in keyof StorageUnit]?} & { attrMap?: { [attrName: string]: string } }[];
 
   constructor() { }
 
   ngOnInit() {
   }
 
+  ngOnChanges(simpleChanges: SimpleChanges) {
+    this.unitsWithAttrMap = this.storageUnits ? this.storageUnits.map(unit => {
+      return { ...unit, attrMap: this.createAttributeValueMap(unit) };
+    }) : [];
+  }
+
+  createAttributeValueMap(storageUnit: StorageUnit): { [attrName: string]: string } {
+    return storageUnit.storage.attributes && storageUnit.storage.attributes.reduce((map, attr) => {
+      const retMap = { ...map };
+      retMap[attr.name] = attr.value;
+      return retMap;
+    }, {});
+  }
 }
+
+
