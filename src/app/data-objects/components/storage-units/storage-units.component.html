@@ -16,16 +16,16 @@
 <div class="storage-units">
   <!--storage unit heading-->
   <div class="sub-header-label">Storage Units</div>
-  <div *ngIf="unitsWithAttrMap && unitsWithAttrMap.length === 0" layout-padding>
+  <div *ngIf="storageUnits && storageUnits.length === 0" layout-padding>
     <div class="row">
       <div class="col">No storage-units registered.</div>
     </div>
   </div>
 
   <!--storage units-->
-  <div *ngIf="unitsWithAttrMap && unitsWithAttrMap.length > 0">
+  <div *ngIf="storageUnits && storageUnits.length > 0">
 
-    <div class="storage-loop" *ngFor="let storageUnit of unitsWithAttrMap">
+    <div class="storage-loop" *ngFor="let storageUnit of storageUnits">
 
       <!--storage details-->
       <div class="container columns-content">
@@ -43,25 +43,15 @@
             <div class="col-1">{{ storageUnit.storageUnitStatus }}</div>
             <div class="col-2">{{ storageUnit.restoreExpirationOn | date:'short'}}</div>
             <div class="col-6">
-              <div class="bucket-name" *ngIf="storageUnit.attrMap['bucket.name']">
-                <div><b>Bucket name:</b></div>
-                <div>{{ storageUnit.attrMap['bucket.name'] }}</div>
-              </div>
-              <div *ngIf="storageUnit.storageDirectory" class="directory">
-                <div><b>Directory:</b></div>
+              <ng-container *ngFor="let attr of storageUnit.storage.attributes">
+                <div class="storage-attribute" *ngIf="attributesToShow.includes(attr.name)">
+                    <div><b>{{ attr.name }}:</b></div>
+                    <div>{{ attr.value }}</div>
+                </div>
+              </ng-container>
+              <div class="storage-attribute" *ngIf="storageUnit.storageDirectory">
+                <div><b>directory:</b></div>
                 <div> {{ storageUnit.storageDirectory.directoryPath }}</div>
-              </div>
-              <div *ngIf="storageUnit.attrMap['jdbc.url']">
-                <div><b>JDBC Url:</b></div>
-                <div>{{ storageUnit.attrMap['jdbc.username'] }}</div>
-              </div>
-              <div *ngIf="storageUnit.attrMap['jdbc.username']">
-                <div><b>JDBC Username:</b></div>
-                <div>{{ storageUnit.attrMap['jdbc.username'] }}</div>
-              </div>
-              <div *ngIf="storageUnit.attrMap['jdbc.user.credential.name']">
-                <div><b>JDBC User Credential Name:</b></div>
-                <div>{{ storageUnit.attrMap['jdbc.user.credential.name'] }}</div>
               </div>
             </div>
           </div>

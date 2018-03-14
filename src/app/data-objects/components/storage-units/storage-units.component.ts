@@ -22,28 +22,14 @@ import { StorageUnit } from '@herd/angular-client';
   styleUrls: ['./storage-units.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class StorageUnitsComponent implements OnInit, OnChanges {
+export class StorageUnitsComponent implements OnInit {
 
   @Input() storageUnits: StorageUnit[];
-  unitsWithAttrMap: {[Property in keyof StorageUnit]?} & { attrMap?: { [attrName: string]: string } }[];
+  attributesToShow = ['bucket.name', 'jdbc.url', 'jdbc.username', 'jdbc.user.credential.name'];
 
   constructor() { }
 
   ngOnInit() {
-  }
-
-  ngOnChanges(simpleChanges: SimpleChanges) {
-    this.unitsWithAttrMap = this.storageUnits ? this.storageUnits.map(unit => {
-      return { ...unit, attrMap: this.createAttributeValueMap(unit) };
-    }) : [];
-  }
-
-  createAttributeValueMap(storageUnit: StorageUnit): { [attrName: string]: string } {
-    return storageUnit.storage.attributes && storageUnit.storage.attributes.reduce((map, attr) => {
-      const retMap = { ...map };
-      retMap[attr.name] = attr.value;
-      return retMap;
-    }, {});
   }
 }
 
