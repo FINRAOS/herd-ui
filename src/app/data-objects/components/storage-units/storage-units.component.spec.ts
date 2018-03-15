@@ -18,7 +18,7 @@ import { StorageUnitsComponent } from './storage-units.component';
 import { StorageUnit, Attribute } from '@herd/angular-client';
 import { By } from '@angular/platform-browser';
 
-fdescribe('StorageUnitsComponent', () => {
+describe('StorageUnitsComponent', () => {
   let component: StorageUnitsComponent;
   let fixture: ComponentFixture<StorageUnitsComponent>;
 
