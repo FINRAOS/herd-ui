@@ -53,10 +53,8 @@
           <div class="row container overview">
             <div class="col">
               <div class="row sub-header-label">Description</div>
-              <div class="row description-body"
-                   [innerHTML]="businessObjectFormatDetail && businessObjectFormatDetail.description">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua
+              <div class="row description-body" [innerHTML]="businessObjectFormatDetail && businessObjectFormatDetail.description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
               </div>
               <div class="row sub-header-label">Details</div>
               <div class="row">
@@ -80,15 +78,15 @@
                       <div class="row">
                         <div class="col-6"><b>Version:</b></div>
                         <div class="col-6">
-                          <select *ngIf="(formatVersions | async).length > 1; else singleValue" #versionSelect
-                                  (change)="switchVersions(versionSelect)" [ngModel]="businessObjectFormatVersion">
+                          <select *ngIf="(formatVersions | async).length > 1; else singleValue" #versionSelect (change)="switchVersions(versionSelect)"
+                            [ngModel]="businessObjectFormatVersion">
                             <option *ngFor="let version of formatVersions | async" [value]="version">{{ version }}
                             </option>
                           </select>
                           <ng-template #singleValue>
-                          <span>
+                            <span>
                               {{ businessObjectFormatVersion }}
-                          </span>
+                            </span>
                           </ng-template>
                         </div>
 
@@ -98,30 +96,26 @@
                       <div class="row">
                         <div class="col-8"><b>Null Value:</b></div>
                         <div class="col-4">
-                          {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
-                          businessObjectFormatDetail.schema.nullValue || ' '}}
+                          {{businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.nullValue || ' '}}
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-8"><b>Delimiter:</b></div>
                         <div class="col-4">
-                          {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
-                          businessObjectFormatDetail.schema.delimiter || ' '}}
+                          {{businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.delimiter || ' '}}
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-8"><b>Escape Character:</b></div>
                         <div class="col-4">
-                          {{ businessObjectFormatDetail && businessObjectFormatDetail.schema &&
-                          businessObjectFormatDetail.schema.escapeCharacter ||
+                          {{ businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.escapeCharacter ||
                           ' '}}
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-8"><b>Partition Key Group:</b></div>
                         <div class="col-4">
-                          {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
-                          businessObjectFormatDetail.schema.partitionKeyGroup
+                          {{businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.partitionKeyGroup
                           || ' '}}
                         </div>
                       </div>
@@ -130,8 +124,7 @@
                     <div class="col-4 min-max-value">
                       <div class="row">
                         <div class="col-6"><b>Partition:</b></div>
-                        <div class="col-6">{{ businessObjectFormatDetail && businessObjectFormatDetail.partitionKey || '
-                          '}}
+                        <div class="col-6">{{ businessObjectFormatDetail && businessObjectFormatDetail.partitionKey || ' '}}
                         </div>
                       </div>
                       <div class="row">
@@ -149,8 +142,7 @@
 
               <!--Retention Information (type, period, flog)-->
               <div class="row sub-header-label">Retention Information</div>
-              <div class="row"
-                   *ngIf="(businessObjectFormatDetail && businessObjectFormatDetail.retentionType)
+              <div class="row" *ngIf="(businessObjectFormatDetail && businessObjectFormatDetail.retentionType)
                    || (businessObjectFormatDetail && businessObjectFormatDetail.retentionPeriodInDays)
                    || (businessObjectFormatDetail && businessObjectFormatDetail.recordFlag); else noRetention">
                 <div class="col align-self-start left-blue-border">
@@ -159,7 +151,8 @@
                       <b>Retention type: </b>{{businessObjectFormatDetail && businessObjectFormatDetail.retentionType}}
                     </div>
                     <div class="col-4">
-                      <b>Retention period: </b> {{businessObjectFormatDetail && businessObjectFormatDetail.retentionPeriodInDays}} days
+                      <b>Retention period: </b> {{businessObjectFormatDetail && businessObjectFormatDetail.retentionPeriodInDays}}
+                      days
                     </div>
                     <div class="col-4">
                       <b>Record: </b> {{(businessObjectFormatDetail && businessObjectFormatDetail.recordFlag) ? 'Yes': 'No'}}
@@ -193,28 +186,22 @@
                       <div class="col-3">Description</div>
                     </div>
                   </div>
-                  <div class="list-group columns-detail"
-                       *ngFor="let businessObjectFormatDetailColumn of businessObjectFormatDetail.schema.partitions">
+                  <div class="list-group columns-detail" *ngFor="let businessObjectFormatDetailColumn of businessObjectFormatDetail.schema.partitions">
                     <div class="row list-group-item">
                       <div class="col-3">
-                        <sd-ellipsis-overflow
-                          ellipsisContent="{{businessObjectFormatDetailColumn.name}}"></sd-ellipsis-overflow>
+                        <sd-ellipsis-overflow ellipsisContent="{{businessObjectFormatDetailColumn.name}}"></sd-ellipsis-overflow>
                       </div>
                       <div class="col-2">
-                        <sd-ellipsis-overflow
-                          ellipsisContent="{{businessObjectFormatDetailColumn.type}}"></sd-ellipsis-overflow>
+                        <sd-ellipsis-overflow ellipsisContent="{{businessObjectFormatDetailColumn.type}}"></sd-ellipsis-overflow>
                       </div>
                       <div class="col-1">
-                        <sd-ellipsis-overflow
-                          ellipsisContent="{{businessObjectFormatDetailColumn.size}}"></sd-ellipsis-overflow>
+                        <sd-ellipsis-overflow ellipsisContent="{{businessObjectFormatDetailColumn.size}}"></sd-ellipsis-overflow>
                       </div>
                       <div class="col-1">
-                        <sd-ellipsis-overflow
-                          ellipsisContent="{{businessObjectFormatDetailColumn.required}}"></sd-ellipsis-overflow>
+                        <sd-ellipsis-overflow ellipsisContent="{{businessObjectFormatDetailColumn.required}}"></sd-ellipsis-overflow>
                       </div>
                       <div class="col-2">
-                        <sd-ellipsis-overflow
-                          ellipsisContent="{{businessObjectFormatDetailColumn.defaultValue}}"></sd-ellipsis-overflow>
+                        <sd-ellipsis-overflow ellipsisContent="{{businessObjectFormatDetailColumn.defaultValue}}"></sd-ellipsis-overflow>
                       </div>
                       <div class="col-3">
                         <p>{{businessObjectFormatDetailColumn.description}}</p>
@@ -236,14 +223,12 @@
       <ngb-tab>
         <ng-template ngbTabTitle>
           COLUMNS
-          <span
-            *ngIf="businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns">
+          <span *ngIf="businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns">
             ({{businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns.length}})
           </span>
         </ng-template>
         <ng-template ngbTabContent>
-          <sd-schema-columns
-            [content]="businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns">
+          <sd-schema-columns [content]="businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns">
           </sd-schema-columns>
         </ng-template>
       </ngb-tab>
@@ -254,17 +239,16 @@
 <ng-template #otherAttributeTabs>
   <ngb-tabset>
     <ngb-tab>
-      <ng-template ngbTabTitle>Attribute definitions</ng-template>
-      <ng-template ngbTabContent>
-        <sd-attribute-definitions
-          [content]="businessObjectFormatDetail && businessObjectFormatDetail.attributeDefinitions">
-        </sd-attribute-definitions>
-      </ng-template>
-    </ngb-tab>
-    <ngb-tab>
       <ng-template ngbTabTitle>User defined attributes</ng-template>
       <ng-template ngbTabContent>
         <sd-attributes [content]="businessObjectFormatDetail && businessObjectFormatDetail.attributes"></sd-attributes>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab>
+      <ng-template ngbTabTitle>Attribute definitions</ng-template>
+      <ng-template ngbTabContent>
+        <sd-attribute-definitions [content]="businessObjectFormatDetail && businessObjectFormatDetail.attributeDefinitions">
+        </sd-attribute-definitions>
       </ng-template>
     </ngb-tab>
   </ngb-tabset>
