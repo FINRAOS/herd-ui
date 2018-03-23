@@ -76,12 +76,7 @@ export class DataObjectDetailComponent implements OnInit {
     });
 
     this.activatedRoute.data.subscribe((data) => {
-      const retVal = data.resolvedData;
-      this.businessObjectData = retVal.businessObjectData;
-      // Fetch the bucket name
-      if (this.businessObjectData.storageUnits) {
-        this.businessObjectData = this.findBucketName(this.businessObjectData);
-      }
+      this.businessObjectData = data.resolvedData.businessObjectData;
       // Fetch the sub partition values
       if (this.businessObjectData.subPartitionValues) {
         this.businessObjectFormatApi.businessObjectFormatGetBusinessObjectFormat(
@@ -94,7 +89,6 @@ export class DataObjectDetailComponent implements OnInit {
     });
 
     this.getDataObjectVersions();
-
   }
 
   public getDataObjectVersions() {
@@ -154,20 +148,5 @@ export class DataObjectDetailComponent implements OnInit {
     }
     return result.subPartitionKeys;
   }
-
-  public findBucketName(response: BusinessObjectData) {
-    response.storageUnits.map((storageUnit) => {
-      if (storageUnit.storage.attributes) {
-        storageUnit.storage.attributes
-          .filter((attribute) => attribute.name === 'bucket.name')
-          .map((attribute) => {
-            (storageUnit as any).bucketName = attribute.value;
-          });
-      }
-    });
-
-    return response;
-  }
-
 
 }

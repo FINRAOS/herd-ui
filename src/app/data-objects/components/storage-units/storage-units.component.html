@@ -16,16 +16,16 @@
 <div class="storage-units">
   <!--storage unit heading-->
   <div class="sub-header-label">Storage Units</div>
-  <div *ngIf="content.storageUnits && content.storageUnits.length === 0" layout-padding>
+  <div *ngIf="!storageUnits || storageUnits.length === 0">
     <div class="row">
       <div class="col">No storage-units registered.</div>
     </div>
   </div>
 
   <!--storage units-->
-  <div *ngIf="content.storageUnits && content.storageUnits.length > 0">
+  <div *ngIf="storageUnits && storageUnits.length > 0">
 
-    <div class="storage-loop" *ngFor="let storageUnit of content.storageUnits">
+    <div class="storage-loop" *ngFor="let storageUnit of storageUnits">
 
       <!--storage details-->
       <div class="container columns-content">
@@ -43,15 +43,15 @@
             <div class="col-1">{{ storageUnit.storageUnitStatus }}</div>
             <div class="col-2">{{ storageUnit.restoreExpirationOn | date:'short'}}</div>
             <div class="col-6">
-              <div class="bucket-name" *ngIf="storageUnit.bucketName">
-                <div><b>Bucket name:</b></div>
-                <div>{{ storageUnit.bucketName }}</div>
-              </div>
-              <div *ngIf="storageUnit.storageDirectory">
-                <div class="directory">
-                  <div><b>Directory:</b></div>
-                  <div> {{ storageUnit.storageDirectory.directoryPath }}</div>
+              <ng-container *ngFor="let attr of storageUnit.storage.attributes">
+                <div class="storage-attribute" *ngIf="attributesToShow.includes(attr.name)">
+                    <div><b>{{ attr.name }}:</b></div>
+                    <div>{{ attr.value }}</div>
                 </div>
+              </ng-container>
+              <div class="storage-attribute" *ngIf="storageUnit.storageDirectory">
+                <div><b>directory:</b></div>
+                <div> {{ storageUnit.storageDirectory.directoryPath }}</div>
               </div>
             </div>
           </div>
@@ -62,8 +62,7 @@
       <div class="col align-self-start left-blue-border">
         <h2 class="row">Status History</h2>
       </div>
-      <div class="container columns-content"
-           *ngIf="storageUnit.storageUnitStatusHistory && storageUnit.storageUnitStatusHistory.length > 0;">
+      <div class="container columns-content" *ngIf="storageUnit.storageUnitStatusHistory && storageUnit.storageUnitStatusHistory.length > 0;">
         <div class="list-group columns-header">
           <div class="row list-group-item">
             <div class="col-2">Status</div>
@@ -71,8 +70,7 @@
             <div class="col-6">User</div>
           </div>
         </div>
-        <div class="list-group columns-detail"
-             *ngFor="let storageUnitStatusChangeEvent of storageUnit.storageUnitStatusHistory">
+        <div class="list-group columns-detail" *ngFor="let storageUnitStatusChangeEvent of storageUnit.storageUnitStatusHistory">
           <div class="row list-group-item">
             <div class="col-2">{{ storageUnitStatusChangeEvent.status }}</div>
             <div class="col-4">{{ storageUnitStatusChangeEvent.eventTime | date:'short'}}</div>
@@ -80,9 +78,8 @@
           </div>
         </div>
       </div>
-      <div class="list-group-item"
-           *ngIf="!storageUnit.storageUnitStatusHistory || storageUnit.storageUnitStatusHistory.length === 0">
-        <div class="col-12">No storage unit status history found</div>
+      <div class="list-group-item" *ngIf="!storageUnit.storageUnitStatusHistory || storageUnit.storageUnitStatusHistory.length === 0">
+        <div class="col">No storage unit status history found.</div>
       </div>
 
       <!--files-->
@@ -105,8 +102,8 @@
           </div>
         </div>
       </div>
-      <div class="empty-files" *ngIf="!storageUnit.storageFiles || storageUnit.storageFiles.length === 0">
-        <div class="text-left">No files found</div>
+      <div class="list-group-item" *ngIf="!storageUnit.storageFiles || storageUnit.storageFiles.length === 0">
+        <div class="col">No files found.</div>
       </div>
 
     </div>
