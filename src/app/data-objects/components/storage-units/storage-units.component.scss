@@ -27,7 +27,7 @@
       .list-group-item {
         border-radius: 0;
         @include text-styling(13px, 400);
-        .bucket-name {
+        .storage-attribute:not(:last-child) {
           margin-bottom: 10px;
         }
       }

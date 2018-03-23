@@ -13,7 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation, OnChanges, SimpleChanges } from '@angular/core';
+import { StorageUnit } from '@herd/angular-client';
 
 @Component({
   selector: 'sd-storage-units',
@@ -23,11 +24,13 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class StorageUnitsComponent implements OnInit {
 
-  @Input() content;
+  @Input() storageUnits: StorageUnit[];
+  attributesToShow = ['bucket.name', 'jdbc.url', 'jdbc.username', 'jdbc.user.credential.name'];
 
   constructor() { }
 
   ngOnInit() {
   }
-
 }
+
+

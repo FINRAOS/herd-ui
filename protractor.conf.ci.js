@@ -120,7 +120,7 @@ const otherBrowsers = [
   }
 ];
 
-if ( !process.env.RUN_CHROME_ONLY) {
+if ( !process.env.RUN_CHROME_ONLY || process.env.RUN_CHROME_ONLY === 'false' ) {
   browsers = browsers.concat(otherBrowsers);
 }
 
