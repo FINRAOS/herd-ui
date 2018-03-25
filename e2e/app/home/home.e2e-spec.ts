@@ -22,7 +22,7 @@ import * as operations from './operations/operations';
 
 describe('Feature:HomePage', function () {
   const dataManager = new DataManager();
-  const searchTerm = 'smoke test';
+  const searchTerm = 'home page test';
   let page: HomePage;
 
   beforeEach(async () => {
