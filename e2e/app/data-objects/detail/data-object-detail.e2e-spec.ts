@@ -30,19 +30,10 @@ describe('data-objects detail', () => {
 
   const dataManager = new DataManager();
 
-  beforeAll(() => {
-    dataManager.setUp(operations.postRequests().options);
-  });
-
-  afterAll(() => {
-    dataManager.tearDown(operations.deleteRequests().options);
-  });
-
-  describe('data-objects detail - heading / partition info / details', () => {
+  describe('data-objects detail - heading / partition info / details', async () => {
 
     beforeEach(async () => {
-      // await dataObjectListUrl(data.versionTestV2);
-      await baseDetail.initiateBrowser(data.versionTestV2, null, 1);
+      await page.navigateTo(baseDetail.replaceUrlParams(data.versionTestV2, null, 0));
     });
 
     it('static content: BData details page', async () => {
@@ -71,7 +62,7 @@ describe('data-objects detail', () => {
       expect(await page.partitionValueContainer.getText()).toContain(data.versionTestV2.partitionKey);
       expect(await page.partitionValueContainer.getText()).toContain(data.versionTestV2.partitionValue);
 
-      expect(await page.subPartitionValue.count()).toBe(2);
+      expect(await page.subPartitionValue.count()).toBe(0);
     });
 
     it('version info: BData details page', async () => {
@@ -81,27 +72,27 @@ describe('data-objects detail', () => {
       const versionSelected = versionSelector.getAttribute('ng-reflect-model');
       expect(await page.status.getText()).toBe(data.versionTestV2.status);
       expect(await page.id.getText()).not.toBe('');
-      expect(versionSelectorOptionValues).toEqual(['1', '0']);
-      expect(versionSelected).toBe('1');
+      expect(versionSelectorOptionValues).toEqual(['2', '1', '0']);
+      expect(versionSelected).toBe('0');
     });
 
 
     it('change version: BData details page', async () => {
-
       // click on the version 1
       const versionSelector = await page.detailsContainer.element(by.className('version-select'));
-      versionSelector.$('option[ng-reflect-ng-value="0"]').click();
-      expect(await browser.getCurrentUrl()).toContain(baseDetail.replaceUrlParams(data.versionTestV2, null, 1));
+      versionSelector.$('option[ng-reflect-ng-value="1"]').click();
+      expect(browser.getCurrentUrl()).toContain(baseDetail.replaceUrlParams(data.versionTestV1, null, 0));
     });
 
     it('partition info: BData details page', async () => {
-      await baseDetail.initiateBrowser(data.bdataWithSubpartitions, '|', 0);
-      const subParititionKeys = data.formatWithSubpartitionsPerfData.schema.partitions.map(function (partition) {
+      await page.navigateTo(baseDetail.replaceUrlParams(data.bdataWithSubpartitions, '|', 0));
+      // await baseDetail.initiateBrowser(data.bdataWithSubpartitions, '|', 0);
+      const subParititionKeys = data.formatWithSubpartitions.schema.partitions.map(function (partition) {
         return partition.name !== data.bdataWithSubpartitions.partitionKey ? partition.name : ''
       }).slice(1); // take out the empty string due to being actual partitionKey
       // const tt = page.partitions.getText();
-      expect(await page.partitionInfoContainer.getText()).toContain(subParititionKeys.toString());
-      expect(await page.partitionInfoContainer.getText()).toContain(data.bdataWithSubpartitions.subPartitionValues.toString());
+      expect(page.partitionInfoContainer.getText()).toContain(subParititionKeys.toString());
+      expect(page.partitionInfoContainer.getText()).toContain(data.bdataWithSubpartitions.subPartitionValues.toString());
     });
 
   });
@@ -110,16 +101,18 @@ describe('data-objects detail', () => {
 
     beforeEach(async () => {
       // await dataObjectListUrl(data.versionTestV2);
-      await baseDetail.initiateBrowser(data.versionTestV2, null, 1);
+      // await baseDetail.initiateBrowser(data.versionTestV2, null, 1);
+      await page.navigateTo(baseDetail.replaceUrlParams(data.versionTestV2, null, 1));
     });
 
     it('Data attributes values are populated', async () => {
       // Validate that there are two rows
-      // expect(await page.userDefAttributesTableRows.count()).toEqual(data.versionTestV2.attributes.length);
-      expect(await page.userDefAttributesTableRows.count()).toEqual(3);
+      expect(await page.userDefAttributesTableRows.count()).toEqual(1);
+      // expect(await page.userDefAttributesTableRows.count()).toEqual(3);
 
       expect(await page.userDefAttributesTableRows.get(0).getText())
-        .toEqual('PERFDATASEARCH\nPERFDATA\nDDLDATA : TXT : 0\nPERFKEY999\ntest1|thing2|other3|b4\n1\nDetails');
+        .toEqual('S3_MANAGED\nENABLED\nbucket.name:\n4652-5751-2377-data-mgmt\ndirectory:\nns-protractor-test-dl42' +
+          '/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v1/test-key=versionTest');
        //  [data.versionTestV2.attributes[0].name, data.versionTestV2.attributes[0].value].join('\n'));
 
        // TODO: fix this test so that data-mgmt is not in the bucket name for this file but another file and imported @ani
