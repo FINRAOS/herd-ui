@@ -19,7 +19,7 @@ import { BasePo } from '../../base/base.po';
 export class OverviewPage extends BasePo {
 
   _headingEl = element(by.className('detail-header'));
-  get heading () {
+  get heading() {
     return this._headingEl.getText();
   }
   _bdefTitleEl = element(by.className('detail-title'));
@@ -28,12 +28,10 @@ export class OverviewPage extends BasePo {
   _descEl: ElementFinder = element(by.css('#overview-panel .tab-contents > .col-9'));
   innerHeader: ElementArrayFinder = element.all(by.className('inner-header'));
   _bdefDetails = element(by.className('bdef-details'));
-  formatHeader: ElementFinder = element.all(by.className('format-header')).get(0);
   formatContainer: ElementFinder = element(by.className('bdef-formats'));
 
   dataObjectListLinkContainer = element(by.className('data-object-link'));
-
-  protected _tabs = element(by.tagName('ngb-tabset')).element(by.tagName('ul'));
+  protected _tabs = element(by.tagName('ngb-tabset')).element(by.css('ul.nav.nav-tabs'));
 
   _tagsContainerEl: ElementFinder = element(by.className('tags-container'));
   _tagsEditorEl: ElementFinder = this._tagsContainerEl.element(by.className('tags-content'));
@@ -44,9 +42,7 @@ export class OverviewPage extends BasePo {
   physicalName: ElementFinder = this._bdefDetails.all(by.tagName('sd-ellipsis-overflow')).get(0);
 
   namespace: ElementFinder = this._bdefDetails.all(by.tagName('sd-ellipsis-overflow')).get(1);
-  formatData: ElementArrayFinder = this.formatContainer.all(by.tagName('span'));
-  formatUsage: ElementArrayFinder = this.formatContainer.all(by.tagName('sd-ellipsis-overflow'));
-  RFToolTip: ElementFinder = this.formatContainer.element(by.tagName('i'));
+
   _noTagsMessageEl = this._tagsContainerEl.all(by.tagName('p')).get(1);
   get noTagsMessage() {
     return this._noTagsMessageEl.getText();
@@ -70,12 +66,12 @@ export class OverviewPage extends BasePo {
   modal: ElementFinder = element(by.tagName('ngb-modal-window'));
 
 
-  async getDescription () {
+  async getDescription() {
     const descEditor = this._descEl.element(by.tagName('sd-edit'));
     const descDisplay = this._descEl.element(by.className('description-body'));
     const description: string = ((await this.isDisplayedShim(descEditor)) === true
-    && await descEditor.element(by.css('div.row > div.col')).getText()) ||
-    await descEditor.getText();
+      && await descEditor.element(by.css('div.row > div.col')).getText()) ||
+      await descEditor.getText();
 
     return description.trim();
   }
@@ -83,14 +79,18 @@ export class OverviewPage extends BasePo {
     const nameEditor = this._bdefTitleEl.element(by.tagName('sd-edit'));
     const nameDisplay = this._bdefTitleEl.element(by.css('div[sdauthorized] > div'));
     const name: string = ((await this.isDisplayedShim(nameEditor)) === true
-    && await nameEditor.element(by.css('div.row > div.col')).getText()) ||
-    await nameDisplay.getText();
+      && await nameEditor.element(by.css('div.row > div.col')).getText()) ||
+      await nameDisplay.getText();
 
     return name.trim();
   }
 
   closeModal(): promise.Promise<void> {
     return this.modal.element(by.className('close')).click();
+  }
+
+  getRecommendedFormatIconTooltipText() {
+    return this.formatContainer.all(by.css('.recommended i')).get(0).getAttribute('ng-reflect-ngb-tooltip')
   }
 
   async toggleRecommendedFormat(usage: string, fileType: string, version: string, hasAccess: boolean = true) {
@@ -108,6 +108,10 @@ export class OverviewPage extends BasePo {
     return (await formatFrame.getAttribute('class')).includes('recommended');
   }
 
+  getFormatFrameHeaderText(frame: ElementFinder): promise.Promise<string> {
+    return frame.element(by.className('format-header')).getText();
+  }
+
   async getFormatTooltipText(usage: string, fileType: string, version: string, hasAccess: boolean = true): Promise<string> {
     const formatFrame = await this.findFormatFrame(usage, fileType, version);
     await this.mouseEnterShim(formatFrame);
@@ -115,29 +119,43 @@ export class OverviewPage extends BasePo {
   }
 
   async findFormatFrame(usage: string, fileType: string, version: string, hasAccess: boolean = true): Promise<ElementFinder | null> {
+    // read auth formats
+    const readAuthWrapper = element(by.css('.bdef-formats > div:nth-of-type(2)'));
     if (hasAccess) {
-      const usages = element.all(
-        by.cssContainingText('.format-whiteframe > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)', usage)
-      );
+      // make sure the base element is not shown for browsers
+      // that don't support isDisplayedProperly
+      if (await this.isDisplayedShim(readAuthWrapper)) {
+        const whiteFrames = readAuthWrapper.all(by.className('format-whiteframe'))
+          .filter((element, i) => {
+            return this.isDisplayedShim(element) as any; // converted to allow the promise from protractor to be treat as a native promise
+          });
 
-      const fileTypes = usages.all(by.xpath('following-sibling::span')).filter((element) => {
-        return element.getText().then((text) => {
-          return text.includes(fileType);
-        });
-      });
+        const usages = whiteFrames.all(
+          by.cssContainingText('div:nth-child(1) > div:nth-child(2) > div:nth-child(1)', usage)
+        );
 
-      const versionField = await fileTypes.all(by.xpath('following-sibling::span')).filter((element) => {
-        return element.getText().then((text) => {
-          return text.includes(version);
+        const fileTypes = usages.all(by.xpath('following-sibling::span')).filter((element) => {
+          return element.getText().then((text) => {
+            return text.includes(fileType);
+          });
         });
-      })
-      if (versionField.length === 1) {
-        return versionField[0].element(by.xpath('ancestor::div[3]'));
+
+        const versionField = await fileTypes.all(by.xpath('following-sibling::span')).filter((element) => {
+          return element.getText().then((text) => {
+            return text.includes(version);
+          });
+        })
+
+        if (versionField.length === 1) {
+          return versionField[0].element(by.xpath('ancestor::div[3]'));
+        } else {
+          return null;
+        }
       } else {
         return null;
       }
     } else {
-      return this.formatContainer.all(by.css('div:nth-child(1)')).get(0);
+      return this.formatContainer.all(by.css('div:nth-of-type(1)')).get(0);
     }
   }
 

@@ -52,17 +52,24 @@ describe('Data Entity Overview Page', () => {
     await expect((await page.tags.get(0).getAttribute('ng-reflect-ngb-tooltip')).trim()).toEqual(data.tagTypeCode().displayName);
     await expect(page.tags.get(1).getAttribute('ng-reflect-ngb-tooltip')).toEqual(data.tagTypeCode().displayName);
 
-    // validate formats exist
-    await expect(page.formatHeader.getText()).toContain('Usage:');
-    await expect(page.formatHeader.getText()).toContain('Filetype:');
-    await expect(page.formatHeader.getText()).toContain('Version:');
-    // elevated priv whiteFrames shouldn't be there
-    await expect(page.findFormatFrame(data.bdefTestMultipleFormatVersions().businessObjectFormatUsage,
-      data.bdefTestMultipleFormatVersions().businessObjectFormatFileType, '1', true)).not.toBe(null);
-    await expect(page.findFormatFrame(data.bdefTestSingleFormatVersion().businessObjectFormatUsage,
-      data.bdefTestSingleFormatVersion().businessObjectFormatFileType, '0')).not.toBe(null);
+    // elevated priv whiteFrames should be there
+    const frame1 = await page.findFormatFrame(data.bdefTestMultipleFormatVersions().businessObjectFormatUsage,
+      data.bdefTestMultipleFormatVersions().businessObjectFormatFileType, '1', true);
+    await expect(frame1).not.toBe(null);
+    let headerText = await page.getFormatFrameHeaderText(frame1);
+    await expect(headerText).toContain('Usage:');
+    await expect(headerText).toContain('Filetype:');
+    await expect(headerText).toContain('Version:');
 
-    await expect(page.RFToolTip.getAttribute('ng-reflect-ngb-tooltip')).toEqual(expectedValues.recommendedFormat);
+    const frame2 = await page.findFormatFrame(data.bdefTestSingleFormatVersion().businessObjectFormatUsage,
+      data.bdefTestSingleFormatVersion().businessObjectFormatFileType, '0', true);
+    await expect(frame2).not.toBe(null);
+    headerText = await page.getFormatFrameHeaderText(frame2);
+    await expect(headerText).toContain('Usage:');
+    await expect(headerText).toContain('Filetype:');
+    await expect(headerText).toContain('Version:');
+
+    await expect(page.getRecommendedFormatIconTooltipText()).toEqual(expectedValues.recommendedFormat);
   });
 
   it('static header and data populated correctly for optional data', async () => {
@@ -222,13 +229,7 @@ describe('Data Entity Overview Page', () => {
         await expect(page.getNoAuthFormatsFrameData(usg2, ftp2)).toEqual(expectedData);
         // elevated priv whiteFrames shouldn't be there
         const formatFrame = await page.findFormatFrame(usg2, ftp2, ver, true);
-        // some browsers properly see this is not there others grab all (including non displaying but present) elements
-        // if it grabs it make sure that it isn't currently shown.
-        if (formatFrame !== null) {
-          await expect(page.isDisplayedShim(formatFrame)).toBe(false);
-        } else {
-          await expect(formatFrame).toEqual(null);
-        }
+        await expect(formatFrame).toEqual(null);
       });
 
       it('should not be able to edit the displayName', async () => {

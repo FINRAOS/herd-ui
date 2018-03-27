@@ -16,26 +16,25 @@
 const conf = require('./e2e/config/conf.e2e.json');
 const { SpecReporter } = require('jasmine-spec-reporter');
 const jasmineReporters = require('jasmine-reporters');
-const req = require('request-promise-native');
 const fs = require('fs');
 const path = require('path');
 
-
-const build = process.env.JENKINS_BUILD_NUMBER || ('localTestBuildNumber__' + Date.now());
-const shartTestFiles = false;
+const buildTime = Date.now();
+const sauceBuild = process.env.JENKINS_BUILD_NUMBER || ('localTestBuildNumber__' + buildTime);
+const shardTestFiles = false;
 const maxInstances = 1;
 const seleniumVersion = '3.4.0';
-const tunnelId = process.env.SCP_TUNNEL;
+const tunnelIdentifier = process.env.SCP_TUNNEL;
 const screenResolution = '1400x1050';
+const idleTimeout = 180;
 
-let browsers = [{
+let browsers = [
+  {
+  idleTimeout,
   screenResolution,
-  'tunnel-identifier': tunnelId,
-  build,
+  tunnelIdentifier,
   seleniumVersion: "3.5.0",
   name: "Windows 10 chrome Latest-1",
-  username: conf.sauceUser,
-  accessKey: conf.sauceKey,
   platform: "Windows 10",
   browserName: "chrome",
   chromeOptions: {
@@ -55,68 +54,60 @@ let browsers = [{
   },
   version: "latest-1",
   maxInstances,
-  shartTestFiles
-}];
+  shardTestFiles
+}
+];
 const otherBrowsers = [
-
   {
+    idleTimeout,
     screenResolution,
-    'tunnel-identifier': tunnelId,
-    build,
+    tunnelIdentifier,
     seleniumVersion,
     name: "Windows 10 Firefox latest-1",
-    username: conf.sauceUser,
-    accessKey: conf.sauceKey,
     platform: "Windows 10",
     browserName: "firefox",
     maxInstances,
-    shartTestFiles,
+    shardTestFiles,
     version: 'latest-1'
   },
   {
-    build,
+    idleTimeout,
     seleniumVersion,
     screenResolution,
     "name": "Mac 10.12 safari 11.0",
-    "username": conf.sauceUser,
-    "accessKey": conf.sauceKey,
-    "tunnel-identifier": tunnelId,
+    tunnelIdentifier,
     "platform": "macOS 10.12",
     "browserName": "safari",
     "version": "11.0",
     maxInstances,
-    shartTestFiles
+    shardTestFiles
   },
   {
+    idleTimeout,
     screenResolution,
-    'tunnel-identifier': tunnelId,
-    build,
+    tunnelIdentifier,
     seleniumVersion: "3.5.0",
     name: "Windows 10 Edge latest",
-    username: conf.sauceUser,
-    accessKey: conf.sauceKey,
     platform: "Windows 10",
     version: 'latest',
     browserName: "microsoftedge",
     maxInstances,
-    shartTestFiles
+    shardTestFiles
   },
   {
+    idleTimeout,
     screenResolution,
-    'tunnel-identifier': tunnelId,
-    build,
+    tunnelIdentifier,
     iedriverVersion: seleniumVersion,
     'ie.ensureCleanSession': true,
     'ie.enableElementCacheCleanup': true,
     name: "Windows 10 IE 11",
-    username: conf.sauceUser,
-    accessKey: conf.sauceKey,
     platform: "Windows 10",
     browserName: "internet explorer",
     version: "11",
     unexpectedAlertBehaviour: "ignore",
     maxInstances,
-    shartTestFiles
+    shardTestFiles
   }
 ];
 
@@ -126,7 +117,12 @@ if ( !process.env.RUN_CHROME_ONLY || process.env.RUN_CHROME_ONLY === 'false' ) {
 
 exports.config = {
   SELENIUM_PROMISE_MANAGER: 0,
-  seleniumAddress: conf.sauceSeleniumAddress,
+  sauceProxy: process.env.HTTP_PROXY || process.env.http_proxy || process.env.SAUCE_PROXY,
+  sauceUser: conf.sauceUser,
+  sauceKey: conf.sauceKey,
+  sauceSeleniumUseHttp: true,
+  sauceSeleniumAddress: 'localhost:4445/wd/hub',
+  sauceBuild,
   multiCapabilities: browsers,
   maxSessions: 10,
   getPageTimeout: 240000,
@@ -183,16 +179,6 @@ exports.config = {
       project: 'e2e/tsconfig.e2e.json'
     });
 
-    jasmine.getEnv().addReporter({
-      specDone: function (result) {
-        // this is used to report pass or fail to SauceLabs
-        // only check to set for the first failure after it has been set to passed.
-        if (capabilities.passed === true || capabilities.passed === undefined || capabilities.passed === null) {
-          capabilities.passed = !!(result.failedExpectations.length === 0 && result.status !== 'failed');
-        }
-      }
-    });
-
     jasmine.getEnv().addReporter(new SpecReporter({
       spec: { displayStacktrace: true }
     }));
@@ -234,24 +220,6 @@ exports.config = {
 
         // required to be here so saucelabs picks up reports to put in jenkins
         console.log('SauceOnDemandSessionID=' + session.getId() + ' job-name=' + c.capabilities.name);
-        // this request marks the particular job as passed or failed for reporting
-        return req({
-          url: 'https://saucelabs.com/rest/v1/' + conf.sauceUser + '/jobs/' + session.getId(),
-          method: 'put',
-          body: {
-            passed: !!c.capabilities.passed,
-          },
-          json: true,
-          headers: {
-            'Authorization': 'Basic ' + authInfo
-          }
-        }).then(function (e) {
-          console.log('Session: ' + session.getId() + ' of job ' + c.capabilities.name + ' successfully marked as ' + (c.capabilities.passed ? 'passed' : 'failed'));
-        }).catch(function (e) {
-          console.log('Session: ' + session.getId() + ' of job ' + c.capabilities.name + ' unsuccessfully marked as ' + (c.capabilities.passed ? 'passed' : 'failed'));
-          console.log('Error in request');
-          console.log(e);
-        });
       });
     });
   }
