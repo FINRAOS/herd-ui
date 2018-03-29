@@ -14,8 +14,6 @@
 * limitations under the License.
 */
 import {browser, by} from 'protractor';
-import {DataManager} from './../../../util/DataManager';
-import {Operations} from './operations/operations';
 import {Data} from './operations/data';
 import {DataObjectDetailPage} from './data-object-detail.po';
 import {BaseDetail} from './base-detail';
@@ -26,9 +24,6 @@ describe('data-objects detail', () => {
   const baseDetail = new BaseDetail();
   const data = new Data();
   const page = new DataObjectDetailPage();
-  const operations = new Operations();
-
-  const dataManager = new DataManager();
 
   describe('data-objects detail - heading / partition info / details', async () => {
 
@@ -80,19 +75,18 @@ describe('data-objects detail', () => {
     it('change version: BData details page', async () => {
       // click on the version 1
       const versionSelector = await page.detailsContainer.element(by.className('version-select'));
-      versionSelector.$('option[ng-reflect-ng-value="1"]').click();
-      expect(browser.getCurrentUrl()).toContain(baseDetail.replaceUrlParams(data.versionTestV1, null, 0));
+      await versionSelector.element(by.css('option[ng-reflect-ng-value="1"]')).click();
+      expect(await browser.getCurrentUrl()).toContain(baseDetail.replaceUrlParams(data.versionTestV1, null, 1));
     });
 
     it('partition info: BData details page', async () => {
       await page.navigateTo(baseDetail.replaceUrlParams(data.bdataWithSubpartitions, '|', 0));
-      // await baseDetail.initiateBrowser(data.bdataWithSubpartitions, '|', 0);
-      const subParititionKeys = data.formatWithSubpartitions.schema.partitions.map(function (partition) {
-        return partition.name !== data.bdataWithSubpartitions.partitionKey ? partition.name : ''
-      }).slice(1); // take out the empty string due to being actual partitionKey
-      // const tt = page.partitions.getText();
-      expect(page.partitionInfoContainer.getText()).toContain(subParititionKeys.toString());
-      expect(page.partitionInfoContainer.getText()).toContain(data.bdataWithSubpartitions.subPartitionValues.toString());
+      for (let i = 0; i < 4; i++) {
+        expect(await page.partitionInfoContainer.getText())
+          .toContain(data.formatWithSubpartitions.schema.partitions[i].name.toString());
+        expect(await page.partitionInfoContainer.getText())
+          .toContain(data.bdataWithSubpartitions.subPartitionValues[i].toString());
+      }
     });
 
   });
@@ -100,8 +94,6 @@ describe('data-objects detail', () => {
   describe('attributes info: BData details page', () => {
 
     beforeEach(async () => {
-      // await dataObjectListUrl(data.versionTestV2);
-      // await baseDetail.initiateBrowser(data.versionTestV2, null, 1);
       await page.navigateTo(baseDetail.replaceUrlParams(data.versionTestV2, null, 1));
     });
 

@@ -15,10 +15,10 @@
 */
 const conf = require('./../../../../config/conf.e2e.json');
 import {
-    BusinessObjectDefinition,
-    BusinessObjectDataCreateRequest,
-    BusinessObjectFormatCreateRequest,
-    Attribute
+  Attribute,
+  BusinessObjectDataCreateRequest,
+  BusinessObjectDefinition,
+  BusinessObjectFormatCreateRequest
 } from '@herd/angular-client';
 
 import utils from '../../../../util/utils';
@@ -84,7 +84,7 @@ const formatForFilter: BusinessObjectFormatCreateRequest = {
         'columns': [{
             'name': 'TEST_KEY', 'type': 'VARCHAR'
         }], 'partitions': [{
-            'name': 'TEST2_KEY', 'type': 'VARCHAR'
+            'name': 'TEST_KEY', 'type': 'VARCHAR'
         }, {
             'name': 'TEST3_KEY', 'type': 'VARCHAR'
         }, {
@@ -99,15 +99,15 @@ const formatForFilter: BusinessObjectFormatCreateRequest = {
 const attr1: Attribute = {
     'name': 'ATTRIBUTE_NAME_ONE',
     'value': 'ATTRIBUTE_VALUE_ONE'
-}
+};
 const attr2: Attribute = {
     'name': 'ATTRIBUTE_NAME_TWO',
     'value': 'ATTRIBUTE_VALUE_TWO'
-}
+};
 const attr3: Attribute = {
     'name': 'ATTRIBUTE_NAME_THREE',
     'value': 'ATTRIBUTE_VALUE_THREE'
-}
+};
 
 const bdataWithSubPartitions: BusinessObjectDataCreateRequest = {
     namespace: formatForFilter.namespace,
@@ -127,7 +127,7 @@ const bdataWithSubPartitions: BusinessObjectDataCreateRequest = {
             'ns-protractor-test-dl/dp-protractor-test-dl/test-1/txt/data-object-list-test/schm-v0/data-v0/test-key=WithSubPartitions/' + conf.mmodule + '=BIRD/employee-key=CAT/data-key=ELEPHANT/firm-key=HIPPOPOTAMUS'
         }
     }]
-}
+};
 const bdata1: BusinessObjectDataCreateRequest = {
     'namespace': formatForFilter.namespace,
     'businessObjectDefinitionName': formatForFilter.businessObjectDefinitionName,
@@ -145,7 +145,7 @@ const bdata1: BusinessObjectDataCreateRequest = {
             'ns-protractor-test-dl/dp-protractor-test-dl/test-1/txt/data-object-list-test/schm-v0/data-v0/test-key=TEST_1'
         }
     }]
-}
+};
 
 const bdata2: BusinessObjectDataCreateRequest = {
     'namespace': formatForFilter.namespace,
@@ -163,7 +163,7 @@ const bdata2: BusinessObjectDataCreateRequest = {
             'ns-protractor-test-dl/dp-protractor-test-dl/test-1/txt/data-object-list-test/schm-v0/data-v0/test-key=TEST_2'
         }
     }]
-}
+};
 
 const bdata3: BusinessObjectDataCreateRequest = {
     'namespace': formatForFilter.namespace,
@@ -181,7 +181,7 @@ const bdata3: BusinessObjectDataCreateRequest = {
             'ns-protractor-test-dl/dp-protractor-test-dl/test-1/txt/data-object-list-test/schm-v0/data-v0/test-key=TEST_3'
         }
     }]
-}
+};
 
 
 
