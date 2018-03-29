@@ -173,7 +173,7 @@ exports.config = {
     return dataManager.tearDownData();
   },
   onPrepare() {
-    let capabilities
+    let capabilities;
 
     require('ts-node').register({
       project: 'e2e/tsconfig.e2e.json'
@@ -188,7 +188,7 @@ exports.config = {
 
       // used to change the namespace for the data.
       process.env.CURRENT_BROWSER = c.capabilities.browserName.replace(new RegExp(' ', 'g'), '-');
-      // shorten the browser idetifier for herd requests. 
+      // shorten the browser idetifier for herd requests.
       process.env.CURRENT_BROWSER = process.env.CURRENT_BROWSER.replace('internet-explorer', 'ie');
       process.env.CURRENT_BROWSER = process.env.CURRENT_BROWSER.replace('microsoftedge', 'edge');
       jasmine.getEnv().addReporter(

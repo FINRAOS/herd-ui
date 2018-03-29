@@ -23,7 +23,7 @@ import * as schema from '../../../util/JsonSchema';
 const data = new Data();
 
 
-exports.postRequests = function () {
+export const postRequests = function () {
     const setupOptions = {
         'options': [{
             'order': 1, 'url': new schema.Namespace().postUrl(), 'body': new schema.Namespace().postBody(data.defaultNamespace)
@@ -101,12 +101,12 @@ exports.postRequests = function () {
             'body': data.bdata21()
         }
         ]
-    }
+    };
     return setupOptions;
-}
+};
 
 
-exports.deleteRequests = function () {
+export const deleteRequests = function () {
     const teardownOptions = {
         'options': [
             {
@@ -233,6 +233,18 @@ exports.deleteRequests = function () {
                 'url': new schema.DataProvider().deleteUrl(data.defaultDataProvider)
             }
         ]
-    }
+    };
     return teardownOptions;
-}
+};
+
+export const initRequests = {
+  posts: {
+    options: postRequests().options
+  }
+};
+
+export const tearDownRequests = {
+  deletes:  {
+    options: deleteRequests().options
+  }
+};
