@@ -32,7 +32,7 @@ const bdef1: BusinessObjectDefinition = {
     'businessObjectDefinitionName': 'Data_Object_List_Test',
     'description': 'DATA FOR TESTING DATA LIST',
     'displayName': 'DATA FOR TESTING DATA LIST'
-}
+};
 
 const formatWithData: BusinessObjectFormatCreateRequest = {
     namespace: bdef1.namespace,
@@ -60,7 +60,7 @@ const formatWithData: BusinessObjectFormatCreateRequest = {
             'name': 'TEST5_KEY', 'type': 'VARCHAR', 'size': null, 'required': null, 'defaultValue': null, 'description': null
         }]
     }
-}
+};
 
 
 const formatNoData: BusinessObjectFormatCreateRequest = {
@@ -69,7 +69,7 @@ const formatNoData: BusinessObjectFormatCreateRequest = {
     businessObjectFormatUsage: 'SRC',
     businessObjectFormatFileType: 'BZ',
     partitionKey: 'TEST_KEY'
-}
+};
 
 const formatForFilter: BusinessObjectFormatCreateRequest = {
     namespace: bdef1.namespace,

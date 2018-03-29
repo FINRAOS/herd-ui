@@ -65,8 +65,8 @@ describe('data-objects detail', () => {
       const versionSelectorOptions = versionSelector.all(by.tagName('option'));
       const versionSelectorOptionValues = versionSelectorOptions.getAttribute('ng-reflect-ng-value');
       const versionSelected = versionSelector.getAttribute('ng-reflect-model');
-      expect(await page.status.getText()).toBe(data.versionTestV2.status);
-      expect(await page.id.getText()).not.toBe('');
+      await expect(page.status.getText()).toBe(data.versionTestV2.status);
+      await expect(page.id.getText()).not.toBe('');
       expect(versionSelectorOptionValues).toEqual(['2', '1', '0']);
       expect(versionSelected).toBe('0');
     });
@@ -76,15 +76,15 @@ describe('data-objects detail', () => {
       // click on the version 1
       const versionSelector = await page.detailsContainer.element(by.className('version-select'));
       await versionSelector.element(by.css('option[ng-reflect-ng-value="1"]')).click();
-      expect(await browser.getCurrentUrl()).toContain(baseDetail.replaceUrlParams(data.versionTestV1, null, 1));
+      await expect(browser.getCurrentUrl()).toContain(baseDetail.replaceUrlParams(data.versionTestV1, null, 1));
     });
 
     it('partition info: BData details page', async () => {
       await page.navigateTo(baseDetail.replaceUrlParams(data.bdataWithSubpartitions, '|', 0));
       for (let i = 0; i < 4; i++) {
-        expect(await page.partitionInfoContainer.getText())
+        await expect(page.partitionInfoContainer.getText())
           .toContain(data.formatWithSubpartitions.schema.partitions[i].name.toString());
-        expect(await page.partitionInfoContainer.getText())
+        await expect(page.partitionInfoContainer.getText())
           .toContain(data.bdataWithSubpartitions.subPartitionValues[i].toString());
       }
     });
@@ -99,10 +99,10 @@ describe('data-objects detail', () => {
 
     it('Data attributes values are populated', async () => {
       // Validate that there are two rows
-      expect(await page.userDefAttributesTableRows.count()).toEqual(1);
+      await expect(page.userDefAttributesTableRows.count()).toEqual(1);
       // expect(await page.userDefAttributesTableRows.count()).toEqual(3);
 
-      expect(await page.userDefAttributesTableRows.get(0).getText())
+      await expect(page.userDefAttributesTableRows.get(0).getText())
         .toEqual('S3_MANAGED\nENABLED\nbucket.name:\n4652-5751-2377-data-mgmt\ndirectory:\nns-protractor-test-dl42' +
           '/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v1/test-key=versionTest');
        //  [data.versionTestV2.attributes[0].name, data.versionTestV2.attributes[0].value].join('\n'));
@@ -116,7 +116,7 @@ describe('data-objects detail', () => {
     });
 
     it('Data attributes registered message displaying correctly when no attributes registered', async () => {
-      expect(await page.attributesEmptyMessageLabel.getText()).toBe('No user-defined attributes registered');
+      await expect(page.attributesEmptyMessageLabel.getText()).toBe('No user-defined attributes registered');
     });
 
   });

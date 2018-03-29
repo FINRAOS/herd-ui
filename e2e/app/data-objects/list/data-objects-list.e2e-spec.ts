@@ -85,7 +85,7 @@ describe('feature: DataObjectList', function () {
         });
 
         it('should have data in the list based on format', async () => {
-            const expectedData = [data.bdataWithSubPartitions, data.bdata3, data.bdata2, data.bdata1]
+            const expectedData = [data.bdata3, data.bdata2, data.bdata1];
             const config = await browser.getProcessedConfig();
             const count = await page.dataRows.count();
             for (let i = 0; i < count; i++) {
