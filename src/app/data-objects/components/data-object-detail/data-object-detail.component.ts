@@ -13,11 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { BusinessObjectFormat, BusinessObjectDataService, BusinessObjectData, BusinessObjectFormatService } from '@herd/angular-client';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { default as AppIcons } from '../../../shared/utils/app-icons';
-import { Action } from '../../../shared/components/side-action/side-action.component';
+import {BusinessObjectDataService, BusinessObjectFormat, BusinessObjectFormatService} from '@herd/angular-client';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {default as AppIcons} from '../../../shared/utils/app-icons';
+import {Action} from '../../../shared/components/side-action/side-action.component';
 
 export interface DataObjectDetailRequest {
   namespace: string,
@@ -65,13 +65,13 @@ export class DataObjectDetailComponent implements OnInit {
         formatFileType: params['formatFileType'],
         partitionKey: undefined,
         partitionValue: params['partitionValue'],
-        subPartitionValues: params['subPartitionValues'],
+        subPartitionValues: params['subPartitionValues'] || [],
         formatVersion: params['formatVersion'],
         dataObjectVersion: params['dataObjectVersion'],
         dataObjectStatus: undefined,
         includeDataObjectStatusHistory: true,
         includeStorageUnitStatusHistory: true
-      }
+      };
       this.businessObjectDataVersionSelected = Number(params['dataObjectVersion']);
     });
 

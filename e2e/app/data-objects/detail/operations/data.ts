@@ -20,19 +20,18 @@
  */
 
 export class Data {
-  public namespace = 'PERFDATASEARCH';
-  public dataProviderName = 'PERFDATA';
+  public namespace = 'NS_PROTRACTOR_TEST_DL42';
+  public dataProviderName = 'DP_PROTRACTOR_TEST_DL42';
   public description = 'Sample description text for testing purpose. Used for data-objects detail screen';
   public defaultDataProvider = this.dataProviderName;
   public defaultNamespace = this.namespace;
   public bdef = {
     'namespace': this.namespace,
     'dataProviderName': this.dataProviderName,
-    'businessObjectDefinitionName': 'PERFDATA',
+    'businessObjectDefinitionName': 'DATA_LINEAGE_TEST',
     'description': 'Description of the bdef',
     'displayName': 'DATA FOR TESTING BDATA DETAIL'
-  }
-
+  };
 
   public formatWithSubpartitions = {
     'namespace': this.namespace,
@@ -56,7 +55,7 @@ export class Data {
           'type': 'VARCHAR'
         },
         {
-          'name': 'TEST1_KEY',
+          'name': 'MARKET_KEY',
           'type': 'VARCHAR'
         },
         {
@@ -73,44 +72,14 @@ export class Data {
         }
       ]
     }
-  }
-
-  public formatWithSubpartitionsPerfData = {
-    'namespace': this.namespace,
-    'businessObjectDefinitionName': this.bdef.businessObjectDefinitionName,
-    'businessObjectFormatUsage': 'SRC',
-    'businessObjectFormatFileType': 'TXT',
-    'partitionKey': 'TEST_KEY',
-    'schema': {
-      'nullValue': 'NULL',
-      'delimiter': '|',
-      'escapeCharacter': '\\',
-      'columns': [
-        {
-          'name': 'TRADE_ID',
-          'type': 'VARCHAR'
-        }
-      ],
-      'partitions': [
-        {
-          'name': 'PERFKEY',
-          'type': 'VARCHAR'
-        },
-        {
-          'name': 'PERKEY10002',
-          'type': 'VARCHAR'
-        }
-      ]
-    }
-  }
-
+  };
 
   public formatWithNoSubpartitions = {
     'namespace': this.namespace,
     'businessObjectDefinitionName': this.bdef.businessObjectDefinitionName,
-    'businessObjectFormatUsage': 'DDLDATA',
-    'businessObjectFormatFileType': 'TXT',
-    'partitionKey': 'PERFKEY',
+    'businessObjectFormatUsage': 'PRC',
+    'businessObjectFormatFileType': 'ORC',
+    'partitionKey': 'TEST_KEY',
     'schema': {
       'nullValue': 'NULL',
       'delimiter': '|',
@@ -128,7 +97,7 @@ export class Data {
         }
       ]
     }
-  }
+  };
   public bdataWithoutSubpartitions = {
     'namespace': this.namespace,
     'businessObjectDefinitionName': this.bdef.businessObjectDefinitionName,
@@ -141,11 +110,10 @@ export class Data {
     'storageUnits': [{
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
-        'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc' +
-        '/orc/data-lineage-test/schm-v0/data-v0/test-key=Dog'
+        'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=Dog'
       }
     }]
-  }
+  };
   public bdataWithSubpartitions = {
     'namespace': this.namespace,
     'businessObjectDefinitionName': this.bdef.businessObjectDefinitionName,
@@ -159,11 +127,11 @@ export class Data {
     'storageUnits': [{
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
-        'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/src' +
-        '/txt/data-lineage-test/schm-v0/data-v0/test-key=Bird/test1-key=TWO/employee-key=THREE/data-key=Four/firm-key=five'
+        'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/src/txt/' +
+        'data-lineage-test/schm-v0/data-v0/test-key=Bird/market-key=TWO/employee-key=THREE/data-key=Four/firm-key=five'
       }
     }]
-  }
+  };
   public versionTestV0 = {
     'namespace': this.namespace,
     'businessObjectDefinitionName': this.bdef.businessObjectDefinitionName,
@@ -176,11 +144,10 @@ export class Data {
     'storageUnits': [{
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
-        'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/' +
-        'prc/orc/data-lineage-test/schm-v0/data-v0/test-key=versionTest'
+        'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=versionTest'
       }
     }]
-  }
+  };
   public versionTestV1 = {
     'namespace': this.namespace,
     'businessObjectDefinitionName': this.bdef.businessObjectDefinitionName,
@@ -188,17 +155,16 @@ export class Data {
     'businessObjectFormatFileType': this.formatWithNoSubpartitions.businessObjectFormatFileType,
     'businessObjectFormatVersion': 0,
     'partitionKey': this.formatWithNoSubpartitions.partitionKey,
-    'partitionValue': 'PERKEY10002',
+    'partitionValue': 'versionTest',
     'status': 'VALID',
     'createNewVersion': 'true',
     'storageUnits': [{
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
-        'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc' +
-        '/orc/data-lineage-test/schm-v0/data-v1/test-key=versionTest'
+        'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v1/test-key=versionTest'
       }
     }]
-  }
+  };
   public versionTestV2 = {
     'namespace': this.namespace,
     'businessObjectDefinitionName': this.bdef.businessObjectDefinitionName,
@@ -206,14 +172,12 @@ export class Data {
     'businessObjectFormatFileType': this.formatWithNoSubpartitions.businessObjectFormatFileType,
     'businessObjectFormatVersion': 0,
     'partitionKey': this.formatWithNoSubpartitions.partitionKey,
-    'partitionValue': 'PERKEY10002',
-    subPartitionValues: ['test1', 'thing2'],
+    'partitionValue': 'versionTest',
     'status': 'VALID',
     'storageUnits': [{
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
-        'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc' +
-        '/orc/data-lineage-test/schm-v0/data-v2/test-key=versionTest'
+        'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v2/test-key=versionTest'
       }
     }],
     'attributes': [{
@@ -225,6 +189,6 @@ export class Data {
         'value': '20160815 11:38:39'
       }],
     'createNewVersion': 'true'
-  }
+  };
 
 }

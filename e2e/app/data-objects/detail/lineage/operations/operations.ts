@@ -174,3 +174,17 @@ export class Operations {
     }
   }
 }
+
+const operation = new Operations();
+export const initRequests = {
+  posts: {
+    options: operation.postRequests().options
+  }
+};
+
+export const tearDownRequests = {
+  updates: operation.updateRequests(),
+  deletes:  {
+    options: operation.deleteRequests().options
+  }
+};

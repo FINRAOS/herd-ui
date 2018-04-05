@@ -27,7 +27,7 @@ const data = new Data();
  * @returns {{options: *[]}}
  */
 
-exports.postRequests = function () {
+export const postRequests = function () {
 const smePostUrl = new schema.BusinessObjectDefinitionSmes().postUrl();
 const bdefPostUrl = new schema.BusinessObjectDefinitions().postUrl();
 
@@ -83,7 +83,7 @@ const bdefPostUrl = new schema.BusinessObjectDefinitions().postUrl();
  * tag types and tags
  * @returns {{options: *[]}}
  */
-exports.deleteRequests = function () {
+export const deleteRequests = function () {
   return {
     'options': [
       {
@@ -104,4 +104,16 @@ exports.deleteRequests = function () {
       }
     ]
   };
+};
+
+export const initRequests = {
+  posts: {
+    options: postRequests().options
+  }
+};
+
+export const tearDownRequests = {
+  deletes:  {
+    options: deleteRequests().options
+  }
 };
