@@ -74,10 +74,10 @@ export class Operations {
         this.dataManager.DMOption(3, new schema.BusinessObjectDefinitionData().deleteWithoutSubPartitionsUrl(
           this.data.defaultNamespace,
           this.data.bdef.businessObjectDefinitionName,
-          this.data.versionTestV0.businessObjectFormatUsage,
-          this.data.versionTestV0.businessObjectFormatFileType,
-          this.data.versionTestV0.businessObjectFormatVersion,
-          this.data.versionTestV0.partitionValue, 0, true
+          this.data.versionTestV1.businessObjectFormatUsage,
+          this.data.versionTestV1.businessObjectFormatFileType,
+          this.data.versionTestV1.businessObjectFormatVersion,
+          this.data.versionTestV1.partitionValue, 0, true
         )),
         this.dataManager.DMOption(3, new schema.BusinessObjectDefinitionData().deleteWithoutSubPartitionsUrl(
           this.data.defaultNamespace,
@@ -122,3 +122,16 @@ export class Operations {
     }
   }
 }
+
+const operation = new Operations();
+export const initRequests = {
+  posts: {
+    options: operation.postRequests().options
+  }
+};
+
+export const tearDownRequests = {
+  deletes:  {
+    options: operation.deleteRequests().options
+  }
+};

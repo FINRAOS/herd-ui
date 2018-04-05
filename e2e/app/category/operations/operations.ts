@@ -234,7 +234,7 @@ export const deleteBDefTagRequests = function () {
     });
   }
 
-   // foreach accepts a cllback and as a second argument a variable to make point to this
+   // foreach accepts a callback and as a second argument a variable to make point to this
   //  simply pass along the tagTypeCode as this in order to get all the arguments needed to construct the array of options
   data.tagTypeCode().tags.forEach(processTeardownOption, data.tagTypeCode());
 

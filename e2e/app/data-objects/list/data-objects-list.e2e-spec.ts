@@ -13,23 +13,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import ops from './operations/operations';
-import { DataManager } from '../../../util/DataManager';
-import { browser } from 'protractor';
+
+import {DataManager} from '../../../util/DataManager';
+import {browser} from 'protractor';
 import data from './operations/data';
-import { DataObjectListPage, AttributeFilter, PartitionFilter, LatestValidFilter, RowData } from './data-objects-list.po';
+import {AttributeFilter, DataObjectListPage, LatestValidFilter, PartitionFilter, RowData} from './data-objects-list.po';
+
 const conf = require('./../../../config/conf.e2e.json');
 const dm: DataManager = new DataManager();
 const page: DataObjectListPage = new DataObjectListPage();
 
 describe('feature: DataObjectList', function () {
-    beforeAll(() => {
-        dm.setUp(ops.postRequests);
-    });
-
-    afterAll(() => {
-        dm.tearDown(ops.deleteRequests);
-    });
 
     describe('StaticContent', () => {
         beforeAll(async () => {
@@ -91,7 +85,7 @@ describe('feature: DataObjectList', function () {
         });
 
         it('should have data in the list based on format', async () => {
-            const expectedData = [data.bdataWithSubPartitions, data.bdata3, data.bdata2, data.bdata1]
+            const expectedData = [data.bdata3, data.bdata2, data.bdata1];
             const config = await browser.getProcessedConfig();
             const count = await page.dataRows.count();
             for (let i = 0; i < count; i++) {
