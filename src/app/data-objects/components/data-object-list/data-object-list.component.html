@@ -31,9 +31,9 @@
     </div>
   </div>
   <div main-content>
-    <sd-data-object-list-filters (filtersChange)="loadData($event)">
 
-    </sd-data-object-list-filters>
+    <sd-data-object-list-filters (filtersChange)="loadData($event)"></sd-data-object-list-filters>
+
     <p-dataTable #dt [value]="data" [rows]="10" reorderableColumns="true" resizableColumns="true" exportFilename="data-objects"
       [loading]="loading" paginatorPosition="both" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[10, 25, 50, 100]"
       [responsive]="true">

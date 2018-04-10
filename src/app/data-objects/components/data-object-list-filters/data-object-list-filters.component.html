@@ -18,7 +18,8 @@
     <div ngbDropdown>
       <button class="btn btn-secondary" id="addFilterDdl" ngbDropdownToggle>Add Filter</button>
       <div ngbDropdownMenu aria-labelledby="addFilterDdl">
-        <button *ngFor="let type of filterTypes" (click)="addFilter(type)" class="dropdown-item">{{type.displayName}}</button>
+        <button *ngFor="let type of filterTypes" (click)="addFilter(type)" class="dropdown-item">{{type.displayName}}
+        </button>
       </div>
     </div>
   </div>
@@ -26,11 +27,17 @@
   <div class="col">
     <div class="row filters">
       <div [ngSwitch]="filter.type" *ngFor="let filter of filters; let i = index;" class="col-4">
-        <sd-partition-filter [(filter)]="filter.data" (filterChange)="filterSaved($event)" (filterDeleted)="deleteFilter($event, i)"
-          *ngSwitchCase="'partition'"> </sd-partition-filter>
-        <sd-attribute-filter [(filter)]="filter.data" (filterChange)="filterSaved($event)" (filterDeleted)="deleteFilter($event, i)"
-          *ngSwitchCase="'attribute'"> </sd-attribute-filter>
-        <sd-latest-valid-version-filter (filterDeleted)="deleteFilter($event, i)" *ngSwitchCase="'lvv'"> </sd-latest-valid-version-filter>
+        <sd-partition-filter [(filter)]="filter.data" (filterChange)="filterSaved($event)"
+                             (filterDeleted)="deleteFilter($event, i)"
+                             *ngSwitchCase="'partition'"></sd-partition-filter>
+        <sd-attribute-filter [(filter)]="filter.data" (filterChange)="filterSaved($event)"
+                             (filterDeleted)="deleteFilter($event, i)"
+                             *ngSwitchCase="'attribute'"></sd-attribute-filter>
+        <sd-latest-valid-version-filter (filterDeleted)="deleteFilter($event, i)"
+                                        *ngSwitchCase="'lvv'"></sd-latest-valid-version-filter>
+        <sd-registration-date-range-filter [(filter)]="filter.data" (filterChange)="filterSaved($event)"
+                                           (filterDeleted)="deleteFilter($event, i)"
+                                           *ngSwitchCase="'registrationDate'"></sd-registration-date-range-filter>
       </div>
     </div>
   </div>

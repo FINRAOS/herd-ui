@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { by, element, ElementArrayFinder, ElementFinder, promise } from 'protractor';
-import { BasePo } from '../../base/base.po';
+import {by, element, ElementArrayFinder, ElementFinder, promise} from 'protractor';
+import {BasePo} from '../../base/base.po';
 
 export class OverviewPage extends BasePo {
 
@@ -144,7 +144,7 @@ export class OverviewPage extends BasePo {
           return element.getText().then((text) => {
             return text.includes(version);
           });
-        })
+        });
 
         if (versionField.length === 1) {
           return versionField[0].element(by.xpath('ancestor::div[3]'));
