@@ -13,12 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { OverviewPage, NoAuthFrameData } from './overview.po';
-import { browser, protractor } from 'protractor';
-import { Data } from './operations/data';
+import {NoAuthFrameData, OverviewPage} from './overview.po';
+import {protractor} from 'protractor';
+import {Data} from './operations/data';
 import * as operations from './operations/operations'
-import { DataManager } from './../../../util/DataManager';
-import { fail } from 'assert';
+import {DataManager} from './../../../util/DataManager';
 
 const conf = require('./../../../config/conf.e2e.json');
 
@@ -36,7 +35,7 @@ describe('Data Entity Overview Page', () => {
     noTagsMessage: 'No associated tags for this Data Entity',
     noTagsFoundMessage: 'No Categories Found',
     noSchemaMessage: 'No schema defined for this Data Entity'
-  }
+  };
 
   const namespace = data.defaultNamespace;
   const dataProvider = data.defaultDataProvider;
@@ -224,7 +223,7 @@ describe('Data Entity Overview Page', () => {
           fileTypeData: ftp2,
           fileTypeFormatProperty: 'File Type',
           UsageFormatProperty: 'Usage'
-        }
+        };
 
         await expect(page.getNoAuthFormatsFrameData(usg2, ftp2)).toEqual(expectedData);
         // elevated priv whiteFrames shouldn't be there
