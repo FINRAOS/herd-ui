@@ -14,37 +14,35 @@
 * limitations under the License.
 */
 
-import { AlertService, SuccessAlert, DangerAlert } from 'app/core/services/alert.service';
-import { BusinessObjectDataService, BusinessObjectFormatService, BusinessObjectDataDdl } from '@herd/angular-client';
-import { ActivatedRouteStub } from 'testing/router-stubs';
-import { ActivatedRoute } from '@angular/router';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import {AlertService, DangerAlert, SuccessAlert} from 'app/core/services/alert.service';
+import {BusinessObjectDataDdl, BusinessObjectDataService, BusinessObjectFormatService} from '@herd/angular-client';
+import {ActivatedRouteStub} from 'testing/router-stubs';
+import {ActivatedRoute} from '@angular/router';
+import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
 
-import { DataObjectListComponent } from './data-object-list.component';
-import { SideActionComponent } from 'app/shared/components/side-action/side-action.component';
-import { SideActionsComponent } from 'app/shared/components/side-actions/side-actions.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { DataObjectListFiltersComponent } from 'app/data-objects/components/data-object-list-filters/data-object-list-filters.component';
-import { DataTableModule } from 'primeng/components/datatable/datatable';
-import { ButtonModule } from 'primeng/components/button/button';
-import { EllipsisOverflowComponent } from 'app/shared/components/ellipsis-overflow/ellipsis-overflow.component';
-import { GenericViewComponent } from 'app/shared/components/generic-view/generic-view.component';
-import { PartitionFilterComponent } from 'app/data-objects/components/partition-filter/partition-filter.component';
-import { AttributeFilterComponent } from 'app/data-objects/components/attribute-filter/attribute-filter.component';
-import {
-  LatestValidVersionFilterComponent
-} from 'app/data-objects/components/latest-valid-version-filter/latest-valid-version-filter.component';
-import { FilterTemplateComponent } from 'app/data-objects/components/filter-template/filter-template.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HttpModule } from '@angular/http';
-import { DataTable } from 'primeng/primeng';
-import { Observable } from 'rxjs/Observable';
-import { CodemirrorModule } from 'ng2-codemirror';
-import { ClipboardModule } from 'ngx-clipboard';
-import { SpinnerComponent } from 'app/shared/components/spinner/spinner.component';
-import { InlineSVGModule } from 'ng-inline-svg';
-import { format } from 'path';
+import {DataObjectListComponent} from './data-object-list.component';
+import {SideActionComponent} from 'app/shared/components/side-action/side-action.component';
+import {SideActionsComponent} from 'app/shared/components/side-actions/side-actions.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {DataObjectListFiltersComponent} from 'app/data-objects/components/data-object-list-filters/data-object-list-filters.component';
+import {DataTableModule} from 'primeng/components/datatable/datatable';
+import {ButtonModule} from 'primeng/components/button/button';
+import {EllipsisOverflowComponent} from 'app/shared/components/ellipsis-overflow/ellipsis-overflow.component';
+import {GenericViewComponent} from 'app/shared/components/generic-view/generic-view.component';
+import {PartitionFilterComponent} from 'app/data-objects/components/partition-filter/partition-filter.component';
+import {AttributeFilterComponent} from 'app/data-objects/components/attribute-filter/attribute-filter.component';
+import {LatestValidVersionFilterComponent} from 'app/data-objects/components/latest-valid-version-filter/latest-valid-version-filter.component';
+import {FilterTemplateComponent} from 'app/data-objects/components/filter-template/filter-template.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {HttpModule} from '@angular/http';
+import {DataTable} from 'primeng/primeng';
+import {Observable} from 'rxjs/Observable';
+import {CodemirrorModule} from 'ng2-codemirror';
+import {ClipboardModule} from 'ngx-clipboard';
+import {SpinnerComponent} from 'app/shared/components/spinner/spinner.component';
+import {InlineSVGModule} from 'ng-inline-svg';
+import {RegistrationDateRangeFilterComponent} from '../registration-date-range-filter/registration-date-range-filter.component';
 
 describe('DataObjectListComponent', () => {
   let component: DataObjectListComponent;
@@ -81,6 +79,7 @@ describe('DataObjectListComponent', () => {
         SideActionComponent,
         DataObjectListFiltersComponent,
         PartitionFilterComponent,
+        RegistrationDateRangeFilterComponent,
         AttributeFilterComponent,
         LatestValidVersionFilterComponent,
         FilterTemplateComponent,
@@ -257,7 +256,8 @@ const dataObjectListFiltersChangeEventData = {
     attributeName: 'attr_name',
     attributeValue: 'attr_val',
   }],
-  latestValidVersion: false
+  latestValidVersion: false,
+  registrationDateRangeFilter: null
 };
 
 const businessObjectDataKeys = {

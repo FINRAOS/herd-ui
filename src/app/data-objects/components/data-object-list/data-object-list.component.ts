@@ -114,7 +114,7 @@ class DataObjectRowData {
 })
 export class DataObjectListComponent implements OnInit {
   @ViewChild(DataTable) private dt: DataTable;
-  config = { lineNumbers: true, mode: 'text/x-go', readOnly: true };
+  config = {lineNumbers: true, mode: 'text/x-go', readOnly: true};
   dataEntity: BusinessObjectDefinition;
   format: BusinessObjectFormat;
   ddl = '';
@@ -173,11 +173,11 @@ export class DataObjectListComponent implements OnInit {
   };
 
   constructor(private route: ActivatedRoute,
-    private bDataApi: BusinessObjectDataService,
-    private alerter: AlertService,
-    private modalService: NgbModal,
-    private formatService: BusinessObjectFormatService,
-    private alertService: AlertService) {
+              private bDataApi: BusinessObjectDataService,
+              private alerter: AlertService,
+              private modalService: NgbModal,
+              private formatService: BusinessObjectFormatService,
+              private alertService: AlertService) {
   }
 
   getDDL() {
@@ -202,7 +202,7 @@ export class DataObjectListComponent implements OnInit {
 
   open(content: TemplateRef<any> | String, windowClass?: string) {
     // append the modal to the data-entity-detail container so when views are switched it goes away with taht view.
-    const modalReference = this.modalService.open(content, { windowClass: windowClass, size: 'lg', container: '.data-object-list' });
+    const modalReference = this.modalService.open(content, {windowClass: windowClass, size: 'lg', container: '.data-object-list'});
     this.getDDL().subscribe((response) => {
       this.ddl = response.ddl;
     }, (error) => {
@@ -259,7 +259,6 @@ export class DataObjectListComponent implements OnInit {
     } else {
       this.loadData();
     }
-
 
 
     this.sideActions = [

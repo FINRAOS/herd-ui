@@ -29,9 +29,9 @@ export class RegistrationDateRangeFilterComponent implements OnInit, OnChanges {
   @Output() filterDeleted = new EventEmitter<RegistrationDateRangeFilter>();
   showValidation = false;
   showContent = true;
-  titlePrefix = 'Registration date:';
+  titlePrefix = 'Registration date';
   title = '';
-  RegistrationDateRangeFilterForm: FormGroup;
+  registrationDateRangeFilterForm: FormGroup;
 
   get filterAsFormValues() {
     if (this.filter) {
@@ -48,14 +48,14 @@ export class RegistrationDateRangeFilterComponent implements OnInit, OnChanges {
   }
 
   constructor(private fb: FormBuilder) {
-    this.RegistrationDateRangeFilterForm = this.fb.group({startRegistrationDate: '', endRegistrationDate: ''},
+    this.registrationDateRangeFilterForm = this.fb.group({startRegistrationDate: '', endRegistrationDate: ''},
       {validator: this.registrationDateRangeValidation});
   }
 
   ngOnInit() {
     this.setTitle();
     if (this.filter) {
-      this.RegistrationDateRangeFilterForm.setValue(this.filterAsFormValues);
+      this.registrationDateRangeFilterForm.setValue(this.filterAsFormValues);
     } else {
       this.filter = {};
     }
@@ -64,7 +64,7 @@ export class RegistrationDateRangeFilterComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filter'] && !changes['filter'].firstChange) {
       this.filter = changes['filter'].currentValue;
-      // this.RegistrationDateRangeFilterForm.reset(this.filterAsFormValues);
+      // this.registrationDateRangeFilterForm.reset(this.filterAsFormValues);
     } else {
       this.filter = {};
       this.clear();
@@ -74,7 +74,7 @@ export class RegistrationDateRangeFilterComponent implements OnInit, OnChanges {
   }
 
   clear() {
-    this.RegistrationDateRangeFilterForm.reset({startRegistrationDate: '', endRegistrationDate: ''});
+    this.registrationDateRangeFilterForm.reset({startRegistrationDate: '', endRegistrationDate: ''});
   }
 
   delete() {
@@ -82,19 +82,16 @@ export class RegistrationDateRangeFilterComponent implements OnInit, OnChanges {
   }
 
   cancel() {
-    this.RegistrationDateRangeFilterForm.reset(this.filterAsFormValues);
+    this.registrationDateRangeFilterForm.reset(this.filterAsFormValues);
     this.close();
   }
 
   apply() {
-    this.RegistrationDateRangeFilterForm.updateValueAndValidity();
-    if (!this.RegistrationDateRangeFilterForm.errors) {
+    this.registrationDateRangeFilterForm.updateValueAndValidity();
+    if (!this.registrationDateRangeFilterForm.errors) {
 
-    this.filter.startRegistrationDate = this.RegistrationDateRangeFilterForm.value.startRegistrationDate != null
-      ? this.jsonToDate(this.RegistrationDateRangeFilterForm.value.startRegistrationDate) : null;
-
-    this.filter.endRegistrationDate = this.RegistrationDateRangeFilterForm.value.endRegistrationDate != null
-      ? this.jsonToDate(this.RegistrationDateRangeFilterForm.value.endRegistrationDate) : null;
+    this.filter.startRegistrationDate = this.registrationDateRangeFilterForm.value.startRegistrationDate || null;
+    this.filter.endRegistrationDate = this.registrationDateRangeFilterForm.value.endRegistrationDate || null;
 
     this.setTitle();
     this.filterChange.emit(this.filter);
@@ -107,19 +104,15 @@ export class RegistrationDateRangeFilterComponent implements OnInit, OnChanges {
   }
 
   registrationDateRangeValidation(fg: FormGroup):  ValidationErrors {
-    fg.markAsUntouched();
+    // fg.markAsUntouched();
     let retval: ValidationErrors = null;
     const startRegistrationDateCtrl = fg.controls['startRegistrationDate'];
     const endRegistrationDateCtrl = fg.controls['endRegistrationDate'];
     if (!startRegistrationDateCtrl.value && !endRegistrationDateCtrl.value) {
-      retval = {...retval, valueRequired: 'At least start or end date is required.'};
+      retval = {...retval, valueRequired: 'Either start registration date or end registration date must be specified.'};
     } else if (startRegistrationDateCtrl.value && endRegistrationDateCtrl.value) {
-      // jsonToDate method cannot be used here as the scope of the function is different then class.
-      const startDate = new Date(startRegistrationDateCtrl.value.year,
-        startRegistrationDateCtrl.value.month, startRegistrationDateCtrl.value.day);
-      const endDate = new Date(endRegistrationDateCtrl.value.year, endRegistrationDateCtrl.value.month, endRegistrationDateCtrl.value.day);
-      if (startDate > endDate) {
-        retval = {...retval, valueRequired: 'End date need to be higher then start date'};
+      if (Date.parse(startRegistrationDateCtrl.value) > Date.parse(endRegistrationDateCtrl.value)) {
+        retval = {...retval, valueRequired: 'The start registration date cannot be greater than the end registration date.'};
       }
     }
     return retval;
@@ -129,20 +122,16 @@ export class RegistrationDateRangeFilterComponent implements OnInit, OnChanges {
     let tempTitle = '';
     if (this.filter) {
       if (this.filter.startRegistrationDate != null) {
-        tempTitle += this.dateString(this.filter.startRegistrationDate)
+        tempTitle += 'starts from ' + this.filter.startRegistrationDate
+      }
+      if (this.filter.startRegistrationDate != null && this.filter.endRegistrationDate != null) {
+        tempTitle += ' and '
       }
       if (this.filter.endRegistrationDate != null) {
-        tempTitle += '<>' + this.dateString(this.filter.endRegistrationDate)
+        tempTitle += 'ends ' + this.filter.endRegistrationDate
       }
     }
     this.title = this.titlePrefix + (tempTitle ? ' ' + tempTitle : tempTitle);
   }
 
-  private jsonToDate(dateObj: any): Date {
-    return new Date(dateObj.year, dateObj.month, dateObj.day)
-  }
-
-  private dateString(dateObj: any): string {
-    return [dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDay()].join('-')
-  }
 }

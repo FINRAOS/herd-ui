@@ -14,44 +14,32 @@
  limitations under the License.
 -->
 <sd-filter-template [title]="title" [(isFilterContentShown)]="showContent" (removeFilter)="delete()">
+
   <div filter-content>
-    <form [formGroup]="RegistrationDateRangeFilterForm" novalidate>
+    <form [formGroup]="registrationDateRangeFilterForm" novalidate>
+
       <div class="form-group">
         <button type="button" (click)="clear()" class="btn btn-link">Clear</button>
         <hr/>
-        <small class="error" *ngIf="RegistrationDateRangeFilterForm.errors
-        && (RegistrationDateRangeFilterForm.get('startRegistrationDate').touched
-         || RegistrationDateRangeFilterForm.get('endRegistrationDate').touched)">
-          {{ RegistrationDateRangeFilterForm.errors.valueRequired || 'Some unknown error hapened.'}}
+        <small class="error" *ngIf="registrationDateRangeFilterForm.errors">
+          {{ registrationDateRangeFilterForm.errors.valueRequired}}
         </small>
       </div>
 
       <div class="form-group">
         <label>Start date</label>
-        <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd" formControlName="startRegistrationDate" ngbDatepicker #start="ngbDatepicker">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" (click)="start.toggle()" type="button">
-              <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
-            </button>
-          </div>
-        </div>
+        <input class="form-control" type="date" placeholder="yyyy-mm-dd" formControlName="startRegistrationDate">
       </div>
 
       <div class="form-group">
         <label>End date</label>
-        <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd" formControlName="endRegistrationDate" ngbDatepicker #end="ngbDatepicker">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" (click)="end.toggle()" type="button">
-              <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"></i>
-            </button>
-          </div>
-        </div>
+        <input class="form-control" type="date" placeholder="yyyy-mm-dd" formControlName="endRegistrationDate">
       </div>
 
       <button type="button" (click)="apply()" name="apply" class="btn btn-link">Apply</button>
       <button type="button" (click)="cancel()" name="cancel" class="btn btn-link">Cancel</button>
     </form>
+
   </div>
+
 </sd-filter-template>
