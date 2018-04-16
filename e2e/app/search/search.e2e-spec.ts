@@ -14,12 +14,12 @@
 * limitations under the License.
 */
 import {SearchPage} from './search.po';
-import {browser, protractor} from 'protractor';
+import {browser} from 'protractor';
 import {BaseE2e} from '../base/base.e2e';
-const conf = require('./../../config/conf.e2e.json');
 import data from './operations/data';
 import {DataManager} from './../../util/DataManager';
-import * as operations from './operations/operations';
+
+const conf = require('./../../config/conf.e2e.json');
 
 describe('Search page', () => {
   const searchTerm = data.searchTerm;

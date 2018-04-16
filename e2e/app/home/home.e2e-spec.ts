@@ -14,10 +14,8 @@
 * limitations under the License.
 */
 import data from './operations/data';
-import { DataManager } from './../../util/DataManager';
-import utils from './../../util/utils';
-import { HomePage } from './home.po';
-import * as operations from './operations/operations';
+import {DataManager} from './../../util/DataManager';
+import {HomePage} from './home.po';
 
 
 describe('Feature:HomePage', function () {

@@ -35,7 +35,9 @@ import {Observable} from 'rxjs/Observable';
 import {Action} from 'app/shared/components/side-action/side-action.component';
 import {DataTable} from 'primeng/components/datatable/datatable';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {DataObjectListFiltersChangeEventData} from 'app/data-objects/components/data-object-list-filters/data-object-list-filters.component';
+import {
+  DataObjectListFiltersChangeEventData
+} from 'app/data-objects/components/data-object-list-filters/data-object-list-filters.component';
 import {AlertService, DangerAlert, SuccessAlert} from 'app/core/services/alert.service';
 
 class AttributeField implements Attribute {

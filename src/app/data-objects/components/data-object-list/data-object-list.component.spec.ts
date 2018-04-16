@@ -31,7 +31,9 @@ import {EllipsisOverflowComponent} from 'app/shared/components/ellipsis-overflow
 import {GenericViewComponent} from 'app/shared/components/generic-view/generic-view.component';
 import {PartitionFilterComponent} from 'app/data-objects/components/partition-filter/partition-filter.component';
 import {AttributeFilterComponent} from 'app/data-objects/components/attribute-filter/attribute-filter.component';
-import {LatestValidVersionFilterComponent} from 'app/data-objects/components/latest-valid-version-filter/latest-valid-version-filter.component';
+import {
+  LatestValidVersionFilterComponent
+} from 'app/data-objects/components/latest-valid-version-filter/latest-valid-version-filter.component';
 import {FilterTemplateComponent} from 'app/data-objects/components/filter-template/filter-template.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';

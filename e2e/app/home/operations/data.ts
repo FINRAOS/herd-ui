@@ -13,7 +13,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import utils from '../../../util/utils';
 const appConf = require('../../../../src/configuration.json');
 
 export default {

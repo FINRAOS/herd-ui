@@ -13,10 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { DataEntityListPage } from './data-entity-list.po';
-import {browser, protractor} from 'protractor';
+import {DataEntityListPage} from './data-entity-list.po';
+import {browser} from 'protractor';
 import {Data} from './operations/data';
 import {DataManager} from './../../../util/DataManager';
+
 const conf = require('./../../../config/conf.e2e.json');
 const operations = require('./operations/operations');
 

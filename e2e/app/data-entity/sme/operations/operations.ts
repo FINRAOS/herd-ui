@@ -20,6 +20,7 @@
 
 import {Data} from './data';
 import * as schema from '../../../../util/JsonSchema';
+
 const data = new Data();
 /**
  * Generate the post requests for namespace, data provider
