@@ -13,7 +13,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { BusinessObjectFormat } from '@herd/angular-client';
 /**
  * This file maintains all the data to be posted to HERD and validated against in tests.
  * Use this data in specs. DO NOT HARD-CODE DATA IN SPECS

@@ -15,7 +15,7 @@
 */
 
 
-import { BusinessObjectFormat, BusinessObjectFormatKey, BusinessObjectFormatParentsUpdateRequest } from '@herd/angular-client';
+import {BusinessObjectFormatKey, BusinessObjectFormatParentsUpdateRequest} from '@herd/angular-client';
 
 /**
  * This file maintains all the URLS, request body for posting data to HERD

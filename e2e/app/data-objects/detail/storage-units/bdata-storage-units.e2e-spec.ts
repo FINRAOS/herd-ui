@@ -14,12 +14,12 @@
 * limitations under the License.
 */
 
-import { DataManager } from '../../../../util/DataManager';
-import { DataObjectDetailPage } from '../data-object-detail.po';
-import { S3Manager } from '../../../../util/S3Manager';
-import { BaseDetail } from '../base-detail';
-import { Data } from './operations/data';
-import { Operations } from './operations/operations';
+import {DataManager} from '../../../../util/DataManager';
+import {DataObjectDetailPage} from '../data-object-detail.po';
+import {S3Manager} from '../../../../util/S3Manager';
+import {BaseDetail} from '../base-detail';
+import {Data} from './operations/data';
+import {Operations} from './operations/operations';
 
 describe('data-objects storage units', function () {
 

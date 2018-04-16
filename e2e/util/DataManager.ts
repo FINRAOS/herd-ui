@@ -17,6 +17,7 @@ import * as requestManager from 'sync-request';
 import * as winston from 'winston';
 import * as path from 'path';
 import * as fs from 'fs';
+
 const constants = require('../config/conf.e2e.json');
 const herdHost = process.env.HERD_HOST || constants.herdHost;
 

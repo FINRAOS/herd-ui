@@ -13,8 +13,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { browser, by, element, ElementArrayFinder, ElementFinder, promise } from 'protractor';
-import { LoginPage } from '../login/login.po';
+import {browser, by, element, ElementArrayFinder, ElementFinder, promise} from 'protractor';
+import {LoginPage} from '../login/login.po';
+
 const conf = require('./../../config/conf.e2e.json');
 
 export class BasePo {

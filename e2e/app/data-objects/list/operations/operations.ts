@@ -15,10 +15,11 @@
 */
 import data from './data';
 import {
-  Namespace,
-  DataProvider,
+  BusinessObjectDefinitionData,
   BusinessObjectDefinitions,
-  BusinessObjectFormats, BusinessObjectDefinitionData
+  BusinessObjectFormats,
+  DataProvider,
+  Namespace
 } from '../../../../util/JsonSchema';
 
 const bData = new BusinessObjectDefinitionData();
