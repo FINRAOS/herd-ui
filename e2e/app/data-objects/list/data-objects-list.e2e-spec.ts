@@ -17,7 +17,14 @@
 import {DataManager} from '../../../util/DataManager';
 import {browser} from 'protractor';
 import data from './operations/data';
-import {AttributeFilter, DataObjectListPage, LatestValidFilter, PartitionFilter, RowData} from './data-objects-list.po';
+import {
+  AttributeFilter,
+  DataObjectListPage,
+  LatestValidFilter,
+  PartitionFilter,
+  RegistrationDateValidFilter,
+  RowData
+} from './data-objects-list.po';
 
 const conf = require('./../../../config/conf.e2e.json');
 const dm: DataManager = new DataManager();
@@ -70,7 +77,7 @@ describe('feature: DataObjectList', function () {
         it('has correct label information for adding filters', async () => {
             await expect(page.addFilterButton.getText()).toEqual('Add Filter');
             await page.addFilterButton.click();
-            await expect(page.addFilterMenuItems.getText()).toEqual(['Partition', 'Attribute', 'Last Valid Version']);
+            await expect(page.addFilterMenuItems.getText()).toEqual(['Partition', 'Attribute', 'Last Valid Version', 'Registration Date']);
         });
 
     });
@@ -143,6 +150,15 @@ describe('feature: DataObjectList', function () {
                 await expect(lvvFilter.title.getText()).toEqual('Latest Valid Version');
                 await lvvFilter.closeButton.click();
                 await expect(lvvFilter.filter.isPresent()).toBe(false);
+            });
+        });
+
+        describe('Registration date range filters', () => {
+            it('should have proper labels and get rid of filter when closed', async () => {
+                const regiDateRngFilter = await page.createFilter('regiDateRng') as RegistrationDateValidFilter;
+                await expect(regiDateRngFilter.title.getText()).toEqual('Registration date:');
+                await regiDateRngFilter.closeButton.click();
+                await expect(regiDateRngFilter.filter.isPresent()).toBe(false);
             });
         });
     });
