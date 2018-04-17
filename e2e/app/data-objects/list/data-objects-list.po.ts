@@ -15,6 +15,7 @@
 */
 import {by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {BasePo} from '../../base/base.po';
+import {RegistrationDateRangeFilter} from '@herd/angular-client';
 
 export class DataObjectListPage extends BasePo {
     emptyMessage: ElementFinder = element(by.css('.ui-datatable-emptymessage'));
@@ -40,7 +41,8 @@ export class DataObjectListPage extends BasePo {
 
     dataRows: ElementArrayFinder = this.dataTable.all(by.css('tbody.ui-datatable-data > tr'));
 
-    async createFilter(type: 'attr' | 'part' | 'lvv'): Promise<AttributeFilter | PartitionFilter | LatestValidFilter | null> {
+    async createFilter(type: 'attr' | 'part' | 'lvv' | 'regiDateRng'):
+      Promise<AttributeFilter | PartitionFilter | LatestValidFilter | RegistrationDateRangeFilter | null> {
         if (!await this.addFilterMenu.isDisplayed()) {
             await this.addFilterButton.click();
         }
@@ -59,12 +61,20 @@ export class DataObjectListPage extends BasePo {
                     return null
                 }
                 break;
+           case 'regiDateRng':
+                if (await this.addFilterMenuItems.count() > 2) {
+                    await this.addFilterMenuItems.get(2).click();
+                } else {
+                    return null
+                }
+                break;
         }
 
         return await this.selectFilter(await this.filters.count() - 1, type);
     }
 
-    selectFilter(index: number, type: 'attr' | 'part' | 'lvv'): AttributeFilter | PartitionFilter | LatestValidFilter {
+    selectFilter(index: number, type: 'attr' | 'part' | 'lvv' | 'regiDateRng'):
+      AttributeFilter | PartitionFilter | LatestValidFilter | RegistrationDateValidFilter {
         switch (type) {
             case 'attr':
                 return new AttributeFilter(this.filters.get(index));
@@ -72,6 +82,8 @@ export class DataObjectListPage extends BasePo {
                 return new PartitionFilter(this.filters.get(index));
             case 'lvv':
                 return new LatestValidFilter(this.filters.get(index));
+           case 'regiDateRng':
+                return new RegistrationDateValidFilter(this.filters.get(index));
         }
 
     }
@@ -117,6 +129,22 @@ export class PartitionFilter {
         this.valueInput = filter.all(by.tagName('input')).get(1);
         this.minInput = filter.all(by.tagName('input')).get(2);
         this.maxInput = filter.all(by.tagName('input')).get(3);
+    }
+}
+
+export class RegistrationDateValidFilter {
+    closeButton: ElementFinder;
+    clearButton: ElementFinder;
+    applyButton: ElementFinder;
+    cancelButton: ElementFinder;
+    startDateInput: ElementFinder;
+    endDateInput: ElementFinder;
+    title: ElementFinder;
+    constructor(public filter: ElementFinder) {
+        this.title = filter.element(by.className('filter-title'));
+        this.closeButton = this.title.element(by.className('close-col'));
+        this.startDateInput = filter.all(by.tagName('input')).get(0);
+        this.endDateInput = filter.all(by.tagName('input')).get(1);
     }
 }
 

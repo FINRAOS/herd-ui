@@ -21,7 +21,7 @@
       <div class="form-group">
         <button type="button" (click)="clear()" class="btn btn-link">Clear</button>
         <hr/>
-        <small class="error" *ngIf="registrationDateRangeFilterForm.errors">
+        <small class="error" *ngIf="registrationDateRangeFilterForm.errors && registrationDateRangeFilterForm.touched">
           {{ registrationDateRangeFilterForm.errors.valueRequired}}
         </small>
       </div>

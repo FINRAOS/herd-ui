@@ -87,6 +87,7 @@ export class RegistrationDateRangeFilterComponent implements OnInit, OnChanges {
   }
 
   apply() {
+    this.registrationDateRangeFilterForm.markAsTouched();
     this.registrationDateRangeFilterForm.updateValueAndValidity();
     if (!this.registrationDateRangeFilterForm.errors) {
 
@@ -104,7 +105,6 @@ export class RegistrationDateRangeFilterComponent implements OnInit, OnChanges {
   }
 
   registrationDateRangeValidation(fg: FormGroup):  ValidationErrors {
-    // fg.markAsUntouched();
     let retval: ValidationErrors = null;
     const startRegistrationDateCtrl = fg.controls['startRegistrationDate'];
     const endRegistrationDateCtrl = fg.controls['endRegistrationDate'];
