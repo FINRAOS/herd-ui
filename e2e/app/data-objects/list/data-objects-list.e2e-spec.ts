@@ -156,7 +156,7 @@ describe('feature: DataObjectList', function () {
         describe('Registration date range filters', () => {
             it('should have proper labels and get rid of filter when closed', async () => {
                 const regiDateRngFilter = await page.createFilter('regiDateRng') as RegistrationDateValidFilter;
-                await expect(regiDateRngFilter.title.getText()).toEqual('Registration date:');
+                await expect(regiDateRngFilter.title.getText()).toEqual('Registration date');
                 await regiDateRngFilter.closeButton.click();
                 await expect(regiDateRngFilter.filter.isPresent()).toBe(false);
             });
