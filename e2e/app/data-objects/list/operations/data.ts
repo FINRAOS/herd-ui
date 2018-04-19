@@ -13,16 +13,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-const conf = require('./../../../../config/conf.e2e.json');
+
 import {
   Attribute,
   BusinessObjectDataCreateRequest,
   BusinessObjectDefinition,
   BusinessObjectFormatCreateRequest
 } from '@herd/angular-client';
-
 import utils from '../../../../util/utils';
 
+const conf = require('./../../../../config/conf.e2e.json');
 const defaultNamespace = utils.dataPrefix + 'NS_PROTRACTOR_TEST_DL';
 const defaultDataProvider = 'DP_PROTRACTOR_TEST_DL';
 
@@ -128,6 +128,7 @@ const bdataWithSubPartitions: BusinessObjectDataCreateRequest = {
         }
     }]
 };
+
 const bdata1: BusinessObjectDataCreateRequest = {
     'namespace': formatForFilter.namespace,
     'businessObjectDefinitionName': formatForFilter.businessObjectDefinitionName,
@@ -182,8 +183,6 @@ const bdata3: BusinessObjectDataCreateRequest = {
         }
     }]
 };
-
-
 
 export default {
     description: 'Sample description text for testing purpose.',

@@ -13,12 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { browser, by, element } from 'protractor';
-import { Data } from './operations/data';
-import * as winston from 'winston';
-import utils from '../../util/utils';
-import { DataManager } from './../../util/DataManager';
-import { CategoryPage } from './categories.po';
+import {browser} from 'protractor';
+import {Data} from './operations/data';
+import {DataManager} from './../../util/DataManager';
+import {CategoryPage} from './categories.po';
+
 const conf = require('./../../config/conf.e2e.json');
 const data = new Data();
 

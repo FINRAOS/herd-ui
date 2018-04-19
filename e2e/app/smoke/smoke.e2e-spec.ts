@@ -13,16 +13,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { browser, protractor } from 'protractor';
-import data from '../search/operations/data';
-import { SearchPage } from '../search/search.po';
-import { HomePage } from '../home/home.po';
-import { OverviewPage } from '../data-entity/overview/overview.po';
-import { FormatPage } from '../format/format.po';
-import { CategoryPage } from '../category/categories.po';
-import { DataObjectListPage } from '../data-objects/list/data-objects-list.po';
-import { DataObjectDetailPage } from '../data-objects/detail/data-object-detail.po';
-import { DataEntityListPage } from '../data-entity/list/data-entity-list.po';
+import {browser} from 'protractor';
+import {SearchPage} from '../search/search.po';
+import {HomePage} from '../home/home.po';
+import {OverviewPage} from '../data-entity/overview/overview.po';
+import {FormatPage} from '../format/format.po';
+import {CategoryPage} from '../category/categories.po';
+import {DataObjectListPage} from '../data-objects/list/data-objects-list.po';
+import {DataObjectDetailPage} from '../data-objects/detail/data-object-detail.po';
+import {DataEntityListPage} from '../data-entity/list/data-entity-list.po';
+
 const conf = require('../../config/conf.e2e.json');
 const appConf = require('../../../src/configuration.json');
 

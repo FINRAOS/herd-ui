@@ -13,9 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { by, browser, element, ElementFinder, protractor, ElementArrayFinder } from 'protractor';
-import { BasePo } from '../../base/base.po';
-import { OverviewPage } from '../overview/overview.po';
+import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
+import {OverviewPage} from '../overview/overview.po';
 
 export class ColumnsPage extends OverviewPage {
     private _container = element(by.id('columns-panel'));

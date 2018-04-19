@@ -13,11 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { ColumnsPage, DataEntityColumnRowData } from './columns.po';
-import { browser } from 'protractor';
-import { Data } from './operations/data';
+import {ColumnsPage, DataEntityColumnRowData} from './columns.po';
+import {browser} from 'protractor';
+import {Data} from './operations/data';
 import * as ops from './operations/operations'
-import { DataManager } from './../../../util/DataManager';
+import {DataManager} from './../../../util/DataManager';
+
 const conf = require('./../../../config/conf.e2e.json');
 
 describe('Bdef Columns Page', () => {
@@ -44,7 +45,7 @@ describe('Bdef Columns Page', () => {
       dataType: data.bdefTestDF_FORMAT().schema.columns[1].type + ' (' + data.bdefTestDF_FORMAT().schema.columns[1].size + ')',
       physicalName: data.bdefTestDF_FORMAT().schema.columns[1].name
     } as DataEntityColumnRowData
-  }
+  };
 
 
   const namespace = data.defaultNamespace;
@@ -159,7 +160,7 @@ describe('Bdef Columns Page', () => {
         dataType: data.editableColumnsFormat.schema.columns[0].type +
         ' (' + data.editableColumnsFormat.schema.columns[0].size + ')',
         definition: ''
-      }
+      };
 
       const rowEdited2 = { ...rowEdited1, definition: definitionEdit };
       const rowEdited3 = { ...rowEdited1, definition: definitionEdit2 };

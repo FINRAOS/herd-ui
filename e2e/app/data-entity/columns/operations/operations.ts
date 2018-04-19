@@ -18,9 +18,10 @@
  * Utilizes the data specified in jsonnew new schema.js and data.js
  */
 
-import { Data } from './data';
+import {Data} from './data';
 import * as schema from '../../../../util/JsonSchema';
-import { DataManager } from '../../../../util/DataManager';
+import {DataManager} from '../../../../util/DataManager';
+
 const data = new Data();
 
 

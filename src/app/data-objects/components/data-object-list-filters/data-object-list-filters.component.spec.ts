@@ -13,22 +13,27 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {
-  DataObjectListFiltersComponent, AnyFilter, PartitionFilter,
-  AttributeFilter, LatestValidVersionFilter, DataObjectListFiltersChangeEventData
+  AnyFilter,
+  AttributeFilter,
+  DataObjectListFiltersChangeEventData,
+  DataObjectListFiltersComponent,
+  LatestValidVersionFilter,
+  PartitionFilter,
+  RegistrationFilter
 } from './data-object-list-filters.component';
-import { PartitionFilterComponent } from 'app/data-objects/components/partition-filter/partition-filter.component';
-import { AttributeFilterComponent } from 'app/data-objects/components/attribute-filter/attribute-filter.component';
+import {PartitionFilterComponent} from 'app/data-objects/components/partition-filter/partition-filter.component';
+import {AttributeFilterComponent} from 'app/data-objects/components/attribute-filter/attribute-filter.component';
 import {
   LatestValidVersionFilterComponent
 } from 'app/data-objects/components/latest-valid-version-filter/latest-valid-version-filter.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FilterTemplateComponent } from 'app/data-objects/components/filter-template/filter-template.component';
-import { EllipsisOverflowComponent } from 'app/shared/components/ellipsis-overflow/ellipsis-overflow.component';
-import { expand } from 'rxjs/operators/expand';
+import {ReactiveFormsModule} from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {FilterTemplateComponent} from 'app/data-objects/components/filter-template/filter-template.component';
+import {EllipsisOverflowComponent} from 'app/shared/components/ellipsis-overflow/ellipsis-overflow.component';
+import {RegistrationDateRangeFilterComponent} from '../registration-date-range-filter/registration-date-range-filter.component';
 
 describe('DataObjectListFiltersComponent', () => {
   let component: DataObjectListFiltersComponent;
@@ -42,6 +47,7 @@ describe('DataObjectListFiltersComponent', () => {
         PartitionFilterComponent,
         AttributeFilterComponent,
         LatestValidVersionFilterComponent,
+        RegistrationDateRangeFilterComponent,
         FilterTemplateComponent,
         EllipsisOverflowComponent]
     })
@@ -60,7 +66,7 @@ describe('DataObjectListFiltersComponent', () => {
   });
 
   it('should add proper filters on addFilter', () => {
-    const expectedFilters: AnyFilter[] = []
+    const expectedFilters: AnyFilter[] = [];
 
     // adding partition filter
     component.addFilter(component.filterTypes[0]);
@@ -88,6 +94,19 @@ describe('DataObjectListFiltersComponent', () => {
       type: 'lvv',
       displayName: 'Last Valid Version'
     });
+
+    // Index 2 is used again as after ivv filter deleted, registration date filter will be in 2nd position.
+    component.addFilter(component.filterTypes[2]);
+    expectedFilters.push({ type: 'registrationDate' } as RegistrationFilter);
+    expect(component.filters).toEqual(expectedFilters);
+    // should call filter saved  when lastest valid version filter is added
+    // as it does not have any extra changes before a save
+    expect(spyFilterSaved).toHaveBeenCalled();
+    // should remove latest valid version filter form selectable filters
+    expect(component.filterTypes).not.toContain({
+      type: 'registrationDate',
+      displayName: 'Registration Date'
+    });
   });
 
   it('should delete proper filter on deleteFilter', () => {
@@ -103,12 +122,23 @@ describe('DataObjectListFiltersComponent', () => {
     component.addFilter(component.filterTypes[1]);
     component.addFilter(component.filterTypes[2]);
 
+    // once lvv filter will be added, it will also be deleted from the type. so registration date will be in 2 position
+    component.addFilter(component.filterTypes[2]);
+
     // emulate deleting lvv
     component.deleteFilter('Latest Valid Version', 2);
     // should add lvv back to filter types
     expect(component.filterTypes).toContain({
       type: 'lvv',
       displayName: 'Last Valid Version'
+    });
+
+    // emulate deleting registration date. Now registration date filter is in the 2nd position as ivv deleted
+    component.deleteFilter('Registration Date', 2);
+    // should add registration date back to filter types
+    expect(component.filterTypes).toContain({
+      type: 'registrationDate',
+      displayName: 'Registration Date'
     });
 
     expect(component.filters).toEqual(expectedFilters);
@@ -130,7 +160,10 @@ describe('DataObjectListFiltersComponent', () => {
   });
 
   it('should emit proper event data on filterSaved', () => {
-    spyFilterSaved.and.callThrough()
+    spyFilterSaved.and.callThrough();
+    const startDate = new Date();
+    const endDate = new Date();
+    const emitSpy = spyOn(component.filtersChange, 'emit');
     const expectedChangeData: DataObjectListFiltersChangeEventData = {
       partitionValueFilters: [{
         partitionKey: 'testKey',
@@ -140,34 +173,12 @@ describe('DataObjectListFiltersComponent', () => {
         attributeName: 'attName',
         attributeValue: 'attValue'
       }],
-      latestValidVersion: true
-    }
-
-    const emitSpy = spyOn(component.filtersChange, 'emit');
-
-    // mock filters to send
-    component.filters = [
-      {
-        type: 'partition',
-        data: {
-          partitionKey: 'testKey',
-          partitionValues: ['value1', 'value2', 'value3']
-        }
-      } as PartitionFilter,
-      {
-        type: 'attribute',
-        data: {
-          attributeName: 'attName',
-          attributeValue: 'attValue'
-        }
-      } as AttributeFilter,
-      {
-        type: 'lvv'
-      } as LatestValidVersionFilter
-    ]
-
-    component.filterSaved();
-    expect(emitSpy).toHaveBeenCalledWith(expectedChangeData);
+      latestValidVersion: true,
+      registrationDateRangeFilter: {
+        startRegistrationDate: startDate,
+        endRegistrationDate: endDate
+      }
+    };
 
     // no valid filters have data and latest valid version is not set
     component.filters = [
@@ -192,9 +203,48 @@ describe('DataObjectListFiltersComponent', () => {
       } as LatestValidVersionFilter
     ];
     component.filterSaved();
-    expect(emitSpy).toHaveBeenCalledWith({
-      partitionValueFilters: undefined, attributeValueFilters: undefined, latestValidVersion: true
-    });
+    expect(emitSpy).toHaveBeenCalledWith(undefined);
+
+    // only registration date is passed
+    component.filters = [
+      {
+        type: 'registrationDate',
+        data: undefined
+      } as RegistrationFilter
+    ];
+    component.filterSaved();
+    expect(emitSpy).toHaveBeenCalledWith(undefined);
+
+    // mock filters to send
+    component.filters = [
+      {
+        type: 'partition',
+        data: {
+          partitionKey: 'testKey',
+          partitionValues: ['value1', 'value2', 'value3']
+        }
+      } as PartitionFilter,
+      {
+        type: 'attribute',
+        data: {
+          attributeName: 'attName',
+          attributeValue: 'attValue'
+        }
+      } as AttributeFilter,
+      {
+        type: 'lvv'
+      } as LatestValidVersionFilter,
+      {
+        type: 'registrationDate',
+        data: {
+          startRegistrationDate: startDate,
+          endRegistrationDate: endDate
+        }
+      } as RegistrationFilter
+    ];
+    component.filterSaved();
+    expect(emitSpy).toHaveBeenCalledWith(expectedChangeData);
+
   });
 
 });

@@ -20,6 +20,7 @@
 
 import data from './data';
 import * as schema from '../../../util/JsonSchema';
+
 /**
  * Generates requests for posting tag types and tags
  * @returns {{options: *[]}}
