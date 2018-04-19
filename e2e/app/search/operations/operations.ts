@@ -15,6 +15,7 @@
 */
 import data from './data';
 import * as schema from '../../../util/JsonSchema';
+
 const tagTypePostUrl = new schema.TagType().postUrl();
 const tagPostUrl = new schema.Tags().postUrl();
 

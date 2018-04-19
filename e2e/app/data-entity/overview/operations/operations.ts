@@ -18,9 +18,9 @@
  * Utilizes the data specified in jsonnew schema.js and data.js
  */
 
-import { Data } from './data';
+import {Data} from './data';
 import * as schema from '../../../../util/JsonSchema';
-import { DMOption } from '../../../../util/DataManager';
+import {DMOption} from '../../../../util/DataManager';
 
 const tagTypePostUrl = new schema.TagType().postUrl();
 const tagPostUrl = new schema.Tags().postUrl();

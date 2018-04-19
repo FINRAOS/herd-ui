@@ -13,29 +13,32 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {
-  BusinessObjectDataService, BusinessObjectDataSearchRequest, BusinessObjectData,
-  BusinessObjectDataKey, BusinessObjectDataDdlRequest, Attribute, BusinessObjectFormatService, BusinessObjectFormat,
-  BusinessObjectDefinition
+  Attribute,
+  BusinessObjectData,
+  BusinessObjectDataDdlRequest,
+  BusinessObjectDataKey,
+  BusinessObjectDataSearchRequest,
+  BusinessObjectDataService,
+  BusinessObjectDefinition,
+  BusinessObjectFormat,
+  BusinessObjectFormatService,
+  PartitionValueFilter
 } from '@herd/angular-client';
-import { tap, map } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
-import { Response } from '@angular/http'
-import { default as AppIcons } from '../../../shared/utils/app-icons';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
-import { Action } from 'app/shared/components/side-action/side-action.component';
-import { DataTable } from 'primeng/components/datatable/datatable';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import {map, tap} from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
+import {Response} from '@angular/http'
+import {default as AppIcons} from '../../../shared/utils/app-icons';
+import {Subscription} from 'rxjs/Subscription';
+import {Observable} from 'rxjs/Observable';
+import {Action} from 'app/shared/components/side-action/side-action.component';
+import {DataTable} from 'primeng/components/datatable/datatable';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {
-  DataObjectListFiltersChangeEventData, LatestValidVersionFilter
+  DataObjectListFiltersChangeEventData
 } from 'app/data-objects/components/data-object-list-filters/data-object-list-filters.component';
-import { AlertService, DangerAlert, SuccessAlert } from 'app/core/services/alert.service';
-import { PartitionFilter } from '../../../../../e2e/app/data-objects/list/data-objects-list.po';
-import { PartitionValueFilter } from '@herd/angular-client';
-import { isNullOrUndefined } from 'util';
-import { isDefined } from '@ng-bootstrap/ng-bootstrap/util/util';
+import {AlertService, DangerAlert, SuccessAlert} from 'app/core/services/alert.service';
 
 class AttributeField implements Attribute {
   constructor(public name: string, public value: string) {
@@ -113,7 +116,7 @@ class DataObjectRowData {
 })
 export class DataObjectListComponent implements OnInit {
   @ViewChild(DataTable) private dt: DataTable;
-  config = { lineNumbers: true, mode: 'text/x-go', readOnly: true };
+  config = {lineNumbers: true, mode: 'text/x-go', readOnly: true};
   dataEntity: BusinessObjectDefinition;
   format: BusinessObjectFormat;
   ddl = '';
@@ -172,11 +175,11 @@ export class DataObjectListComponent implements OnInit {
   };
 
   constructor(private route: ActivatedRoute,
-    private bDataApi: BusinessObjectDataService,
-    private alerter: AlertService,
-    private modalService: NgbModal,
-    private formatService: BusinessObjectFormatService,
-    private alertService: AlertService) {
+              private bDataApi: BusinessObjectDataService,
+              private alerter: AlertService,
+              private modalService: NgbModal,
+              private formatService: BusinessObjectFormatService,
+              private alertService: AlertService) {
   }
 
   getDDL() {
@@ -201,7 +204,7 @@ export class DataObjectListComponent implements OnInit {
 
   open(content: TemplateRef<any> | String, windowClass?: string) {
     // append the modal to the data-entity-detail container so when views are switched it goes away with taht view.
-    const modalReference = this.modalService.open(content, { windowClass: windowClass, size: 'lg', container: '.data-object-list' });
+    const modalReference = this.modalService.open(content, {windowClass: windowClass, size: 'lg', container: '.data-object-list'});
     this.getDDL().subscribe((response) => {
       this.ddl = response.ddl;
     }, (error) => {
@@ -258,7 +261,6 @@ export class DataObjectListComponent implements OnInit {
     } else {
       this.loadData();
     }
-
 
 
     this.sideActions = [
@@ -352,7 +354,8 @@ export class DataObjectListComponent implements OnInit {
             businessObjectFormatVersion: this.format && this.format.businessObjectFormatVersion || undefined,
             partitionValueFilters: filterInfo.partitionValueFilters,
             attributeValueFilters: filterInfo.attributeValueFilters,
-            filterOnLatestValidVersion: filterInfo.latestValidVersion
+            filterOnLatestValidVersion: filterInfo.latestValidVersion,
+            registrationDateRangeFilter: filterInfo.registrationDateRangeFilter
           }]
         }
       ]

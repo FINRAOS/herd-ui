@@ -26,193 +26,190 @@
 import utils from '../../../../util/utils';
 
 export class Data {
-    description = 'Sample description text for testing purpose. Used for all description fields';
-    defaultDataProvider =  'DP_PROTRACTOR_TEST_OV';
-    defaultNamespace = 'NS_PROTRACTOR_TEST_OV';
+  description = 'Sample description text for testing purpose. Used for all description fields';
+  defaultDataProvider = 'DP_PROTRACTOR_TEST_OV';
+  defaultNamespace = 'NS_PROTRACTOR_TEST_OV';
 
-    tagTypeCode () {
-        const tagTypeCode = {
-            'code': 'Overview_TAG_CTGRY',
-            'displayName': 'Overview Category',
-            'order': '1',
-            'tags': [
-                {
-                    'code': 'TestOV1',
-                    'displayName': 'First Overview Tag',
-                    'parentCode': '',
-                    'bdefs': [
-                        {
-                            'name': 'bdefTest'
-                        }
-                    ]
-                },
-                {
-                    'code': 'TestOV2',
-                    'displayName': 'Second Overview Tag',
-                    'parentCode': '',
-                    'bdefs': [
-                        {
-                            'name': 'bdefTest'
-                        }
-                    ]
-                }
-            ]
-        };
-        return tagTypeCode;
-    }
-
-    bdefNoTagsNoSchema () {
-        return {
-            'namespace': this.defaultNamespace,
-            'dataProviderName': this.defaultDataProvider,
-            'businessObjectDefinitionName': 'BDEF_TEST',
-            'description': 'Leverage agile frameworks to provide a robust synopsis for high level overviews.',
-            'displayName': 'This is a display name of bef'
-        }
-    }
-
-    bdefTest () {
-        return {
-            'namespace': this.defaultNamespace,
-            'dataProviderName': this.defaultDataProvider,
-            'businessObjectDefinitionName': 'BDEF_TEST_1',
-            'description': 'Leverage agile frameworks to provide a robust synopsis for high level overviews.',
-            'displayName': 'Display name.. Protractor Bdef'
-        }
-    }
-
-    // add the data prefix so each browser has a separate one to edit.
-    editBdefTestData () {
-        return {
-            'namespace': this.defaultNamespace,
-            'dataProviderName': this.defaultDataProvider,
-            'businessObjectDefinitionName': utils.dataPrefix + 'BDEF_Edit_Desc_Frmt',
-            'description': 'Leverage agile frameworks to provide a robust synopsis for high level overviews.',
-            'displayName': 'Edit Descriptive Information'
-        }
-    }
-
-    formatTestEditDescriptiveFormat () {
-        return {
-            'namespace': this.editBdefTestData().namespace,
-            'businessObjectDefinitionName': this.editBdefTestData().businessObjectDefinitionName,
-            'businessObjectFormatUsage': 'PRC',
-            'businessObjectFormatFileType': 'ORC',
-            'partitionKey': 'TEST_KEY',
-            'description': 'Nam et interdum quam, hendrerit varius magna.',
-        }
-    }
-
-    formatTestEditDescriptiveFormat2 () {
-        return {
-            'namespace': this.editBdefTestData().namespace,
-            'businessObjectDefinitionName': this.editBdefTestData().businessObjectDefinitionName,
-            'businessObjectFormatUsage': 'UPC',
-            'businessObjectFormatFileType': 'TXT',
-            'partitionKey': 'TEST_KEY2',
-            'description': 'Nam et interdum quam, hendrerit varius magna.',
-        }
-    }
-
-    bdefTestMultipleFormatVersions () {
-      return {
-            'namespace': this.defaultNamespace,
-            'businessObjectDefinitionName': 'BDEF_TEST_1',
-            'businessObjectFormatUsage': 'PRC',
-            'businessObjectFormatFileType': 'ORC',
-            'partitionKey': 'TEST_KEY',
-            'description': 'Nam et interdum quam, hendrerit varius magna.',
-            'schema': {
-                'nullValue': 'NULL',
-                'delimiter': '|',
-                'escapeCharacter': '\\',
-                'columns': [
-                    {
-                        'name': 'TEST_KEY',
-                        'type': 'VARCHAR',
-                        'size': '10'
-                    }
-                ],
-                'partitions': [
-                    {
-                        'name': 'TEST_KEY',
-                        'type': 'VARCHAR',
-                        'size': '10',
-                        'required': null,
-                        'defaultValue': null,
-                        'description': null
-                    }
-                ]
+  tagTypeCode() {
+    const tagTypeCode = {
+      'code': 'Overview_TAG_CTGRY',
+      'displayName': 'Overview Category',
+      'order': '1',
+      'tags': [
+        {
+          'code': 'TestOV1',
+          'displayName': 'First Overview Tag',
+          'parentCode': '',
+          'bdefs': [
+            {
+              'name': 'bdefTest'
             }
-        }
-    }
-
-    bdefTestSingleFormatVersion () {
-        return {
-            'namespace': this.defaultNamespace,
-            'businessObjectDefinitionName': 'BDEF_TEST_1',
-            'businessObjectFormatUsage': 'SRC',
-            'businessObjectFormatFileType': 'TXT',
-            'partitionKey': 'TEST_KEY',
-            'description': 'Nam et interdum quam, hendrerit varius magna.',
-            'schema': {
-                'nullValue': 'NULL',
-                'delimiter': '|',
-                'escapeCharacter': '\\',
-                'columns': [
-                    {
-                        'name': 'TEST_KEY',
-                        'type': 'VARCHAR',
-                        'size': '30'
-                    }
-                ],
-                'partitions': [
-                    {
-                        'name': 'TEST_KEY',
-                        'type': 'VARCHAR',
-                        'size': '30',
-                        'required': null,
-                        'defaultValue': null,
-                        'description': null
-                    },
-                    {
-                        'name': 'TEST2_KEY',
-                        'type': 'VARCHAR',
-                        'size': null,
-                        'required': null,
-                        'defaultValue': null,
-                        'description': null
-                    },
-                    {
-                        'name': 'TEST3_KEY',
-                        'type': 'VARCHAR',
-                        'size': null,
-                        'required': null,
-                        'defaultValue': null,
-                        'description': null
-                    },
-                    {
-                        'name': 'TEST4_KEY',
-                        'type': 'VARCHAR',
-                        'size': null,
-                        'required': null,
-                        'defaultValue': null,
-                        'description': null
-                    },
-                    {
-                        'name': 'TEST5_KEY',
-                        'type': 'VARCHAR',
-                        'size': null,
-                        'required': null,
-                        'defaultValue': null,
-                        'description': null
-                    }
-                ]
+          ]
+        },
+        {
+          'code': 'TestOV2',
+          'displayName': 'Second Overview Tag',
+          'parentCode': '',
+          'bdefs': [
+            {
+              'name': 'bdefTest'
             }
+          ]
         }
+      ]
+    };
+    return tagTypeCode;
+  }
+
+  bdefNoTagsNoSchema() {
+    return {
+      'namespace': this.defaultNamespace,
+      'dataProviderName': this.defaultDataProvider,
+      'businessObjectDefinitionName': 'BDEF_TEST',
+      'description': 'Leverage agile frameworks to provide a robust synopsis for high level overviews.',
+      'displayName': 'This is a display name of bef'
     }
+  }
 
+  bdefTest() {
+    return {
+      'namespace': this.defaultNamespace,
+      'dataProviderName': this.defaultDataProvider,
+      'businessObjectDefinitionName': 'BDEF_TEST_1',
+      'description': 'Leverage agile frameworks to provide a robust synopsis for high level overviews.',
+      'displayName': 'Display name.. Protractor Bdef'
+    }
+  }
 
+  // add the data prefix so each browser has a separate one to edit.
+  editBdefTestData() {
+    return {
+      'namespace': this.defaultNamespace,
+      'dataProviderName': this.defaultDataProvider,
+      'businessObjectDefinitionName': utils.dataPrefix + 'BDEF_Edit_Desc_Frmt',
+      'description': 'Leverage agile frameworks to provide a robust synopsis for high level overviews.',
+      'displayName': 'Edit Descriptive Information'
+    }
+  }
 
+  formatTestEditDescriptiveFormat() {
+    return {
+      'namespace': this.editBdefTestData().namespace,
+      'businessObjectDefinitionName': this.editBdefTestData().businessObjectDefinitionName,
+      'businessObjectFormatUsage': 'PRC',
+      'businessObjectFormatFileType': 'ORC',
+      'partitionKey': 'TEST_KEY',
+      'description': 'Nam et interdum quam, hendrerit varius magna.',
+    }
+  }
+
+  formatTestEditDescriptiveFormat2() {
+    return {
+      'namespace': this.editBdefTestData().namespace,
+      'businessObjectDefinitionName': this.editBdefTestData().businessObjectDefinitionName,
+      'businessObjectFormatUsage': 'UPC',
+      'businessObjectFormatFileType': 'TXT',
+      'partitionKey': 'TEST_KEY2',
+      'description': 'Nam et interdum quam, hendrerit varius magna.',
+    }
+  }
+
+  bdefTestMultipleFormatVersions() {
+    return {
+      'namespace': this.defaultNamespace,
+      'businessObjectDefinitionName': 'BDEF_TEST_1',
+      'businessObjectFormatUsage': 'PRC',
+      'businessObjectFormatFileType': 'ORC',
+      'partitionKey': 'TEST_KEY',
+      'description': 'Nam et interdum quam, hendrerit varius magna.',
+      'schema': {
+        'nullValue': 'NULL',
+        'delimiter': '|',
+        'escapeCharacter': '\\',
+        'columns': [
+          {
+            'name': 'TEST_KEY',
+            'type': 'VARCHAR',
+            'size': '10'
+          }
+        ],
+        'partitions': [
+          {
+            'name': 'TEST_KEY',
+            'type': 'VARCHAR',
+            'size': '10',
+            'required': null,
+            'defaultValue': null,
+            'description': null
+          }
+        ]
+      }
+    }
+  }
+
+  bdefTestSingleFormatVersion() {
+    return {
+      'namespace': this.defaultNamespace,
+      'businessObjectDefinitionName': 'BDEF_TEST_1',
+      'businessObjectFormatUsage': 'SRC',
+      'businessObjectFormatFileType': 'TXT',
+      'partitionKey': 'TEST_KEY',
+      'description': 'Nam et interdum quam, hendrerit varius magna.',
+      'schema': {
+        'nullValue': 'NULL',
+        'delimiter': '|',
+        'escapeCharacter': '\\',
+        'columns': [
+          {
+            'name': 'TEST_KEY',
+            'type': 'VARCHAR',
+            'size': '30'
+          }
+        ],
+        'partitions': [
+          {
+            'name': 'TEST_KEY',
+            'type': 'VARCHAR',
+            'size': '30',
+            'required': null,
+            'defaultValue': null,
+            'description': null
+          },
+          {
+            'name': 'TEST2_KEY',
+            'type': 'VARCHAR',
+            'size': null,
+            'required': null,
+            'defaultValue': null,
+            'description': null
+          },
+          {
+            'name': 'TEST3_KEY',
+            'type': 'VARCHAR',
+            'size': null,
+            'required': null,
+            'defaultValue': null,
+            'description': null
+          },
+          {
+            'name': 'TEST4_KEY',
+            'type': 'VARCHAR',
+            'size': null,
+            'required': null,
+            'defaultValue': null,
+            'description': null
+          },
+          {
+            'name': 'TEST5_KEY',
+            'type': 'VARCHAR',
+            'size': null,
+            'required': null,
+            'defaultValue': null,
+            'description': null
+          }
+        ]
+      }
+    }
+  }
 
 }

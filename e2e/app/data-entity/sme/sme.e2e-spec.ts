@@ -19,7 +19,6 @@
  * The test pyramid is to maku most covered in i=unit test and what ever is really required for e2e are here.
  */
 import {SmePage} from './sme.po';
-import {browser} from 'protractor';
 import {Data} from './operations/data';
 import {DataManager} from './../../../util/DataManager';
 

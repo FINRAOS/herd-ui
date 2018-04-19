@@ -13,23 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {by, element} from 'protractor';
+.error {
+  color: red;
+  line-height: 1;
+}
 
-export class BaseE2e {
-
-  public firstVisibleElement(cssSelector: string) {
-
-    return element.all(by.css(cssSelector)).filter(function (elm) {
-      return elm.isDisplayed();
-    });
-  }
-
-  public getVisibleDivs(cssSelector: string) {
-    return element.all(by.css(cssSelector)).filter(function (link) {
-      return link.isDisplayed();
-    })
-      .then(function (visibleLinks) {
-        return visibleLinks;
-      });
-  }
+hr {
+  margin-top: -6px;
 }

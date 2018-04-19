@@ -23,6 +23,7 @@
  * bdefNoDisplayName: exports.data.bdefNoDisplayName}}
  */
 import utils from '../../../../util/utils'
+
 export class Data {
     description = 'Sample description text for testing purpose. Used for all description fields';
     defaultDataProvider = 'DP_PROTRACTOR_TEST_COL';
