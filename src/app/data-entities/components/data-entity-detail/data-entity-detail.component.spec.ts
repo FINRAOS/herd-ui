@@ -56,7 +56,7 @@ import {DataTableModule} from 'primeng/components/datatable/datatable';
 import {ButtonModule} from 'primeng/components/button/button';
 import {GenericViewComponent} from 'app/shared/components/generic-view/generic-view.component';
 import {CodemirrorModule} from 'ng2-codemirror/lib';
-import {ClipboardModule} from 'ngx-clipboard/dist';
+import {ClipboardModule} from 'ngx-clipboard';
 import {BrowserModule, By} from '@angular/platform-browser';
 import {SelectModule} from 'ng-select';
 import {MockCkeditorComponent} from 'testing/mock-ckeditor.component';
