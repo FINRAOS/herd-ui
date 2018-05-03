@@ -177,7 +177,7 @@ describe('DataObjectListComponent', () => {
     expect(component.data.length).toBe(0);
   });
 
-  it('should open model on click of generate DDL button', () => {
+  it('should open model on click of Generate Data DDL button', () => {
     fixture.detectChanges();
     const modal = component.open(ddl, '');
     fixture.detectChanges();
@@ -209,24 +209,24 @@ describe('DataObjectListComponent', () => {
       expect(alertSpy).toHaveBeenCalledWith(new SuccessAlert('Success!', '', 'DDL Successfully copied to clipboard'));
     }));
 
-  it('should get errors when generate DDL criteria is not met', () => {
-    // generate ddl when format is not defined
+  it('should get errors when Generate Data DDL criteria is not met', () => {
+    // generate data ddl when format is not defined
     let result = component.isInvalidDDLRequest();
     expect(result).toEqual(['Please navigate from the Format Page.']);
 
-    // generate ddl when format is defined (fixture.detectChanges() detects the defined format)
+    // generate data ddl when format is defined (fixture.detectChanges() detects the defined format)
     fixture.detectChanges();
     result = component.isInvalidDDLRequest();
     expect(result).toEqual(['Please apply a Partition filter for the primary partition only.',
       'Please apply Latest Valid Version filter']);
 
-    // generate ddl when partition filter is not defined
+    // generate data ddl when partition filter is not defined
     component.useLatestValidVersion = true;
     fixture.detectChanges();
     result = component.isInvalidDDLRequest();
     expect(result).toEqual(['Please apply a Partition filter for the primary partition only.']);
 
-    // generate ddl when the latestValidVersion is not defined
+    // generate data ddl when the latestValidVersion is not defined
     component.useLatestValidVersion = false;
     component.format.partitionKey = 'key';
     component.partitionValueFilters = [{
@@ -236,7 +236,7 @@ describe('DataObjectListComponent', () => {
     result = component.isInvalidDDLRequest();
     expect(result).toEqual(['Please apply Latest Valid Version filter']);
 
-    // happy path for generate ddl
+    // happy path for generate data ddl
     component.useLatestValidVersion = true;
     fixture.detectChanges();
     result = component.isInvalidDDLRequest();
