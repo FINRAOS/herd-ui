@@ -63,19 +63,19 @@ describe('data-objects detail', () => {
     it('version info: BData details page', async () => {
       const versionSelector = await page.detailsContainer.element(by.className('version-select'));
       const versionSelectorOptions = versionSelector.all(by.tagName('option'));
-      const versionSelectorOptionValues = versionSelectorOptions.getAttribute('ng-reflect-ng-value');
-      const versionSelected = versionSelector.getAttribute('ng-reflect-model');
+      const versionSelectorOptionValues = versionSelectorOptions.getAttribute('value');
+      const versionSelected = versionSelector.element(by.css('option:checked')).getText();
       await expect(page.status.getText()).toBe(data.versionTestV2.status);
       await expect(page.id.getText()).not.toBe('');
-      expect(versionSelectorOptionValues).toEqual(['2', '1', '0']);
-      expect(versionSelected).toBe('0');
+      await expect(versionSelectorOptionValues).toEqual(['0: 2', '1: 1', '2: 0']);
+      await expect(versionSelected).toContain('0');
     });
 
 
     it('change version: BData details page', async () => {
       // click on the version 1
       const versionSelector = await page.detailsContainer.element(by.className('version-select'));
-      await versionSelector.element(by.css('option[ng-reflect-ng-value="1"]')).click();
+      await versionSelector.element(by.css('option[value="1: 1"]')).click();
       await expect(browser.getCurrentUrl()).toContain(baseDetail.replaceUrlParams(data.versionTestV1, null, 1));
     });
 
