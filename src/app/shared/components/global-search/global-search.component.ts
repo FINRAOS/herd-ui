@@ -16,7 +16,7 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
 import { ActivatedRoute, Router, ActivatedRouteSnapshot, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators/filter';
-import { HitMatchTypes } from '../../../search/components/search/search.service';
+import { HitMatchTypes } from '../../services/search.service';
 
 @Component({
   selector: 'sd-global-search',

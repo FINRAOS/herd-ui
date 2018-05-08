@@ -16,7 +16,7 @@
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import { Facet } from '@herd/angular-client';
-import {FacetTriState} from '../../../search/components/search/facet-tri-state.enum';
+import {FacetTriState} from '../../services/facet-tri-state.enum';
 import { SimpleChanges } from '@angular/core';
 
 

@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 
 import { CategoriesRoutingModule } from './categories-routing.module';
 import { CategoryDetailComponent } from './components/category-detail/category-detail.component';
+import {SearchService} from '../shared/services/search.service';
 
 @NgModule({
   imports: [
@@ -27,6 +28,9 @@ import { CategoryDetailComponent } from './components/category-detail/category-d
     CategoriesRoutingModule,
     SharedModule,
     NgbModule
+  ],
+  providers: [
+    SearchService
   ],
   declarations: [CategoryDetailComponent]
 })

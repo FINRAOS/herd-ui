@@ -17,7 +17,7 @@ import {TestBed, async, ComponentFixture} from '@angular/core/testing';
 import {SearchComponent} from './search.component';
 import {SharedModule} from '../../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
-import {SearchService} from './search.service';
+import {SearchService} from '../../../shared/services/search.service';
 import {IndexSearchService} from '@herd/angular-client';
 import {HttpModule} from '@angular/http';
 import {ConfigService} from '../../../core/services/config.service';

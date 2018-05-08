@@ -33,13 +33,17 @@ export class SearchService {
 
   public search(searchText: string, indexSearchFilters: IndexSearchFilter[], match: string = ''): Observable<IndexSearchResponse> {
     const indexSearchRequest: IndexSearchRequest = {
-      searchTerm: searchText,
       facetFields: this.facetFields,
       indexSearchFilters: indexSearchFilters.length === 0 ? null : indexSearchFilters,
       enableHitHighlighting: true,
     };
 
-   return this.indexSearchApi.indexSearchIndexSearch(indexSearchRequest, this.fields, match)
+    // Only include search test if it passed as it is not mandatory.
+    if (searchText) {
+      indexSearchRequest.searchTerm = searchText;
+    }
+
+    return this.indexSearchApi.indexSearchIndexSearch(indexSearchRequest, this.fields, match)
       .map((response) => {
         // Include Result type
         const resultType = {
@@ -88,4 +92,5 @@ export class SearchService {
     });
     return returnValue;
   }
+
 }

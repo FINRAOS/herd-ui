@@ -822,7 +822,7 @@ describe('DataEntityDetailComponent', () => {
       }));
 
   // TODO: fix this test to actually verify modal information by giving it ddl
-  it('Should open ddl model on click of generate format DDL', () => {
+  it('Should open ddl model on click of Generate Format DDL', () => {
     const modal = component.open('test ddl code');
     // this ddl will be blank as we did not passed any ddl
     expect(component.ddl).toEqual('');
