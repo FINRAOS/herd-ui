@@ -36,6 +36,8 @@ export class OverviewPage extends BasePo {
   _tagsContainerEl: ElementFinder = element(by.className('tags-container'));
   _tagsEditorEl: ElementFinder = this._tagsContainerEl.element(by.className('tags-content'));
   tags: ElementArrayFinder = this._tagsContainerEl.all(by.tagName('button'));
+  tags_button: ElementArrayFinder = this._tagsEditorEl.all(by.className('tag-button'));
+  tag_tooltip: ElementFinder = this._tagsContainerEl.element(by.tagName('ngb-tooltip-window'));
   overviewTab: ElementFinder = this._tabs.all(by.tagName('li')).get(0).element(by.tagName('a'));
 
   dataProvider: ElementFinder = this._bdefDetails.all(by.tagName('div')).get(0).all(by.tagName('div')).get(1);
@@ -58,6 +60,8 @@ export class OverviewPage extends BasePo {
   typeAheadDropDown: ElementFinder = this._tagsContainerEl.element(by.tagName('input'));
   totalEditorTags: ElementArrayFinder = this._tagsEditorEl.all(by.className('list-inline-item'));
   _noFormatsMessageEl = this.formatContainer.all(by.tagName('p')).get(1);
+  format_tooltip: ElementFinder = this.formatContainer.element(by.tagName('ngb-tooltip-window'));
+
   get noFormatsMessage() {
     return this._noFormatsMessageEl.getText();
   }
@@ -90,7 +94,7 @@ export class OverviewPage extends BasePo {
   }
 
   getRecommendedFormatIconTooltipText() {
-    return this.formatContainer.all(by.css('.recommended i')).get(0).getAttribute('ng-reflect-ngb-tooltip')
+    return this.formatContainer.all(by.css('.recommended i')).get(1); // .getAttribute('ng-reflect-ngb-tooltip')
   }
 
   async toggleRecommendedFormat(usage: string, fileType: string, version: string, hasAccess: boolean = true) {

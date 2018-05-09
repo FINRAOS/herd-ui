@@ -48,8 +48,14 @@ describe('Data Entity Overview Page', () => {
     // validate tags exist
     await expect((await page.totalEditorTags.get(0).getText()).trim()).toEqual(data.tagTypeCode().tags[0].displayName);
     await expect((await page.totalEditorTags.get(1).getText()).trim()).toEqual(data.tagTypeCode().tags[1].displayName);
-    await expect((await page.tags.get(0).getAttribute('ng-reflect-ngb-tooltip')).trim()).toEqual(data.tagTypeCode().displayName);
-    await expect(page.tags.get(1).getAttribute('ng-reflect-ngb-tooltip')).toEqual(data.tagTypeCode().displayName);
+
+    // mouse over to see the tooltop over button
+    // await page.mouseEnterShim(await page._tagsEditorEl);
+    await page.mouseEnterShim(await page.tags_button.get(0));
+    await expect(page.tag_tooltip.isDisplayed()).toBeTruthy();
+    await expect(page.tag_tooltip.getText()).toEqual(data.tagTypeCode().displayName);
+    await page.mouseEnterShim(await page.tags_button.get(1));
+    await expect(page.tag_tooltip.getText()).toEqual(data.tagTypeCode().displayName);
 
     // elevated priv whiteFrames should be there
     const frame1 = await page.findFormatFrame(data.bdefTestMultipleFormatVersions().businessObjectFormatUsage,
@@ -68,7 +74,8 @@ describe('Data Entity Overview Page', () => {
     await expect(headerText).toContain('Filetype:');
     await expect(headerText).toContain('Version:');
 
-    await expect(page.getRecommendedFormatIconTooltipText()).toEqual(expectedValues.recommendedFormat);
+    await page.mouseEnterShim(await page.getRecommendedFormatIconTooltipText());
+    await expect(page.format_tooltip.getText()).toEqual(expectedValues.recommendedFormat);
   });
 
   it('static header and data populated correctly for optional data', async () => {
