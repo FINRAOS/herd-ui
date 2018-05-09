@@ -14,21 +14,14 @@
 * limitations under the License.
 */
 import {
-  Component, OnDestroy, OnInit, ViewEncapsulation
+  Component, OnInit, ViewEncapsulation
 } from '@angular/core';
-import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
-import {SearchService} from './search.service';
-import {Observable} from 'rxjs/Observable';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SearchService} from '../../../shared/services/search.service';
 import {
-  IndexSearchResponse, IndexSearchResult, Facet, IndexSearchFilter,
-  IndexSearchKey, IndexSearchResultTypeKey, Highlight
+  IndexSearchResult, Facet, IndexSearchFilter,
+  IndexSearchKey, Highlight
 } from '@herd/angular-client';
-import {HighlightDisplayMapping} from './highlight-display-mapping';
-
-
-interface Window {
-  ga: Function;
-}
 
 @Component({
   selector: 'sd-search',
