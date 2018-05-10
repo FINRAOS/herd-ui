@@ -187,10 +187,6 @@ export class CategoryDetailComponent implements OnInit {
     });
   }
 
-  public makeHighlightFull(highlight: Highlight) {
-    return this.searchService.joinHighlight(highlight)
-  }
-
 }
 
 
