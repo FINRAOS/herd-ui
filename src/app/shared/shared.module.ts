@@ -39,6 +39,8 @@ import {NgxGraphModule} from '@swimlane/ngx-graph';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { InlineSVGModule } from 'ng-inline-svg/lib';
+import {ClipboardModule} from 'ngx-clipboard';
+import {CodemirrorModule} from 'ng2-codemirror';
 @NgModule({
   imports: [
     CommonModule,
@@ -49,7 +51,9 @@ import { InlineSVGModule } from 'ng-inline-svg/lib';
     SelectModule,
     NgxGraphModule,
     NgxChartsModule,
-    InlineSVGModule
+    InlineSVGModule,
+    CodemirrorModule,
+    ClipboardModule,
   ],
   declarations: [
     GlobalSearchComponent,
@@ -94,7 +98,9 @@ import { InlineSVGModule } from 'ng-inline-svg/lib';
     SelectModule,
     SpinnerComponent,
     NgxGraphModule,
-    NgxChartsModule
+    NgxChartsModule,
+    CodemirrorModule,
+    ClipboardModule,
   ]
 })
 export class SharedModule {
