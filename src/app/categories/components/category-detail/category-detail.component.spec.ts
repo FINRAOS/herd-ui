@@ -30,6 +30,7 @@ import {IndexSearchMockData} from 'testing/IndexSearchMockData';
 import {RelatedDataEntities} from 'testing/RelatedDataEntities';
 import {GoogleAnalyticsService} from '../../../shared/services/google-analytics.service';
 import {SearchService} from '../../../shared/services/search.service';
+import {Subscription} from 'rxjs/Subscription';
 
 describe('CategoryDetailComponent', () => {
   const indexSearchMockData: IndexSearchMockData = new IndexSearchMockData();
@@ -201,7 +202,7 @@ describe('CategoryDetailComponent', () => {
           {
             'facetDisplayName': 'test-facet-displayname1',
             'facetCount': 69,
-            'facetType': 'Tag',
+            'facetType': 'ResultType',
             'facetId': 'test-facet-id2',
             'facets': null,
             'state': 1
@@ -273,10 +274,27 @@ describe('CategoryDetailComponent', () => {
     const event = {
       nofacets: []
     };
+    component.lastFacetChange = new Subscription();
     component.facetChange(event);
     expect(component.facets).toBe(indexSearchMockData.indexSearchResponse.facets);
     expect(spySearchServiceApi.calls.count()).toEqual(1);
   }));
+
+  it('Facet change function is changing facets and effecting search result', async() => {
+    const event: any = {
+      facets: indexSearchMockData.facets,
+      newSearch: true
+    };
+
+    event.facets[0]['facets'][0].state = 1;
+    event.facets[1]['facets'][0].state = 2;
+    const searchService = fixture.debugElement.injector.get(SearchService);
+    const spySearchService = spyOn(searchService, 'search')
+      .and.returnValue(Observable.of({ indexSearchResults: indexSearchMockData.indexSearchResponse['indexSearchResults']}));
+
+    component.facetChange(event);
+    expect(component.results).toEqual(indexSearchMockData.indexSearchResponse['indexSearchResults']);
+  });
 
   it('on category link click', async(inject([Router], (r: Router) => {
     component.onCategoryLinkClick(parentTag.tag);

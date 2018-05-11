@@ -93,6 +93,7 @@ describe('SchemaColumnsComponent', () => {
       };
       ddlSpy.and.returnValue(Observable.of({ddl: ddl}));
       // fixture.detectChanges() does not work as one of the 3rd party component try to read read only property
+      component.ngOnInit();
       component.getDDL(component.bdef);
       expect(component.ddl).toEqual(ddl);
       expect(component.ddlError).toEqual(undefined);

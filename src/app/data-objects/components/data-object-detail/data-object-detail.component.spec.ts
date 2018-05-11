@@ -48,7 +48,7 @@ describe('DataObjectDetailComponent', () => {
     dataObjectStatus: undefined,
     includeDataObjectStatusHistory: true,
     includeStorageUnitStatusHistory: true
-  }
+  };
 
   const routeParams = {
     namespace: 'ns',
@@ -59,7 +59,7 @@ describe('DataObjectDetailComponent', () => {
     partitionValue: '01-01-2017',
     subPartitionValues: '01-01-2017',
     dataObjectVersion: 0
-  }
+  };
 
   const expectedVersionsResult: BusinessObjectDataVersions = {
     businessObjectDataVersions: [{
@@ -88,7 +88,7 @@ describe('DataObjectDetailComponent', () => {
       status: 'VALID'
     }
     ]
-  }
+  };
 
   const expectedFormat: BusinessObjectFormat = {
     namespace: 'ns',
@@ -121,7 +121,7 @@ describe('DataObjectDetailComponent', () => {
     new Action(AppIcons.shareIcon, 'Share'),
     new Action(AppIcons.saveIcon, 'Save'),
     new Action(AppIcons.watchIcon, 'Watch')
-  ]
+  ];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -179,13 +179,13 @@ describe('DataObjectDetailComponent', () => {
         partitionKey: 'TEST_KEY',
         partitionValue: '01-01-2017',
         version: 0
-      }
+      };
 
       activeRoute.testData = {
         resolvedData: {
           businessObjectData: expectedResult
         }
-      }
+      };
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
@@ -222,13 +222,13 @@ describe('DataObjectDetailComponent', () => {
         partitionKey: 'TEST_KEY',
         partitionValue: '01-01-2017',
         version: 0
-      }
+      };
 
       activeRoute.testData = {
         resolvedData: {
           businessObjectData: expectedResult
         }
-      }
+      };
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
@@ -273,7 +273,7 @@ describe('DataObjectDetailComponent', () => {
             directoryPath: '/path'
           }
         }]
-      }
+      };
 
       const expectedFrmt: BusinessObjectFormat = {
         namespace: 'ns',
@@ -282,13 +282,13 @@ describe('DataObjectDetailComponent', () => {
         businessObjectFormatFileType: 'TXT',
         businessObjectFormatVersion: 0,
         partitionKey: 'TEST_KEY'
-      }
+      };
 
       activeRoute.testData = {
         resolvedData: {
           businessObjectData: expectedResult
         }
-      }
+      };
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
@@ -332,7 +332,7 @@ describe('DataObjectDetailComponent', () => {
             directoryPath: '/path'
           }
         }]
-      }
+      };
       const expectedFrmt: BusinessObjectFormat = {
         namespace: 'ns',
         businessObjectDefinitionName: 'dn',
@@ -356,7 +356,17 @@ describe('DataObjectDetailComponent', () => {
             required: true,
             defaultValue: 'string',
             description: 'string'
-          }]
+          }],
+          partitions: [
+            {
+              name: 'testing-partition',
+              type: 'string',
+              size: 'varchar',
+              required: true,
+              defaultValue: 'string',
+              description: 'string'
+            }
+          ]
         }
       };
 
@@ -364,7 +374,7 @@ describe('DataObjectDetailComponent', () => {
         resolvedData: {
           businessObjectData: expectedResult
         }
-      }
+      };
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
