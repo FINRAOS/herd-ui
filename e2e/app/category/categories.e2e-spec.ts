@@ -74,7 +74,6 @@ describe('Categories Page', () => {
 
   // if test fails be sure to run on a valid index
   it('Tri state check box is working as expected', async () => {
-    const max = 2;
     let facetCheckBoxes: number;
     let resultCount: number;
     // needed to make sure that the index has refreshed when testing index based things.
@@ -86,28 +85,30 @@ describe('Categories Page', () => {
     facetCheckBoxes = await page.tristateCheckboxes.count();
 
     // if the facets and result counts are not correct then the indexes are possibly not valid
-    // validate the indees and then continue the test.
+    // validate the indexes and then continue the test.
     if (resultCount !== 3 || facetCheckBoxes !== 4) {
       dataManager.validateIndexes();
       await page.navigateTo(_url + data.tagTypeCode().code + '/' + data.tagTypeCode().tags[0].code);
     }
 
-
     // verify that result count
     let noOfbdefs = await page.searchResultCount.count();
-    expect(noOfbdefs).toBe(3);
+    expect(noOfbdefs).toBe(6);
     // include tag that has 2 reults of the 3 expected
     await page.getCheckBoxbyName(data.tagTypeCode().tags[3].displayName).click();
     noOfbdefs = await page.searchResultCount.count();
-    expect(noOfbdefs).toBe(2);
+    expect(noOfbdefs).toBe(3);
 
     // exclude tag that has 2 reults of the 3 expected
     await page.getCheckBoxbyName(data.tagTypeCode().tags[3].displayName).click();
     noOfbdefs = await page.searchResultCount.count();
-    expect(noOfbdefs).toBe(1);
+    expect(noOfbdefs).toBe(3);
 
-    // include the third checkbox
+    // include all 3 exclude to see the no bdef selected message.
     await page.getCheckBoxbyName(data.tagTypeCode().tags[4].displayName).click();
+    await page.getCheckBoxbyName(data.tagTypeCode().tags[4].displayName).click();
+    await page.getCheckBoxbyName(data.tagTypeCode().tags[0].displayName).click();
+    await page.getCheckBoxbyName(data.tagTypeCode().tags[0].displayName).click();
     await expect(page.unavailableMessage.getText()).toEqual(expectedValues.unavailableMessage);
 
   });

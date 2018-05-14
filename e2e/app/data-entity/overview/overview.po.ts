@@ -94,7 +94,7 @@ export class OverviewPage extends BasePo {
   }
 
   getRecommendedFormatIconTooltipText() {
-    return this.formatContainer.all(by.css('.recommended i')).get(1); // .getAttribute('ng-reflect-ngb-tooltip')
+    return this.formatContainer.all(by.css('.recommended i')).get(1);
   }
 
   async toggleRecommendedFormat(usage: string, fileType: string, version: string, hasAccess: boolean = true) {
