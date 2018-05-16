@@ -13,24 +13,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import 'codemirror/mode/go/go'; // styles for codemirror
 import {
   BASE_PATH, ApiModule, Configuration
 } from '@herd/angular-client';
-import {CoreModule} from 'app/core/core.module';
-import {RouteReuseStrategy} from '@angular/router';
-import {CustomRouteReuseStrategy} from 'app/core/services/custom-route-reuse-strategy.service';
-import {CustomLocation} from 'app/core/services/custom-location.service';
-import {Location} from '@angular/common';
-import {HttpClientModule} from '@angular/common/http';
-import {HttpInterceptorModule} from 'ng-http-interceptor';
-import {environment} from '../environments/environment';
+import { CoreModule } from 'app/core/core.module';
+import { RouteReuseStrategy } from '@angular/router';
+import { CustomRouteReuseStrategy } from 'app/core/services/custom-route-reuse-strategy.service';
+import { CustomLocation } from 'app/core/services/custom-location.service';
+import { Location } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpInterceptorModule } from 'ng-http-interceptor';
+import { environment } from '../environments/environment';
 
 export function appApiConfigFactory(): Configuration {
   return new Configuration();
