@@ -20,7 +20,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Alert, AlertService, SuccessAlert } from 'app/core/services/alert.service';
 import { Observable } from 'rxjs/Observable';
 import { By } from '@angular/platform-browser';
-import { ConfigService } from 'app/core/services/config.service';
 
 describe('AlertsComponent', () => {
   let component: AlertsComponent;
@@ -32,15 +31,7 @@ describe('AlertsComponent', () => {
         NgbModule.forRoot(),
       ],
       providers: [
-        AlertService,
-        {
-          provide: ConfigService,
-          useValue: {
-            config: {
-            alertDelayInSeconds: 10
-            }
-          }
-        }
+        AlertService
       ],
       declarations: [AlertsComponent]
     })

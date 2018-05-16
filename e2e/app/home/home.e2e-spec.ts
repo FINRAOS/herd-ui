@@ -16,6 +16,7 @@
 import data from './operations/data';
 import {DataManager} from './../../util/DataManager';
 import {HomePage} from './home.po';
+import { environment } from '../../../src/environments/environment';
 
 
 describe('Feature:HomePage', function () {
@@ -33,10 +34,10 @@ describe('Feature:HomePage', function () {
     await page.navigateTo();
 
     // validate Home Search Heading
-    await expect(page.getHomeSearchHeading()).toBe(data.searchHeading);
+    await expect(page.getHomeSearchHeading()).toBe(environment.brandHeader);
 
     // validate Home Search Sub Heading
-    await expect(page.getHomeSearchSubHeading()).toBe(data.searchSubHeading);
+    await expect(page.getHomeSearchSubHeading()).toBe(environment.brandMotto);
 
     // validate home page title
     await expect(page.getHomePageTitle().isPresent()).toBeDefined();

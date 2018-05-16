@@ -38,7 +38,6 @@ import {
   Configuration, UserAuthorizations,
   NamespaceAuthorization, BusinessObjectDefinitionDescriptiveInformationUpdateRequest
 } from '@herd/angular-client';
-import {ConfigService} from '../../../core/services/config.service';
 import {HttpModule, Headers} from '@angular/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
@@ -316,12 +315,6 @@ describe('DataEntityDetailComponent', () => {
         {
           provide: APP_BASE_HREF,
           useValue: '/'
-        },
-        {
-          provide: ConfigService,
-          useValue: {
-            config: {}
-          }
         },
         {
           provide: UserService,
@@ -1821,8 +1814,8 @@ describe('DataEntityDetailComponent', () => {
     })));
 
   it('should hide or show editing based on access level',
-    inject([ConfigService, UserService, ActivatedRoute],
-      (conf: ConfigService, us: UserService, activeRoute: ActivatedRouteStub) => {
+    inject([UserService, ActivatedRoute],
+      (us: UserService, activeRoute: ActivatedRouteStub) => {
 
         const testAuthorizations: UserAuthorizations = {
           userId: 'test_user',

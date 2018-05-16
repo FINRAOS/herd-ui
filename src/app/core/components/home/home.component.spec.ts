@@ -22,7 +22,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TagService, TagTypeService } from '@herd/angular-client';
 import { Observable } from 'rxjs/Observable';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ConfigService } from '../../services/config.service';
 import { FormsModule } from '@angular/forms';
 import { TruncatedContentComponent } from 'app/shared/components/truncated-content/truncated-content.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -114,8 +113,8 @@ describe('HomeComponent', () => {
     }]
   };
 
-  const brandHeader = 'test sites';
-  const motto = 'Locate and understand data available at the app';
+  const brandHeader = 'Herd-UI';
+  const motto = 'Locate and understand data available in HERD';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -142,15 +141,6 @@ describe('HomeComponent', () => {
           provide: TagTypeService,
           useValue: {
             tagTypeSearchTagTypes: jasmine.createSpy('tagTypeSearchTagTypes').and.returnValue(Observable.of(tagTypes))
-          }
-        },
-        {
-          provide: ConfigService,
-          useValue: {
-            config: {
-              brandHeader: brandHeader,
-              brandMotto: motto,
-            }
           }
         }
       ]

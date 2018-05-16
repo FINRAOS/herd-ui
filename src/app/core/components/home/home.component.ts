@@ -16,7 +16,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Tag, TagService, TagType, TagTypeService, TagSearchRequest} from '@herd/angular-client';
 import {Observable} from 'rxjs/Observable';
-import { ConfigService } from '../../services/config.service';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'sd-home',
@@ -31,14 +31,15 @@ export class HomeComponent implements OnInit {
   public brandHeader: string;
 
 
-  constructor(private tagTypeApi: TagTypeService,
-              private tagApi: TagService,
-              private app: ConfigService) {
+  constructor(
+    private tagTypeApi: TagTypeService,
+    private tagApi: TagService
+  ) {
   }
 
   ngOnInit() {
-    this.brandMotto = this.app.config.brandMotto;
-    this.brandHeader = this.app.config.brandHeader;
+    this.brandMotto = environment.brandMotto;
+    this.brandHeader = environment.brandHeader;
     this.tagTypes = this.tagTypeApi
       .tagTypeSearchTagTypes({}, 'displayName,tagTypeOrder,description')
       .map((data) => {
@@ -46,11 +47,11 @@ export class HomeComponent implements OnInit {
         data.tagTypes.forEach((tagType) => {
           const body: TagSearchRequest = {
             tagSearchFilters: [{
-                tagSearchKeys: [{
-                  tagTypeCode: tagType.tagTypeKey.tagTypeCode,
-                  isParentTagNull: true
-                }]
+              tagSearchKeys: [{
+                tagTypeCode: tagType.tagTypeKey.tagTypeCode,
+                isParentTagNull: true
               }]
+            }]
           }
 
           this.tagApi

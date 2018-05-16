@@ -1,26 +1,70 @@
 {
-    "baseUrlLocal": "http://localhost:4200",
-    "baseUrlNoPassword": "baseUrlNoPassword",
-    "baseUrl8443": "baseUrlNoPassword:8443",
-    "herdHost": "herdHost",
-    "herdHostSaucelab": "herdHostSaucelab",
-    "docTitlePrefix": "Herd-UI",
-    "homePage": "/",
-    "searchUrl": "/search",
-    "dataEntityDetailPath": "/data-entities",
-    "dataEntityBdefPath":"/data-entities/{namespace}/{businessObjectDefinitionName}",
-    "categoryDetailPath": "/categories/",
-    "formatPage": "/formats/",
-    "bdataListPath": "/data-objects/{namespace}/{definitionName}/{usage}/{fileType}/{version}",
-    "bdataDetailPath": "/data-objects/{namespace}/{definitionName}/{usage}/{fileType}/{formatVersion}/{partitionValue}/{dataVersion};{subPartitions}",
-    "sauceUser": "sauceUser",
-    "sauceKey": "sauceKey",
-    "loginUser": "loginUser",
-    "loginPwd": "loginPwd",
-    "noAccessUser": "noAccessUser",
-    "noAccessPassword": "noAccessPassword",
-    "sauceSeleniumAddress": "http://localhost:4445/wd/hub",
-    "authorization": {
-        "basicKey": "basicKey"
+  "baseUrlLocal": "http://localhost:4200",
+  "baseUrlNoPassword": "https://udc.dev.finra.org",
+  "baseUrl8443": "https://udc.dev.finra.org:8443",
+  "herdHost": "https://datamgt.dev.aws.finra.org:8443/dm-app/rest",
+  "herdHostSaucelab": "https://datamgt.dev.aws.finra.org:8443/dm-app/rest",
+  "docTitlePrefix": "UDC",
+  "homePage": "/",
+  "searchUrl": "/search",
+  "dataEntityDetailPath": "/data-entities",
+  "dataEntityBdefPath":"/data-entities/{namespace}/{businessObjectDefinitionName}",
+  "categoryDetailPath": "/categories/",
+  "formatPage": "/formats/",
+  "bdataListPath": "/data-objects/{namespace}/{definitionName}/{usage}/{fileType}/{version}",
+  "bdataDetailPath": "/data-objects/{namespace}/{definitionName}/{usage}/{fileType}/{formatVersion}/{partitionValue}/{dataVersion};{subPartitions}",
+  "datamgtBucket": "4652-5751-2377-data-mgmt",
+  "datamgtTestBucket": "4652-5751-2377-datamgt-test",
+  "defaultPrefix": "",
+  "sauceUser": "k26686",
+  "sauceKey": "38d01efd-5cfd-4fa7-b98d-acb1efc8c74b",
+  "loginUser": "Tst_Analyst1",
+  "loginPwd": "Winter2013",
+  "noAccessUser": "tst_dm_ro",
+  "noAccessPassword": "zLQYsep9zsGoqe5gSBZzJw2",
+  "sauceSeleniumAddress": "http://localhost:4445/wd/hub",
+  "authorization": {
+    "basicKey": "Basic dHN0X2RtX2FkbTpEc1J1VGZWek1lZFo5YmdBSUM1TWtxcA=="
+  },
+  "dev": {
+    "host": "datamgtrepo-dev-pg.c9dfyqjobtqf.us-east-1.rds.amazonaws.com",
+    "port": 5432,
+    "database": "dmrd",
+    "user": "dmrapp",
+    "password": "g0ldf!nch",
+    "ssl": true,
+    "poolSize": 5
+  },
+  "smes": [
+    {
+      "userId": "k26413@corp.root.nasd.com",
+      "fullName": "Brett Scipioni",
+      "jobTitle": "FINRA Tech Contractor",
+      "phoneNumber": "240-386-6204",
+      "email": "Brett.Scipioni@finra.org"
+    },
+    {
+      "userId": "torrezt@corp.root.nasd.com",
+      "fullName": "Terri Torrez",
+      "jobTitle": "Lead Systems Analyst",
+      "phoneNumber": "240-386-5576",
+      "email": "Terri.Torrez@finra.org"
     }
+  ],
+  "userRoles": {
+    "authorizedUserRoles": {
+      "securityRoles": [
+        "DATAMGT_FINRA_APP"
+      ]
+    },
+    "UnAuthorizedUserRoles": {
+      "securityRoles": [
+        "DATAMGT_FINRA_APP_NONE"
+      ]
+    }
+  },
+  "data_objects": {
+    "DATAMGT_ADMIN": true,
+    "DATAMGT_TAG_OWNER": true
+  }
 }
