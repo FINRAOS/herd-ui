@@ -63,19 +63,19 @@ describe('data-objects detail', () => {
     it('version info: BData details page', async () => {
       const versionSelector = await page.detailsContainer.element(by.className('version-select'));
       const versionSelectorOptions = versionSelector.all(by.tagName('option'));
-      const versionSelectorOptionValues = versionSelectorOptions.getAttribute('ng-reflect-ng-value');
-      const versionSelected = versionSelector.getAttribute('ng-reflect-model');
+      const versionSelectorOptionValues = versionSelectorOptions.getAttribute('value');
+      const versionSelected = versionSelector.element(by.css('option:checked')).getText();
       await expect(page.status.getText()).toBe(data.versionTestV2.status);
       await expect(page.id.getText()).not.toBe('');
-      expect(versionSelectorOptionValues).toEqual(['2', '1', '0']);
-      expect(versionSelected).toBe('0');
+      await expect(versionSelectorOptionValues).toEqual(['0: 2', '1: 1', '2: 0']);
+      await expect(versionSelected).toContain('0');
     });
 
 
     it('change version: BData details page', async () => {
       // click on the version 1
       const versionSelector = await page.detailsContainer.element(by.className('version-select'));
-      await versionSelector.element(by.css('option[ng-reflect-ng-value="1"]')).click();
+      await versionSelector.element(by.css('option[value="1: 1"]')).click();
       await expect(browser.getCurrentUrl()).toContain(baseDetail.replaceUrlParams(data.versionTestV1, null, 1));
     });
 
@@ -100,19 +100,6 @@ describe('data-objects detail', () => {
     it('Data attributes values are populated', async () => {
       // Validate that there are two rows
       await expect(page.userDefAttributesTableRows.count()).toEqual(1);
-      // expect(await page.userDefAttributesTableRows.count()).toEqual(3);
-
-      await expect(page.userDefAttributesTableRows.get(0).getText())
-        .toEqual('S3_MANAGED\nENABLED\nbucket.name:\n4652-5751-2377-data-mgmt\ndirectory:\nns-protractor-test-dl42' +
-          '/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v1/test-key=versionTest');
-       //  [data.versionTestV2.attributes[0].name, data.versionTestV2.attributes[0].value].join('\n'));
-
-       // TODO: fix this test so that data-mgmt is not in the bucket name for this file but another file and imported @ani
-      // expect(await page.userDefAttributesTableRows.get(1).getText()).toEqual(
-      //   'DDLStorage9638\nENABLED\nBucket name:\n{{reinsert here}}\n\nDirectory:\nperfdatasearch/' +
-      //   'perfprovider/ddldata/txt/data-lineage-test/schm-v0/data-v2/test-key=perfkey'
-      //   // [data.versionTestV2.attributes[1].name, data.versionTestV2.attributes[1].value].join('\n')
-      // );
     });
 
     it('Data attributes registered message displaying correctly when no attributes registered', async () => {

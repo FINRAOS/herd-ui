@@ -25,8 +25,6 @@ import { ContactsComponent } from './components/contacts/contacts.component';
 
 @NgModule({
   imports: [
-    CodemirrorModule,
-    ClipboardModule,
     DataEntitiesRoutingModule,
     SharedModule
   ],

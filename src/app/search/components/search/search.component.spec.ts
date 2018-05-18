@@ -17,7 +17,7 @@ import {TestBed, async, ComponentFixture} from '@angular/core/testing';
 import {SearchComponent} from './search.component';
 import {SharedModule} from '../../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
-import {SearchService} from './search.service';
+import {SearchService} from '../../../shared/services/search.service';
 import {IndexSearchService} from '@herd/angular-client';
 import {HttpModule} from '@angular/http';
 import {ConfigService} from '../../../core/services/config.service';
@@ -36,18 +36,8 @@ describe('SearchComponent', () => {
   const mockData: IndexSearchMockData = new IndexSearchMockData();
   let component: SearchComponent;
   let fixture: ComponentFixture<SearchComponent>;
+  let searchService: SearchService;
 
-  const userId = 'mockUserId';
-  const userIdEncrypted = 'mockEncryptedUserId';
-
-  const indexSearchResult = {
-    'tagTypes': [{
-      'tagTypeKey': {'tagTypeCode': 'tagTypeCodeTest'},
-      'displayName': 'testDisplayName',
-      'tagTypeOrder': 1,
-      'description': 'test-description'
-    }]
-  };
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -119,6 +109,7 @@ describe('SearchComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchComponent);
     component = fixture.componentInstance;
+    searchService = fixture.debugElement.injector.get(SearchService);
   });
 
   it('should create the search component', async(() => {
@@ -127,41 +118,47 @@ describe('SearchComponent', () => {
   }));
 
   it('Search is returning index search result', async(() => {
-    const searchService = fixture.debugElement.injector.get(SearchService);
-
-    const spySearchService = spyOn(searchService, 'search')
+    const searchCalled = spyOn(searchService, 'search')
       .and.returnValue(Observable.of({ indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
-
     component.search();
     expect(component.indexSearchResults).toEqual(mockData.indexSearchResponse['indexSearchResults']);
+    expect(searchCalled).toHaveBeenCalled();
+  }));
+
+  it('Facet change when no facet exists', async(() => {
+    const searchCalled = spyOn(searchService, 'search')
+      .and.returnValue(Observable.of({ indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
+    const event = {
+      nofacets: []
+    };
+    component.facetChange(event);
+    expect(component.facets).toBe(undefined);
+    expect(searchCalled.calls.count()).toEqual(1);
   }));
 
   it('Facet change function is changing facets and effecting search result', async() => {
+    const searchCalled = spyOn(searchService, 'search')
+      .and.returnValue(Observable.of({ indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
     const event: any = {
       facets: mockData.facets,
       newSearch: true
     };
-
     event.facets[0]['facets'][0].state = 1;
     event.facets[1]['facets'][0].state = 2;
-    const searchService = fixture.debugElement.injector.get(SearchService);
-    const spySearchService = spyOn(searchService, 'search')
-    .and.returnValue(Observable.of({ indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
-
     component.facetChange(event);
     expect(component.indexSearchResults).toEqual(mockData.indexSearchResponse['indexSearchResults']);
+    expect(searchCalled).toHaveBeenCalled();
   });
 
   it('Make highlight is joining all the high light htmls for view purpose', async(() => {
+    const testHtml = '<b>testhtml</b>';
+    const joinHighlightCalled = spyOn(searchService, 'joinHighlight').and.returnValue(testHtml);
     const highLightArray = {fields: [
       {fieldName: 'description', fragments: ['kamal', 'managets']}
     ]};
-    const testHtml = '<b>testhtml</b>';
-    const searchService = fixture.debugElement.injector.get(SearchService);
-    const spySearchService = spyOn(searchService, 'joinHighlight').and.returnValue(testHtml);
-
     const highlightResult = component.makeHighlightFull(highLightArray);
     expect(highlightResult).toBe(testHtml);
+    expect(joinHighlightCalled).toHaveBeenCalled();
   }));
 
 });

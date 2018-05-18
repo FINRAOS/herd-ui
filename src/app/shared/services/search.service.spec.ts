@@ -20,7 +20,6 @@ import { Observable } from 'rxjs/Observable';
 import { HttpModule } from '@angular/http';
 import { async } from '@angular/core/testing';
 import { IndexSearchMockData } from 'testing/IndexSearchMockData';
-import { HighlightDisplayMapping } from 'app/search/components/search/highlight-display-mapping';
 
 
 describe('SearchService', () => {
@@ -65,7 +64,7 @@ describe('SearchService', () => {
             facets: null
           }
         ]
-      }
+      };
 
       iSearchSpy = spyOn(indexSearchApi, 'indexSearchIndexSearch').and.returnValue(Observable.of(
         {

@@ -22,21 +22,21 @@ export class IndexSearchMockData {
     'totalIndexSearchResults': 2,
     'indexSearchResults': [
       {
-      'indexSearchResultType': 'tag',
-      'indexSearchResultKey': {
-        'tagKey': {'tagTypeCode': 'tagTypeCodeTest', 'tagCode': 'TestTagCode'},
-        'businessObjectDefinitionKey': null
-      },
-      'displayName': 'displayNameTest',
-      'shortDescription': 'shortDescriptionTest',
-      'highlight': {
-        'fields': [{
-          'fieldName': 'fieldNameTest',
-          'fragments': ['The <hlt class="highlight">Test</hlt> something else test <hlt class="highlight">otest</hlt> ' +
-          'tst, <hlt class="highlight">otest2</hlt> othertest ']
-        }]
-      }
-    }, {
+        'indexSearchResultType': 'tag',
+        'indexSearchResultKey': {
+          'tagKey': {'tagTypeCode': 'tagTypeCodeTest', 'tagCode': 'TestTagCode'},
+          'businessObjectDefinitionKey': null
+        },
+        'displayName': 'displayNameTest',
+        'shortDescription': 'shortDescriptionTest',
+        'highlight': {
+          'fields': [{
+            'fieldName': 'fieldNameTest',
+            'fragments': ['The <hlt class="highlight">Test</hlt> something else test <hlt class="highlight">otest</hlt> ' +
+            'tst, <hlt class="highlight">otest2</hlt> othertest ']
+          }]
+        }
+      }, {
         'indexSearchResultType': 'tag1',
         'indexSearchResultKey': {
           'tagKey': {'tagTypeCode': 'tagTypeCodeTest1', 'tagCode': 'TestTagCode1'},
@@ -90,7 +90,7 @@ export class IndexSearchMockData {
         {
           'facetDisplayName': 'test 15',
           'facetCount': 69,
-          'facetType': 'TagTest',
+          'facetType': 'ResultType',
           'facetId': 'RFRNC',
           'facets': null,
         }, {
@@ -100,10 +100,16 @@ export class IndexSearchMockData {
           'facetId': 'testid34',
           'facets': null
         },
-        {'facetDisplayName': 'test 17', 'facetCount': 8, 'facetType': 'Tag', 'facetId': 'fidstest1', 'facets': null}
+        {
+          'facetDisplayName': 'test 17',
+          'facetCount': 8,
+          'facetType': 'Tag',
+          'facetId': 'fidstest1',
+          'facets': null
+        }
       ]
     }, {
-       'facetDisplayName': 'test 18',
+      'facetDisplayName': 'test 18',
       'facetCount': 2,
       'facetType': 'TagType',
       'facetId': 'number45',
@@ -115,7 +121,13 @@ export class IndexSearchMockData {
           'facetId': 'number56',
           'facets': null
         },
-        {'facetDisplayName': 'test 20', 'facetCount': 1, 'facetType': 'Tag', 'facetId': 'facetid', 'facets': null}
+        {
+          'facetDisplayName': 'test 20',
+          'facetCount': 1,
+          'facetType': 'Tag',
+          'facetId': 'facetid',
+          'facets': null
+        }
       ]
     }
   ];

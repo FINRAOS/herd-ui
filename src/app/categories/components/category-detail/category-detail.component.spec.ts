@@ -13,34 +13,36 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { ActivatedRouteStub, RouterStub } from './../../../../testing/router-stubs';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RouterTestingModule } from '@angular/router/testing';
-import { SharedModule } from '../../../shared/shared.module';
-import { CategoryDetailComponent } from './category-detail.component';
-import { HttpModule } from '@angular/http';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import {ActivatedRouteStub, RouterStub} from './../../../../testing/router-stubs';
+import {async, ComponentFixture, TestBed, inject} from '@angular/core/testing';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {RouterTestingModule} from '@angular/router/testing';
+import {SharedModule} from '../../../shared/shared.module';
+import {CategoryDetailComponent} from './category-detail.component';
+import {HttpModule} from '@angular/http';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 import {
   Tag, TagService, BusinessObjectDefinitionService,
-  CurrentUserService, Configuration, TagSearchResponse
+  CurrentUserService, Configuration, TagSearchResponse, IndexSearchService
 } from '@herd/angular-client'
-import { IndexSearchMockData } from 'testing/IndexSearchMockData';
-import { RelatedDataEntities } from 'testing/RelatedDataEntities';
-import { GoogleAnalyticsService } from '../../../shared/services/google-analytics.service';
+import {IndexSearchMockData} from 'testing/IndexSearchMockData';
+import {RelatedDataEntities} from 'testing/RelatedDataEntities';
+import {GoogleAnalyticsService} from '../../../shared/services/google-analytics.service';
+import {SearchService} from '../../../shared/services/search.service';
+import {Subscription} from 'rxjs/Subscription';
 
 describe('CategoryDetailComponent', () => {
   const indexSearchMockData: IndexSearchMockData = new IndexSearchMockData();
   const relatedDataEntities: RelatedDataEntities = new RelatedDataEntities();
   let component: CategoryDetailComponent;
   let fixture: ComponentFixture<CategoryDetailComponent>;
-  let spyBusinessObjectDefinitionApi, spyParentTagApi, spyTagSearchApi
+  let spyBusinessObjectDefinitionApi, spyParentTagApi, spyTagSearchApi, spySearchServiceApi;
 
   const parentTag = {
     'tag': {
       'id': null,
-      'tagKey': { 'tagTypeCode': 'TagTypeCode', 'tagCode': 'TagCode' },
+      'tagKey': {'tagTypeCode': 'TagTypeCode', 'tagCode': 'TagCode'},
       'displayName': 'Equity',
       'description': null,
       'userId': null,
@@ -65,7 +67,15 @@ describe('CategoryDetailComponent', () => {
       ],
       declarations: [CategoryDetailComponent],
       providers: [
-        { provide: Configuration, useValue: {} },
+        {
+          provide: IndexSearchService,
+          useValue: {
+            indexSearchIndexSearch: jasmine.createSpy('indexSearchIndexSearch'),
+            configuration: {}
+          }
+        },
+        SearchService,
+        {provide: Configuration, useValue: {}},
         {
           provide: TagService,
           useValue: {
@@ -83,8 +93,8 @@ describe('CategoryDetailComponent', () => {
             configuration: {}
           }
         },
-        { provide: ActivatedRoute, useClass: ActivatedRouteStub },
-        { provide: Router, useClass: RouterStub },
+        {provide: ActivatedRoute, useClass: ActivatedRouteStub},
+        {provide: Router, useClass: RouterStub},
         {
           provide: GoogleAnalyticsService, useValue: {
             sendEventData: jasmine.createSpy('sendEventData')
@@ -101,15 +111,19 @@ describe('CategoryDetailComponent', () => {
   });
 
   beforeEach(async(inject([
-    TagService,
-    BusinessObjectDefinitionService],
-    (tagApi: TagService,
-      bdefApi: BusinessObjectDefinitionService) => {
+      IndexSearchService,
+      TagService,
+      BusinessObjectDefinitionService],
+    (indexSearchService: IndexSearchService,
+     tagApi: TagService,
+     bdefApi: BusinessObjectDefinitionService) => {
       // Spy on the services
       spyBusinessObjectDefinitionApi = (<jasmine.Spy>bdefApi.businessObjectDefinitionIndexSearchBusinessObjectDefinitions)
         .and.returnValue(Observable.of(relatedDataEntities.relatedDataEntities));
       spyParentTagApi = (<jasmine.Spy>tagApi.tagGetTag).and.returnValue(Observable.of(parentTag.tag));
       spyTagSearchApi = (<jasmine.Spy>tagApi.tagSearchTags).and.returnValue(Observable.of(tagSearchResponse));
+      spySearchServiceApi = (<jasmine.Spy>indexSearchService.indexSearchIndexSearch)
+        .and.returnValue(Observable.of(indexSearchMockData.indexSearchResponse));
     })));
   it('should create', async(() => {
     expect(component).toBeTruthy();
@@ -118,7 +132,7 @@ describe('CategoryDetailComponent', () => {
   it('should set all data onInit - no parentTag', async(inject([ActivatedRoute], (activeRoute: ActivatedRouteStub) => {
     const category: Tag = {
       'id': null,
-      'tagKey': { 'tagTypeCode': 'TagTypeCode', 'tagCode': 'QTY' },
+      'tagKey': {'tagTypeCode': 'TagTypeCode', 'tagCode': 'QTY'},
       'displayName': 'quity',
       'description': null,
       'userId': null,
@@ -142,7 +156,7 @@ describe('CategoryDetailComponent', () => {
     fixture.detectChanges();
     expect(component.parent).toEqual(undefined);
     expect(component.tagChildren).toEqual(tagSearchResponse.tags);
-    expect(spyBusinessObjectDefinitionApi.calls.count()).toEqual(1);
+    expect(spySearchServiceApi.calls.count()).toEqual(1);
     expect(spyParentTagApi.calls.count()).toEqual(0);
     expect(spyTagSearchApi.calls.count()).toEqual(1);
   })));
@@ -151,13 +165,13 @@ describe('CategoryDetailComponent', () => {
 
     const category = {
       'id': null,
-      'tagKey': { 'tagTypeCode': 'TagTypeCode', 'tagCode': 'QTY' },
+      'tagKey': {'tagTypeCode': 'TagTypeCode', 'tagCode': 'QTY'},
       'displayName': 'quity',
       'description': null,
       'userId': null,
       'lastUpdatedByUserId': null,
       'updatedTime': null,
-      'parentTagKey': { 'tagTypeCode': 'TagTypeCode', 'tagCode': 'TagCode' },
+      'parentTagKey': {'tagTypeCode': 'TagTypeCode', 'tagCode': 'TagCode'},
       'hasChildren': null
     };
 
@@ -171,7 +185,7 @@ describe('CategoryDetailComponent', () => {
     expect(component.parent).not.toEqual(undefined);
     expect(component.tagChildren).toEqual(tagSearchResponse.tags);
 
-    expect(spyBusinessObjectDefinitionApi.calls.count()).toEqual(1);
+    expect(spySearchServiceApi.calls.count()).toEqual(1);
     expect(spyParentTagApi.calls.count()).toEqual(1);
     expect(spyTagSearchApi.calls.count()).toEqual(1);
   })));
@@ -188,7 +202,7 @@ describe('CategoryDetailComponent', () => {
           {
             'facetDisplayName': 'test-facet-displayname1',
             'facetCount': 69,
-            'facetType': 'Tag',
+            'facetType': 'ResultType',
             'facetId': 'test-facet-id2',
             'facets': null,
             'state': 1
@@ -215,7 +229,7 @@ describe('CategoryDetailComponent', () => {
       facets: _facets
     };
     component.facetChange(event);
-    expect(component.facets).toBe(relatedDataEntities.relatedDataEntities.facets);
+    expect(component.facets).toBe(indexSearchMockData.indexSearchResponse.facets);
   }));
 
   it('Facet change when no inclusion and exclusion filter exists', async(() => {
@@ -250,18 +264,37 @@ describe('CategoryDetailComponent', () => {
       }];
     const event = {
       facets: _facets
-    }
-    component.facetChange(event);
-    expect(component.facets).toBe(relatedDataEntities.relatedDataEntities.facets);
+    };
+    component.facetChange(indexSearchMockData.indexSearchResponse.facets);
+    expect(component.facets).toBe(indexSearchMockData.indexSearchResponse.facets);
+    expect(spySearchServiceApi.calls.count()).toEqual(1);
   }));
 
   it('Facet change when no facet exists', async(() => {
     const event = {
       nofacets: []
     };
+    component.lastFacetChange = new Subscription();
     component.facetChange(event);
-    expect(component.facets).toBe(relatedDataEntities.relatedDataEntities.facets);
+    expect(component.facets).toBe(indexSearchMockData.indexSearchResponse.facets);
+    expect(spySearchServiceApi.calls.count()).toEqual(1);
   }));
+
+  it('Facet change function is changing facets and effecting search result', async() => {
+    const event: any = {
+      facets: indexSearchMockData.facets,
+      newSearch: true
+    };
+
+    event.facets[0]['facets'][0].state = 1;
+    event.facets[1]['facets'][0].state = 2;
+    const searchService = fixture.debugElement.injector.get(SearchService);
+    const spySearchService = spyOn(searchService, 'search')
+      .and.returnValue(Observable.of({ indexSearchResults: indexSearchMockData.indexSearchResponse['indexSearchResults']}));
+
+    component.facetChange(event);
+    expect(component.results).toEqual(indexSearchMockData.indexSearchResponse['indexSearchResults']);
+  });
 
   it('on category link click', async(inject([Router], (r: Router) => {
     component.onCategoryLinkClick(parentTag.tag);

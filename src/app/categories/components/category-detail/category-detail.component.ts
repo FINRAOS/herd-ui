@@ -13,17 +13,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {default as AppIcons} from '../../../shared/utils/app-icons';
 import {Action} from '../../../shared/components/side-action/side-action.component';
 import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
-  Tag, TagService, TagKey, TagSearchRequest, BusinessObjectDefinitionSearchKey, Facet,
-  BusinessObjectDefinition,
-  BusinessObjectDefinitionSearchFilter, BusinessObjectDefinitionService
+  Tag, TagService, TagSearchRequest, Facet,
+  IndexSearchResult, IndexSearchKey, Highlight
 } from '@herd/angular-client'
-import { Subscription } from 'rxjs/Subscription';
+import {Subscription} from 'rxjs/Subscription';
+import {SearchService} from '../../../shared/services/search.service';
 
 @Component({
   selector: 'sd-category-detail',
@@ -31,31 +31,34 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./category-detail.component.scss']
 })
 export class CategoryDetailComponent implements OnInit {
- lastFacetChange: Subscription;
- sideActions: Action[];
- category: Tag;
- tagChildren: Tag[];
- parent: Observable<Tag> | any;
- private tagTypeCode: string;
- private tagCode: string;
+  lastFacetChange: Subscription;
+  sideActions: Action[];
+  category: Tag;
+  tagChildren: Tag[];
+  parent: Observable<Tag> | any;
+  private tagTypeCode: string;
+  private tagCode: string;
+  match = '';
 
   // variables for related data entity
   public newSearch = true;
   public loading = false;
-  public results: Array<BusinessObjectDefinition> = [];
+  public results: Array<IndexSearchResult> = [];
   public facets: Array<Facet>;
+  public totalIndexSearchResults;
   public indexSearchFilters: any;
   private fields = 'dataProviderName,shortDescription,displayName';
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private tagApi: TagService,
-              private businessObjectDefinitionApi: BusinessObjectDefinitionService) {
+              private searchService: SearchService,
+              private tagApi: TagService
+  ) {
   }
 
   ngOnInit() {
     // Subscribe to the route params
-   this.route.params.subscribe(params => {
+    this.route.params.subscribe(params => {
       this.tagTypeCode = params['tagTypeCode'];
       this.tagCode = params['tagCode'];
     });
@@ -73,26 +76,27 @@ export class CategoryDetailComponent implements OnInit {
 
   getCategoryDetails() {
 
-        const tagSearchRequest: TagSearchRequest = {
-      tagSearchFilters: [{tagSearchKeys: [{
-            tagTypeCode: this.tagTypeCode,
-            parentTagCode: this.tagCode,
-            isParentTagNull: false
+    const tagSearchRequest: TagSearchRequest = {
+      tagSearchFilters: [{
+        tagSearchKeys: [{
+          tagTypeCode: this.tagTypeCode,
+          parentTagCode: this.tagCode,
+          isParentTagNull: false
+        }]
       }]
-    }]
-  };
+    };
 
-   const fields = 'displayName,description,parentTagKey,hasChildren';
+    const fields = 'displayName,description,parentTagKey,hasChildren';
 
-      if (this.category.parentTagKey !== null) {
-        this.parent = this.tagApi.tagGetTag(this.tagTypeCode, this.category.parentTagKey.tagCode)
+    if (this.category.parentTagKey !== null) {
+      this.parent = this.tagApi.tagGetTag(this.tagTypeCode, this.category.parentTagKey.tagCode)
         .map((parent) => {
-            return parent;
+          return parent;
         });
-      }
-      this.tagApi.tagSearchTags(tagSearchRequest, fields).subscribe((tagChildren) => {
-          this.tagChildren = tagChildren.tags;
-        });
+    }
+    this.tagApi.tagSearchTags(tagSearchRequest, fields).subscribe((tagChildren) => {
+      this.tagChildren = tagChildren.tags;
+    });
   }
 
   /*
@@ -108,7 +112,7 @@ export class CategoryDetailComponent implements OnInit {
   }
 
   public onCategoryLinkClick(tag) {
-    this.router.navigate(['categories', tag.tagKey.tagTypeCode, tag.tagKey.tagCode ]);
+    this.router.navigate(['categories', tag.tagKey.tagTypeCode, tag.tagKey.tagCode]);
   }
 
   public facetChange(event) {
@@ -122,19 +126,29 @@ export class CategoryDetailComponent implements OnInit {
     }
 
     this.indexSearchFilters.push({
-        businessObjectDefinitionSearchKeys: [{
-          tagKey: {tagTypeCode: this.tagTypeCode, tagCode: this.tagCode},
-          includeTagHierarchy: true
-        }],
-        isExclusionSearchFilter: false
-      });
+      indexSearchKeys: [{
+        tagKey: {tagTypeCode: this.tagTypeCode, tagCode: this.tagCode},
+        includeTagHierarchy: true
+      }],
+      isExclusionSearchFilter: false
+    });
 
     // build a filter per base facet
     this.facets.forEach((facet: any) => {
-      const inclusions: BusinessObjectDefinitionSearchKey[] = [];
-      const exclusions: BusinessObjectDefinitionSearchKey[] = [];
+      const inclusions: IndexSearchKey[] = [];
+      const exclusions: IndexSearchKey[] = [];
       facet.facets.forEach((child) => {
-        const keyData: BusinessObjectDefinitionSearchKey = {tagKey: {tagTypeCode: facet.facetId, tagCode: child.facetId}};
+        let keyData: IndexSearchKey;
+        switch (child.facetType) {
+          case 'Tag':
+            keyData = {tagKey: {tagTypeCode: facet.facetId, tagCode: child.facetId}};
+            break;
+          case 'ResultType':
+            keyData = {indexSearchResultTypeKey: {indexSearchResultType: child.facetId}};
+            break;
+          default:
+            break;
+        }
 
         switch (child.state) {
           case 1:
@@ -146,27 +160,33 @@ export class CategoryDetailComponent implements OnInit {
           default:
             break;
         }
-        // add the inclusion filter
-        if (inclusions.length) {
-          this.indexSearchFilters.push({businessObjectDefinitionSearchKeys: inclusions, isExclusionSearchFilter: false});
-        }
       });
 
+      // add the inclusion filter
+      if (inclusions.length) {
+        this.indexSearchFilters.push({indexSearchKeys: inclusions, isExclusionSearchFilter: false});
+      }
       // add the exclude filter
       if (exclusions.length) {
-        this.indexSearchFilters.push({businessObjectDefinitionSearchKeys: exclusions, isExclusionSearchFilter: true});
+        this.indexSearchFilters.push({indexSearchKeys: exclusions, isExclusionSearchFilter: true});
       }
     });
 
-    const request = {businessObjectDefinitionSearchFilters: this.indexSearchFilters, facetFields: ['Tag']}
 
-    this.lastFacetChange = this.businessObjectDefinitionApi
-      .businessObjectDefinitionIndexSearchBusinessObjectDefinitions(request, this.fields).subscribe((response) => {
-      this.results = response.businessObjectDefinitions;
+    this.search();
+  }
+
+  public search() {
+    this.loading = true;
+
+    this.searchService.search(null, this.indexSearchFilters, this.match).subscribe((response) => {
+      this.results = response.indexSearchResults;
       this.facets = response.facets;
+      this.totalIndexSearchResults = response.totalIndexSearchResults;
       this.loading = false;
     });
   }
+
 }
 
 

@@ -228,7 +228,9 @@
           </span>
         </ng-template>
         <ng-template ngbTabContent>
-          <sd-schema-columns [content]="businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns">
+          <sd-schema-columns
+            [bdef]="businessObjectFormatDetail"
+            [content]="businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns">
           </sd-schema-columns>
         </ng-template>
       </ngb-tab>
