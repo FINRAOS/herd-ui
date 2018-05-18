@@ -13,7 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import {Component, Input, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
+import {AlertService, DangerAlert, SuccessAlert} from '../../../core/services/alert.service';
+import {BusinessObjectFormatDdlRequest, BusinessObjectFormatService} from '@herd/angular-client';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'sd-schema-columns',
@@ -24,56 +28,108 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 export class SchemaColumnsComponent implements OnInit {
   // TODO: remove this component as it is not needed anymore. do not use this compponent
   @Input() content: any;
-  schemaCols = [{
-        templateField: 'name',
-        field: 'name',
-        header: 'Name',
-        hide: false,
-        sortable: true,
-        style: { 'width': '80px' }
-    }, {
-        templateField: 'type',
-        field: 'type',
-        header: 'Type',
-        hide: false,
-        sortable: true,
-        style: { 'width': '80px'}
-    }, {
-        templateField: 'size',
-        field: 'size',
-        header: 'Size',
-        hide: false,
-        sortable: true,
-        style: { 'width': '40px' }
-    },
-     {
-        templateField: 'required',
-        field: 'required',
-        header: 'Required?',
-        hide: false,
-        sortable: true,
-        style: { 'width': '60px' }
-    }, {
-        templateField: 'defaultValue',
-        field: 'defaultValue',
-        header: 'Default Value',
-        hide: false,
-        sortable: true,
-        style: { 'width': '85px' }
-    },
+  @Input() bdef: any;
+  schemaCols = [
     {
-        templateField: 'bDefColumnDescription',
-        field: 'bDefColumnDescription',
-        header: 'Description',
-        hide: false,
-        sortable: true,
-        style: { 'width': '300px' }
-    }]
+      templateField: 'name',
+      field: 'name',
+      header: 'Name',
+      hide: false,
+      sortable: true,
+      style: {'width': '80px'}
+    }, {
+      templateField: 'type',
+      field: 'type',
+      header: 'Type',
+      hide: false,
+      sortable: true,
+      style: {'width': '80px'}
+    }, {
+      templateField: 'size',
+      field: 'size',
+      header: 'Size',
+      hide: false,
+      sortable: true,
+      style: {'width': '40px'}
+    }, {
+      templateField: 'required',
+      field: 'required',
+      header: 'Required?',
+      hide: false,
+      sortable: true,
+      style: {'width': '60px'}
+    }, {
+      templateField: 'defaultValue',
+      field: 'defaultValue',
+      header: 'Default Value',
+      hide: false,
+      sortable: true,
+      style: {'width': '85px'}
+    }, {
+      templateField: 'bDefColumnDescription',
+      field: 'bDefColumnDescription',
+      header: 'Description',
+      hide: false,
+      sortable: true,
+      style: {'width': '300px'}
+    }
+  ];
 
-  constructor() {
+  ddl = '';
+  ddlError: DangerAlert;
+  config = {lineNumbers: true, mode: 'text/x-go', readOnly: true};
+  modalReference: NgbModalRef;
+
+  constructor(
+    private alertService: AlertService,
+    private modalService: NgbModal,
+    private businessObjectFormatService: BusinessObjectFormatService
+  ) {
   }
 
   ngOnInit() {
+    if (this.bdef && this.bdef.namespace) {
+      this.getDDL(this.bdef);
+    }
+  }
+
+  alertSuccessfulCopy() {
+    this.alertService.alert(new SuccessAlert(
+      'Success!', '', 'DDL Successfully copied to clipboard'
+    ))
+  }
+
+  getDDL(bdef) {
+    const businessObjectFormatDdlRequest: BusinessObjectFormatDdlRequest = {
+      namespace: bdef.namespace,
+      businessObjectDefinitionName: bdef.businessObjectDefinitionName,
+      businessObjectFormatUsage: bdef.businessObjectFormatUsage,
+      businessObjectFormatFileType: bdef.businessObjectFormatFileType,
+      outputFormat: BusinessObjectFormatDdlRequest.OutputFormatEnum.DDL,
+      tableName: bdef.businessObjectDefinitionName
+    };
+    this.businessObjectFormatService.defaultHeaders.append('skipAlert', 'true');
+
+    this.businessObjectFormatService.businessObjectFormatGenerateBusinessObjectFormatDdl(businessObjectFormatDdlRequest)
+      .pipe(finalize(() => {
+        this.businessObjectFormatService.defaultHeaders.delete('skipAlert');
+      })).subscribe((response) => {
+      this.ddl = response.ddl;
+    }, (error) => {
+      this.ddlError = new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
+        'URL: ' + error.url, 'Info: ' + error.json().message);
+    });
+  }
+
+  open(content: TemplateRef<any> | String, windowClass?: string) {
+    // append the modal to the data-entity-detail container so when views are switched it goes away with taht view.
+    this.modalReference = this.modalService.open(content, {windowClass: windowClass, size: 'lg', container: '.schema-columns'});
+    return this.modalReference;
+  }
+
+  close() {
+    this.modalReference.close();
   }
 
 }
+

@@ -16,7 +16,7 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protractor';
 import {BasePo} from '../base/base.po';
 import data from './operations/data';
-import {HitMatchTypes} from 'app/search/components/search/search.service';
+import {HitMatchTypes} from 'app/shared/services/search.service';
 
 const conf = require('../../config/conf.e2e.json');
 

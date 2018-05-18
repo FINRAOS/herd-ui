@@ -42,4 +42,12 @@ describe('FilterTemplateComponent', () => {
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should toggle and remove filter', () => {
+    component.remove();
+    component.isFilterContentShown = false;
+    component.toggleContent();
+    expect(component.isFilterContentShown).toBeTruthy();
+  });
+
 });

@@ -21,8 +21,7 @@ import {
 } from '@angular/router';
 import {IndexSearchResult, Facet} from '@herd/angular-client';
 import {Observable} from 'rxjs/Observable';
-import {Title} from '@angular/platform-browser';
-import {SearchService} from '../components/search/search.service';
+import {SearchService} from '../../shared/services/search.service';
 
 export interface TitleResolverData {
   title?: string;

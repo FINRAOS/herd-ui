@@ -191,7 +191,7 @@
             resizableColumns="true" exportFilename="data-entity-columns" [loading]="loading">
             <p-header *ngIf="bdefColumns && bdefColumns.length">
               <div class="table-header row justify-content-end">
-                <button class="btn btn-primary" (click)="open(extractDdl, '')">Generate DDL</button> &nbsp;
+                <button class="btn btn-primary" (click)="open(extractDdl, '')">Generate Format DDL</button> &nbsp;
                 <button class="btn btn-primary" type="button" pButton icon="fa-download" iconPos="left" label="Download CSV" (click)="dt.exportCSV()"></button>&nbsp;&nbsp;
               </div>
             </p-header>

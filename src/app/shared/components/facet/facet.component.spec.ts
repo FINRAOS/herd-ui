@@ -22,7 +22,7 @@ import {IndexSearchMockData} from 'testing/IndexSearchMockData';
 import {EventEmitter, NO_ERRORS_SCHEMA, SimpleChange} from '@angular/core';
 import { Facet } from '@herd/angular-client';
 import { TriStateEnum } from 'app/shared/components/tri-state/tri-state.component';
-import { FacetTriState } from 'app/search/components/search/facet-tri-state.enum';
+import { FacetTriState } from 'app/shared/services/facet-tri-state.enum';
 import { SimpleChanges } from '@angular/core';
 
 describe('FacetComponent', () => {
@@ -116,7 +116,7 @@ describe('FacetComponent', () => {
       changeObject = { facets: new SimpleChange(mockData.facets, newFacetData, false)};
       component.ngOnChanges(changeObject);
       expect(component.viewFacets).toEqual(newExpectedFacets);
-  }))
+  }));
 
   it('send data to google analytics on facet event change', async(
     inject([GoogleAnalyticsService], (ga: GoogleAnalyticsService) => {

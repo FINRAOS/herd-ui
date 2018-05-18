@@ -37,16 +37,23 @@ export class Data {
       'order': '-1',
       'tags': [
         {
-          'code': 'FORD', 'displayName': 'Ford Company', 'parentCode': '',
+          'code': 'FORD',
+          'displayName': 'Ford Company',
+          'parentCode': '',
           'bdefs': [
             {
               'name': 'bdefLongDescription'
             }
           ]
         }, {
-          'code': 'TestTag1', 'displayName': 'Test Tag1 Company', 'parentCode': '', 'bdefs': []
+          'code': 'TestTag1',
+          'displayName': 'Test Tag1 Company',
+          'parentCode': '',
+          'bdefs': []
         }, {
-          'code': 'TestTag2', 'displayName': 'Test Tag2 Company', 'parentCode': '',
+          'code': 'TestTag2',
+          'displayName': 'Test Tag2 Company',
+          'parentCode': '',
           'bdefs': [
             {
               'name': 'bdefNoDisplayName'
@@ -85,14 +92,18 @@ export class Data {
       'order': '-2',
       'tags': [
         {
-          'code': 'LORD', 'displayName': 'LORD Company', 'parentCode': '',
-          'bdefs': [{
-            'name': 'bdefLongDescription'
-          }, {
-            'name': 'lordUniqueBdef'
-          }, {
-            'name': 'bdefNoDisplayName'
-          }]
+          'code': 'LORD',
+          'displayName': 'LORD Company',
+          'parentCode': '',
+          'bdefs': [
+            {
+              'name': 'bdefLongDescription'
+            }, {
+              'name': 'lordUniqueBdef'
+            }, {
+              'name': 'bdefNoDisplayName'
+            }
+          ]
         }
       ]
     };
@@ -106,10 +117,14 @@ export class Data {
       'order': '0',
       'tags': [
         {
-          'code': 'LORD_1', 'displayName': 'LORD Company_1', 'parentCode': '',
-          'bdefs': [{
-            'name': 'lordUniqueBdef'
-          }]
+          'code': 'LORD_1',
+          'displayName': 'LORD Company_1',
+          'parentCode': '',
+          'bdefs': [
+            {
+              'name': 'lordUniqueBdef'
+            }
+          ]
         }
       ]
     };

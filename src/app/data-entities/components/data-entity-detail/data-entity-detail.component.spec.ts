@@ -434,25 +434,25 @@ describe('DataEntityDetailComponent', () => {
   });
 
   beforeEach(async(inject([
-    BusinessObjectDefinitionSubjectMatterExpertService,
-    SubjectMatterExpertService,
-    TagTypeService,
-    TagService,
-    BusinessObjectDefinitionTagService,
-    BusinessObjectDefinitionService,
-    UploadAndDownloadService,
-    BusinessObjectFormatService,
-    BusinessObjectDefinitionColumnService,
+      BusinessObjectDefinitionSubjectMatterExpertService,
+      SubjectMatterExpertService,
+      TagTypeService,
+      TagService,
+      BusinessObjectDefinitionTagService,
+      BusinessObjectDefinitionService,
+      UploadAndDownloadService,
+      BusinessObjectFormatService,
+      BusinessObjectDefinitionColumnService,
       ActivatedRoute],
     (bdefSmeApi: BusinessObjectDefinitionSubjectMatterExpertService,
-      smeApi: SubjectMatterExpertService,
-      tagTypeApi: TagTypeService,
-      tagApi: TagService,
-      bdefTagApi: BusinessObjectDefinitionTagService,
-      bdefApi: BusinessObjectDefinitionService,
-      downloadApi: UploadAndDownloadService,
-      bformatApi: BusinessObjectFormatService,
-      bColApi: BusinessObjectDefinitionColumnService, activeRoute: ActivatedRouteStub) => {
+     smeApi: SubjectMatterExpertService,
+     tagTypeApi: TagTypeService,
+     tagApi: TagService,
+     bdefTagApi: BusinessObjectDefinitionTagService,
+     bdefApi: BusinessObjectDefinitionService,
+     downloadApi: UploadAndDownloadService,
+     bformatApi: BusinessObjectFormatService,
+     bColApi: BusinessObjectDefinitionColumnService, activeRoute: ActivatedRouteStub) => {
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
@@ -460,10 +460,10 @@ describe('DataEntityDetailComponent', () => {
       spyBdefColApi = (<jasmine.Spy>bColApi.businessObjectDefinitionColumnSearchBusinessObjectDefinitionColumns).and.returnValue(
         Observable.of(bdefColSearchResponse));
       spyBdefFormatAllApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormats)
-      .and.returnValue(Observable.of(expectedFormats));
+        .and.returnValue(Observable.of(expectedFormats));
 
       spyBdefFormatDDLApi = (<jasmine.Spy>bformatApi.businessObjectFormatGenerateBusinessObjectFormatDdl)
-      .and.returnValue(Observable.of({ddl: ddl}));
+        .and.returnValue(Observable.of({ddl: ddl}));
 
       spyDownloadApi = (<jasmine.Spy>downloadApi.uploadandDownloadInitiateDownloadSingleSampleFile).and.returnValue(
         Observable.of(sampleDataResponse));
@@ -523,10 +523,10 @@ describe('DataEntityDetailComponent', () => {
 
   it('should catch error when sme is invalid, should catch error when no access to formats, bdef with no descriptive format',
     async((inject([
-      BusinessObjectDefinitionSubjectMatterExpertService,
-      SubjectMatterExpertService,
-      BusinessObjectFormatService,
-      BusinessObjectDefinitionColumnService, ActivatedRoute],
+        BusinessObjectDefinitionSubjectMatterExpertService,
+        SubjectMatterExpertService,
+        BusinessObjectFormatService,
+        BusinessObjectDefinitionColumnService, ActivatedRoute],
       (
         bdefSmeApi: BusinessObjectDefinitionSubjectMatterExpertService,
         smeApi: SubjectMatterExpertService,
@@ -548,13 +548,13 @@ describe('DataEntityDetailComponent', () => {
 
         // throw error when sme is invalid
         spyBdefSmeApi = (<jasmine.Spy>bdefSmeApi
-          .businessObjectDefinitionSubjectMatterExpertGetBusinessObjectDefinitionSubjectMatterExpertsByBusinessObjectDefinition
+            .businessObjectDefinitionSubjectMatterExpertGetBusinessObjectDefinitionSubjectMatterExpertsByBusinessObjectDefinition
         ).and.returnValue(Observable.of(bdefSmes));
         spySmeApi = (<jasmine.Spy>smeApi.subjectMatterExpertGetSubjectMatterExpert)
           .and.returnValue(Observable.throw(new Error()));
         // throw error when no access to formats
         spyBdefFormatAllApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormats)
-        .and.returnValue(Observable.throw(new Error()));
+          .and.returnValue(Observable.throw(new Error()));
 
         fixture.detectChanges();
         expect(component.bdef).toEqual(activeRoute.testData.resolvedData.bdef);
@@ -571,8 +571,8 @@ describe('DataEntityDetailComponent', () => {
 
   it('bdef with descriptive format and no schema columns',
     async((inject([
-      BusinessObjectFormatService,
-      BusinessObjectDefinitionColumnService, ActivatedRoute],
+        BusinessObjectFormatService,
+        BusinessObjectDefinitionColumnService, ActivatedRoute],
       (
         bformatApi: BusinessObjectFormatService,
         bColApi: BusinessObjectDefinitionColumnService, activeRoute: ActivatedRouteStub) => {
@@ -623,8 +623,8 @@ describe('DataEntityDetailComponent', () => {
 
   it('bdef with descriptive format and schema columns - with no matching schema column names ',
     async((inject([
-      BusinessObjectFormatService,
-      BusinessObjectDefinitionColumnService, ActivatedRoute],
+        BusinessObjectFormatService,
+        BusinessObjectDefinitionColumnService, ActivatedRoute],
       (
         bformatApi: BusinessObjectFormatService,
         bColApi: BusinessObjectDefinitionColumnService, activeRoute: ActivatedRouteStub) => {
@@ -718,8 +718,8 @@ describe('DataEntityDetailComponent', () => {
       }))));
 
   it('Should save edited display name on click of save button and alert success',
-  inject([BusinessObjectDefinitionService, AlertService, ActivatedRoute],
-    (defApi: BusinessObjectDefinitionService, alerter: AlertService, activeRoute: ActivatedRouteStub) => {
+    inject([BusinessObjectDefinitionService, AlertService, ActivatedRoute],
+      (defApi: BusinessObjectDefinitionService, alerter: AlertService, activeRoute: ActivatedRouteStub) => {
         const alertSpy = alerter.alert as jasmine.Spy;
         const updateSpy = defApi.businessObjectDefinitionUpdateBusinessObjectDefinitionDescriptiveInformation as jasmine.Spy;
         const expectedDisplayName = expectedBdef.displayName;
@@ -741,37 +741,37 @@ describe('DataEntityDetailComponent', () => {
       }));
 
   it('Should not save edited display name and alert failure on error',
-   inject([BusinessObjectDefinitionService, AlertService, ActivatedRoute],
-    (defApi: BusinessObjectDefinitionService, alerter: AlertService, activeRoute: ActivatedRouteStub) => {
-      const alertSpy = alerter.alert as jasmine.Spy;
-      const updateSpy = defApi.businessObjectDefinitionUpdateBusinessObjectDefinitionDescriptiveInformation as jasmine.Spy;
-      updateSpy.and.returnValue(Observable.throw('the error'));
-      const expectedDisplayName = expectedBdef.displayName;
+    inject([BusinessObjectDefinitionService, AlertService, ActivatedRoute],
+      (defApi: BusinessObjectDefinitionService, alerter: AlertService, activeRoute: ActivatedRouteStub) => {
+        const alertSpy = alerter.alert as jasmine.Spy;
+        const updateSpy = defApi.businessObjectDefinitionUpdateBusinessObjectDefinitionDescriptiveInformation as jasmine.Spy;
+        updateSpy.and.returnValue(Observable.throw('the error'));
+        const expectedDisplayName = expectedBdef.displayName;
 
-      activeRoute.testData = {
-        resolvedData: {
-          bdef: expectedBdef
-        }
-      };
+        activeRoute.testData = {
+          resolvedData: {
+            bdef: expectedBdef
+          }
+        };
 
-      fixture.detectChanges();
-      component.saveDataEntityDisplayName({text: 'new save text'});
+        fixture.detectChanges();
+        component.saveDataEntityDisplayName({text: 'new save text'});
 
-      expect(updateSpy).toHaveBeenCalledWith(component.bdef.namespace, component.bdef.businessObjectDefinitionName, {
-        description: component.bdef.description,
-        displayName: 'new save text',
-        descriptiveBusinessObjectFormat: component.bdef.descriptiveBusinessObjectFormat
-      } as BusinessObjectDefinitionDescriptiveInformationUpdateRequest);
-      expect(alertSpy).toHaveBeenCalledWith(new DangerAlert('Failure!',
-        'Unable to save your edit. Try again or contact support team.',
-        ''));
-      // was never set through lifecycle changes which is fine.
-      expect(component.bdef.displayName).toEqual(expectedDisplayName)
-    }));
+        expect(updateSpy).toHaveBeenCalledWith(component.bdef.namespace, component.bdef.businessObjectDefinitionName, {
+          description: component.bdef.description,
+          displayName: 'new save text',
+          descriptiveBusinessObjectFormat: component.bdef.descriptiveBusinessObjectFormat
+        } as BusinessObjectDefinitionDescriptiveInformationUpdateRequest);
+        expect(alertSpy).toHaveBeenCalledWith(new DangerAlert('Failure!',
+          'Unable to save your edit. Try again or contact support team.',
+          ''));
+        // was never set through lifecycle changes which is fine.
+        expect(component.bdef.displayName).toEqual(expectedDisplayName)
+      }));
 
   it('Should save edited description on click of save button and alert success',
-  inject([BusinessObjectDefinitionService, AlertService, ActivatedRoute],
-    (defApi: BusinessObjectDefinitionService, alerter: AlertService, activeRoute: ActivatedRouteStub) => {
+    inject([BusinessObjectDefinitionService, AlertService, ActivatedRoute],
+      (defApi: BusinessObjectDefinitionService, alerter: AlertService, activeRoute: ActivatedRouteStub) => {
         const alertSpy = alerter.alert as jasmine.Spy;
         const updateSpy = defApi.businessObjectDefinitionUpdateBusinessObjectDefinitionDescriptiveInformation as jasmine.Spy;
         const expectedDescription = expectedBdef.description;
@@ -793,36 +793,36 @@ describe('DataEntityDetailComponent', () => {
       }));
 
   it('Should not save edited description and alert failure on error',
-   inject([BusinessObjectDefinitionService, AlertService, ActivatedRoute],
-    (defApi: BusinessObjectDefinitionService, alerter: AlertService, activeRoute: ActivatedRouteStub) => {
-      const alertSpy = alerter.alert as jasmine.Spy;
-      const updateSpy = defApi.businessObjectDefinitionUpdateBusinessObjectDefinitionDescriptiveInformation as jasmine.Spy;
-      updateSpy.and.returnValue(Observable.throw('the error'));
-      const expectedDescription = expectedBdef.description;
+    inject([BusinessObjectDefinitionService, AlertService, ActivatedRoute],
+      (defApi: BusinessObjectDefinitionService, alerter: AlertService, activeRoute: ActivatedRouteStub) => {
+        const alertSpy = alerter.alert as jasmine.Spy;
+        const updateSpy = defApi.businessObjectDefinitionUpdateBusinessObjectDefinitionDescriptiveInformation as jasmine.Spy;
+        updateSpy.and.returnValue(Observable.throw('the error'));
+        const expectedDescription = expectedBdef.description;
 
-      activeRoute.testData = {
-        resolvedData: {
-          bdef: expectedBdef
-        }
-      };
+        activeRoute.testData = {
+          resolvedData: {
+            bdef: expectedBdef
+          }
+        };
 
-      fixture.detectChanges();
-      component.saveDataEntityDescription({text: 'new save text'});
+        fixture.detectChanges();
+        component.saveDataEntityDescription({text: 'new save text'});
 
-      expect(updateSpy).toHaveBeenCalledWith(component.bdef.namespace, component.bdef.businessObjectDefinitionName, {
-        description: 'new save text',
-        displayName: component.bdef.displayName,
-        descriptiveBusinessObjectFormat: component.bdef.descriptiveBusinessObjectFormat
-      } as BusinessObjectDefinitionDescriptiveInformationUpdateRequest);
-      expect(alertSpy).toHaveBeenCalledWith(new DangerAlert('Failure!',
-        'Unable to save your edit. Try again or contact support team.',
-        ''));
-      // was never set through lifecycle changes which is fine.
-      expect(component.bdef.description).toEqual(expectedDescription)
-    }));
+        expect(updateSpy).toHaveBeenCalledWith(component.bdef.namespace, component.bdef.businessObjectDefinitionName, {
+          description: 'new save text',
+          displayName: component.bdef.displayName,
+          descriptiveBusinessObjectFormat: component.bdef.descriptiveBusinessObjectFormat
+        } as BusinessObjectDefinitionDescriptiveInformationUpdateRequest);
+        expect(alertSpy).toHaveBeenCalledWith(new DangerAlert('Failure!',
+          'Unable to save your edit. Try again or contact support team.',
+          ''));
+        // was never set through lifecycle changes which is fine.
+        expect(component.bdef.description).toEqual(expectedDescription)
+      }));
 
   // TODO: fix this test to actually verify modal information by giving it ddl
-  it('Should open ddl model on click of generate DDL', () => {
+  it('Should open ddl model on click of Generate Format DDL', () => {
     const modal = component.open('test ddl code');
     // this ddl will be blank as we did not passed any ddl
     expect(component.ddl).toEqual('');
@@ -891,7 +891,7 @@ describe('DataEntityDetailComponent', () => {
       (activeRoute: ActivatedRouteStub, businessObjectDefinitionApi: BusinessObjectDefinitionService) => {
         const detailsSpy = spyOn(component, 'getBdefDetails');
         const putSpy = businessObjectDefinitionApi
-        .businessObjectDefinitionUpdateBusinessObjectDefinitionDescriptiveInformation as jasmine.Spy;
+          .businessObjectDefinitionUpdateBusinessObjectDefinitionDescriptiveInformation as jasmine.Spy;
         activeRoute.testData = {
           resolvedData: {
             bdef: expectedBdef
@@ -901,14 +901,14 @@ describe('DataEntityDetailComponent', () => {
         fixture.detectChanges();
         detailsSpy.calls.reset();
 
-        const bdefWithDescriptiveFormat: BusinessObjectDefinition = {...expectedBdef, descriptiveBusinessObjectFormat: formatKeys[1] };
+        const bdefWithDescriptiveFormat: BusinessObjectDefinition = {...expectedBdef, descriptiveBusinessObjectFormat: formatKeys[1]};
         putSpy.and.returnValue(Observable.of(bdefWithDescriptiveFormat));
         component.updateDescriptiveFormat(formatKeys[1], false);
         expect(component.bdef).toEqual(bdefWithDescriptiveFormat);
         expect(detailsSpy).toHaveBeenCalled();
         detailsSpy.calls.reset();
 
-        const withoutDescriptiveFormat: BusinessObjectDefinition = {...expectedBdef, descriptiveBusinessObjectFormat: null };
+        const withoutDescriptiveFormat: BusinessObjectDefinition = {...expectedBdef, descriptiveBusinessObjectFormat: null};
         putSpy.and.returnValue(Observable.of(withoutDescriptiveFormat));
         component.updateDescriptiveFormat(formatKeys[1], true);
         expect(component.bdef).toEqual(withoutDescriptiveFormat);
@@ -1413,11 +1413,11 @@ describe('DataEntityDetailComponent', () => {
 
   it('should not fetch bdefs for empty format keys array', inject([BusinessObjectDefinitionService],
     (bdefApi: BusinessObjectDefinitionService) => {
-    component.fetchBdefs([]).subscribe((bdefs) => {
-      expect(bdefs).toEqual([]);
-      expect(bdefApi.businessObjectDefinitionGetBusinessObjectDefinition).not.toHaveBeenCalled();
-    });
-  }));
+      component.fetchBdefs([]).subscribe((bdefs) => {
+        expect(bdefs).toEqual([]);
+        expect(bdefApi.businessObjectDefinitionGetBusinessObjectDefinition).not.toHaveBeenCalled();
+      });
+    }));
 
   it('should fetch bdefs for each format key', inject([BusinessObjectDefinitionService], (bdefApi: BusinessObjectDefinitionService) => {
 

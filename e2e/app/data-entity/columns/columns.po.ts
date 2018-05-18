@@ -39,7 +39,7 @@ export class ColumnsPage extends OverviewPage {
     }
 
     get generateDDL(): ElementFinder {
-        return element(by.cssContainingText('ngb-tabset .btn-primary', 'Generate DDL'));
+        return element(by.cssContainingText('ngb-tabset .btn-primary', 'Generate Format DDL'));
     }
 
     get generateDdlClose(): ElementFinder {

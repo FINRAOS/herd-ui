@@ -62,18 +62,43 @@
 
           <div class="col text-center bdefs-unavailable" *ngIf="!loading && results && results.length < 1">No related data entities registered.</div>
           <div [hidden]="!loading" class="col text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></div>
+
           <div class="col-9" [hidden]="loading || results.length < 1">
-            <div>Showing <b>{{results.length}} entities</b></div>
+            <div>Showing <b>{{results && results.length}} results</b> out of {{totalIndexSearchResults}}</div>
+
             <div class="card" *ngFor="let result of results">
-              <div class="card-header d-flex justify-content-between">
-                <div>
-                  <a [routerLink]="['/data-entities', result.namespace,result.businessObjectDefinitionName]">
-                    {{result.displayName || result.businessObjectDefinitionName }}
+              <div class="card-header d-flex justify-content-between"
+                   *ngIf="result.indexSearchResultType.includes('BUS_OBJCT_DFNTN'); else tagtemplate">
+                <div class="d-flex align-items-start flex-column">
+                  <a [routerLink]="['/data-entities', result.indexSearchResultKey.businessObjectDefinitionKey.namespace,
+               result.indexSearchResultKey.businessObjectDefinitionKey.businessObjectDefinitionName]">
+                    {{result.displayName ||
+                    result.indexSearchResultKey.businessObjectDefinitionKey.businessObjectDefinitionName }}
                   </a>
+                  <div class="namespace-bdef-subtitle">
+                    {{result.indexSearchResultKey.businessObjectDefinitionKey.namespace}}.{{result.indexSearchResultKey.businessObjectDefinitionKey.businessObjectDefinitionName}}
+                  </div>
+                </div>
+                <div>
+                  <span class="badge badge-default">Data Entity</span>
                 </div>
               </div>
+              <ng-template #tagtemplate>
+                <div class="card-header d-flex justify-content-between">
+                  <div class="d-flex align-items-start flex-column">
+                    <a *ngIf="result.indexSearchResultType.includes('TAG')"
+                       [routerLink]="['/categories', result.indexSearchResultKey.tagKey.tagTypeCode, result.indexSearchResultKey.tagKey.tagCode]">
+                      {{result.displayName }}
+                    </a>
+                  </div>
+                  <div>
+                    <span class="badge badge-warning">Category</span>
+                  </div>
+                </div>
+              </ng-template>
+
               <div class="card-block">
-                <sd-read-more [text]="result.shortDescription" [maxLength]="300" [hideLink]="true"></sd-read-more>
+                <sd-read-more [text]="result.shortDescription" [maxLength]="200" [hideLink]="true"></sd-read-more>
               </div>
             </div>
           </div>
