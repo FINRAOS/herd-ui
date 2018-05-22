@@ -13,24 +13,27 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Component, OnInit} from '@angular/core';
-import {default as AppIcons} from '../../../shared/utils/app-icons';
-import {Action} from '../../../shared/components/side-action/side-action.component';
-import {Observable} from 'rxjs/Observable';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { default as AppIcons } from '../../../shared/utils/app-icons';
+import { Action } from '../../../shared/components/side-action/side-action.component';
+import { Observable } from 'rxjs/Observable';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   Tag, TagService, TagSearchRequest, Facet,
   IndexSearchResult, IndexSearchKey, Highlight
 } from '@herd/angular-client'
-import {Subscription} from 'rxjs/Subscription';
-import {SearchService} from '../../../shared/services/search.service';
+import { Subscription } from 'rxjs/Subscription';
+import { SearchService } from '../../../shared/services/search.service';
 
 @Component({
   selector: 'sd-category-detail',
   templateUrl: './category-detail.component.html',
-  styleUrls: ['./category-detail.component.scss']
+  styleUrls: ['./category-detail.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CategoryDetailComponent implements OnInit {
+  searchText: string;
+  match: '';
   lastFacetChange: Subscription;
   sideActions: Action[];
   category: Tag;
@@ -38,7 +41,6 @@ export class CategoryDetailComponent implements OnInit {
   parent: Observable<Tag> | any;
   private tagTypeCode: string;
   private tagCode: string;
-  match = '';
 
   // variables for related data entity
   public newSearch = true;
@@ -57,10 +59,25 @@ export class CategoryDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+
     // Subscribe to the route params
     this.route.params.subscribe(params => {
       this.tagTypeCode = params['tagTypeCode'];
       this.tagCode = params['tagCode'];
+      this.searchText = params['searchText'] || null;
+    });
+
+    this.route.data.subscribe((data) => {
+      if (data.resolvedData && data.resolvedData.indexSearchResults) {
+        this.newSearch = true;
+        this.results = data.resolvedData.indexSearchResults;
+        this.facets = data.resolvedData.facets;
+        this.totalIndexSearchResults = data.resolvedData.totalIndexSearchResults;
+      }
+    });
+
+    this.route.queryParams.subscribe((qParams) => {
+      this.match = qParams.match;
     });
 
     this.category = this.route.snapshot.data.resolvedData.category;
@@ -172,20 +189,39 @@ export class CategoryDetailComponent implements OnInit {
       }
     });
 
-
     this.search();
   }
 
   public search() {
     this.loading = true;
-
-    this.searchService.search(null, this.indexSearchFilters, this.match).subscribe((response) => {
+    this.searchService.search(this.searchText, this.indexSearchFilters, this.match).subscribe((response) => {
       this.results = response.indexSearchResults;
       this.facets = response.facets;
       this.totalIndexSearchResults = response.totalIndexSearchResults;
       this.loading = false;
     });
   }
+
+  public makeHighlightFull(highlight: Highlight) {
+    return this.searchService.joinHighlight(highlight)
+  }
+
+  globalSearch(event) {
+    let searchText = null;
+    let match = '';
+    if (event && event.searchText) {
+      searchText = event.searchText;
+    }
+    if (event && event.match) {
+      match = event.match.join(',');
+    }
+    this.router.navigate(['categories', this.tagTypeCode, this.tagCode, searchText], {
+      queryParams: {
+        match: match
+      }
+    });
+  }
+
 
 }
 

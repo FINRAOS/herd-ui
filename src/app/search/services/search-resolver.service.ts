@@ -13,8 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Injectable, Inject} from '@angular/core';
-import {Location} from '@angular/common';
+import {Injectable} from '@angular/core';
 import {
   Router, Resolve, RouterStateSnapshot,
   ActivatedRouteSnapshot
@@ -54,19 +53,19 @@ export class SearchResolverService implements Resolve<any> {
         totalIndexSearchResults: 0,
         title: ''
       };
-      return this.searchService.search(route.params.searchTerm, [], route.queryParams.match).map((response) => {
+      return this.searchService.search(route.params.searchText, [], route.queryParams.match).map((response) => {
         retval.indexSearchResults = response.indexSearchResults;
         retval.facets = response.facets;
         retval.totalIndexSearchResults = response.totalIndexSearchResults;
-        retval.title = 'Global Search - ' + route.params.searchTerm;
+        retval.title = 'Global Search - ' + route.params.searchText;
         return retval;
       }) ;
 
     } else {
       return {
-        title: 'Global Search - ' + route.params.searchTerm
+        title: 'Global Search - ' + route.params.searchText
       }
-    };
+    }
   }
 
 }

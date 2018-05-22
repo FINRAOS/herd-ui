@@ -190,6 +190,15 @@ describe('CategoryDetailComponent', () => {
     expect(spyTagSearchApi.calls.count()).toEqual(1);
   })));
 
+  it('should navigate ro search page on search', inject([Router], (mock: RouterStub) => {
+    component.globalSearch({searchText: 'test search', match: []});
+    expect(mock.navigate).toHaveBeenCalledWith(['categories', undefined, undefined, 'test search'], {
+      queryParams: {
+        match: ''
+      }
+    });
+  }));
+
   it('Facet change when facet exists', async(() => {
 
     const _facets = [

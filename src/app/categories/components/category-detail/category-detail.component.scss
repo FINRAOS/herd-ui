@@ -107,78 +107,17 @@
     /* related data entities styles*/
     .related-data-entities {
       margin-top: 30px;
-
+      .search-box {
+        margin: 25px 0 12px 0;
+      }
+      .error {
+        margin-bottom: -301px;
+      }
       .row {
         .card {
           margin-bottom: 3px;
         }
-        .searchresult-highlight {
-          color: #0c8bea;
-          font-weight: bold;
-        }
 
-        .highlight {
-          font-weight: bold;
-          p {
-            .displaymore {
-              -webkit-line-clamp: inline;
-            }
-          }
-        }
-
-        .highlight-block {
-          margin-top: 13px;
-          font-size: 12px;
-          sd-read-more {
-            .found {
-              color: #33d087;
-            }
-            .highlight {
-              font-weight: bold;
-            }
-            .read {
-              cursor: pointer;
-              color: blue;
-              a:link {
-                text-decoration: none;
-              }
-              a:visited {
-                text-decoration: none;
-              }
-              a:hover {
-                text-decoration: underline;
-              }
-              a:active {
-                text-decoration: underline;
-              }
-            }
-          }
-          sd-truncated-content {
-            .found {
-              color: #33d087;
-            }
-            .highlight {
-              font-weight: bold;
-            }
-            .read {
-              cursor: pointer;
-              color: blue;
-              a:link {
-                text-decoration: none;
-              }
-              a:visited {
-                text-decoration: none;
-              }
-              a:hover {
-                text-decoration: underline;
-              }
-              a:active {
-                text-decoration: underline;
-              }
-            }
-          }
-
-        }
       }
 
       h2 {
@@ -187,4 +126,55 @@
       }
     }
   }
+}
+
+.searchresult-highlight {
+  color: #0c8bea;
+  font-weight: bold;
+}
+
+.highlight {
+  font-weight: bold;
+  p {
+    .displaymore {
+      -webkit-line-clamp: inline;
+    }
+  }
+}
+
+.highlight-block {
+  margin-top: 13px;
+  font-size: 12px;
+  sd-read-more {
+    .found {
+      color: #33d087;
+    }
+    .highlight {
+      font-weight: bold;
+    }
+    .read {
+      cursor: pointer;
+      color: blue;
+      a:link {
+        text-decoration: none;
+      }
+      a:visited {
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      a:active {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
 }

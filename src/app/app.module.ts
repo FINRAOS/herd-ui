@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, NgModule, InjectionToken } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -25,8 +25,8 @@ import {
 } from '@herd/angular-client';
 import { ConfigService } from 'app/core/services/config.service';
 import { AppInitService, appInitFactory } from 'app/core/services/app-init.service';
-import { CoreModule, WINDOW } from 'app/core/core.module';
-import { RouteReuseStrategy, Router } from '@angular/router';
+import { CoreModule } from 'app/core/core.module';
+import { RouteReuseStrategy } from '@angular/router';
 import { CustomRouteReuseStrategy } from 'app/core/services/custom-route-reuse-strategy.service';
 import { CustomLocation } from 'app/core/services/custom-location.service';
 import { Location } from '@angular/common';
@@ -79,9 +79,11 @@ export function restBasePathFactory(appConfig: ConfigService, apiConfig: Configu
       deps: [ConfigService, Configuration]
     },
     {
-      provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy
+      provide: RouteReuseStrategy,
+      useClass: CustomRouteReuseStrategy
     }, {
-      provide: Location, useClass: CustomLocation
+      provide: Location,
+      useClass: CustomLocation
     }
   ],
   bootstrap: [AppComponent]

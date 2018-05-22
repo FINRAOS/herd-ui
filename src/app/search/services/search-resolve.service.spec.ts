@@ -62,7 +62,7 @@ describe('SearchResolverService', () => {
       const searchServiceSearchSpy = (<jasmine.Spy>searchService.search);
       searchServiceSearchSpy.and.returnValue(Observable.of(searchResolveData));
 
-      (service.resolve(({params: {searchTerm: 'this is not me'} , queryParams: {match: 'test'}} as any) as ActivatedRouteSnapshot,
+      (service.resolve(({params: {searchText: 'this is not me'} , queryParams: {match: 'test'}} as any) as ActivatedRouteSnapshot,
         {} as RouterStateSnapshot)as Observable<SearchResolveData>)
         .subscribe((data) => {
           expect((data as SearchResolveData).indexSearchResults).toEqual(searchResolveData.indexSearchResults);
