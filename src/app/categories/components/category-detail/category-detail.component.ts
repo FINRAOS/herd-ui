@@ -70,9 +70,6 @@ export class CategoryDetailComponent implements OnInit {
     this.route.data.subscribe((data) => {
       if (data.resolvedData && data.resolvedData.indexSearchResults) {
         this.newSearch = true;
-        this.results = data.resolvedData.indexSearchResults;
-        this.facets = data.resolvedData.facets;
-        this.totalIndexSearchResults = data.resolvedData.totalIndexSearchResults;
       }
     });
 

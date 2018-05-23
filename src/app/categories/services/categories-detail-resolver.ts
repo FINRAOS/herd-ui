@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   Router, Resolve, RouterStateSnapshot,
   ActivatedRouteSnapshot, DetachedRouteHandle
@@ -33,10 +33,10 @@ export interface TitleResolverData {
 }
 
 export interface CategoryDetailResolverData extends TitleResolverData {
-  category: Tag | any;
-  indexSearchResults: IndexSearchResult[];
-  facets: Facet[];
-  totalIndexSearchResults: number;
+  category?: Tag | any;
+  indexSearchResults?: IndexSearchResult[];
+  facets?: Facet[];
+  totalIndexSearchResults?: number;
 }
 
 @Injectable()
@@ -80,13 +80,12 @@ export class CategoryDetailResolverService implements Resolve<any> {
         this.searchService.search(searchText, indexSearchFilters, match)
       ).map((data) => {
         const retval: CategoryDetailResolverData = {
-            category: data[0],
-            title: 'Category - ' + data[0].displayName + (route.params.searchText ? ' ( search: ' + route.params.searchText + ' )' : ''),
-            indexSearchResults: data[1].indexSearchResults,
-            facets: data[1].facets,
-            totalIndexSearchResults: data[1].totalIndexSearchResults,
-          }
-        ;
+          category: data[0],
+          title: 'Category - ' + data[0].displayName + (route.params.searchText ? ' ( search: ' + route.params.searchText + ' )' : ''),
+          indexSearchResults: data[1].indexSearchResults,
+          facets: data[1].facets,
+          totalIndexSearchResults: data[1].totalIndexSearchResults,
+        };
         return retval;
       });
     } else {
@@ -94,10 +93,6 @@ export class CategoryDetailResolverService implements Resolve<any> {
       const handle: DetachedRouteHandle = this.router.routeReuseStrategy.retrieve(route);
       const retval: CategoryDetailResolverData = {
         title: ((handle as any).route.value.data._value).resolvedData.title,
-        category: ((handle as any).route.value.data._value).resolvedData.category,
-        indexSearchResults: ((handle as any).route.value.data._value).resolvedData.indexSearchResults,
-        facets: ((handle as any).route.value.data._value).resolvedData.facets,
-        totalIndexSearchResults: ((handle as any).route.value.data._value).resolvedData.totalIndexSearchResults
       };
       return retval;
     }
