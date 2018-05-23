@@ -126,7 +126,6 @@ describe('Category Detail Resolver', () => {
         const returnValue = service.resolve(
           ({params: {tagTypeCode: 'ttcode', tagCode: 'tcode'}} as any) as ActivatedRouteSnapshot,
           {} as RouterStateSnapshot) as CategoryDetailResolverData;
-        expect(returnValue.category).toEqual(expectedTag);
         expect(returnValue.title).toEqual('Category - tagCode');
         expect(tagSpy).not.toHaveBeenCalled();
       })));
