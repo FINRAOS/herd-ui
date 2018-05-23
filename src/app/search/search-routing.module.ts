@@ -19,7 +19,7 @@ import {SearchComponent} from 'app/search/components/search/search.component';
 import {SearchResolverService} from './services/search-resolver.service';
 
 const routes: Routes = [{
-  path: ':searchTerm',
+  path: ':searchText',
   component: SearchComponent,
   resolve: {
     resolvedData: SearchResolverService,

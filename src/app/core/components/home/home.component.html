@@ -20,7 +20,7 @@
       <h2>{{brandHeader}}</h2>
       <h5>{{brandMotto}}</h5>
       <div class="row">
-        <sd-global-search class="col-6 offset-3"></sd-global-search>
+        <sd-global-search (search)="search($event)" class="col-6 offset-3"></sd-global-search>
       </div>
     </div>
   </div>
