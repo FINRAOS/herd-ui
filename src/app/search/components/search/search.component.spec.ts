@@ -139,6 +139,15 @@ describe('SearchComponent', () => {
     });
   }));
 
+  it('should navigate without any search text', inject([Router], (mock: RouterStub) => {
+    component.globalSearch({});
+    expect(mock.navigate).toHaveBeenCalledWith(['search', undefined], {
+      queryParams: {
+        match: ''
+      }
+    });
+  }));
+
   it('Facet change when no facet exists', async(() => {
     const searchCalled = spyOn(searchService, 'search')
       .and.returnValue(Observable.of({indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));

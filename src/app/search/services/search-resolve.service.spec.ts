@@ -13,13 +13,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {TestBed, inject, async} from '@angular/core/testing';
+import { TestBed, inject, async } from '@angular/core/testing';
 
-import {SearchResolveData, SearchResolverService} from './search-resolver.service';
-import {SearchService} from '../../shared/services/search.service';
-import {ActivatedRouteSnapshot, Router, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
-import {RouterStub} from '../../../testing/router-stubs';
+import { SearchResolveData, SearchResolverService } from './search-resolver.service';
+import { SearchService } from '../../shared/services/search.service';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { RouterStub } from '../../../testing/router-stubs';
+import { CategoryDetailResolverData } from '../../categories/services/categories-detail-resolver';
 
 
 describe('SearchResolverService', () => {
@@ -39,7 +40,7 @@ describe('SearchResolverService', () => {
           provide: Router,
           useClass: RouterStub
         }
-        ]
+      ]
     });
 
   });
@@ -62,7 +63,7 @@ describe('SearchResolverService', () => {
       const searchServiceSearchSpy = (<jasmine.Spy>searchService.search);
       searchServiceSearchSpy.and.returnValue(Observable.of(searchResolveData));
 
-      (service.resolve(({params: {searchText: 'this is not me'} , queryParams: {match: 'test'}} as any) as ActivatedRouteSnapshot,
+      (service.resolve(({params: {searchText: 'this is not me'}, queryParams: {match: 'test'}} as any) as ActivatedRouteSnapshot,
         {} as RouterStateSnapshot)as Observable<SearchResolveData>)
         .subscribe((data) => {
           expect((data as SearchResolveData).indexSearchResults).toEqual(searchResolveData.indexSearchResults);
@@ -70,6 +71,43 @@ describe('SearchResolverService', () => {
           expect((data as SearchResolveData).title).toEqual('Global Search - this is not me');
           expect(searchServiceSearchSpy).toHaveBeenCalled();
         });
+
+    })));
+
+  it('should return saved search data', async(inject(
+    [SearchResolverService, SearchService, Router],
+    (service: SearchResolverService, searchService: SearchService, r: Router) => {
+
+      const searchResolveData: SearchResolveData = {
+        indexSearchResults: [],
+        facets: [],
+        totalIndexSearchResults: 0,
+        title: ''
+      };
+
+      const searchServiceSearchSpy = (<jasmine.Spy>searchService.search);
+      searchServiceSearchSpy.and.returnValue(Observable.of(searchResolveData));
+
+      const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach).and.returnValue(true);
+      const retrieveSpy = (<jasmine.Spy>r.routeReuseStrategy.retrieve).and.returnValue({
+        route: {
+          value: {
+            data: {
+              _value: {
+                resolvedData: {
+                  title: 'Global Search - this is not me',
+                }
+              }
+            }
+          }
+        }
+      });
+
+      const returnValue = service.resolve(
+        ({params: {searchText: 'this is not me'}, queryParams: {match: 'test'}} as any) as ActivatedRouteSnapshot,
+        {} as RouterStateSnapshot
+      ) as CategoryDetailResolverData;
+      expect(returnValue.title).toEqual('Global Search - this is not me');
 
     })));
 
