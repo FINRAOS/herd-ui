@@ -77,6 +77,47 @@ describe('Category Detail Resolver', () => {
           ({
             params: {
               tagTypeCode: 'ttcode',
+              tagCode: 'tcode',
+              searchText: 'testsearch'
+            },
+            queryParams: {
+              match: []
+            }
+          } as any) as ActivatedRouteSnapshot, {} as RouterStateSnapshot) as Observable<any>)
+          .subscribe((data) => {
+            expect((data as CategoryDetailResolverData).category).toEqual(expectedTag);
+            expect((data as CategoryDetailResolverData).title).toEqual('Category - tagCode ( search: testsearch )');
+            expect(tagSpy).toHaveBeenCalled();
+            expect(searchSpy).toHaveBeenCalled();
+          });
+
+      })));
+
+  it('should go through without search term and match',
+    async(inject([CategoryDetailResolverService, TagService, Router, SearchService],
+      (categoryDetailResolverService: CategoryDetailResolverService, tagApi: TagService, r: Router, searchService: SearchService) => {
+        const expectedTag: Tag = {
+          tagKey: {
+            tagTypeCode: 'tagTypeCode',
+            tagCode: 'tagCode'
+          },
+          displayName: 'tagCode'
+        };
+        const searchResult: any = {
+          indexSearchResults: [],
+          facets: [],
+          totalIndexSearchResults: 90
+        };
+
+        const tagSpy = (<jasmine.Spy>tagApi.tagGetTag).and.returnValue(Observable.of(expectedTag));
+        const searchSpy = (<jasmine.Spy>searchService.search).and.returnValue(Observable.of(searchResult));
+
+        (<jasmine.Spy>r.routeReuseStrategy.shouldAttach).and.returnValue(false);
+
+        (categoryDetailResolverService.resolve(
+          ({
+            params: {
+              tagTypeCode: 'ttcode',
               tagCode: 'tcode'
             }
           } as any) as ActivatedRouteSnapshot, {} as RouterStateSnapshot) as Observable<any>)
