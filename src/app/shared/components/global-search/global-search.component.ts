@@ -25,6 +25,7 @@ import { HitMatchTypes } from '../../services/search.service';
 })
 export class GlobalSearchComponent implements OnInit {
   private MIN_SEARCH_LENGTH = 2;
+  @Input() placeHolder = 'I can help you to find anything you want!';
   @Input() searchText: string;
   @Output() search = new EventEmitter<Object>();
   public error = false;
