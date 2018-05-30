@@ -16,7 +16,7 @@
 <div class="error" *ngIf="error">Please supply at least 3 characters.</div>
 
 <div class="input-group">
-  <input #searchTextBox class="form-control" type="text" [(ngModel)]="searchText" placeholder="I can help you to find anything you want!">
+  <input #searchTextBox class="form-control" type="text" [(ngModel)]="searchText" placeholder="{{placeHolder}}">
   <span class="input-group-addon" [class.hit-match-opened]="showHitMatchFilter" (click)="showHitMatchFilter = !showHitMatchFilter"><i class="fa fa-filter"></i></span>
   <span class="input-group-addon" (click)="makeSearch(searchText)"><i class="fa fa-search"></i></span>
 </div>

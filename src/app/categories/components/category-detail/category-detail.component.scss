@@ -108,10 +108,8 @@
     .related-data-entities {
       margin-top: 30px;
       .search-box {
+        position: relative;
         margin: 25px 0 12px 0;
-      }
-      .error {
-        margin-bottom: -301px;
       }
       .row {
         .card {
