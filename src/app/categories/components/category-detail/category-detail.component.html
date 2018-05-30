@@ -68,7 +68,7 @@
           <div [hidden]="!loading" class="col text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></div>
 
           <div class="col-9" [hidden]="loading || results.length < 1">
-            <div>Showing <b>{{results && results.length}} results</b> out of {{totalIndexSearchResults}}</div>
+            <div>Showing <b>{{results && results.length}} results</b> out of {{totalIndexSearchResults}} <span *ngIf="searchText">for</span> <b *ngIf="searchText">"{{searchText}}"</b></div>
 
             <div class="card" *ngFor="let result of results">
               <div class="card-header d-flex justify-content-between"
