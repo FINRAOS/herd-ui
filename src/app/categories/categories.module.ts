@@ -32,6 +32,8 @@ import {SearchService} from '../shared/services/search.service';
   providers: [
     SearchService
   ],
-  declarations: [CategoryDetailComponent]
+  declarations: [
+    CategoryDetailComponent
+  ]
 })
 export class CategoriesModule { }

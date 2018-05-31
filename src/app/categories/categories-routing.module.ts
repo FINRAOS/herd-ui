@@ -19,17 +19,27 @@ import { CategoryDetailComponent } from 'app/categories/components/category-deta
 import { CategoryDetailResolverService } from 'app/categories/services/categories-detail-resolver';
 
 // Base route is /categories defined in app-routing.module.ts
-const routes: Routes = [{
-  path: ':tagTypeCode/:tagCode',
-  component: CategoryDetailComponent,
-  resolve: {
-    resolvedData: CategoryDetailResolverService,
+const routes: Routes = [
+  {
+    path: ':tagTypeCode/:tagCode',
+    component: CategoryDetailComponent,
+    resolve: {
+      resolvedData: CategoryDetailResolverService,
+    }
+  },
+  {
+    path: ':tagTypeCode/:tagCode/:searchText',
+    component: CategoryDetailComponent,
+    resolve: {
+      resolvedData: CategoryDetailResolverService,
+    }
   }
-}];
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [ CategoryDetailResolverService]
+  providers: [CategoryDetailResolverService]
 })
-export class CategoriesRoutingModule { }
+export class CategoriesRoutingModule {
+}

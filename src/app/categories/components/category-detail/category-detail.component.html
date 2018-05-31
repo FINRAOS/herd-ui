@@ -57,6 +57,10 @@
         <h2>Related Data Entities</h2>
         <hr/>
 
+        <div class="search-box">
+          <sd-global-search (search)="globalSearch($event)" [placeHolder]="'Search related data entities'"></sd-global-search>
+        </div>
+
         <div class="row">
           <sd-facet class="col-3" [newSearch]="newSearch" [facets]="facets" (facetChange)="facetChange($event)"></sd-facet>
 
@@ -64,7 +68,7 @@
           <div [hidden]="!loading" class="col text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></div>
 
           <div class="col-9" [hidden]="loading || results.length < 1">
-            <div>Showing <b>{{results && results.length}} results</b> out of {{totalIndexSearchResults}}</div>
+            <div>Showing <b>{{results && results.length}} results</b> out of {{totalIndexSearchResults}} <span *ngIf="searchText">for</span> <b *ngIf="searchText">"{{searchText}}"</b></div>
 
             <div class="card" *ngFor="let result of results">
               <div class="card-header d-flex justify-content-between"
@@ -98,7 +102,18 @@
               </ng-template>
 
               <div class="card-block">
+
                 <sd-read-more [text]="result.shortDescription" [maxLength]="200" [hideLink]="true"></sd-read-more>
+
+                <div class="highlight-block" *ngIf="result.highlight && result.highlight.fields.length > 0">
+                  <sd-read-more
+                    [text]="makeHighlightFull(result.highlight)"
+                    [maxLength]="180"
+                    [linkLabel]="(result.highlight.fields.length -1 === 0 ? '...read ' : '...and '+ (result.highlight.fields.length - 1)) + ' more'"
+                    [hideLink]="false">
+                  </sd-read-more>
+                </div>
+
               </div>
             </div>
           </div>

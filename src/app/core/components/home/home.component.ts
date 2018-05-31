@@ -13,10 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Tag, TagService, TagType, TagTypeService, TagSearchRequest} from '@herd/angular-client';
-import {Observable} from 'rxjs/Observable';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { TagService, TagType, TagTypeService, TagSearchRequest } from '@herd/angular-client';
+import { Observable } from 'rxjs/Observable';
 import { ConfigService } from '../../services/config.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sd-home',
@@ -33,6 +34,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private tagTypeApi: TagTypeService,
               private tagApi: TagService,
+              private router: Router,
               private app: ConfigService) {
   }
 
@@ -46,12 +48,12 @@ export class HomeComponent implements OnInit {
         data.tagTypes.forEach((tagType) => {
           const body: TagSearchRequest = {
             tagSearchFilters: [{
-                tagSearchKeys: [{
-                  tagTypeCode: tagType.tagTypeKey.tagTypeCode,
-                  isParentTagNull: true
-                }]
+              tagSearchKeys: [{
+                tagTypeCode: tagType.tagTypeKey.tagTypeCode,
+                isParentTagNull: true
               }]
-          }
+            }]
+          };
 
           this.tagApi
             .tagSearchTags(body, 'displayName', tagType.tagTypeKey.tagTypeCode)
@@ -62,6 +64,14 @@ export class HomeComponent implements OnInit {
 
         return data.tagTypes;
       });
+  }
+
+  search(event) {
+    this.router.navigate(['search', event.searchText], {
+      queryParams: {
+        match: event.match.join(',')
+      }
+    });
   }
 
 }

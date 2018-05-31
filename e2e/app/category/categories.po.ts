@@ -13,35 +13,109 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {by, element, ElementFinder} from 'protractor';
-import {BasePo} from '../base/base.po';
+import { browser, by, element, ElementArrayFinder, ElementFinder } from 'protractor';
+import { BasePo } from '../base/base.po';
+import data from '../search/operations/data';
 
 export class CategoryPage extends BasePo {
 
-  get heading (): ElementFinder { return element(by.className('detail-header')); }
-  get categoryName (): ElementFinder { return element(by.className('detail-title')); }
-  get auditDetails (): ElementFinder { return element(by.className('audit-details')); }
+  private _relatedCategoriesContainer: ElementFinder = element(by.className('related-categories'));
+
+  get relatedCategoryTitle(): ElementFinder {
+    return this._relatedCategoriesContainer.element(by.tagName('h2'));
+  }
+
+  get tagParent(): ElementFinder {
+    return this._relatedCategoriesContainer.all(by.className('tag-hierarchy')).get(0).element(by.tagName('a'));
+  }
+
+  get tagChildren(): ElementFinder {
+    return this._relatedCategoriesContainer.element(by.className('child-tag')).element(by.tagName('a'));
+  }
+
+  get currentTag(): ElementFinder {
+    return this._relatedCategoriesContainer.element(by.className('tag-label-current'));
+  }
+
+  get searchResultCount() {
+    return element.all(by.css('.related-data-entities .row .col-9 .card'));
+  }
+
+  get searchBox() {
+    return element(by.css('input[placeholder="I can help you to find anything you want!"]'));
+  }
+
+  get searchButton() {
+    return element(by.css('i.fa.fa-search'));
+  }
+
+  get searchResultDescription() {
+    return element(by.css('.related-data-entities .col-9 > div:first-child'));
+  }
+
+  get headingAnchor() {
+    return element(by.css('.related-data-entities .col-9 .card-header div a'));
+  }
+
+  get searchBoxContainer() {
+    return element(by.css('sd-search'));
+  }
+
+  private _hitFilter = element(by.css('sd-global-search .hit-match-filter'));
+
+  // first result verification
+  get loadingIcon() {
+    return element(by.css('.related-data-entities .sd-text-center'));
+  }
+
+  get backTrackLinkArea() {
+    return element(by.css('.back-track-wrapper .container a'));
+  }
+
+  // first search result
+  get headingBadge() {
+    return element(by.css('.related-data-entities .col-9 .card-header div .badge'));
+  }
+
+  // hit highlight testing
+  get highlightFound() {
+    return element.all(by.css('sd-read-more div span span')).first();
+  }
+
+  get tristateCheckboxes() {
+    return element.all(by.css('sd-tri-state div'));
+  }
+
+  get unavailableMessage() {
+    return element(by.className('bdefs-unavailable'));
+  }
+
+  get heading(): ElementFinder {
+    return element(by.className('detail-header'));
+  }
+
+  get categoryName(): ElementFinder {
+    return element(by.className('detail-title'));
+  }
+
+  get auditDetails(): ElementFinder {
+    return element(by.className('audit-details'));
+  }
+
   get desc(): ElementFinder {
     return element(by.tagName('sd-truncated-content'));
   }
 
-  private _relatedCategoriesContainer: ElementFinder = element(by.className('related-categories'));
-  relatedCategoryTitle: ElementFinder = this._relatedCategoriesContainer.element(by.tagName('h2'));
-  tagParent: ElementFinder = this._relatedCategoriesContainer.all(by.className('tag-hierarchy')).get(0).element(by.tagName('a'));
-  tagChildren: ElementFinder = this._relatedCategoriesContainer.element(by.className('child-tag')).element(by.tagName('a'));
-  currentTag: ElementFinder = this._relatedCategoriesContainer.element(by.className('tag-label-current'));
-
-   facetRefineByText = element(by.css('sd-facet div h5'));
-   facetClearLink = element(by.css('sd-facet div a'));
-   facetCards = element.all(by.css('sd-facet div.card'));
-   searchResultCount = element.all(by.css('.related-data-entities .row .col-9 .card'));
-
-   tristateCheckboxes = element.all(by.css('sd-tri-state div'));
-   unavailableMessage = element(by.className('bdefs-unavailable'));
-
-   getCheckBoxbyName(name: string): ElementFinder {
+  getCheckBoxbyName(name: string): ElementFinder {
     return element(by.cssContainingText('sd-tri-state div .tri-state-label', name));
-   }
+  }
+
+  async search(searchTerm: string) {
+    await this.searchBox.click();
+    await this.searchBox.clear();
+    await this.searchBox.sendKeys(searchTerm);
+    return this.searchButton.click();
+  }
 
 }
 
