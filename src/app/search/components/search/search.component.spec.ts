@@ -13,24 +13,25 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {TestBed, async, ComponentFixture} from '@angular/core/testing';
-import {SearchComponent} from './search.component';
-import {SharedModule} from '../../../shared/shared.module';
-import {RouterTestingModule} from '@angular/router/testing';
-import {SearchService} from '../../../shared/services/search.service';
-import {IndexSearchService} from '@herd/angular-client';
-import {HttpModule} from '@angular/http';
-import {ConfigService} from '../../../core/services/config.service';
-import {Observable} from 'rxjs/Observable';
-import {IndexSearchMockData} from 'testing/IndexSearchMockData';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {GoogleAnalyticsService} from '../../../shared/services/google-analytics.service';
-import {UserService} from '../../../core/services/user.service';
+import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
+import { SearchComponent } from './search.component';
+import { SharedModule } from '../../../shared/shared.module';
+import { RouterTestingModule } from '@angular/router/testing';
+import { SearchService } from '../../../shared/services/search.service';
+import { IndexSearchService } from '@herd/angular-client';
+import { HttpModule } from '@angular/http';
+import { ConfigService } from '../../../core/services/config.service';
+import { Observable } from 'rxjs/Observable';
+import { IndexSearchMockData } from 'testing/IndexSearchMockData';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GoogleAnalyticsService } from '../../../shared/services/google-analytics.service';
+import { UserService } from '../../../core/services/user.service';
 import { CurrentUserService, Configuration } from '@herd/angular-client';
-import {EncryptionService} from '../../../shared/services/encryption.service';
+import { EncryptionService } from '../../../shared/services/encryption.service';
 import { APP_BASE_HREF } from '@angular/common';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterStub } from '../../../../testing/router-stubs';
 
 describe('SearchComponent', () => {
   const mockData: IndexSearchMockData = new IndexSearchMockData();
@@ -71,6 +72,10 @@ describe('SearchComponent', () => {
         IndexSearchService,
         ConfigService,
         SearchService,
+        {
+          provide: Router,
+          useClass: RouterStub
+        },
         {
           provide: ActivatedRoute,
           useValue: {
@@ -119,15 +124,33 @@ describe('SearchComponent', () => {
 
   it('Search is returning index search result', async(() => {
     const searchCalled = spyOn(searchService, 'search')
-      .and.returnValue(Observable.of({ indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
+      .and.returnValue(Observable.of({indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
     component.search();
     expect(component.indexSearchResults).toEqual(mockData.indexSearchResponse['indexSearchResults']);
     expect(searchCalled).toHaveBeenCalled();
   }));
 
+  it('should navigate ro search page on search', inject([Router], (mock: RouterStub) => {
+    component.globalSearch({searchText: 'test search', match: []});
+    expect(mock.navigate).toHaveBeenCalledWith(['search', 'test search'], {
+      queryParams: {
+        match: ''
+      }
+    });
+  }));
+
+  it('should navigate without any search text', inject([Router], (mock: RouterStub) => {
+    component.globalSearch({});
+    expect(mock.navigate).toHaveBeenCalledWith(['search', undefined], {
+      queryParams: {
+        match: ''
+      }
+    });
+  }));
+
   it('Facet change when no facet exists', async(() => {
     const searchCalled = spyOn(searchService, 'search')
-      .and.returnValue(Observable.of({ indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
+      .and.returnValue(Observable.of({indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
     const event = {
       nofacets: []
     };
@@ -136,9 +159,9 @@ describe('SearchComponent', () => {
     expect(searchCalled.calls.count()).toEqual(1);
   }));
 
-  it('Facet change function is changing facets and effecting search result', async() => {
+  it('Facet change function is changing facets and effecting search result', async () => {
     const searchCalled = spyOn(searchService, 'search')
-      .and.returnValue(Observable.of({ indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
+      .and.returnValue(Observable.of({indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
     const event: any = {
       facets: mockData.facets,
       newSearch: true
@@ -153,9 +176,11 @@ describe('SearchComponent', () => {
   it('Make highlight is joining all the high light htmls for view purpose', async(() => {
     const testHtml = '<b>testhtml</b>';
     const joinHighlightCalled = spyOn(searchService, 'joinHighlight').and.returnValue(testHtml);
-    const highLightArray = {fields: [
-      {fieldName: 'description', fragments: ['kamal', 'managets']}
-    ]};
+    const highLightArray = {
+      fields: [
+        {fieldName: 'description', fragments: ['kamal', 'managets']}
+      ]
+    };
     const highlightResult = component.makeHighlightFull(highLightArray);
     expect(highlightResult).toBe(testHtml);
     expect(joinHighlightCalled).toHaveBeenCalled();

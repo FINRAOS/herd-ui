@@ -32,8 +32,7 @@ export class ReadMoreComponent implements OnChanges {
 
   public isCollapsed = true;
 
-  constructor(private elementRef: ElementRef, private sanitized: DomSanitizer) {
-
+  constructor() {
   }
 
   toggleView() {

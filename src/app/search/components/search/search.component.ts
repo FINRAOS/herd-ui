@@ -46,7 +46,7 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchText = this.activatedRoute.snapshot.params.searchTerm;
+    this.searchText = this.activatedRoute.snapshot.params.searchText;
 
     this.activatedRoute.data.subscribe((data) => {
       if (data.resolvedData && data.resolvedData.indexSearchResults) {
@@ -122,6 +122,22 @@ export class SearchComponent implements OnInit {
 
   public makeHighlightFull(highlight: Highlight) {
     return this.searchService.joinHighlight(highlight)
+  }
+
+  globalSearch(event) {
+    let searchText = this.searchText;
+    let match = this.match;
+    if (event && event.searchText) {
+      searchText = event.searchText;
+    }
+    if (event && event.match) {
+      match = event.match.join(',');
+    }
+    this.router.navigate(['search', searchText], {
+      queryParams: {
+        match: match
+      }
+    });
   }
 
 }
