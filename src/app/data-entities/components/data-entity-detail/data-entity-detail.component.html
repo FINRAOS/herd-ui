@@ -57,7 +57,7 @@
                 <div>
                   <div *ngIf="businessObjectDefinitionDescriptionSuggestion && businessObjectDefinitionDescriptionSuggestion.length > 0"
                        sdAuthorized [securityFunction]="authMap.editDescriptiveInfo" [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions">
-                    <button class="btn btn-primary" (click)="open(approveSuggestion, '')">review suggestion</button>
+                    <button class="btn btn-primary btn-suggestion" (click)="open(approveSuggestion, '')">review suggestion</button>
                   </div>
                 </div>
               </div>
