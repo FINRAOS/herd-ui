@@ -35,7 +35,7 @@ import {
   BusinessObjectDefinitionColumnCreateRequest,
   BusinessObjectDefinitionColumn,
   BusinessObjectDefinitionDescriptiveInformationUpdateRequest,
-  NamespaceAuthorization
+  NamespaceAuthorization, BusinessObjectDefinitionDescriptionSuggestionService, BusinessObjectDefinitionDescriptionSuggestionSearchRequest
 } from '@herd/angular-client';
 import { WarningAlert } from './../../../core/services/alert.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -64,6 +64,7 @@ export class DataEntityDetailComponent implements OnInit {
   ddl = '';
   ddlError: DangerAlert;
   config = { lineNumbers: true, mode: 'text/x-go', readOnly: true };
+  businessObjectDefinitionDescriptionSuggestion: Array<any>;
 
   bdef: BusinessObjectDefinition = {} as BusinessObjectDefinition;
   formats: BusinessObjectFormatKey[] = [];
@@ -126,12 +127,16 @@ export class DataEntityDetailComponent implements OnInit {
     private businessObjectDefinitionSubjectMatterExpertApi: BusinessObjectDefinitionSubjectMatterExpertService,
     private subjectMatterExpertApi: SubjectMatterExpertService,
     private alertService: AlertService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private businessObjectDefinitionDescriptionSuggestionService: BusinessObjectDefinitionDescriptionSuggestionService
   ) {
   }
 
   ngOnInit() {
     this.bdef = this.route.snapshot.data.resolvedData.bdef;
+
+    // get all description suggestion
+    this.getAllPendingSuggestion(this.bdef.namespace, this.bdef.businessObjectDefinitionName, 'PENDING');
 
     // Load bdef details
     this.getBdefDetails();
@@ -162,7 +167,7 @@ export class DataEntityDetailComponent implements OnInit {
           businessObjectDefinitionName: this.bdef.businessObjectDefinitionName,
           businessObjectDefinitionColumnName: event.text
         }
-      }
+      };
       return this.businessObjectDefinitionColumnApi.businessObjectDefinitionColumnCreateBusinessObjectDefinitionColumn(request)
     };
 
@@ -202,7 +207,7 @@ export class DataEntityDetailComponent implements OnInit {
     this.businessObjectDefinitionColumnApi.defaultHeaders.append('skipAlert', 'true');
     const request: BusinessObjectDefinitionColumnUpdateRequest = {
       description: event.text
-    }
+    };
 
     if (col.description !== event.text) {
       this.businessObjectDefinitionColumnApi
@@ -361,7 +366,7 @@ export class DataEntityDetailComponent implements OnInit {
       (businessObjectDefinition) => {
         // all we need to do is set this.bdef.descriptiveBusinessObjectFormat
         // getBdefDetails handles updating with the new proper format
-        this.bdef = businessObjectDefinition
+        this.bdef = businessObjectDefinition;
         this.bdefColumns = undefined;
         this.hierarchialGraph.nodes = [];
         this.hierarchialGraph.links = [];
@@ -400,8 +405,8 @@ export class DataEntityDetailComponent implements OnInit {
       // combine the separatly processed graphs into the final full lineage
       // graphs[0] has the processed parents
       // graphs[1] has the processed children
-      this.hierarchialGraph.nodes = [...graphs[0].nodes, centerNode, ...graphs[1].nodes]
-      this.hierarchialGraph.links = [...graphs[0].links, ...graphs[1].links]
+      this.hierarchialGraph.nodes = [...graphs[0].nodes, centerNode, ...graphs[1].nodes];
+      this.hierarchialGraph.links = [...graphs[0].links, ...graphs[1].links];
       this.hierarchialGraph.loaded = true;
     });
   }
@@ -611,6 +616,35 @@ export class DataEntityDetailComponent implements OnInit {
     // append the modal to the data-entity-detail container so when views are switched it goes away with taht view.
     this.modalReference = this.modalService.open(content, { windowClass: windowClass, size: 'lg', container: '.data-entity-detail' });
     return this.modalReference;
+  }
+
+  getAllPendingSuggestion(namespace, businessObjectDefinitionName, status) {
+
+    const businessObjectDefinitionDescriptionSuggestionSearchRequest: BusinessObjectDefinitionDescriptionSuggestionSearchRequest = {
+      businessObjectDefinitionDescriptionSuggestionSearchFilters: [
+        {
+          businessObjectDefinitionDescriptionSuggestionSearchKeys: [
+            {
+              namespace: namespace,
+              businessObjectDefinitionName: businessObjectDefinitionName,
+              status: status
+            }
+          ]
+        }
+      ]
+    };
+
+    this.businessObjectDefinitionDescriptionSuggestionService
+      .businessObjectDefinitionDescriptionSuggestionSearchBusinessObjectDefinitionDescriptionSuggestions(
+        businessObjectDefinitionDescriptionSuggestionSearchRequest, 'status, descriptionSuggestion, createdByUserId'
+      ).subscribe((response) => {
+      this.businessObjectDefinitionDescriptionSuggestion = response && response.businessObjectDefinitionDescriptionSuggestions;
+    }, (error) => {
+      this.alertService.alert(new DangerAlert('Unable to get data entity description suggestions', '',
+        `Problem: ${error} : Try again later.`, 5
+      ))
+    });
+
   }
 
   close() {

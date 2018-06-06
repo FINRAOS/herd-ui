@@ -47,6 +47,7 @@
     "font-awesome": "4.7.0",
     "install": "0.10.1",
     "intl": "1.2.5",
+    "ng-diff-match-patch": "2.0.6",
     "ng-http-interceptor": "4.0.0",
     "ng-inline-svg": "5.1.1",
     "ng-select": "1.0.0-rc.3",
