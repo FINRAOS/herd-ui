@@ -52,7 +52,13 @@
         <ng-template ngbTabContent>
           <div class="row tab-contents">
             <div class="col-9">
-              <div class="description-label">Description</div>
+              <div class="description-label d-flex">
+                <div>Description</div>
+                <div *ngIf="businessObjectDefinitionDescriptionSuggestion && businessObjectDefinitionDescriptionSuggestion.length > 0"
+                     sdAuthorized [securityFunction]="authMap.editDescriptiveInfo" [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions">
+                  <button class="btn btn-primary btn-suggestion" (click)="open(approveSuggestion, '')">review suggestion</button>
+                </div>
+              </div>
               <div sdAuthorized [securityFunction]="authMap.editDescriptiveInfo" [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions"
                 [displayUnAuthorized]="'show'">
                 <div class="description-body" [innerHTML]="bdef.description || ''"></div>
@@ -304,5 +310,27 @@
       <sd-spinner *ngIf="!hierarchialGraph.loaded"></sd-spinner>
 
     </div>
+  </div>
+</ng-template>
+
+
+<ng-template #approveSuggestion let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Suggestion for data entity description</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <sd-suggestions [original]="bdef.description || ''" [suggestions]="businessObjectDefinitionDescriptionSuggestion"></sd-suggestions>
+  </div>
+  <div class="modal-footer">
+    <button
+      [hidden]="ddlError"
+      class="btn btn-default"
+      [class.btn-success]="true"
+      type="button" (click)="d('Cross click')">
+      Done
+    </button>
   </div>
 </ng-template>
