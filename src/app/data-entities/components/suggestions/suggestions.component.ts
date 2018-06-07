@@ -23,7 +23,11 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 export class SuggestionsComponent implements OnInit {
 
   @Input() original: string;
-  @Input() suggestions: Array<string>;
+  @Input() suggestions: Array<{
+    createdByUserId: string,
+    createdOn: string,
+    descriptionSuggestion: string
+  }>;
 
   constructor(
   ) {
