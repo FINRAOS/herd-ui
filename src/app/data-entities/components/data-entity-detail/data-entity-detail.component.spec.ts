@@ -76,7 +76,7 @@ describe('DataEntityDetailComponent', () => {
   let spyBdefSmeApi, spySmeApi;
   let spyTagApi, spyTagTypeApi, spyBdefTagApi, spyTagSearch;
   let spyBdefFormatApi, spyDownloadApi, spyBdefColApi, spyBdefFormatAllApi, spyBdefFormatDDLApi;
-  let spyBusinessObjectDefinitionApi;
+  let spyBusinessObjectDefinitionApi, spyBusinessObjectDefinitionDescriptionSuggestionServiceApi;
 
   const response = {
     'resp': [
@@ -277,6 +277,22 @@ describe('DataEntityDetailComponent', () => {
 
   const sampleDataResponse = {
     preSignedUrl: '/test/url'
+  };
+
+  const bdefSuggestion = {
+    'businessObjectDefinitionDescriptionSuggestions': [
+      {
+        'id': 12345,
+        'businessObjectDefinitionDescriptionSuggestionKey': {
+          'namespace': 'fakenamspace',
+          'businessObjectDefinitionName': 'fakebdefname',
+          'userId': 'fakeuserid'
+        },
+        'descriptionSuggestion': 'falesuggestion',
+        'status': 'PENDING',
+        'createdByUserId': 'fakeuserid'
+      }
+    ]
   };
 
   beforeEach(async(() => {
@@ -504,23 +520,9 @@ describe('DataEntityDetailComponent', () => {
       spySmeApi = (<jasmine.Spy>smeApi.subjectMatterExpertGetSubjectMatterExpert)
         .and.returnValue(Observable.of(sme));
 
-      spySmeApi = (<jasmine.Spy>businessObjectDefinitionDescriptionSuggestionService
+      spyBusinessObjectDefinitionDescriptionSuggestionServiceApi = (<jasmine.Spy>businessObjectDefinitionDescriptionSuggestionService
         .businessObjectDefinitionDescriptionSuggestionSearchBusinessObjectDefinitionDescriptionSuggestions)
-        .and.returnValue(Observable.of({
-          'businessObjectDefinitionDescriptionSuggestions': [
-            {
-              'id': 12345,
-              'businessObjectDefinitionDescriptionSuggestionKey': {
-                'namespace': 'fakenamspace',
-                'businessObjectDefinitionName': 'fakebdefname',
-                'userId': 'fakeuserid'
-              },
-              'descriptionSuggestion': 'falesuggestion',
-              'status': 'PENDING',
-              'createdByUserId': 'fakeuserid'
-            }
-          ]
-        }));
+        .and.returnValue(Observable.of(bdefSuggestion));
     })));
 
   it('should set all data onInit', async(inject([ActivatedRoute], (activeRoute: ActivatedRouteStub) => {
@@ -539,6 +541,7 @@ describe('DataEntityDetailComponent', () => {
     // expect(component.bdefTags).toEqual(expectedBdefTags.businessObjectDefinitionTagKeys);
     // expect(component.hasTag).toEqual(true);
     expect(component.smes).toEqual(expectedSmes);
+    expect(component.businessObjectDefinitionDescriptionSuggestion).toEqual(bdefSuggestion.businessObjectDefinitionDescriptionSuggestions);
 
     component.onSampleDataClick();
     expect(component.sampleDataFileUrl).toEqual(sampleDataResponse.preSignedUrl);
@@ -550,12 +553,33 @@ describe('DataEntityDetailComponent', () => {
 
     expect(spyBdefSmeApi.calls.count()).toEqual(1);
     expect(spySmeApi.calls.count()).toEqual(2);
+    expect(spyBusinessObjectDefinitionDescriptionSuggestionServiceApi.calls.count()).toEqual(1);
 
     expect(spyTagApi.calls.count()).toEqual(2);
     expect(spyTagTypeApi.calls.count()).toEqual(2);
     expect(spyBdefTagApi.calls.count()).toEqual(1);
 
     component.sideActions[3].onAction();
+  })));
+
+  it('should show error when suggestions call fails and ',
+    async(inject([BusinessObjectDefinitionDescriptionSuggestionService, AlertService],
+    (businessObjectDefinitionDescriptionSuggestionService: BusinessObjectDefinitionDescriptionSuggestionService, alerter: AlertService) => {
+
+      const bdefSuggestionSpy = businessObjectDefinitionDescriptionSuggestionService
+        .businessObjectDefinitionDescriptionSuggestionSearchBusinessObjectDefinitionDescriptionSuggestions as jasmine.Spy;
+      const alertSpy = alerter.alert as jasmine.Spy;
+
+      // for failure on delete
+      bdefSuggestionSpy.and.returnValue(Observable.throw({status: 404}));
+
+
+      // fixture.detectChanges();
+      component.getAllPendingSuggestion('xxx', 'yyy', 'PENDING');
+      expect(component.businessObjectDefinitionDescriptionSuggestion).toEqual(undefined);
+      expect(bdefSuggestionSpy.calls.count()).toEqual(1);
+      expect(alertSpy.calls.count()).toEqual(1);
+
   })));
 
   it('should catch error when sme is invalid, should catch error when no access to formats, bdef with no descriptive format',
@@ -1590,7 +1614,7 @@ describe('DataEntityDetailComponent', () => {
       bdefKey: [testBdefs[0].namespace, testBdefs[0].businessObjectDefinitionName].join(component.displayDelimiter),
       loadLineage: true,
       color: DAGNodeTypeColor.child
-    }
+    };
 
     const childNode2: DataEntityLineageNode = {
       id: [testFormatKeys[1].namespace, testBdefs[1].businessObjectDefinitionName, testFormatKeys[1].businessObjectFormatUsage,
@@ -1754,8 +1778,8 @@ describe('DataEntityDetailComponent', () => {
         description: mockColumn.description
       };
 
-      const deleteSpy = columnApi.businessObjectDefinitionColumnDeleteBusinessObjectDefinitionColumn as jasmine.Spy
-      const createSpy = columnApi.businessObjectDefinitionColumnCreateBusinessObjectDefinitionColumn as jasmine.Spy
+      const deleteSpy = columnApi.businessObjectDefinitionColumnDeleteBusinessObjectDefinitionColumn as jasmine.Spy;
+      const createSpy = columnApi.businessObjectDefinitionColumnCreateBusinessObjectDefinitionColumn as jasmine.Spy;
 
       const alertSpy = alerter.alert as jasmine.Spy;
 
@@ -1849,7 +1873,7 @@ describe('DataEntityDetailComponent', () => {
       createSpy.calls.reset();
 
       // should do absolutely nothing when the name didn't change;
-      mockEvent.text = mockColumn.businessObjectDefinitionColumnName
+      mockEvent.text = mockColumn.businessObjectDefinitionColumnName;
       component.saveDataEntityColumnNameChange(mockEvent, mockColumn);
 
       expect(deleteSpy).not.toHaveBeenCalled();
