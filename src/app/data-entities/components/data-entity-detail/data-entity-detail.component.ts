@@ -636,7 +636,7 @@ export class DataEntityDetailComponent implements OnInit {
 
     this.businessObjectDefinitionDescriptionSuggestionService
       .businessObjectDefinitionDescriptionSuggestionSearchBusinessObjectDefinitionDescriptionSuggestions(
-        businessObjectDefinitionDescriptionSuggestionSearchRequest, 'status, descriptionSuggestion, createdByUserId'
+        businessObjectDefinitionDescriptionSuggestionSearchRequest, 'status, descriptionSuggestion, createdByUserId, createdOn'
       ).subscribe((response) => {
       this.businessObjectDefinitionDescriptionSuggestion = response && response.businessObjectDefinitionDescriptionSuggestions;
     }, (error) => {

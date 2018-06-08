@@ -21,7 +21,7 @@
   <div class="card" *ngFor="let suggestion of suggestions">
     <div class="card-header d-flex justify-content-between">
       <h6>{{suggestion.createdByUserId}}</h6>
-      <h6>{{suggestion.createdOn}}</h6>
+      <h6>{{suggestion.createdOn | date:'medium'}}</h6>
     </div>
     <div class="card-block">
       <div diff [left]="removeHtmlTag(original)" [right]="removeHtmlTag(suggestion.descriptionSuggestion)"></div>
