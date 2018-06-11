@@ -14,6 +14,9 @@
 * limitations under the License.
 */
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  BusinessObjectDefinitionDescriptionSuggestion
+} from '@herd/angular-client/dist/model/businessObjectDefinitionDescriptionSuggestion';
 
 @Component({
   selector: 'sd-suggestions',
@@ -23,11 +26,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 export class SuggestionsComponent implements OnInit {
 
   @Input() original: string;
-  @Input() suggestions: Array<{
-    createdByUserId: string,
-    createdOn: string,
-    descriptionSuggestion: string
-  }>;
+  @Input() suggestions: Array<BusinessObjectDefinitionDescriptionSuggestion>;
 
   constructor(
   ) {
