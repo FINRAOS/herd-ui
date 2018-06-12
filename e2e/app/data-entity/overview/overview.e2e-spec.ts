@@ -266,7 +266,6 @@ describe('Data Entity Overview Page', () => {
           'xxxxx - strike red contents for text removal\ntst_dm_adm@corp.root.nasd.com');
       });
 
-      // NOTE: this test assumes the previous test (precursor test) has fully passed and leaves the second format as descriptive
       it(' should not show suggestion button  to unauthorized users', async () => {
         // without permissions to edit
         await page.navigateTo(_url
@@ -278,7 +277,6 @@ describe('Data Entity Overview Page', () => {
         await expect(page.suggestionButton.isPresent()).toBeFalsy();
       });
 
-      // NOTE: this test assumes the previous test (precursor test) has fully passed and leaves the second format as descriptive
       it(' should not show suggestion button if there are no pending suggestion', async () => {
         // without permissions to edit
         await page.navigateTo(_url
