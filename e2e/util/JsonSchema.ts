@@ -139,6 +139,17 @@ export class BusinessObjectDefinitions {
   }
 };
 
+export class BusinessObjectDefinitionSuggestions {
+  public postUrl() {
+    return '/businessObjectDefinitionDescriptionSuggestions';
+  };
+
+  public deleteUrl(namespaceCode, businessObjectDefinitionName, userId) {
+    return '/businessObjectDefinitionDescriptionSuggestions/namespaces/'
+      + namespaceCode + '/businessObjectDefinitionNames/' + businessObjectDefinitionName + '/userIds/' + userId;
+  };
+};
+
 export class BusinessObjectDefinitionSmes {
   public postUrl() {
     return '/businessObjectDefinitionSubjectMatterExperts';

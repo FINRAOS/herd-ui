@@ -212,4 +212,15 @@ export class Data {
     }
   }
 
+  bdefSuggestion() {
+    return {
+      'businessObjectDefinitionDescriptionSuggestionKey': {
+        'namespace': this.defaultNamespace,
+        'businessObjectDefinitionName': 'BDEF_TEST',
+        'userId': 'user123'
+      },
+      'descriptionSuggestion': 'protractor test suggestion'
+    }
+  }
+
 }
