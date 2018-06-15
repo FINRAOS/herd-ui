@@ -41,6 +41,9 @@ $button-hover-color: $table-header-color;
   }
   .description-label {
     @include sub-header-label;
+    div:nth-child(2) {
+      margin-left: 6px;
+    }
   }
   .description-body {
     margin-top: 20px;
@@ -276,3 +279,6 @@ ngx-charts-legend {
   stroke-width: 2px;
 }
 
+.btn-suggestion {
+  padding: 0px 8px;
+}

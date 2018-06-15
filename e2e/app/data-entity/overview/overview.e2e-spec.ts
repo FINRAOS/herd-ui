@@ -247,6 +247,49 @@ describe('Data Entity Overview Page', () => {
         await expect(page.canEditCategories()).toBe(false);
       });
     });
+
+    describe(' description suggestion', () => {
+
+      it(' should show suggestion button with proper credential and valid pending suggestion', async () => {
+        await page.navigateTo(_url
+          .replace('{namespace}', namespace)
+          .replace('{businessObjectDefinitionName}', data.bdefNoTagsNoSchema().businessObjectDefinitionName));
+
+        // validate no tags and no formats exist
+        await expect((page.isDisplayedShim(page.suggestionButton))).toBeTruthy();
+        await expect((page.suggestionButton.getText())).toEqual('review suggestion');
+
+        // click the button and test the model window
+        await page.suggestionButton.click();
+        await expect((page.suggestionComponent.getText()))
+          .toContain('xxxxx - underline green contents for text addition\n' +
+          'xxxxx - strike red contents for text removal\ntst_dm_adm@corp.root.nasd.com');
+      });
+
+      it(' should not show suggestion button  to unauthorized users', async () => {
+        // without permissions to edit
+        await page.navigateTo(_url
+            .replace('{namespace}', namespace)
+            .replace('{businessObjectDefinitionName}', data.bdefNoTagsNoSchema().businessObjectDefinitionName),
+          conf.noAccessUser, conf.noAccessPassword);
+
+        // validate no tags and no formats exist
+        await expect(page.suggestionButton.isPresent()).toBeFalsy();
+      });
+
+      it(' should not show suggestion button if there are no pending suggestion', async () => {
+        // without permissions to edit
+        await page.navigateTo(_url
+            .replace('{namespace}', namespace)
+            .replace('{businessObjectDefinitionName}', data.bdefTest().businessObjectDefinitionName),
+          conf.noAccessUser, conf.noAccessPassword);
+
+        // validate no tags and no formats exist
+        await expect(page.suggestionButton.isPresent()).toBeFalsy();
+      });
+
+    });
+
   });
 
   async function validate(bdef) {
