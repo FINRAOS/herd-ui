@@ -61,14 +61,21 @@ export class OverviewPage extends BasePo {
   totalEditorTags: ElementArrayFinder = this._tagsEditorEl.all(by.className('list-inline-item'));
   _noFormatsMessageEl = this.formatContainer.all(by.tagName('p')).get(1);
   format_tooltip: ElementFinder = this.formatContainer.element(by.tagName('ngb-tooltip-window'));
+  lineageButton: ElementFinder = element(by.cssContainingText('sd-side-action .side-action', 'Lineage'));
+  modal: ElementFinder = element(by.tagName('ngb-modal-window'));
+
+  // suggestions page objects
+  get suggestionButton(): ElementFinder {
+    return element(by.className('btn-suggestion'));
+  }
+
+  get suggestionComponent(): ElementFinder {
+    return element(by.tagName('sd-suggestions'));
+  }
 
   get noFormatsMessage() {
     return this._noFormatsMessageEl.getText();
   }
-  lineageButton: ElementFinder = element(by.cssContainingText('sd-side-action .side-action', 'Lineage'));
-
-  modal: ElementFinder = element(by.tagName('ngb-modal-window'));
-
 
   async getDescription() {
     const descEditor = this._descEl.element(by.tagName('sd-edit'));
@@ -79,6 +86,7 @@ export class OverviewPage extends BasePo {
 
     return description.trim();
   }
+
   async getBdefTitle() {
     const nameEditor = this._bdefTitleEl.element(by.tagName('sd-edit'));
     const nameDisplay = this._bdefTitleEl.element(by.css('div[sdauthorized] > div'));

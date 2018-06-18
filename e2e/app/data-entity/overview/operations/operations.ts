@@ -68,11 +68,16 @@ export const postRequests = function () {
         'url': tagPostUrl,
         'body': new schema.Tags().postBodyWithoutParent(data.tagTypeCode().code, data.tagTypeCode().tags[1].code,
           data.tagTypeCode().tags[1].displayName, data.description)
+      },
+      {
+        'order': 5,
+        'url': new schema.BusinessObjectDefinitionSuggestions().postUrl(),
+        'body': data.bdefSuggestion()
       }
     ]
-  }
+  };
   return setupOptions;
-}
+};
 
 /**
  * Generate requests to post bdef-tag associations
@@ -96,9 +101,9 @@ export const postBdefTagRequests = function () {
           data.tagTypeCode().code, data.tagTypeCode().tags[1].code)
       }
     ]
-  }
+  };
   return setupOptions;
-}
+};
 
 /**
  * Generate requests to put bdef descriptive format for lineage test
@@ -118,7 +123,7 @@ export const putDescriptiveFormatRequests = function () {
       }
     ]
   };
-}
+};
 
 export const putLineageRequests = (): { options: DMOption[] }  => {
   const single = data.bdefTestSingleFormatVersion();
@@ -134,7 +139,7 @@ export const putLineageRequests = (): { options: DMOption[] }  => {
       }
     ]
   }
-}
+};
 
 
 /**
@@ -162,9 +167,9 @@ export const postBdefFormatRequests = function () {
         'body': data.bdefTestSingleFormatVersion()
       }
     ]
-  }
+  };
   return setupOptions;
-}
+};
 
 
 /**
@@ -203,12 +208,20 @@ export const deleteRequests = function () {
       {
         'order': 2,
         'url': new schema.TagType().deleteUrl(data.tagTypeCode().code)
+      },
+      {
+        'order': 2,
+        'url': new schema.BusinessObjectDefinitionSuggestions().deleteUrl(
+          data.bdefSuggestion().businessObjectDefinitionDescriptionSuggestionKey.namespace,
+          data.bdefSuggestion().businessObjectDefinitionDescriptionSuggestionKey.businessObjectDefinitionName,
+          data.bdefSuggestion().businessObjectDefinitionDescriptionSuggestionKey.userId
+        )
       }
     ]
-  }
+  };
 
   return teardownOptions;
-}
+};
 
 
 /**
@@ -227,9 +240,9 @@ export const clearDescriptiveFormatRequests = function () {
           data.bdefTest().displayName)
       }
     ]
-  }
+  };
   return setupOptions;
-}
+};
 
 export const clearLineageRequets = () => {
   const single = data.bdefTestSingleFormatVersion();
@@ -245,7 +258,7 @@ export const clearLineageRequets = () => {
       }
     ]
   }
-}
+};
 
 /**
  * Generate the requests to delete bdef formats
@@ -275,7 +288,7 @@ export const deleteBDefFormatRequests = function () {
           data.bdefTestSingleFormatVersion().businessObjectFormatFileType, 0)
       }
     ]
-  }
+  };
 
   return teardownOptions;
 };
@@ -340,7 +353,7 @@ export const clearEditDescInfoFrmt: { options: DMOption[] } = {
     body: new schema.BusinessObjectDefinitions().clearDescriptiveInformation(data.editBdefTestData().description,
       data.editBdefTestData().displayName)
   }]
-}
+};
 
 
 export const initRequests = {
