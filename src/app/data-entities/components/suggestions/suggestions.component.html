@@ -14,18 +14,59 @@
  limitations under the License.
 -->
 <div class="main-model">
+
   <div class="flex-column">
-    <div><span>xxxxx</span> - underline green contents for text addition</div>
-    <div><span>xxxxx</span> - strike red contents for text removal</div>
+    <div><span>xxxxx</span> - green contents for text addition</div>
+    <div><span>xxxxx</span> - red contents for text removal</div>
   </div>
-  <div class="card" *ngFor="let suggestion of suggestions">
-    <div class="card-header d-flex justify-content-between">
-      <h6>{{suggestion.createdByUserId}}</h6>
-      <h6>{{suggestion.createdOn | date:'medium'}}</h6>
+
+  <ng-container *ngFor="let suggestion of suggestions; let i = index;">
+    <!---->
+    <div class="card card-suggest{{i}}"
+         (mouseover)="onMouseEnter($event, i)"
+         (mouseout)="onMouseLeave($event, i)"
+         (click)="enterEditMode(i)">
+
+      <div class="card-header d-flex justify-content-between">
+        <h6>{{suggestion.createdByUserId}}</h6>
+        <h6>{{suggestion.createdOn | date:'medium'}}</h6>
+      </div>
+
+      <div class="card-block">
+        <div class="row editing-block{{i}}">
+          <div class="col">
+            <div class="content-diff{{i}}">
+              <div class="suggest-diff" diff [left]="removeHtmlTag(original)"
+                   [right]="removeHtmlTag(suggestion.descriptionSuggestion)"></div>
+            </div>
+          </div>
+          <div class="col-1 content-edit-icon{{i}}">
+            <i class="fa fa-pencil"></i>
+          </div>
+        </div>
+        <div class="row" [hidden]="!(suggestion.editMode === undefined || suggestion.editMode === false)">
+          <div class="col">
+              <button class="btn btn-primary" (click)="approve(suggestion, i, $event)">
+                approve
+              </button>
+          </div>
+        </div>
+        <div class="content-edit{{i}}">
+          <div class="editor">
+            <ckeditor (change)="editorChange($event, i)" [ngModel]="suggestion.descriptionSuggestion" [config]="{extraPlugins: 'divarea' }"></ckeditor>
+          </div>
+          <div class="editor-buttons">
+            <button class="btn btn-primary" (click)="save(suggestion, i)">
+              save
+            </button>
+            <button class="btn btn-danger" (click)="editDone(i, $event)">cancel</button>
+          </div>
+        </div>
+
+      </div>
+
     </div>
-    <div class="card-block">
-      <div diff [left]="removeHtmlTag(original)" [right]="removeHtmlTag(suggestion.descriptionSuggestion)"></div>
-    </div>
-  </div>
+
+  </ng-container>
 
 </div>
