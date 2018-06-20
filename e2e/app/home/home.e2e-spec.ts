@@ -29,7 +29,7 @@ describe('Feature:HomePage', function () {
 
 
 
-  it('should should display proper headings and category data', async () => {
+  it(' should display proper headings and category data', async () => {
     await page.navigateTo();
 
     // validate Home Search Heading
