@@ -60,9 +60,6 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
         .map((value, index) => {
           this.elementRef.nativeElement.querySelector('.content-edit' + index).style.display = 'none';
           this.elementRef.nativeElement.querySelector('.content-edit-icon' + index).style.display = 'none';
-          /*this.elementRef.nativeElement.querySelector('.editing-block' + index).style.border = '#b1aeae 1px solid';
-          this.elementRef.nativeElement.querySelector('.content-edit-icon' + index).style.backgroundColor = '#dddddd';
-          this.elementRef.nativeElement.querySelector('.content-edit-icon' + index).style.display = 'inline-block';*/
         });
     }
   }
