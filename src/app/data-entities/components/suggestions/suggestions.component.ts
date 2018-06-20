@@ -21,6 +21,7 @@ import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/
 import {
   BusinessObjectDefinitionDescriptionSuggestionService
 } from '@herd/angular-client';
+import { BusinessObjectDefinitionDescriptionSuggestionKey } from '@herd/angular-client/dist/model/businessObjectDefinitionDescriptionSuggestionKey';
 
 export interface Suggestions extends BusinessObjectDefinitionDescriptionSuggestion {
   newSuggestion: string;
@@ -54,14 +55,16 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.suggestions
-      .map((value, index) => {
-        this.elementRef.nativeElement.querySelector('.content-edit' + index).style.display = 'none';
-        this.elementRef.nativeElement.querySelector('.content-edit-icon' + index).style.display = 'none';
-        /*this.elementRef.nativeElement.querySelector('.editing-block' + index).style.border = '#b1aeae 1px solid';
-        this.elementRef.nativeElement.querySelector('.content-edit-icon' + index).style.backgroundColor = '#dddddd';
-        this.elementRef.nativeElement.querySelector('.content-edit-icon' + index).style.display = 'inline-block';*/
-      });
+    if (this.suggestions && this.suggestions.length > 0) {
+      this.suggestions
+        .map((value, index) => {
+          this.elementRef.nativeElement.querySelector('.content-edit' + index).style.display = 'none';
+          this.elementRef.nativeElement.querySelector('.content-edit-icon' + index).style.display = 'none';
+          /*this.elementRef.nativeElement.querySelector('.editing-block' + index).style.border = '#b1aeae 1px solid';
+          this.elementRef.nativeElement.querySelector('.content-edit-icon' + index).style.backgroundColor = '#dddddd';
+          this.elementRef.nativeElement.querySelector('.content-edit-icon' + index).style.display = 'inline-block';*/
+        });
+    }
   }
 
   removeHtmlTag(string) {
@@ -127,7 +130,7 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
         ).subscribe(
         (response) => {
           this.suggestions[index].descriptionSuggestion = suggestion.newSuggestion;
-          this.alertService.alert(new SuccessAlert('Your suggesion saved successfully.', '',
+          this.alertService.alert(new SuccessAlert('Your suggestion saved successfully.', '',
             `${response}`, 5
           ));
           this.editDone(index)
@@ -146,7 +149,33 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
   }
 
   approve(suggestion: Suggestions, index: number, event?) {
-    this.approveSuggestion.emit({text: suggestion.descriptionSuggestion});
+
+    this.businessObjectDefinitionDescriptionSuggestionService
+      .businessObjectDefinitionDescriptionSuggestionAcceptBusinessObjectDefinitionDescriptionSuggestion(
+        {
+          businessObjectDefinitionDescriptionSuggestionKey: {
+            namespace: suggestion.businessObjectDefinitionDescriptionSuggestionKey.namespace,
+            businessObjectDefinitionName: suggestion.businessObjectDefinitionDescriptionSuggestionKey.businessObjectDefinitionName,
+            userId: suggestion.businessObjectDefinitionDescriptionSuggestionKey.userId
+          }
+        }
+      ).subscribe(
+      (response) => {
+
+        // we removing one item from this component but it will also reflect in parent component - data entity detail.
+        this.suggestions.splice(index, 1);
+        this.approveSuggestion.emit({text: suggestion.descriptionSuggestion});
+        this.alertService.alert(new SuccessAlert('Success!', 'Your suggestion approved successfully.',
+          `${response}`, 5
+        ));
+        this.editDone(index)
+      }, (error) => {
+        this.alertService.alert(new DangerAlert('Error!', 'Unable approve this description suggestion',
+          `Problem: ${error} : Try again later.`, 5
+        ));
+      }
+    );
+
     if (event) {
       event.stopPropagation();
       event.preventDefault();

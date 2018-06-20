@@ -17,6 +17,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SuggestionsComponent } from './suggestions.component';
 import { DiffMatchPatchModule } from 'ng-diff-match-patch/dist';
+import { MockCkeditorComponent } from '../../../../testing/mock-ckeditor.component';
+import { AlertService } from '../../../core/services/alert.service';
+import { BusinessObjectDefinitionDescriptionSuggestionService } from '@herd/angular-client';
 
 describe('SuggestionsComponent', () => {
   let component: SuggestionsComponent;
@@ -28,7 +31,21 @@ describe('SuggestionsComponent', () => {
         DiffMatchPatchModule
       ],
       declarations: [
+        MockCkeditorComponent,
         SuggestionsComponent
+      ],
+      providers: [
+        AlertService,
+        {
+          provide: BusinessObjectDefinitionDescriptionSuggestionService,
+          useValue: {
+            businessObjectDefinitionDescriptionSuggestionAcceptBusinessObjectDefinitionDescriptionSuggestion:
+              jasmine.createSpy('businessObjectDefinitionDescriptionSuggestionAcceptBusinessObjectDefinitionDescriptionSuggestion'),
+            businessObjectDefinitionDescriptionSuggestionUpdateBusinessObjectDefinitionDescriptionSuggestion:
+              jasmine.createSpy('businessObjectDefinitionDescriptionSuggestionUpdateBusinessObjectDefinitionDescriptionSuggestion'),
+            configuration: {}
+          }
+        },
       ]
     })
     .compileComponents();

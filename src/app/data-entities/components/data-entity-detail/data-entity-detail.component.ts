@@ -263,6 +263,13 @@ export class DataEntityDetailComponent implements OnInit {
       });
   }
 
+  suggestionApproved( event) {
+    this.bdef.description = event.text;
+    if (this.businessObjectDefinitionDescriptionSuggestion.length <= 0 ) {
+      this.close();
+    }
+  }
+
   getBdefDetails() {
 
     if (this.bdef.sampleDataFiles && this.bdef.sampleDataFiles.length > 0) {
