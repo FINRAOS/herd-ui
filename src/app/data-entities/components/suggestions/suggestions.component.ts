@@ -21,11 +21,13 @@ import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/
 import {
   BusinessObjectDefinitionDescriptionSuggestionService
 } from '@herd/angular-client';
-import { BusinessObjectDefinitionDescriptionSuggestionKey } from '@herd/angular-client/dist/model/businessObjectDefinitionDescriptionSuggestionKey';
+import {
+  BusinessObjectDefinitionDescriptionSuggestionKey
+} from '@herd/angular-client/dist/model/businessObjectDefinitionDescriptionSuggestionKey';
 
 export interface Suggestions extends BusinessObjectDefinitionDescriptionSuggestion {
-  newSuggestion: string;
-  editMode: boolean;
+  newSuggestion?: string;
+  editMode?: boolean;
 }
 
 @Component({
@@ -58,6 +60,7 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
     if (this.suggestions && this.suggestions.length > 0) {
       this.suggestions
         .map((value, index) => {
+          this.suggestions[index].newSuggestion = value.descriptionSuggestion;
           this.elementRef.nativeElement.querySelector('.content-edit' + index).style.display = 'none';
           this.elementRef.nativeElement.querySelector('.content-edit-icon' + index).style.display = 'none';
         });
@@ -109,10 +112,6 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  editorChange(event, index) {
-    this.suggestions[index].newSuggestion = event;
-  }
-
   save(suggestion: Suggestions, index: number) {
 
     if (suggestion.newSuggestion !== undefined && suggestion.newSuggestion !== suggestion.descriptionSuggestion) {
@@ -127,8 +126,8 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
         ).subscribe(
         (response) => {
           this.suggestions[index].descriptionSuggestion = suggestion.newSuggestion;
-          this.alertService.alert(new SuccessAlert('Your suggestion saved successfully.', '',
-            `${response}`, 5
+          this.alertService.alert(new SuccessAlert('Edited suggestion saved successfully.', '',
+            ``, 5
           ));
           this.editDone(index)
         }, (error) => {
@@ -162,12 +161,12 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
         // we removing one item from this component but it will also reflect in parent component - data entity detail.
         this.suggestions.splice(index, 1);
         this.approveSuggestion.emit({text: suggestion.descriptionSuggestion});
-        this.alertService.alert(new SuccessAlert('Success!', 'Your suggestion approved successfully.',
-          `${response}`, 5
+        this.alertService.alert(new SuccessAlert('Success!', 'This suggestion approved successfully.',
+          ``, 5
         ));
         this.editDone(index)
       }, (error) => {
-        this.alertService.alert(new DangerAlert('Error!', 'Unable approve this description suggestion',
+        this.alertService.alert(new DangerAlert('Error!', 'Unable to approve this suggestion.',
           `Problem: ${error} : Try again later.`, 5
         ));
       }

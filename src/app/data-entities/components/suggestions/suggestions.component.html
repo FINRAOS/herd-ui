@@ -46,19 +46,15 @@
         </div>
         <div class="row" [hidden]="!(suggestion.editMode === undefined || suggestion.editMode === false)">
           <div class="col">
-              <button class="btn btn-primary" (click)="approve(suggestion, i, $event)">
-                approve
-              </button>
+              <button class="btn btn-primary" (click)="approve(suggestion, i, $event)">approve</button>
           </div>
         </div>
         <div class="content-edit{{i}}">
           <div class="editor">
-            <ckeditor (change)="editorChange($event, i)" [config]="{extraPlugins: 'divarea' }"></ckeditor>
+            <ckeditor [(ngModel)]="suggestion.newSuggestion" [config]="{extraPlugins: 'divarea' }"></ckeditor>
           </div>
           <div class="editor-buttons">
-            <button class="btn btn-primary" (click)="save(suggestion, i)">
-              save
-            </button>
+            <button class="btn btn-primary" (click)="save(suggestion, i)">save</button>
             <button class="btn btn-danger" (click)="editDone(i, $event)">cancel</button>
           </div>
         </div>
