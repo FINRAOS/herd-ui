@@ -322,7 +322,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <sd-suggestions (approveSuggestion)="saveDataEntityDescription($event)" [original]="bdef.description || ''" [suggestions]="businessObjectDefinitionDescriptionSuggestion"></sd-suggestions>
+    <sd-suggestions (approveSuggestion)="suggestionApproved($event)" [original]="bdef.description || ''" [suggestions]="businessObjectDefinitionDescriptionSuggestion"></sd-suggestions>
   </div>
   <div class="modal-footer">
     <button
