@@ -21,7 +21,7 @@
   </div>
 
   <ng-container *ngFor="let suggestion of suggestions; let i = index;">
-    <!---->
+
     <div class="card card-suggest{{i}}"
          (mouseover)="onMouseEnter($event, i)"
          (mouseout)="onMouseLeave($event, i)"
@@ -46,7 +46,7 @@
         </div>
         <div class="row" [hidden]="!(suggestion.editMode === undefined || suggestion.editMode === false)">
           <div class="col">
-              <button class="btn btn-primary" (click)="approve(suggestion, i, $event)">approve</button>
+              <button class="btn btn-primary" (click)="approve(suggestion, i, $event)">Approve</button>
           </div>
         </div>
         <div class="content-edit{{i}}">
@@ -54,8 +54,8 @@
             <ckeditor [(ngModel)]="suggestion.newSuggestion" [config]="{extraPlugins: 'divarea' }"></ckeditor>
           </div>
           <div class="editor-buttons">
-            <button class="btn btn-primary" (click)="save(suggestion, i)">save</button>
-            <button class="btn btn-danger" (click)="editDone(i, $event)">cancel</button>
+            <button class="btn btn-primary" (click)="save(suggestion, i)">Save</button>
+            <button class="btn btn-danger" (click)="editDone(i, $event)">Cancel</button>
           </div>
         </div>
 

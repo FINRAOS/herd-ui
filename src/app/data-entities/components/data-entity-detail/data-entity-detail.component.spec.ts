@@ -541,7 +541,7 @@ describe('DataEntityDetailComponent', () => {
     // expect(component.bdefTags).toEqual(expectedBdefTags.businessObjectDefinitionTagKeys);
     // expect(component.hasTag).toEqual(true);
     expect(component.smes).toEqual(expectedSmes);
-    expect(component.businessObjectDefinitionDescriptionSuggestion).toEqual(bdefSuggestion.businessObjectDefinitionDescriptionSuggestions);
+    expect(component.businessObjectDefinitionDescriptionSuggestions).toEqual(bdefSuggestion.businessObjectDefinitionDescriptionSuggestions);
 
     component.onSampleDataClick();
     expect(component.sampleDataFileUrl).toEqual(sampleDataResponse.preSignedUrl);
@@ -576,11 +576,20 @@ describe('DataEntityDetailComponent', () => {
 
       // fixture.detectChanges();
       component.getAllPendingSuggestion('xxx', 'yyy', 'PENDING');
-      expect(component.businessObjectDefinitionDescriptionSuggestion).toEqual(undefined);
+      expect(component.businessObjectDefinitionDescriptionSuggestions).toEqual(undefined);
       expect(bdefSuggestionSpy.calls.count()).toEqual(1);
       expect(alertSpy.calls.count()).toEqual(1);
 
   })));
+
+  it(' suggestionApprove should approve description suggestion', () => {
+    component.open('');
+    component.businessObjectDefinitionDescriptionSuggestions = [bdefSuggestion];
+    component.suggestionApproved({text: 'xxx'});
+    component.businessObjectDefinitionDescriptionSuggestions = [];
+    component.suggestionApproved({text: 'xxx'});
+    expect(component.bdef.description).toEqual('xxx');
+  });
 
   it('should catch error when sme is invalid, should catch error when no access to formats, bdef with no descriptive format',
     async((inject([
