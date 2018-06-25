@@ -64,7 +64,7 @@ export class DataEntityDetailComponent implements OnInit {
   ddl = '';
   ddlError: DangerAlert;
   config = { lineNumbers: true, mode: 'text/x-go', readOnly: true };
-  businessObjectDefinitionDescriptionSuggestion: Array<any>;
+  businessObjectDefinitionDescriptionSuggestions: Array<any>;
 
   bdef: BusinessObjectDefinition = {} as BusinessObjectDefinition;
   formats: BusinessObjectFormatKey[] = [];
@@ -265,7 +265,7 @@ export class DataEntityDetailComponent implements OnInit {
 
   suggestionApproved( event) {
     this.bdef.description = event.text;
-    if (this.businessObjectDefinitionDescriptionSuggestion.length <= 0 ) {
+    if (this.businessObjectDefinitionDescriptionSuggestions.length <= 0 ) {
       this.close();
     }
   }
@@ -621,7 +621,8 @@ export class DataEntityDetailComponent implements OnInit {
 
   open(content: TemplateRef<any> | String, windowClass?: string) {
     // append the modal to the data-entity-detail container so when views are switched it goes away with taht view.
-    this.modalReference = this.modalService.open(content, { windowClass: windowClass, size: 'lg', container: '.data-entity-detail' });
+    this.modalReference = this.modalService
+      .open(content, { windowClass: windowClass, size: 'lg', container: '.data-entity-detail', backdrop: 'static' });
     return this.modalReference;
   }
 
@@ -645,7 +646,7 @@ export class DataEntityDetailComponent implements OnInit {
       .businessObjectDefinitionDescriptionSuggestionSearchBusinessObjectDefinitionDescriptionSuggestions(
         businessObjectDefinitionDescriptionSuggestionSearchRequest, 'status, descriptionSuggestion, createdByUserId, createdOn'
       ).subscribe((response) => {
-      this.businessObjectDefinitionDescriptionSuggestion = response && response.businessObjectDefinitionDescriptionSuggestions;
+      this.businessObjectDefinitionDescriptionSuggestions = response && response.businessObjectDefinitionDescriptionSuggestions;
     }, (error) => {
       this.alertService.alert(new DangerAlert('Unable to get data entity description suggestions', '',
         `Problem: ${error} : Try again later.`, 5

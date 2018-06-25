@@ -21,9 +21,7 @@ import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/
 import {
   BusinessObjectDefinitionDescriptionSuggestionService
 } from '@herd/angular-client';
-import {
-  BusinessObjectDefinitionDescriptionSuggestionKey
-} from '@herd/angular-client/dist/model/businessObjectDefinitionDescriptionSuggestionKey';
+
 
 export interface Suggestions extends BusinessObjectDefinitionDescriptionSuggestion {
   newSuggestion?: string;
@@ -43,7 +41,6 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
   @Output() approveSuggestion = new EventEmitter<Object>();
 
   public hover = false;
-  public editMode = false;
   public disableEdit = false;
 
   constructor(
@@ -54,13 +51,20 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+
+    // This is placed here in the in after view init is because it will throw exception as view will be change at that time
+    if (this.suggestions && this.suggestions.length > 0) {
+      this.suggestions
+        .map((value, index) => {
+          this.suggestions[index].newSuggestion = value.descriptionSuggestion;
+        });
+    }
   }
 
   ngAfterViewInit() {
     if (this.suggestions && this.suggestions.length > 0) {
       this.suggestions
         .map((value, index) => {
-          this.suggestions[index].newSuggestion = value.descriptionSuggestion;
           this.elementRef.nativeElement.querySelector('.content-edit' + index).style.display = 'none';
           this.elementRef.nativeElement.querySelector('.content-edit-icon' + index).style.display = 'none';
         });
@@ -76,7 +80,6 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
       this.hover = true;
       this.elementRef.nativeElement.querySelector('.editing-block' + index).style.border = '1px solid #b1aeae';
       this.elementRef.nativeElement.querySelector('.content-edit-icon' + index).style.backgroundColor = '#dddddd';
-      // this.elementRef.nativeElement.querySelector('.content-edit-icon' + index).style.display = 'inline-block';
       this.elementRef.nativeElement.querySelector('.content-edit-icon' + index).style.display = 'inline-block';
     }
   }
@@ -105,7 +108,9 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
     this.elementRef.nativeElement.querySelector('.card-suggest' + index).style.boxShadow = '1px 2px 2px 0px #dddddd';
     this.elementRef.nativeElement.querySelector('.content-diff' + index).style.display = '';
     this.elementRef.nativeElement.querySelector('.content-edit' + index).style.display = 'none';
-    this.suggestions[index].editMode = false;
+    if (this.suggestions.length > 0) {
+      this.suggestions[index].editMode = false;
+    }
     if (event) {
       event.stopPropagation();
       event.preventDefault();
@@ -121,7 +126,7 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
           suggestion.businessObjectDefinitionDescriptionSuggestionKey.businessObjectDefinitionName,
           suggestion.businessObjectDefinitionDescriptionSuggestionKey.userId,
           {
-            descriptionSuggestion: suggestion.newSuggestion || suggestion.descriptionSuggestion
+            descriptionSuggestion: suggestion.newSuggestion
           }
         ).subscribe(
         (response) => {
@@ -130,7 +135,8 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
             ``, 5
           ));
           this.editDone(index)
-        }, (error) => {
+        },
+        (error) => {
           this.alertService.alert(new DangerAlert('Unable to get data entity description suggestions', '',
             `Problem: ${error} : Try again later.`, 5
           ));
@@ -165,7 +171,8 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
           ``, 5
         ));
         this.editDone(index)
-      }, (error) => {
+      },
+      (error) => {
         this.alertService.alert(new DangerAlert('Error!', 'Unable to approve this suggestion.',
           `Problem: ${error} : Try again later.`, 5
         ));
