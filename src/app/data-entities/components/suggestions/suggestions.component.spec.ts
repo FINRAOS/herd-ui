@@ -113,8 +113,6 @@ describe('SuggestionsComponent', () => {
     component.onMouseLeave({ someevent: 'nothing '}, index);
     component.suggestions[0].editMode = false;
     component.onMouseLeave({ someevent: 'nothing '}, index);
-    expect(query('.editing-block' + index).nativeElement.style.border)
-      .toBe('1px solid rgba(246, 250, 255, 0.729412)');
     expect(query('.content-edit-icon' + index).nativeElement.style.display).toBe('none');
   });
 
@@ -124,8 +122,6 @@ describe('SuggestionsComponent', () => {
     component.enterEditMode(index);
     component.disableEdit = false;
     component.enterEditMode(index);
-    expect(query('.editing-block' + index).nativeElement.style.border)
-      .toBe('1px solid rgba(246, 250, 255, 0.729412)');
     expect(query('.card-suggest' + index).nativeElement.style.boxShadow)
       .toBe('rgb(71, 143, 191) 1px 2px 8px');
     expect(query('.content-diff' + index).nativeElement.style.display)
