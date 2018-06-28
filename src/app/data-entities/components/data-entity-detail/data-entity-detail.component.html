@@ -54,7 +54,7 @@
             <div class="col-9">
               <div class="description-label d-flex">
                 <div>Description</div>
-                <div *ngIf="businessObjectDefinitionDescriptionSuggestion && businessObjectDefinitionDescriptionSuggestion.length > 0"
+                <div *ngIf="businessObjectDefinitionDescriptionSuggestions && businessObjectDefinitionDescriptionSuggestions.length > 0"
                      sdAuthorized [securityFunction]="authMap.editDescriptiveInfo" [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions">
                   <button class="btn btn-primary btn-suggestion" (click)="open(approveSuggestion, '')">review suggestion</button>
                 </div>
@@ -322,7 +322,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <sd-suggestions [original]="bdef.description || ''" [suggestions]="businessObjectDefinitionDescriptionSuggestion"></sd-suggestions>
+    <sd-suggestions (approveSuggestion)="suggestionApproved($event)" [original]="bdef.description || ''" [suggestions]="businessObjectDefinitionDescriptionSuggestions"></sd-suggestions>
   </div>
   <div class="modal-footer">
     <button

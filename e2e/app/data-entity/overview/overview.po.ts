@@ -24,7 +24,7 @@ export class OverviewPage extends BasePo {
   }
   _bdefTitleEl = element(by.className('detail-title'));
   auditDetails: ElementFinder = element(by.className('audit-details'));
-  descLabel: ElementFinder = element(by.className('description-label'));
+  descLabel: ElementFinder = element(by.css('.description-label>div:first-child'));
   _descEl: ElementFinder = element(by.css('#overview-panel .tab-contents > .col-9'));
   innerHeader: ElementArrayFinder = element.all(by.className('inner-header'));
   _bdefDetails = element(by.className('bdef-details'));
@@ -71,6 +71,34 @@ export class OverviewPage extends BasePo {
 
   get suggestionComponent(): ElementFinder {
     return element(by.tagName('sd-suggestions'));
+  }
+
+  get suggestionCard(): ElementFinder {
+    return element(by.className('card-suggest0'));
+  }
+
+  get suggestionEditBlock(): ElementFinder {
+    return element(by.className('editing-block0'));
+  }
+
+  get suggestionDiffCard(): ElementFinder {
+    return element(by.className('suggest-diff'));
+  }
+
+  get suggestionEditCard(): ElementFinder {
+    return element(by.className('content-edit0'));
+  }
+
+  get suggestionApproveButton(): ElementFinder {
+    return element(by.buttonText('Approve'));
+  }
+
+  get suggestionSaveButton(): ElementFinder {
+    return element(by.buttonText('Save'));
+  }
+
+  get suggestionCancelButton(): ElementFinder {
+    return element(by.buttonText('Cancel'));
   }
 
   get noFormatsMessage() {

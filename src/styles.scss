@@ -135,21 +135,14 @@ select-dropdown {
 }
 
 ins{
-  color: green;
-  background: #bbffbb;
+  color: #000000;
+  background: #97f295;
+  text-decoration: none;
+
 }
 
 del{
-  color: red;
-  background: #ffbbbb;
-}
-
-.ins{
-  color: green;
-  background: #bbffbb;
-}
-
-.del{
-  color: red;
-  background: #ffbbbb;
+  color: #000000;
+  background: #ffb6ba;
+  text-decoration: none;
 }

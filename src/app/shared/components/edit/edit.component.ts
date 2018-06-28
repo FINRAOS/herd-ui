@@ -16,9 +16,7 @@
 import {
   Component,
   ElementRef,
-  EventEmitter, HostListener, Input, OnInit, Output, OnChanges,
-  ChangeDetectionStrategy,
-  SimpleChanges
+  EventEmitter, Input, OnInit, Output
 } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
 
@@ -52,7 +50,7 @@ export class EditComponent implements OnInit {
   }
 
   editValidator = (fg: FormGroup): ValidationErrors | null => {
-    const retVal: ValidationErrors = {}
+    const retVal: ValidationErrors = {};
     if (this.required && !fg.value.text) {
       retVal['valueRequired'] = 'Must supply a value for this field';
     }
@@ -63,7 +61,7 @@ export class EditComponent implements OnInit {
     }
 
     return Object.keys(retVal).length > 0 ? retVal : null;
-  }
+  };
 
   containsIllegalCharacters(value: string): boolean {
     return this.illegalCharacters.some((c) => {

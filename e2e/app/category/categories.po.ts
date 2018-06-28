@@ -42,7 +42,7 @@ export class CategoryPage extends BasePo {
   }
 
   get searchBox() {
-    return element(by.css('input[placeholder="I can help you to find anything you want!"]'));
+    return element(by.css('input[placeholder="Search related data entities"]'));
   }
 
   get searchButton() {

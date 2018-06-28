@@ -250,23 +250,7 @@ describe('Data Entity Overview Page', () => {
 
     describe(' description suggestion', () => {
 
-      it(' should show suggestion button with proper credential and valid pending suggestion', async () => {
-        await page.navigateTo(_url
-          .replace('{namespace}', namespace)
-          .replace('{businessObjectDefinitionName}', data.bdefNoTagsNoSchema().businessObjectDefinitionName));
-
-        // validate no tags and no formats exist
-        await expect((page.isDisplayedShim(page.suggestionButton))).toBeTruthy();
-        await expect((page.suggestionButton.getText())).toEqual('review suggestion');
-
-        // click the button and test the model window
-        await page.suggestionButton.click();
-        await expect((page.suggestionComponent.getText()))
-          .toContain('xxxxx - underline green contents for text addition\n' +
-          'xxxxx - strike red contents for text removal\ntst_dm_adm@corp.root.nasd.com');
-      });
-
-      it(' should not show suggestion button  to unauthorized users', async () => {
+      it(' should not show suggestion button to unauthorized users', async () => {
         // without permissions to edit
         await page.navigateTo(_url
             .replace('{namespace}', namespace)
@@ -286,6 +270,36 @@ describe('Data Entity Overview Page', () => {
 
         // validate no tags and no formats exist
         await expect(page.suggestionButton.isPresent()).toBeFalsy();
+      });
+
+      it(' should show suggestion button and able to edit, save and approve suggestion', async () => {
+        await page.navigateTo(_url
+          .replace('{namespace}', namespace)
+          .replace('{businessObjectDefinitionName}', data.bdefNoTagsNoSchema().businessObjectDefinitionName));
+
+        // validate no tags and no formats exist
+        await expect((page.isDisplayedShim(page.suggestionButton))).toBeTruthy();
+        await expect((page.suggestionButton.getText())).toEqual('review suggestion');
+
+        // click the button and test the model window
+        await page.suggestionButton.click();
+        await expect((page.suggestionComponent.getText())).toContain('xxxxx - green contents for text addition\n'
+          + 'xxxxx - red contents for text removal\n' + 'tst_dm_adm@corp.root.nasd.com');
+
+        // Test if suggestion window is present and accessable
+        await expect((page.suggestionApproveButton)).toBeTruthy();
+        await expect((page.suggestionDiffCard.getText()))
+          .toContain('Leveprage agile fotramewctorks to provide a robust synopsis for hiugh lgevel stioverviews.n');
+
+        await expect(page.isDisplayedShim(page.suggestionApproveButton)).toBeTruthy();
+        await page.suggestionCard.click();
+        await expect(page.suggestionSaveButton.isPresent()).toBeTruthy();
+
+        await page.suggestionCancelButton.click();
+
+        await page.suggestionApproveButton.click();
+        await expect(page.suggestionButton.isPresent()).toBeFalsy();
+
       });
 
     });
