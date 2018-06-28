@@ -250,6 +250,28 @@ describe('Data Entity Overview Page', () => {
 
     describe(' description suggestion', () => {
 
+      it(' should not show suggestion button to unauthorized users', async () => {
+        // without permissions to edit
+        await page.navigateTo(_url
+            .replace('{namespace}', namespace)
+            .replace('{businessObjectDefinitionName}', data.bdefNoTagsNoSchema().businessObjectDefinitionName),
+          conf.noAccessUser, conf.noAccessPassword);
+
+        // validate no tags and no formats exist
+        await expect(page.suggestionButton.isPresent()).toBeFalsy();
+      });
+
+      it(' should not show suggestion button if there are no pending suggestion', async () => {
+        // without permissions to edit
+        await page.navigateTo(_url
+            .replace('{namespace}', namespace)
+            .replace('{businessObjectDefinitionName}', data.bdefTest().businessObjectDefinitionName),
+          conf.noAccessUser, conf.noAccessPassword);
+
+        // validate no tags and no formats exist
+        await expect(page.suggestionButton.isPresent()).toBeFalsy();
+      });
+
       it(' should show suggestion button and able to edit, save and approve suggestion', async () => {
         await page.navigateTo(_url
           .replace('{namespace}', namespace)
@@ -278,28 +300,6 @@ describe('Data Entity Overview Page', () => {
         await page.suggestionApproveButton.click();
         await expect(page.suggestionButton.isPresent()).toBeFalsy();
 
-      });
-
-      it(' should not show suggestion button to unauthorized users', async () => {
-        // without permissions to edit
-        await page.navigateTo(_url
-            .replace('{namespace}', namespace)
-            .replace('{businessObjectDefinitionName}', data.bdefNoTagsNoSchema().businessObjectDefinitionName),
-          conf.noAccessUser, conf.noAccessPassword);
-
-        // validate no tags and no formats exist
-        await expect(page.suggestionButton.isPresent()).toBeFalsy();
-      });
-
-      it(' should not show suggestion button if there are no pending suggestion', async () => {
-        // without permissions to edit
-        await page.navigateTo(_url
-            .replace('{namespace}', namespace)
-            .replace('{businessObjectDefinitionName}', data.bdefTest().businessObjectDefinitionName),
-          conf.noAccessUser, conf.noAccessPassword);
-
-        // validate no tags and no formats exist
-        await expect(page.suggestionButton.isPresent()).toBeFalsy();
       });
 
     });
