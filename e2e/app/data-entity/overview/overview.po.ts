@@ -24,7 +24,7 @@ export class OverviewPage extends BasePo {
   }
   _bdefTitleEl = element(by.className('detail-title'));
   auditDetails: ElementFinder = element(by.className('audit-details'));
-  descLabel: ElementFinder = element(by.className('description-label'));
+  descLabel: ElementFinder = element(by.css('.description-label>div:first-child'));
   _descEl: ElementFinder = element(by.css('#overview-panel .tab-contents > .col-9'));
   innerHeader: ElementArrayFinder = element.all(by.className('inner-header'));
   _bdefDetails = element(by.className('bdef-details'));
