@@ -13,10 +13,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {BusinessObjectDefinitionSubjectMatterExpertService, SubjectMatterExpertService, NamespaceAuthorization} from '@herd/angular-client';
-import {AlertService, DangerAlert} from '../../../core/services/alert.service';
-import {AuthMap} from '../../../shared/directive/authorized/authorized.directive';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  BusinessObjectDefinitionSubjectMatterExpertService,
+  SubjectMatterExpertService,
+  NamespaceAuthorization
+} from '@herd/angular-client';
+import { AlertService, DangerAlert } from '../../../core/services/alert.service';
+import { AuthMap } from '../../../shared/directive/authorized/authorized.directive';
 
 @Component({
   selector: 'sd-contacts',
@@ -29,18 +33,20 @@ export class ContactsComponent implements OnInit, OnChanges {
   @Input() businessObjectDefinitionName: string;
   @Input() contacts: any;
 
-  editDescriptiveContentPermissions = [ NamespaceAuthorization.NamespacePermissionsEnum.WRITE,
-    NamespaceAuthorization.NamespacePermissionsEnum.WRITEDESCRIPTIVECONTENT ];
+  editDescriptiveContentPermissions = [NamespaceAuthorization.NamespacePermissionsEnum.WRITE,
+    NamespaceAuthorization.NamespacePermissionsEnum.WRITEDESCRIPTIVECONTENT];
   userId: string;
   validationError = '';
   displayingContacts: Array<any> = [];
   public hover = false;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef,
-              private alertService: AlertService,
-              private businessObjectDefinitionSubjectMatterExpert: BusinessObjectDefinitionSubjectMatterExpertService,
-              private subjectMatterExpertApi: SubjectMatterExpertService,
-              private elementRef: ElementRef) {
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+    private alertService: AlertService,
+    private businessObjectDefinitionSubjectMatterExpert: BusinessObjectDefinitionSubjectMatterExpertService,
+    private subjectMatterExpertApi: SubjectMatterExpertService,
+    private elementRef: ElementRef
+  ) {
   }
 
   ngOnInit() {
@@ -51,6 +57,7 @@ export class ContactsComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.displayingContacts = changes.contacts.currentValue;
   }
+
   onMouseEnter(event: any) {
     this.hover = true;
     this.elementRef.nativeElement.addClass = 'edit';
@@ -88,13 +95,13 @@ export class ContactsComponent implements OnInit, OnChanges {
       }).subscribe((sme) => {
         this.businessObjectDefinitionSubjectMatterExpert
           .businessObjectDefinitionSubjectMatterExpertCreateBusinessObjectDefinitionSubjectMatterExpert(request).finally(() => {
-            this.businessObjectDefinitionSubjectMatterExpert.defaultHeaders.delete('skipAlert');
-          }).subscribe((response) => {
-            this.displayingContacts.push(sme);
-            this.userId = '';
-          }, (error) => {
-            this.alertService.alert(new DangerAlert('Unable to store.', 'There is a problem while storing user id.', error));
-          });
+          this.businessObjectDefinitionSubjectMatterExpert.defaultHeaders.delete('skipAlert');
+        }).subscribe((response) => {
+          this.displayingContacts.push(sme);
+          this.userId = '';
+        }, (error) => {
+          this.alertService.alert(new DangerAlert('Unable to store.', 'There is a problem while storing user id.', error));
+        });
       }, (error) => {
         this.alertService.alert(new DangerAlert('Invalid user id.', 'User id as its not available!', error));
       });
