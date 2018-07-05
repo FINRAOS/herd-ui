@@ -41,6 +41,9 @@ $button-hover-color: $table-header-color;
   }
   .description-label {
     @include sub-header-label;
+    div:nth-child(2) {
+      margin-left: 6px;
+    }
   }
   .description-body {
     margin-top: 20px;
@@ -53,6 +56,33 @@ $button-hover-color: $table-header-color;
   */
   .side-details {
     padding: 0px;
+    .attributes {
+      .inner-header {
+        font-size: 18px;
+        font-weight: 700;
+        color: #000;
+        margin-top: 30px;
+        line-height: 1.25rem;
+      }
+      .card {
+        box-shadow: 5px 5px 5px grey;
+        margin-top: 10px;
+        .card-block {
+          .row {
+            border-bottom: 1px solid #ddd;
+            color: rgba(0, 0, 0, 0.57);
+            &:first-child {
+              font-weight: bold;
+              color: #000000;
+            }
+            &:last-child {
+              border-bottom: 0;
+            }
+          }
+        }
+      }
+
+    }
   }
   .bdef-details>div {
     @include side-detail-box;
@@ -276,3 +306,6 @@ ngx-charts-legend {
   stroke-width: 2px;
 }
 
+.btn-suggestion {
+  padding: 0px 8px;
+}

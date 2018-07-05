@@ -24,7 +24,7 @@ export class OverviewPage extends BasePo {
   }
   _bdefTitleEl = element(by.className('detail-title'));
   auditDetails: ElementFinder = element(by.className('audit-details'));
-  descLabel: ElementFinder = element(by.className('description-label'));
+  descLabel: ElementFinder = element(by.css('.description-label>div:first-child'));
   _descEl: ElementFinder = element(by.css('#overview-panel .tab-contents > .col-9'));
   innerHeader: ElementArrayFinder = element.all(by.className('inner-header'));
   _bdefDetails = element(by.className('bdef-details'));
@@ -61,14 +61,53 @@ export class OverviewPage extends BasePo {
   totalEditorTags: ElementArrayFinder = this._tagsEditorEl.all(by.className('list-inline-item'));
   _noFormatsMessageEl = this.formatContainer.all(by.tagName('p')).get(1);
   format_tooltip: ElementFinder = this.formatContainer.element(by.tagName('ngb-tooltip-window'));
+  lineageButton: ElementFinder = element(by.cssContainingText('sd-side-action .side-action', 'Lineage'));
+  modal: ElementFinder = element(by.tagName('ngb-modal-window'));
+
+  // suggestions page objects
+  get suggestionButton(): ElementFinder {
+    return element(by.className('btn-suggestion'));
+  }
+
+  get suggestionComponent(): ElementFinder {
+    return element(by.tagName('sd-suggestions'));
+  }
+
+  get suggestionCard(): ElementFinder {
+    return element(by.className('card-suggest0'));
+  }
+
+  get suggestionEditBlock(): ElementFinder {
+    return element(by.className('editing-block0'));
+  }
+
+  get suggestionDiffCard(): ElementFinder {
+    return element(by.className('suggest-diff'));
+  }
+
+  get suggestionEditCard(): ElementFinder {
+    return element(by.className('content-edit0'));
+  }
+
+  get suggestionApproveButton(): ElementFinder {
+    return element(by.buttonText('Approve'));
+  }
+
+  get suggestionSaveButton(): ElementFinder {
+    return element(by.buttonText('Save'));
+  }
+
+  get suggestionCancelButton(): ElementFinder {
+    return element(by.buttonText('Cancel'));
+  }
+
+  get attributes(): ElementFinder {
+    return element(by.className('attributes'));
+  }
 
   get noFormatsMessage() {
     return this._noFormatsMessageEl.getText();
   }
-  lineageButton: ElementFinder = element(by.cssContainingText('sd-side-action .side-action', 'Lineage'));
-
-  modal: ElementFinder = element(by.tagName('ngb-modal-window'));
-
 
   async getDescription() {
     const descEditor = this._descEl.element(by.tagName('sd-edit'));
@@ -79,6 +118,7 @@ export class OverviewPage extends BasePo {
 
     return description.trim();
   }
+
   async getBdefTitle() {
     const nameEditor = this._bdefTitleEl.element(by.tagName('sd-edit'));
     const nameDisplay = this._bdefTitleEl.element(by.css('div[sdauthorized] > div'));

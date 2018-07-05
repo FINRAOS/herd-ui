@@ -36,7 +36,7 @@ import {
   BusinessObjectDefinitionColumnSearchResponse,
   BusinessObjectFormatKey,
   Configuration, UserAuthorizations,
-  NamespaceAuthorization, BusinessObjectDefinitionDescriptiveInformationUpdateRequest
+  NamespaceAuthorization, BusinessObjectDefinitionDescriptiveInformationUpdateRequest, BusinessObjectDefinitionDescriptionSuggestionService
 } from '@herd/angular-client';
 import {HttpModule, Headers} from '@angular/http';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -66,6 +66,8 @@ import {InlineSVGModule} from 'ng-inline-svg';
 import {APP_BASE_HREF} from '@angular/common';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 import {ContactsComponent} from '../contacts/contacts.component';
+import { SuggestionsComponent } from '../suggestions/suggestions.component';
+import { DiffMatchPatchModule } from 'ng-diff-match-patch/dist';
 
 describe('DataEntityDetailComponent', () => {
   let component: DataEntityDetailComponent;
@@ -73,7 +75,7 @@ describe('DataEntityDetailComponent', () => {
   let spyBdefSmeApi, spySmeApi;
   let spyTagApi, spyTagTypeApi, spyBdefTagApi, spyTagSearch;
   let spyBdefFormatApi, spyDownloadApi, spyBdefColApi, spyBdefFormatAllApi, spyBdefFormatDDLApi;
-  let spyBusinessObjectDefinitionApi;
+  let spyBusinessObjectDefinitionApi, spyBusinessObjectDefinitionDescriptionSuggestionServiceApi;
 
   const response = {
     'resp': [
@@ -163,7 +165,7 @@ describe('DataEntityDetailComponent', () => {
       emailAddress: 'emailAddress',
       telephoneNumber: '8989898'
     }
-  }
+  };
 
   const expectedSmes: SubjectMatterExpert[] = [sme, sme];
 
@@ -208,7 +210,7 @@ describe('DataEntityDetailComponent', () => {
       businessObjectFormatFileType: 'CSV',
       businessObjectFormatVersion: 1
     }
-  ]
+  ];
 
   const expectedFormats = {businessObjectFormatKeys: formatKeys};
 
@@ -229,7 +231,7 @@ describe('DataEntityDetailComponent', () => {
       businessObjectFormatFileType: descriptiveFormat.businessObjectFormatFileType,
       businessObjectFormatVersion: descriptiveFormat.businessObjectFormatVersion
     }
-  }
+  };
 
 
   let bdefCol1: BusinessObjectDefinitionColumn = {
@@ -240,7 +242,7 @@ describe('DataEntityDetailComponent', () => {
     },
     schemaColumnName: 'col',
     description: 'desc'
-  }
+  };
 
   let bdefCol2: BusinessObjectDefinitionColumn = {
     businessObjectDefinitionColumnKey: {
@@ -250,13 +252,13 @@ describe('DataEntityDetailComponent', () => {
     },
     schemaColumnName: 'col2',
     description: 'desc'
-  }
+  };
 
   let bdefCols: BusinessObjectDefinitionColumn[] = [bdefCol1, bdefCol2];
 
   let bdefColSearchResponse: BusinessObjectDefinitionColumnSearchResponse = {
     businessObjectDefinitionColumns: bdefCols
-  }
+  };
 
   let expectedCols: DataEntityWithFormatColumn[] = [{
     businessObjectDefinitionColumnName: 'col',
@@ -270,11 +272,27 @@ describe('DataEntityDetailComponent', () => {
     schemaColumnName: 'testcol',
     type: 'string',
     exists: false
-  }]
+  }];
 
   const sampleDataResponse = {
     preSignedUrl: '/test/url'
-  }
+  };
+
+  const bdefSuggestion = {
+    'businessObjectDefinitionDescriptionSuggestions': [
+      {
+        'id': 12345,
+        'businessObjectDefinitionDescriptionSuggestionKey': {
+          'namespace': 'fakenamspace',
+          'businessObjectDefinitionName': 'fakebdefname',
+          'userId': 'fakeuserid'
+        },
+        'descriptionSuggestion': 'falesuggestion',
+        'status': 'PENDING',
+        'createdByUserId': 'fakeuserid'
+      }
+    ]
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -292,9 +310,11 @@ describe('DataEntityDetailComponent', () => {
         SelectModule,
         NgxGraphModule,
         NgxChartsModule,
-        InlineSVGModule
+        InlineSVGModule,
+        DiffMatchPatchModule
       ],
-      declarations: [DataEntityDetailComponent,
+      declarations: [
+        DataEntityDetailComponent,
         EditComponent,
         ContactsComponent,
         TagsComponent,
@@ -305,7 +325,9 @@ describe('DataEntityDetailComponent', () => {
         EllipsisOverflowComponent,
         GenericViewComponent,
         MockCkeditorComponent,
-        SpinnerComponent],
+        SpinnerComponent,
+        SuggestionsComponent,
+      ],
       providers: [
         {
           provide: Configuration,
@@ -330,6 +352,14 @@ describe('DataEntityDetailComponent', () => {
           provide: AlertService,
           useValue: {
             alert: jasmine.createSpy('alert')
+          }
+        },
+        {
+          provide: BusinessObjectDefinitionDescriptionSuggestionService,
+          useValue: {
+            businessObjectDefinitionDescriptionSuggestionSearchBusinessObjectDefinitionDescriptionSuggestions:
+              jasmine.createSpy('businessObjectDefinitionDescriptionSuggestionSearchBusinessObjectDefinitionDescriptionSuggestions'),
+            configuration: {}
           }
         },
         {
@@ -436,8 +466,11 @@ describe('DataEntityDetailComponent', () => {
       UploadAndDownloadService,
       BusinessObjectFormatService,
       BusinessObjectDefinitionColumnService,
-      ActivatedRoute],
-    (bdefSmeApi: BusinessObjectDefinitionSubjectMatterExpertService,
+      ActivatedRoute,
+      BusinessObjectDefinitionDescriptionSuggestionService
+    ],
+    (
+      bdefSmeApi: BusinessObjectDefinitionSubjectMatterExpertService,
      smeApi: SubjectMatterExpertService,
      tagTypeApi: TagTypeService,
      tagApi: TagService,
@@ -445,7 +478,10 @@ describe('DataEntityDetailComponent', () => {
      bdefApi: BusinessObjectDefinitionService,
      downloadApi: UploadAndDownloadService,
      bformatApi: BusinessObjectFormatService,
-     bColApi: BusinessObjectDefinitionColumnService, activeRoute: ActivatedRouteStub) => {
+     bColApi: BusinessObjectDefinitionColumnService,
+      activeRoute: ActivatedRouteStub,
+      businessObjectDefinitionDescriptionSuggestionService: BusinessObjectDefinitionDescriptionSuggestionService
+    ) => {
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
@@ -477,6 +513,9 @@ describe('DataEntityDetailComponent', () => {
       spySmeApi = (<jasmine.Spy>smeApi.subjectMatterExpertGetSubjectMatterExpert)
         .and.returnValue(Observable.of(sme));
 
+      spyBusinessObjectDefinitionDescriptionSuggestionServiceApi = (<jasmine.Spy>businessObjectDefinitionDescriptionSuggestionService
+        .businessObjectDefinitionDescriptionSuggestionSearchBusinessObjectDefinitionDescriptionSuggestions)
+        .and.returnValue(Observable.of(bdefSuggestion));
     })));
 
   it('should set all data onInit', async(inject([ActivatedRoute], (activeRoute: ActivatedRouteStub) => {
@@ -495,6 +534,7 @@ describe('DataEntityDetailComponent', () => {
     // expect(component.bdefTags).toEqual(expectedBdefTags.businessObjectDefinitionTagKeys);
     // expect(component.hasTag).toEqual(true);
     expect(component.smes).toEqual(expectedSmes);
+    expect(component.businessObjectDefinitionDescriptionSuggestions).toEqual(bdefSuggestion.businessObjectDefinitionDescriptionSuggestions);
 
     component.onSampleDataClick();
     expect(component.sampleDataFileUrl).toEqual(sampleDataResponse.preSignedUrl);
@@ -506,6 +546,7 @@ describe('DataEntityDetailComponent', () => {
 
     expect(spyBdefSmeApi.calls.count()).toEqual(1);
     expect(spySmeApi.calls.count()).toEqual(2);
+    expect(spyBusinessObjectDefinitionDescriptionSuggestionServiceApi.calls.count()).toEqual(1);
 
     expect(spyTagApi.calls.count()).toEqual(2);
     expect(spyTagTypeApi.calls.count()).toEqual(2);
@@ -513,6 +554,35 @@ describe('DataEntityDetailComponent', () => {
 
     component.sideActions[3].onAction();
   })));
+
+  it('should show error when suggestions call fails and ',
+    async(inject([BusinessObjectDefinitionDescriptionSuggestionService, AlertService],
+    (businessObjectDefinitionDescriptionSuggestionService: BusinessObjectDefinitionDescriptionSuggestionService, alerter: AlertService) => {
+
+      const bdefSuggestionSpy = businessObjectDefinitionDescriptionSuggestionService
+        .businessObjectDefinitionDescriptionSuggestionSearchBusinessObjectDefinitionDescriptionSuggestions as jasmine.Spy;
+      const alertSpy = alerter.alert as jasmine.Spy;
+
+      // for failure on delete
+      bdefSuggestionSpy.and.returnValue(Observable.throw({status: 404}));
+
+
+      // fixture.detectChanges();
+      component.getAllPendingSuggestion('xxx', 'yyy', 'PENDING');
+      expect(component.businessObjectDefinitionDescriptionSuggestions).toEqual(undefined);
+      expect(bdefSuggestionSpy.calls.count()).toEqual(1);
+      expect(alertSpy.calls.count()).toEqual(1);
+
+  })));
+
+  it(' suggestionApprove should approve description suggestion', () => {
+    component.open('');
+    component.businessObjectDefinitionDescriptionSuggestions = [bdefSuggestion];
+    component.suggestionApproved({text: 'xxx'});
+    component.businessObjectDefinitionDescriptionSuggestions = [];
+    component.suggestionApproved({text: 'xxx'});
+    expect(component.bdef.description).toEqual('xxx');
+  });
 
   it('should catch error when sme is invalid, should catch error when no access to formats, bdef with no descriptive format',
     async((inject([
@@ -532,12 +602,12 @@ describe('DataEntityDetailComponent', () => {
           businessObjectDefinitionName: 'bdef',
           dataProviderName: 'dp',
           displayName: 'display name'
-        }
+        };
         activeRoute.testData = {
           resolvedData: {
             bdef: expectedBdef
           }
-        }
+        };
 
         // throw error when sme is invalid
         spyBdefSmeApi = (<jasmine.Spy>bdefSmeApi
@@ -591,13 +661,13 @@ describe('DataEntityDetailComponent', () => {
           }
           ],
           descriptiveBusinessObjectFormat: descriptiveFormat
-        }
+        };
 
         activeRoute.testData = {
           resolvedData: {
             bdef: expectedBdef
           }
-        }
+        };
 
         // spy on the services
         spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
@@ -652,7 +722,7 @@ describe('DataEntityDetailComponent', () => {
           }
           ],
           descriptiveBusinessObjectFormat: descriptiveFormat
-        }
+        };
 
         bdefCol1 = {
           businessObjectDefinitionColumnKey: {
@@ -662,7 +732,7 @@ describe('DataEntityDetailComponent', () => {
           },
           schemaColumnName: 'col2',
           description: 'desc'
-        }
+        };
 
         bdefCol2 = {
           businessObjectDefinitionColumnKey: {
@@ -672,13 +742,13 @@ describe('DataEntityDetailComponent', () => {
           },
           schemaColumnName: 'col2',
           description: 'desc'
-        }
+        };
 
         bdefCols = [bdefCol1, bdefCol2];
 
         bdefColSearchResponse = {
           businessObjectDefinitionColumns: bdefCols
-        }
+        };
 
         expectedCols = [{
           businessObjectDefinitionColumnName: '',
@@ -686,14 +756,14 @@ describe('DataEntityDetailComponent', () => {
           schemaColumnName: 'col',
           type: 'string (varchar)',
           exists: false
-        }]
+        }];
 
 
         activeRoute.testData = {
           resolvedData: {
             bdef: expectedBdef
           }
-        }
+        };
 
         // spy on the services
         spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
@@ -950,7 +1020,7 @@ describe('DataEntityDetailComponent', () => {
         bdefKey: 'test:testBdef',
         loadLineage: true,
         color: DAGNodeTypeColor.parent
-      }
+      };
 
       const center: DataEntityLineageNode = {
         id: 'test__center',
@@ -959,7 +1029,7 @@ describe('DataEntityDetailComponent', () => {
         type: DAGNodeType.center,
         bdefKey: 'someSpace:someBdef',
         loadLineage: false
-      }
+      };
 
       // mock out processParents to make the spec smaller
       spyOn(component, 'processParents').and
@@ -975,7 +1045,7 @@ describe('DataEntityDetailComponent', () => {
       component.hierarchialGraph = {
         nodes: [center, parentToShowFurther],
         links: [{source: parentToShowFurther.id, target: center.id}]
-      }
+      };
       const expectedGraph = {
         nodes: [...component.hierarchialGraph.nodes],
         links: [...component.hierarchialGraph.links]
@@ -1035,7 +1105,7 @@ describe('DataEntityDetailComponent', () => {
         bdefKey: 'test:testBdef',
         loadLineage: true,
         color: DAGNodeTypeColor.child
-      }
+      };
 
       const center: DataEntityLineageNode = {
         id: 'test__center',
@@ -1044,7 +1114,7 @@ describe('DataEntityDetailComponent', () => {
         type: DAGNodeType.center,
         bdefKey: 'someSpace:someBdef',
         loadLineage: false
-      }
+      };
 
       // mock out processParents to make the spec smaller
       spyOn(component, 'processChildren').and
@@ -1060,7 +1130,7 @@ describe('DataEntityDetailComponent', () => {
       component.hierarchialGraph = {
         nodes: [center, childToShowFurther],
         links: [{target: childToShowFurther.id, source: center.id}]
-      }
+      };
       const expectedGraph = {
         nodes: [...component.hierarchialGraph.nodes],
         links: [...component.hierarchialGraph.links]
@@ -1097,7 +1167,7 @@ describe('DataEntityDetailComponent', () => {
         bdefKey: 'test:testBdef',
         loadLineage: true,
         color: DAGNodeTypeColor.child
-      }
+      };
 
       const center: DataEntityLineageNode = {
         id: 'test__center',
@@ -1106,7 +1176,7 @@ describe('DataEntityDetailComponent', () => {
         type: DAGNodeType.center,
         bdefKey: 'someSpace:someBdef',
         loadLineage: false
-      }
+      };
 
       // mock out processParents to make the spec smaller
       spyOn(component, 'processChildren').and
@@ -1122,7 +1192,7 @@ describe('DataEntityDetailComponent', () => {
       component.hierarchialGraph = {
         nodes: [center, toShowFurther],
         links: [{target: toShowFurther.id, source: center.id}]
-      }
+      };
       const expectedGraph = {
         nodes: [...component.hierarchialGraph.nodes],
         links: [...component.hierarchialGraph.links]
@@ -1157,7 +1227,7 @@ describe('DataEntityDetailComponent', () => {
           type: DAGNodeType.center,
           bdefKey: 'someSpace:someBdef',
           loadLineage: false
-        }
+        };
 
         spyOn(component, 'processParents');
         spyOn(component, 'processChildren');
@@ -1225,7 +1295,7 @@ describe('DataEntityDetailComponent', () => {
         color: DAGNodeTypeColor.parent
       }],
       links: [{source: ['test', 'parent', 'node', 'id'].join(component.idDelimiter), target: center.id}]
-    }
+    };
 
     const childrenGraph: HierarchialGraph = {
       nodes: [{
@@ -1238,7 +1308,7 @@ describe('DataEntityDetailComponent', () => {
         color: DAGNodeTypeColor.child
       }],
       links: [{target: ['test', 'child', 'node', 'id'].join(component.idDelimiter), source: center.id}]
-    }
+    };
 
     spyOn(component, 'processParents').and.returnValue(Observable.of(parentsGraph));
     spyOn(component, 'processChildren').and.returnValue(Observable.of(childrenGraph));
@@ -1259,19 +1329,19 @@ describe('DataEntityDetailComponent', () => {
       namespace: 'test',
       businessObjectDefinitionName: 'testname',
       displayName: 'test Display Name'
-    }
+    };
 
     const testNoDisplayName: BusinessObjectDefinition = {
       namespace: 'test',
       businessObjectDefinitionName: 'testName2',
-    }
+    };
 
     const testFormatKey: BusinessObjectFormatKey = {
       namespace: testBdef.namespace,
       businessObjectDefinitionName: testBdef.businessObjectDefinitionName,
       businessObjectFormatUsage: 'testUSG',
       businessObjectFormatFileType: 'testFiletype'
-    }
+    };
 
     // testing the increment of the idDictionary items by using the same bdef / format for each one.
     const expectedCenterNode: DataEntityLineageNode = {
@@ -1283,7 +1353,7 @@ describe('DataEntityDetailComponent', () => {
       bdefKey: [testBdef.namespace, testBdef.businessObjectDefinitionName].join(component.displayDelimiter),
       loadLineage: false,
       color: undefined
-    }
+    };
 
     const expectedParentNode: DataEntityLineageNode = {
       id: [testFormatKey.namespace, testFormatKey.businessObjectDefinitionName, testFormatKey.businessObjectFormatUsage,
@@ -1294,7 +1364,7 @@ describe('DataEntityDetailComponent', () => {
       bdefKey: [testBdef.namespace, testBdef.businessObjectDefinitionName].join(component.displayDelimiter),
       loadLineage: true,
       color: DAGNodeTypeColor.parent
-    }
+    };
     const expectedChildNode: DataEntityLineageNode = {
       id: [testFormatKey.namespace, testFormatKey.businessObjectDefinitionName, testFormatKey.businessObjectFormatUsage,
         testFormatKey.businessObjectFormatFileType].join(component.idDelimiter) + component.idDelimiter + '3',
@@ -1304,7 +1374,7 @@ describe('DataEntityDetailComponent', () => {
       bdefKey: [testNoDisplayName.namespace, testNoDisplayName.businessObjectDefinitionName].join(component.displayDelimiter),
       loadLineage: true,
       color: DAGNodeTypeColor.child
-    }
+    };
 
     expect(component.createNode(testBdef, testFormatKey, DAGNodeType.center)).toEqual(expectedCenterNode);
     expect(component.createNode(testBdef, testFormatKey, DAGNodeType.parent)).toEqual(expectedParentNode);
@@ -1348,7 +1418,7 @@ describe('DataEntityDetailComponent', () => {
         businessObjectFormatUsage: 'node',
         businessObjectFormatFileType: 'id'
       }]
-    }
+    };
     spyOn(component, 'fetchBdefs').and.returnValue(Observable.of([]));
     spyOn(component, 'constructGraph').and.returnValue(Observable.of(parentsGraph));
 
@@ -1380,7 +1450,7 @@ describe('DataEntityDetailComponent', () => {
         color: DAGNodeTypeColor.child
       }],
       links: [{target: ['testNS', 'testCBdefName', 'node', 'id'].join(component.idDelimiter), source: center.id}]
-    }
+    };
     const format: BusinessObjectFormat = {
       namespace: 'testNS',
       businessObjectDefinitionName: 'testBdefName',
@@ -1393,7 +1463,7 @@ describe('DataEntityDetailComponent', () => {
         businessObjectFormatUsage: 'node',
         businessObjectFormatFileType: 'id'
       }]
-    }
+    };
     spyOn(component, 'fetchBdefs').and.returnValue(Observable.of([]));
     spyOn(component, 'constructGraph').and.returnValue(Observable.of(childrenGraph));
 
@@ -1439,7 +1509,7 @@ describe('DataEntityDetailComponent', () => {
       expect(bdefApi.businessObjectDefinitionGetBusinessObjectDefinition).toHaveBeenCalledWith(
         testFormatKeys[0].namespace,
         testFormatKeys[0].businessObjectDefinitionName
-      )
+      );
       expect(bdefApi.businessObjectDefinitionGetBusinessObjectDefinition).toHaveBeenCalledWith(
         testFormatKeys[1].namespace,
         testFormatKeys[1].businessObjectDefinitionName
@@ -1483,7 +1553,7 @@ describe('DataEntityDetailComponent', () => {
       bdefKey: [testBdefs[0].namespace, testBdefs[0].businessObjectDefinitionName].join(component.displayDelimiter),
       loadLineage: true,
       color: DAGNodeTypeColor.parent
-    }
+    };
 
     const parentNode2: DataEntityLineageNode = {
       id: [testFormatKeys[1].namespace, testBdefs[1].businessObjectDefinitionName, testFormatKeys[1].businessObjectFormatUsage,
@@ -1495,12 +1565,12 @@ describe('DataEntityDetailComponent', () => {
       bdefKey: [testBdefs[1].namespace, testBdefs[1].businessObjectDefinitionName].join(component.displayDelimiter),
       loadLineage: true,
       color: DAGNodeTypeColor.parent
-    }
+    };
 
     const expectedGraph: HierarchialGraph = {
       nodes: [parentNode1, parentNode2],
       links: [{source: parentNode1.id, target: center.id}, {source: parentNode2.id, target: center.id}]
-    }
+    };
 
 
     component.constructGraph(testBdefs, testFormatKeys, DAGNodeType.parent, center).subscribe((parentsGraph) => {
@@ -1546,7 +1616,7 @@ describe('DataEntityDetailComponent', () => {
       bdefKey: [testBdefs[0].namespace, testBdefs[0].businessObjectDefinitionName].join(component.displayDelimiter),
       loadLineage: true,
       color: DAGNodeTypeColor.child
-    }
+    };
 
     const childNode2: DataEntityLineageNode = {
       id: [testFormatKeys[1].namespace, testBdefs[1].businessObjectDefinitionName, testFormatKeys[1].businessObjectFormatUsage,
@@ -1558,12 +1628,12 @@ describe('DataEntityDetailComponent', () => {
       bdefKey: [testBdefs[1].namespace, testBdefs[1].businessObjectDefinitionName].join(component.displayDelimiter),
       loadLineage: true,
       color: DAGNodeTypeColor.child
-    }
+    };
 
     const expectedGraph: HierarchialGraph = {
       nodes: [childNode1, childNode2],
       links: [{target: childNode1.id, source: center.id}, {target: childNode2.id, source: center.id}]
-    }
+    };
 
 
     component.constructGraph(testBdefs, testFormatKeys, DAGNodeType.child, center).subscribe((parentsGraph) => {
@@ -1600,7 +1670,7 @@ describe('DataEntityDetailComponent', () => {
       component.bdef = {
         namespace: 'test_ns',
         businessObjectDefinitionName: 'test_bdef'
-      }
+      };
 
       const initialMockColumn: DataEntityWithFormatColumn = {
         businessObjectDefinitionColumnName: 'testName',
@@ -1612,7 +1682,7 @@ describe('DataEntityDetailComponent', () => {
       let mockColumn = {...initialMockColumn};
       const mockEvent: EditEvent = {
         text: 'test new description'
-      }
+      };
 
       const successResponse: BusinessObjectDefinitionColumn = {
         businessObjectDefinitionColumnKey: {
@@ -1622,13 +1692,13 @@ describe('DataEntityDetailComponent', () => {
         },
         schemaColumnName: 'testSchemaColumnName',
         description: mockEvent.text
-      }
+      };
 
       const successOutput = {...mockColumn, description: mockEvent.text};
 
       const updateSpy = columnApi.businessObjectDefinitionColumnUpdateBusinessObjectDefinitionColumn as jasmine.Spy
       updateSpy.and.returnValue(Observable.of(successResponse));
-      const alertSpy = alerter.alert as jasmine.Spy
+      const alertSpy = alerter.alert as jasmine.Spy;
 
       // for success
       component.saveDataEntityColumnDescriptionChange(mockEvent, mockColumn);
@@ -1647,14 +1717,14 @@ describe('DataEntityDetailComponent', () => {
       updateSpy.calls.reset();
 
       // should do absolutely nothing when the description didn't change
-      mockEvent.text = mockColumn.description
+      mockEvent.text = mockColumn.description;
       component.saveDataEntityColumnDescriptionChange(mockEvent, mockColumn);
 
       expect(updateSpy).not.toHaveBeenCalled();
 
       updateSpy.calls.reset();
 
-      mockColumn = {...initialMockColumn}
+      mockColumn = {...initialMockColumn};
       // for failure
       updateSpy.and.returnValue(Observable.throw({status: 404}));
       component.saveDataEntityColumnDescriptionChange(mockEvent, mockColumn);
@@ -1676,7 +1746,7 @@ describe('DataEntityDetailComponent', () => {
       component.bdef = {
         namespace: 'test_ns',
         businessObjectDefinitionName: 'test_bdef'
-      }
+      };
 
       const mockColumn: DataEntityWithFormatColumn = {
         businessObjectDefinitionColumnName: 'testName',
@@ -1688,7 +1758,7 @@ describe('DataEntityDetailComponent', () => {
 
       const mockEvent: EditEvent = {
         text: 'test new name'
-      }
+      };
 
       const succesCreateResponse: BusinessObjectDefinitionColumn = {
         businessObjectDefinitionColumnKey: {
@@ -1698,7 +1768,7 @@ describe('DataEntityDetailComponent', () => {
         },
         schemaColumnName: mockColumn.schemaColumnName,
         description: mockColumn.description
-      }
+      };
 
       const succesDeleteResponse: BusinessObjectDefinitionColumn = {
         businessObjectDefinitionColumnKey: {
@@ -1708,12 +1778,12 @@ describe('DataEntityDetailComponent', () => {
         },
         schemaColumnName: mockColumn.schemaColumnName,
         description: mockColumn.description
-      }
+      };
 
-      const deleteSpy = columnApi.businessObjectDefinitionColumnDeleteBusinessObjectDefinitionColumn as jasmine.Spy
-      const createSpy = columnApi.businessObjectDefinitionColumnCreateBusinessObjectDefinitionColumn as jasmine.Spy
+      const deleteSpy = columnApi.businessObjectDefinitionColumnDeleteBusinessObjectDefinitionColumn as jasmine.Spy;
+      const createSpy = columnApi.businessObjectDefinitionColumnCreateBusinessObjectDefinitionColumn as jasmine.Spy;
 
-      const alertSpy = alerter.alert as jasmine.Spy
+      const alertSpy = alerter.alert as jasmine.Spy;
 
       const failedOutput = {...mockColumn};
 
@@ -1805,7 +1875,7 @@ describe('DataEntityDetailComponent', () => {
       createSpy.calls.reset();
 
       // should do absolutely nothing when the name didn't change;
-      mockEvent.text = mockColumn.businessObjectDefinitionColumnName
+      mockEvent.text = mockColumn.businessObjectDefinitionColumnName;
       component.saveDataEntityColumnNameChange(mockEvent, mockColumn);
 
       expect(deleteSpy).not.toHaveBeenCalled();
@@ -1854,7 +1924,7 @@ describe('DataEntityDetailComponent', () => {
         testAuthorizations.namespaceAuthorizations = [{
           namespace: expectedBdef.namespace,
           namespacePermissions: [NamespaceAuthorization.NamespacePermissionsEnum.READ]
-        }]
+        }];
         userSubject.next(testAuthorizations);
         fixture.detectChanges();
         validateColumnsNotAuthorizaed();

@@ -1,0 +1,67 @@
+/*
+* Copyright 2018 herd-ui contributors
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+.main-model {
+  margin-bottom: 40px;
+  .flex-column {
+    font-size: 12px;
+    margin-bottom: 20px;
+    div:first-child {
+      color: #9cd588;
+      span {
+      }
+    }
+    div:nth-child(2) {
+      color: #ffb7ba;
+      span {
+      }
+    }
+  }
+
+  .card {
+    border: 0;
+    box-shadow: 1px 2px 2px 0px #dddddd;
+    margin-bottom: 22px;
+    .card-header {
+      padding: 10px 10px 2px;
+      background-color: #b7d7f5;
+      border-bottom: 0;
+    }
+    .card-block {
+      padding: 2px 16px;
+      background-color: rgba(246, 250, 255, 0.73);
+      .row {
+        border: 1px solid rgba(246, 250, 255, 0.73);
+        .col {
+          padding:2px 0 2px 2px;
+          .suggest-diff {
+            font-family: monospace;
+          }
+        }
+        .col-1 {
+          padding: 2px 2px 2px 4px;
+          flex: 0 0 3%;;
+        }
+      }
+      .editor {
+        margin-bottom: 10px;
+      }
+      .editor-buttons {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+}

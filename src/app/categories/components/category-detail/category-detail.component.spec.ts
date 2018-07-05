@@ -37,7 +37,7 @@ describe('CategoryDetailComponent', () => {
   const relatedDataEntities: RelatedDataEntities = new RelatedDataEntities();
   let component: CategoryDetailComponent;
   let fixture: ComponentFixture<CategoryDetailComponent>;
-  let spyBusinessObjectDefinitionApi, spyParentTagApi, spyTagSearchApi, spySearchServiceApi;
+  let spyParentTagApi, spyTagSearchApi, spySearchServiceApi;
 
   const parentTag = {
     'tag': {
@@ -118,8 +118,6 @@ describe('CategoryDetailComponent', () => {
      tagApi: TagService,
      bdefApi: BusinessObjectDefinitionService) => {
       // Spy on the services
-      spyBusinessObjectDefinitionApi = (<jasmine.Spy>bdefApi.businessObjectDefinitionIndexSearchBusinessObjectDefinitions)
-        .and.returnValue(Observable.of(relatedDataEntities.relatedDataEntities));
       spyParentTagApi = (<jasmine.Spy>tagApi.tagGetTag).and.returnValue(Observable.of(parentTag.tag));
       spyTagSearchApi = (<jasmine.Spy>tagApi.tagSearchTags).and.returnValue(Observable.of(tagSearchResponse));
       spySearchServiceApi = (<jasmine.Spy>indexSearchService.indexSearchIndexSearch)
@@ -144,7 +142,14 @@ describe('CategoryDetailComponent', () => {
 
     activeRoute.testData = {
       resolvedData: {
-        category
+        category,
+        indexSearchResults: []
+      }
+    };
+
+    activeRoute.testQueryParams = {
+      resolvedData: {
+        match: 'TagTypeCode'
       }
     };
 
@@ -189,6 +194,24 @@ describe('CategoryDetailComponent', () => {
     expect(spyParentTagApi.calls.count()).toEqual(1);
     expect(spyTagSearchApi.calls.count()).toEqual(1);
   })));
+
+  it('should navigate with search text and match', inject([Router], (mock: RouterStub) => {
+    component.globalSearch({searchText: 'test search', match: []});
+    expect(mock.navigate).toHaveBeenCalledWith(['categories', undefined, undefined, 'test search'], {
+      queryParams: {
+        match: ''
+      }
+    });
+  }));
+
+  it('should navigate without any search text', inject([Router], (mock: RouterStub) => {
+    component.globalSearch({});
+    expect(mock.navigate).toHaveBeenCalledWith(['categories', undefined, undefined, null], {
+      queryParams: {
+        match: ''
+      }
+    });
+  }));
 
   it('Facet change when facet exists', async(() => {
 

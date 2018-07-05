@@ -72,9 +72,11 @@ export function restBasePathFactory(apiConfig: Configuration): string {
       deps: [Configuration]
     },
     {
-      provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy
+      provide: RouteReuseStrategy,
+      useClass: CustomRouteReuseStrategy
     }, {
-      provide: Location, useClass: CustomLocation
+      provide: Location,
+      useClass: CustomLocation
     }
   ],
   bootstrap: [AppComponent]

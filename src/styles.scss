@@ -85,3 +85,64 @@ select-dropdown {
 .fa-pencil {
   font-size: 15px;
 }
+
+
+/*Style for search result used in search, category page*/
+.searchresult-highlight {
+  color: #0c8bea;
+  font-weight: bold;
+}
+
+.highlight {
+  font-weight: bold;
+}
+
+.highlight-block {
+  margin-top: 13px;
+  font-size: 12px;
+  sd-read-more {
+    .found {
+      color: #33d087;
+    }
+    .highlight {
+      font-weight: bold;
+    }
+    .read {
+      cursor: pointer;
+      color: blue;
+      a:link {
+        text-decoration: none;
+      }
+      a:visited {
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      a:active {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
+
+ins{
+  color: #000000;
+  background: #97f295;
+  text-decoration: none;
+
+}
+
+del{
+  color: #000000;
+  background: #ffb6ba;
+  text-decoration: none;
+}

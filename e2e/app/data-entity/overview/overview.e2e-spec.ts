@@ -76,6 +76,10 @@ describe('Data Entity Overview Page', () => {
 
     await page.mouseEnterShim(await page.getRecommendedFormatIconTooltipText());
     await expect(page.format_tooltip.getText()).toEqual(expectedValues.recommendedFormat);
+
+    // There is attribute card present in the page
+    await expect(page.attributes.getText()).toContain('User-defined Attributes');
+
   });
 
   it('static header and data populated correctly for optional data', async () => {
@@ -86,6 +90,9 @@ describe('Data Entity Overview Page', () => {
     // validate no tags and no formats exist
     await expect((await page.noFormatsMessage).trim()).toEqual(expectedValues.noSchemaMessage);
     await expect((await page.noTagsMessage).trim()).toEqual(expectedValues.noTagsMessage);
+
+    // There are no atrubutes present, so it will not find nay
+    await expect(page.attributes.isPresent()).toBeFalsy();
   });
 
   describe('Lineage Display', () => {
@@ -247,6 +254,60 @@ describe('Data Entity Overview Page', () => {
         await expect(page.canEditCategories()).toBe(false);
       });
     });
+
+    describe(' description suggestion', () => {
+
+      it(' should not show suggestion button to unauthorized users', async () => {
+        // without permissions to edit
+        await page.navigateTo(_url
+            .replace('{namespace}', namespace)
+            .replace('{businessObjectDefinitionName}', data.bdefNoTagsNoSchema().businessObjectDefinitionName),
+          conf.noAccessUser, conf.noAccessPassword);
+
+        // Notice we are using isDisplayed here as the element will present but not displayed due to permission
+        await expect(page.suggestionButton.isDisplayed()).toBeFalsy();
+      });
+
+      it(' should not show suggestion button if there are no pending suggestion', async () => {
+        await page.navigateTo(_url
+            .replace('{namespace}', namespace)
+            .replace('{businessObjectDefinitionName}', data.bdefTest().businessObjectDefinitionName));
+
+        // Notice we are using isPresent here as the element will not present at all
+        await expect(page.suggestionButton.isPresent()).toBeFalsy();
+      });
+
+      it(' should show suggestion button and able to edit, save and approve suggestion', async () => {
+        await page.navigateTo(_url
+          .replace('{namespace}', namespace)
+          .replace('{businessObjectDefinitionName}', data.bdefNoTagsNoSchema().businessObjectDefinitionName));
+
+        await expect((page.isDisplayedShim(page.suggestionButton))).toBeTruthy();
+        await expect((page.suggestionButton.getText())).toEqual('review suggestion');
+
+        // click the button and test the model window
+        await page.suggestionButton.click();
+        await expect((page.suggestionComponent.getText())).toContain('xxxxx - green contents for text addition\n'
+          + 'xxxxx - red contents for text removal\n' + 'tst_dm_adm@corp.root.nasd.com');
+
+        // Test if suggestion window is present and accessable
+        await expect((page.suggestionApproveButton)).toBeTruthy();
+        await expect((page.suggestionDiffCard.getText()))
+          .toContain('Leveprage agile fotramewctorks to provide a robust synopsis for hiugh lgevel stioverviews.n');
+
+        await expect(page.isDisplayedShim(page.suggestionApproveButton)).toBeTruthy();
+        await page.suggestionCard.click();
+        await expect(page.suggestionSaveButton.isPresent()).toBeTruthy();
+
+        await page.suggestionCancelButton.click();
+
+        await page.suggestionApproveButton.click();
+        await expect(page.suggestionButton.isPresent()).toBeFalsy();
+
+      });
+
+    });
+
   });
 
   async function validate(bdef) {
@@ -261,6 +322,3 @@ describe('Data Entity Overview Page', () => {
     await expect(page.getDescription()).not.toEqual('');
   }
 });
-
-
-

@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
 import { GlobalSearchComponent } from '../../../shared/components/global-search/global-search.component';
@@ -25,6 +25,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { TruncatedContentComponent } from 'app/shared/components/truncated-content/truncated-content.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Router } from '@angular/router';
+import { RouterStub } from '../../../../testing/router-stubs';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -32,37 +34,37 @@ describe('HomeComponent', () => {
 
   const tagTypes = {
     'tagTypes': [{
-      'tagTypeKey': { 'tagTypeCode': 'TEST_CTGRY' },
+      'tagTypeKey': {'tagTypeCode': 'TEST_CTGRY'},
       'displayName': 'Data Category',
       'tagTypeOrder': 1,
       'description': 'test description, Transaction.'
     }, {
-      'tagTypeKey': { 'tagTypeCode': 'TEST_TYPE' },
+      'tagTypeKey': {'tagTypeCode': 'TEST_TYPE'},
       'displayName': 'Product Type',
       'tagTypeOrder': 2,
       'description': 'test Fixed Income or Option.'
     }, {
-      'tagTypeKey': { 'tagTypeCode': 'TEST_SRC' },
+      'tagTypeKey': {'tagTypeCode': 'TEST_SRC'},
       'displayName': 'External Data Source',
       'tagTypeOrder': 3,
       'description': 'some test external data provided ny vendors'
     }, {
-      'tagTypeKey': { 'tagTypeCode': 'TEST_TRANS_TYPE' },
+      'tagTypeKey': {'tagTypeCode': 'TEST_TRANS_TYPE'},
       'displayName': 'Transaction Type',
       'tagTypeOrder': 4,
       'description': 'some quote data from sources.'
     }, {
-      'tagTypeKey': { 'tagTypeCode': 'test_five' },
+      'tagTypeKey': {'tagTypeCode': 'test_five'},
       'displayName': 'Test Five',
       'tagTypeOrder': 5,
       'description': 'test5'
     }, {
-      'tagTypeKey': { 'tagTypeCode': 'test_six' },
+      'tagTypeKey': {'tagTypeCode': 'test_six'},
       'displayName': 'Test Six',
       'tagTypeOrder': 6,
       'description': 'test5'
     }, {
-      'tagTypeKey': { 'tagTypeCode': 'test_seven' },
+      'tagTypeKey': {'tagTypeCode': 'test_seven'},
       'displayName': 'Test Seven',
       'tagTypeOrder': 7,
       'description': 'test7'
@@ -72,7 +74,7 @@ describe('HomeComponent', () => {
   const tags = {
     'tags': [{
       'id': null,
-      'tagKey': { 'tagTypeCode': 'TEST_PRDCT_TYPE', 'tagCode': 'EQTY' },
+      'tagKey': {'tagTypeCode': 'TEST_PRDCT_TYPE', 'tagCode': 'EQTY'},
       'displayName': 'Equity',
       'description': null,
       'userId': null,
@@ -82,7 +84,7 @@ describe('HomeComponent', () => {
       'hasChildren': null
     }, {
       'id': null,
-      'tagKey': { 'tagTypeCode': 'PRDCT_TYPE', 'tagCode': 'FIXED_INCM' },
+      'tagKey': {'tagTypeCode': 'PRDCT_TYPE', 'tagCode': 'FIXED_INCM'},
       'displayName': 'Fixed Income',
       'description': null,
       'userId': null,
@@ -92,7 +94,7 @@ describe('HomeComponent', () => {
       'hasChildren': null
     }, {
       'id': null,
-      'tagKey': { 'tagTypeCode': 'PRDCT_TYPE', 'tagCode': 'INDEX' },
+      'tagKey': {'tagTypeCode': 'PRDCT_TYPE', 'tagCode': 'INDEX'},
       'displayName': 'Index',
       'description': null,
       'userId': null,
@@ -102,7 +104,7 @@ describe('HomeComponent', () => {
       'hasChildren': null
     }, {
       'id': null,
-      'tagKey': { 'tagTypeCode': 'PRDCT_TYPE', 'tagCode': 'OPTN' },
+      'tagKey': {'tagTypeCode': 'PRDCT_TYPE', 'tagCode': 'OPTN'},
       'displayName': 'Option',
       'description': null,
       'userId': null,
@@ -113,8 +115,8 @@ describe('HomeComponent', () => {
     }]
   };
 
-  const brandHeader = 'Herd-UI';
-  const motto = 'Locate and understand data available in HERD';
+  const brandHeader = 'test sites';
+  const motto = 'Locate and understand data available at the app';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -142,6 +144,19 @@ describe('HomeComponent', () => {
           useValue: {
             tagTypeSearchTagTypes: jasmine.createSpy('tagTypeSearchTagTypes').and.returnValue(Observable.of(tagTypes))
           }
+        },
+        {
+          provide: ConfigService,
+          useValue: {
+            config: {
+              brandHeader: brandHeader,
+              brandMotto: motto,
+            }
+          }
+        },
+        {
+          provide: Router,
+          useClass: RouterStub
         }
       ]
     })
@@ -157,6 +172,16 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
+
+  it('should navigate ro search page on search', inject([Router], (mock: RouterStub) => {
+    component.search({searchText: 'test search', match: []});
+    fixture.detectChanges();
+    expect(mock.navigate).toHaveBeenCalledWith(['search', 'test search'], {
+      queryParams: {
+        match: ''
+      }
+    });
+  }));
 
   it('should set TagType and tag data', async(() => {
 

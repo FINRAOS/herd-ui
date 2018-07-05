@@ -17,6 +17,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Tag, TagService, TagType, TagTypeService, TagSearchRequest} from '@herd/angular-client';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../../../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sd-home',
@@ -33,6 +34,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private tagTypeApi: TagTypeService,
+    private router: Router,
     private tagApi: TagService
   ) {
   }
@@ -52,7 +54,7 @@ export class HomeComponent implements OnInit {
                 isParentTagNull: true
               }]
             }]
-          }
+          };
 
           this.tagApi
             .tagSearchTags(body, 'displayName', tagType.tagTypeKey.tagTypeCode)
@@ -63,6 +65,14 @@ export class HomeComponent implements OnInit {
 
         return data.tagTypes;
       });
+  }
+
+  search(event) {
+    this.router.navigate(['search', event.searchText], {
+      queryParams: {
+        match: event.match.join(',')
+      }
+    });
   }
 
 }

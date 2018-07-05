@@ -23,13 +23,15 @@ const data = new Data();
 
 describe('Categories Page', () => {
   let page: CategoryPage;
+  const searchTerm = 'test';
+  const searchTermAgain = 'sedan';
   const dataManager = new DataManager();
   const _url = conf.categoryDetailPath;
   const expectedValues = {
     pageHeading: 'CATEGORY',
     relatedCategoriesHeading: 'Related Categories',
     unavailableMessage: 'No related data entities registered.'
-  }
+  };
   const namespace = data.defaultNamespace;
   const dataProvider = data.defaultDataProvider;
 
@@ -111,6 +113,47 @@ describe('Categories Page', () => {
     await page.getCheckBoxbyName(data.tagTypeCode().tags[0].displayName).click();
     await expect(page.unavailableMessage.getText()).toEqual(expectedValues.unavailableMessage);
 
+  });
+
+  it('number of search result and description is matching', async () => {
+    // goes to home page and searches from there
+    await page.navigateTo(_url + data.tagTypeCode().code + '/' + data.tagTypeCode().tags[3].code + '/');
+    await page.search(searchTerm);
+    const searchResultUrl = browser.baseUrl + '/categories/'
+      + data.tagTypeCode().code + '/' + data.tagTypeCode().tags[3].code + '/' + searchTerm + '?match=';
+    await expect(browser.getCurrentUrl()).toBe(await searchResultUrl);
+
+    // verify expected results
+    const noOfCards = await page.searchResultCount.count();
+    await expect(page.searchResultDescription.getText()).toContain(noOfCards + '');
+    await expect(page.searchResultDescription.getText()).toContain(searchTerm);
+
+    // verify the first result functionality
+    await expect(page.headingAnchor).toBeDefined();
+    await expect(page.headingBadge).toMatch(/('Category' || 'Data Entity')/);
+
+    // Search again to see the search is working
+    await page.search(searchTermAgain);
+    const searchResultUrlAgain = browser.baseUrl + '/categories/'
+      + data.tagTypeCode().code + '/' + data.tagTypeCode().tags[3].code + '/' + searchTermAgain + '?match=';
+    await expect(browser.getCurrentUrl()).toBe(await searchResultUrlAgain);
+    await expect(page.backTrackLinkArea.getText()).toContain(searchTerm);
+
+  });
+
+  it('Hit highlight is showing and working as expected', async () => {
+    await page.navigateTo(_url + data.tagTypeCode().code + '/' + data.tagTypeCode().tags[3].code + '/');
+    await page.search(searchTerm);
+    const searchResultUrl = browser.baseUrl + '/categories/'
+      + data.tagTypeCode().code + '/' + data.tagTypeCode().tags[3].code + '/' + searchTerm + '?match=';
+    await expect(browser.getCurrentUrl()).toBe(await searchResultUrl);
+
+    // verify that result count is same as displaying
+    await expect(page.searchBoxContainer).toBeDefined();
+    await expect(page.loadingIcon.isPresent()).toBeFalsy();
+
+    // verify expected results
+    await expect(page.highlightFound.getText()).toContain('Found in');
   });
 });
 

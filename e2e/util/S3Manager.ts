@@ -51,9 +51,7 @@ export class S3Manager {
       const body = options.body === undefined ? 'Arbitrary content for a test object' : options.body;
       const params = {Bucket: this.bucketName, Key: options.key, Body: body, ServerSideEncryption: 'AES256'};
 
-      winston.log('info', 'Requested POST on bucket {%s}', this.bucketName
-      )
-      ;
+      winston.log('info', 'Requested POST on bucket {%s}', this.bucketName);
       s3.putObject(params, function (err, data) {
         if (err) {
           winston.log('error', 'Error uploading data: ', err, err.message);
@@ -90,8 +88,7 @@ export class S3Manager {
         }
       });
     });
-  }
-  ;
+  };
 
   public deleteObject(options) {
     return Q.Promise(function (resolve, reject) {
@@ -111,7 +108,6 @@ export class S3Manager {
       });
     });
   }
-  ;
 
   public S3MOption(key, body?) {
     this.key = key;
