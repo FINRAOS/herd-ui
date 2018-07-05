@@ -19,5 +19,20 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: true,
+  restBaseUri: 'basicAuthRestBaseUri',
+  basicAuthRestBaseUri: 'basicAuthRestBaseUri',
+  helpUrl: 'helpUrl',
+  supportEmail: 'orgSupportEmail',
+  brandHeader: 'Herd-UI',
+  brandMotto: 'Locate and understand data available in HERD',
+  docTitlePrefix: 'Herd-UI',
+  useBasicAuth: false,
+  alertDelayInSeconds: 1,
+  trackAnalytics: true,
+  ga: {
+    key: 'key',
+    iv: 'iv',
+    trackingId: 'trackingId'
+  }
 };

@@ -16,12 +16,12 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { ConfigService } from './config.service';
 import { UserService } from './user.service';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
-  constructor(private configService: ConfigService,
+  constructor(
     private currentUserService: UserService,
     private router: Router) {
   }
@@ -32,7 +32,7 @@ export class AuthGuardService implements CanActivate {
       return true;
       // If not logged in but we want to attempt to initialize the user information
       // due to APP_INITIALIZER based authentication happening
-    } else if (!this.configService.config.useBasicAuth) {
+    } else if (!environment.useBasicAuth) {
       return this.currentUserService.getCurrentUser().map((resp) => {
         if (resp.userId) {
           return true;

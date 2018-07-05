@@ -13,20 +13,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
 import { TestBed, async, ComponentFixture, inject } from '@angular/core/testing';
-import { SearchComponent } from './search.component';
-import { SharedModule } from '../../../shared/shared.module';
-import { RouterTestingModule } from '@angular/router/testing';
-import { SearchService } from '../../../shared/services/search.service';
-import { IndexSearchService } from '@herd/angular-client';
-import { HttpModule } from '@angular/http';
-import { ConfigService } from '../../../core/services/config.service';
-import { Observable } from 'rxjs/Observable';
-import { IndexSearchMockData } from 'testing/IndexSearchMockData';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import {SearchComponent} from './search.component';
+import {SharedModule} from '../../../shared/shared.module';
+import {RouterTestingModule} from '@angular/router/testing';
+import {SearchService} from '../../../shared/services/search.service';
+import {IndexSearchService} from '@herd/angular-client';
+import {HttpModule} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
+import {IndexSearchMockData} from 'testing/IndexSearchMockData';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GoogleAnalyticsService } from '../../../shared/services/google-analytics.service';
-import { UserService } from '../../../core/services/user.service';
+import {GoogleAnalyticsService} from '../../../shared/services/google-analytics.service';
+import {UserService} from '../../../core/services/user.service';
 import { CurrentUserService, Configuration } from '@herd/angular-client';
 import { EncryptionService } from '../../../shared/services/encryption.service';
 import { APP_BASE_HREF } from '@angular/common';
@@ -70,7 +70,6 @@ describe('SearchComponent', () => {
         EncryptionService,
         CurrentUserService,
         IndexSearchService,
-        ConfigService,
         SearchService,
         {
           provide: Router,

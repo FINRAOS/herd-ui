@@ -14,5 +14,20 @@
 * limitations under the License.
 */
 export const environment = {
-  production: true
+  production: true,
+  restBaseUri: 'basicAuthRestBaseUri',
+  basicAuthRestBaseUri: 'basicAuthRestBaseUri',
+  helpUrl: 'helpUrl',
+  supportEmail: 'orgSupportEmail',
+  brandHeader: 'Herd-UI',
+  brandMotto: 'Locate and understand data available in HERD',
+  docTitlePrefix: 'Herd-UI',
+  useBasicAuth: false,
+  alertDelayInSeconds: 1,
+  trackAnalytics: true,
+  ga: {
+    key: 'key',
+    iv: 'iv',
+    trackingId: 'trackingId'
+  }
 };
