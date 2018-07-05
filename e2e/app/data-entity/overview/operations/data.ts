@@ -77,7 +77,13 @@ export class Data {
       'dataProviderName': this.defaultDataProvider,
       'businessObjectDefinitionName': 'BDEF_TEST_1',
       'description': 'Leverage agile frameworks to provide a robust synopsis for high level overviews.',
-      'displayName': 'Display name.. Protractor Bdef'
+      'displayName': 'Display name.. Protractor Bdef',
+      'attributes': [
+        {
+          'name': 'test-attr-name',
+          'value': 'test-attr-val'
+        }
+      ]
     }
   }
 
