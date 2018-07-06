@@ -115,8 +115,8 @@ describe('HomeComponent', () => {
     }]
   };
 
-  const brandHeader = 'test sites';
-  const motto = 'Locate and understand data available at the app';
+  const brandHeader = 'Universal Data Catalog';
+  const motto = 'Locate and understand data available at FINRA';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -143,15 +143,6 @@ describe('HomeComponent', () => {
           provide: TagTypeService,
           useValue: {
             tagTypeSearchTagTypes: jasmine.createSpy('tagTypeSearchTagTypes').and.returnValue(Observable.of(tagTypes))
-          }
-        },
-        {
-          provide: ConfigService,
-          useValue: {
-            config: {
-              brandHeader: brandHeader,
-              brandMotto: motto,
-            }
           }
         },
         {
