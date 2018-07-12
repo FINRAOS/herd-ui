@@ -50,7 +50,7 @@ describe('Google Analytics Service', () => {
   describe('with trackAnalytics turned on', () => {
 
     it('should initialize google analytics if trackAnalytics is set to true and trackingId exists', inject([GoogleAnalyticsService], () => {
-      expect(ga).toHaveBeenCalledWith('create', 'trackingId', 'auto');
+      expect(ga).toHaveBeenCalledWith('create', '{{TRACKING_ID}}', 'auto');
     }));
 
     it('should send data to google analytics', inject([GoogleAnalyticsService, UserService], (

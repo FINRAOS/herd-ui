@@ -115,8 +115,8 @@ describe('HomeComponent', () => {
     }]
   };
 
-  const brandHeader = 'Universal Data Catalog';
-  const motto = 'Locate and understand data available at FINRA';
+  const brandHeader = '{{BRAND_HEADER}}';
+  const motto = '{{BRAND_MOTO}}';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
