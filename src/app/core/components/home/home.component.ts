@@ -13,10 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { TagService, TagType, TagTypeService, TagSearchRequest } from '@herd/angular-client';
-import { Observable } from 'rxjs/Observable';
-import { ConfigService } from '../../services/config.service';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Tag, TagService, TagType, TagTypeService, TagSearchRequest} from '@herd/angular-client';
+import {Observable} from 'rxjs/Observable';
+import {environment} from '../../../../environments/environment';
 import { Router } from '@angular/router';
 
 @Component({
@@ -32,15 +32,16 @@ export class HomeComponent implements OnInit {
   public brandHeader: string;
 
 
-  constructor(private tagTypeApi: TagTypeService,
-              private tagApi: TagService,
-              private router: Router,
-              private app: ConfigService) {
+  constructor(
+    private tagTypeApi: TagTypeService,
+    private router: Router,
+    private tagApi: TagService
+  ) {
   }
 
   ngOnInit() {
-    this.brandMotto = this.app.config.brandMotto;
-    this.brandHeader = this.app.config.brandHeader;
+    this.brandMotto = environment.brandMotto;
+    this.brandHeader = environment.brandHeader;
     this.tagTypes = this.tagTypeApi
       .tagTypeSearchTagTypes({}, 'displayName,tagTypeOrder,description')
       .map((data) => {

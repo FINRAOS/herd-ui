@@ -101,6 +101,10 @@ export class OverviewPage extends BasePo {
     return element(by.buttonText('Cancel'));
   }
 
+  get attributes(): ElementFinder {
+    return element(by.className('attributes'));
+  }
+
   get noFormatsMessage() {
     return this._noFormatsMessageEl.getText();
   }

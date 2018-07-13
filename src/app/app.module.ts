@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -23,8 +23,6 @@ import 'codemirror/mode/go/go'; // styles for codemirror
 import {
   BASE_PATH, ApiModule, Configuration
 } from '@herd/angular-client';
-import { ConfigService } from 'app/core/services/config.service';
-import { AppInitService, appInitFactory } from 'app/core/services/app-init.service';
 import { CoreModule } from 'app/core/core.module';
 import { RouteReuseStrategy } from '@angular/router';
 import { CustomRouteReuseStrategy } from 'app/core/services/custom-route-reuse-strategy.service';
@@ -32,19 +30,20 @@ import { CustomLocation } from 'app/core/services/custom-location.service';
 import { Location } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpInterceptorModule } from 'ng-http-interceptor';
+import { environment } from '../environments/environment';
 
 export function appApiConfigFactory(): Configuration {
   return new Configuration();
 }
 
-export function restBasePathFactory(appConfig: ConfigService, apiConfig: Configuration): string {
-  if (appConfig.config.useBasicAuth && appConfig.config.basicAuthRestBaseUri) {
+export function restBasePathFactory(apiConfig: Configuration): string {
+  if (environment.useBasicAuth && environment.basicAuthRestBaseUri) {
     apiConfig.withCredentials = true;
-    return appConfig.config.basicAuthRestBaseUri;
+    return environment.basicAuthRestBaseUri;
   }
 
   apiConfig.withCredentials = true;
-  return appConfig.config.restBaseUri;
+  return environment.restBaseUri;
 }
 
 @NgModule({
@@ -63,12 +62,6 @@ export function restBasePathFactory(appConfig: ConfigService, apiConfig: Configu
   ],
   providers: [
     {
-      provide: APP_INITIALIZER,
-      useFactory: appInitFactory,
-      deps: [AppInitService],
-      multi: true
-    },
-    {
       provide: Configuration,
       useFactory: appApiConfigFactory,
       multi: false
@@ -76,7 +69,7 @@ export function restBasePathFactory(appConfig: ConfigService, apiConfig: Configu
     {
       provide: BASE_PATH,
       useFactory: restBasePathFactory,
-      deps: [ConfigService, Configuration]
+      deps: [Configuration]
     },
     {
       provide: RouteReuseStrategy,
@@ -88,4 +81,5 @@ export function restBasePathFactory(appConfig: ConfigService, apiConfig: Configu
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
