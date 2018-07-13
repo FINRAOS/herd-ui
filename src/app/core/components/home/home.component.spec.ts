@@ -115,8 +115,8 @@ describe('HomeComponent', () => {
     }]
   };
 
-  const brandHeader = 'Herd-UI';
-  const motto = 'Locate and understand data available in HERD';
+  const brandHeader = '{{BRAND_HEADER}}';
+  const motto = '{{BRAND_MOTO}}';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

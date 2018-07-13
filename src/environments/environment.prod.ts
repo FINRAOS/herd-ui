@@ -15,19 +15,19 @@
 */
 export const environment = {
   production: true,
-  restBaseUri: 'basicAuthRestBaseUri',
-  basicAuthRestBaseUri: 'basicAuthRestBaseUri',
-  helpUrl: 'helpUrl',
-  supportEmail: 'orgSupportEmail',
-  brandHeader: 'Herd-UI',
-  brandMotto: 'Locate and understand data available in HERD',
-  docTitlePrefix: 'Herd-UI',
+  restBaseUri: '{{HERD_REST_BASE_URI}}',
+  basicAuthRestBaseUri: '{{HERD_REST_BASE_URI2}}',
+  helpUrl: '{{ORG_HELP_URL}}',
+  supportEmail: '{{ORG_SUPPORT_EMAIL}}',
+  brandHeader: '{{BRAND_HEADER}}',
+  brandMotto: '{{BRAND_MOTO}}',
+  docTitlePrefix: 'UDC',
   useBasicAuth: false,
-  alertDelayInSeconds: 1,
+  alertDelayInSeconds: 10,
   trackAnalytics: true,
   ga: {
-    key: 'key',
-    iv: 'iv',
-    trackingId: 'trackingId'
+    key: '{{GA_KEY}}',
+    iv: '{{GA_IV}}',
+    trackingId: '{{TRACKING_ID}}'
   }
 };

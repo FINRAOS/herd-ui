@@ -13,7 +13,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Tag, TagService, TagType, TagTypeService, TagSearchRequest} from '@herd/angular-client';
 import {Observable} from 'rxjs/Observable';
@@ -33,14 +32,11 @@ export class HomeComponent implements OnInit {
   public brandHeader: string;
 
 
-
-
-  constructor(private tagTypeApi: TagTypeService,
-              private tagApi: TagService,
-              private router: Router
+  constructor(
+    private tagTypeApi: TagTypeService,
+    private router: Router,
+    private tagApi: TagService
   ) {
-
-
   }
 
   ngOnInit() {
@@ -59,7 +55,6 @@ export class HomeComponent implements OnInit {
               }]
             }]
           };
-
 
           this.tagApi
             .tagSearchTags(body, 'displayName', tagType.tagTypeKey.tagTypeCode)

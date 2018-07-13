@@ -13,26 +13,22 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
-
 export const environment = {
   production: true,
-  restBaseUri: 'basicAuthRestBaseUri',
-  basicAuthRestBaseUri: 'basicAuthRestBaseUri',
-  helpUrl: 'helpUrl',
-  supportEmail: 'orgSupportEmail',
-  brandHeader: 'Herd-UI',
-  brandMotto: 'Locate and understand data available in HERD',
-  docTitlePrefix: 'Herd-UI',
+  restBaseUri: '{{HERD_REST_BASE_URI}}',
+  basicAuthRestBaseUri: '{{HERD_REST_BASE_URI2}}',
+  helpUrl: '{{ORG_HELP_URL}}',
+  supportEmail: '{{ORG_SUPPORT_EMAIL}}',
+  brandHeader: '{{BRAND_HEADER}}',
+  brandMotto: '{{BRAND_MOTO}}',
+  docTitlePrefix: 'UDC',
   useBasicAuth: false,
-  alertDelayInSeconds: 1,
+  alertDelayInSeconds: 10,
   trackAnalytics: true,
   ga: {
-    key: 'key',
-    iv: 'iv',
-    trackingId: 'trackingId'
+    key: '{{GA_KEY}}',
+    iv: '{{GA_IV}}',
+    trackingId: '{{TRACKING_ID}}'
   }
 };
+
