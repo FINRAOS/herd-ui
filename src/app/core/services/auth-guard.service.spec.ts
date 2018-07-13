@@ -16,7 +16,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { AuthGuardService } from './auth-guard.service';
-import { ConfigService } from 'app/core/services/config.service';
 import { Router } from '@angular/router';
 import { RouterStub } from 'testing/router-stubs';
 import { UserService } from 'app/core/services/user.service';
@@ -27,11 +26,6 @@ describe('AuthGuardService', () => {
       providers: [
         AuthGuardService,
         {
-          provide: ConfigService,
-          useValue: {
-            config: {}
-          },
-        }, {
           provide: Router,
           useClass: RouterStub
         }, {
@@ -48,8 +42,8 @@ describe('AuthGuardService', () => {
     expect(service).toBeDefined();
   }))
 
-  it('should not call load if already authenticated', inject([AuthGuardService, ConfigService, Router],
-    (service: AuthGuardService, appConfig: ConfigService, router: Router, userService: UserService) => {
+  it('should not call load if already authenticated', inject([AuthGuardService, Router],
+    (service: AuthGuardService, router: Router, userService: UserService) => {
     }));
 
 });

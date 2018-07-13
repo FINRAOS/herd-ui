@@ -17,9 +17,9 @@ import { EncryptionService } from './../../shared/services/encryption.service';
 import { Injectable } from '@angular/core';
 import { CurrentUserService, UserAuthorizations, Configuration } from '@herd/angular-client'
 import { Observable } from 'rxjs/Observable';
-import { ConfigService } from 'app/core/services/config.service';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Response, URLSearchParams } from '@angular/http'
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class UserService {
@@ -37,12 +37,11 @@ export class UserService {
 
   constructor(private currentUserApi: CurrentUserService,
     private encryptionService: EncryptionService,
-    private conf: ConfigService,
     private apiConf: Configuration) {
   }
 
   getCurrentUser(username?: string, password?: string): Observable<UserAuthorizations> {
-    if (this.conf.config.useBasicAuth && username && password) {
+    if (environment.useBasicAuth && username && password) {
       this.apiConf.username = username;
       this.apiConf.password = password;
     }

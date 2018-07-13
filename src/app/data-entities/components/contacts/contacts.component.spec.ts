@@ -16,14 +16,12 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {
   BusinessObjectDefinitionSubjectMatterExpertService,
-  SubjectMatterExpertService,
-  CurrentUserService
+  SubjectMatterExpertService
 } from '@herd/angular-client';
 import {ContactsComponent} from './contacts.component';
 import {AuthorizedDirective} from '../../../shared/directive/authorized/authorized.directive';
 import {SharedModule} from '../../../shared/shared.module';
 import {AlertService} from '../../../core/services/alert.service';
-import {ConfigService} from '../../../core/services/config.service';
 import {UserService} from '../../../core/services/user.service';
 import {EncryptionService} from '../../../shared/services/encryption.service';
 import {Observable} from 'rxjs/Observable';
@@ -33,12 +31,12 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SimpleChange} from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpModule } from '@angular/http';
+import {environment} from '../../../../environments/environment';
 
 describe('ContactsComponent', () => {
   let component: ContactsComponent;
   let fixture: ComponentFixture<ContactsComponent>;
   let businessObjectDefinitionSubjectMatterExpertApi, subjectMatterExpertApi;
-  let configService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -53,7 +51,6 @@ describe('ContactsComponent', () => {
       ],
       providers: [
         AlertService,
-        ConfigService,
         AuthorizedDirective,
         EncryptionService,
         BusinessObjectDefinitionSubjectMatterExpertService,
@@ -98,16 +95,6 @@ describe('ContactsComponent', () => {
         emailAddress: 'testemail@email.com'
       }
     }));
-
-    // mocking config service
-    configService = TestBed.get(ConfigService);
-    configService.config = {
-      'roles': {
-        'edit_sme': {
-          'TEST_APP111': true
-        }
-      }
-    };
     fixture.detectChanges();
   });
 
@@ -147,13 +134,7 @@ describe('ContactsComponent', () => {
   });
 
   it('should not go to edit mode if the user is not authorized', () => {
-    configService.config = {
-      'roles': {
-        'edit_sme': {
-          'TEST_APP_NO_PERMISSION': true
-        }
-      }
-    };
+
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.card').style.display).toBe('none');
   });

@@ -13,13 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-const appConf = require('../../../../src/configuration.json');
 
 export default {
   description: 'Sample description text for testing purpose. Used for all description fields',
   searchBoxDescription: 'I can help you to find anything you want!',
-  searchHeading: appConf.brandHeader,
-  searchSubHeading: appConf.brandMotto,
   tagTypeCode1: function () {
       const tagTypeCode1 = {
         'code': 'Aa_Test1_CTGRY',

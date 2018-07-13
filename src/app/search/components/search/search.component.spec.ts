@@ -20,7 +20,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SearchService } from '../../../shared/services/search.service';
 import { IndexSearchService } from '@herd/angular-client';
 import { HttpModule } from '@angular/http';
-import { ConfigService } from '../../../core/services/config.service';
 import { Observable } from 'rxjs/Observable';
 import { IndexSearchMockData } from 'testing/IndexSearchMockData';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -70,7 +69,6 @@ describe('SearchComponent', () => {
         EncryptionService,
         CurrentUserService,
         IndexSearchService,
-        ConfigService,
         SearchService,
         {
           provide: Router,

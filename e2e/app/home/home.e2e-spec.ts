@@ -16,11 +16,14 @@
 import data from './operations/data';
 import {DataManager} from './../../util/DataManager';
 import {HomePage} from './home.po';
+import { environment } from '../../../src/environments/environment';
 
 
 describe('Feature:HomePage', function () {
   const dataManager = new DataManager();
   const searchTerm = 'home page test';
+  const brandHeader = 'Universal Data Catalog';
+  const brandMotto = 'Locate and understand data available at FINRA';
   let page: HomePage;
 
   beforeEach(async () => {
@@ -33,10 +36,10 @@ describe('Feature:HomePage', function () {
     await page.navigateTo();
 
     // validate Home Search Heading
-    await expect(page.getHomeSearchHeading()).toBe(data.searchHeading);
+    await expect(page.getHomeSearchHeading()).toBe(brandHeader);
 
     // validate Home Search Sub Heading
-    await expect(page.getHomeSearchSubHeading()).toBe(data.searchSubHeading);
+    await expect(page.getHomeSearchSubHeading()).toBe(brandMotto);
 
     // validate home page title
     await expect(page.getHomePageTitle().isPresent()).toBeDefined();
