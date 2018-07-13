@@ -26,7 +26,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Http, RequestOptions, Headers, URLSearchParams, BaseRequestOptions } from '@angular/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ConfigService } from './core/services/config.service';
 import { WINDOW } from 'app/core/core.module';
 import { AlertService, DangerAlert } from 'app/core/services/alert.service';
 import { HttpInterceptorService } from 'ng-http-interceptor';
@@ -101,12 +100,6 @@ describe('AppComponent', () => {
         useValue: {
           alert: jasmine.createSpy('alert'),
           alerts: Observable.of()
-        }
-      }, {
-        provide: ConfigService,
-        useValue: { // TODO: write tests for checking to make sure configservice is used to get branding informtion
-          config: {
-          }
         }
       }, {
         provide: Router,

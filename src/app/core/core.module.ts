@@ -19,8 +19,6 @@ import { UserService } from './services/user.service';
 import { NgModule, ModuleWithProviders, SkipSelf, Optional, InjectionToken } from '@angular/core';
 import { HomeComponent } from 'app/core/components/home/home.component';
 import { HeaderComponent } from 'app/core/components/header/header.component';
-import { AppInitService } from 'app/core/services/app-init.service';
-import { ConfigService } from 'app/core/services/config.service';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'app/shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -54,8 +52,6 @@ export class CoreModule {
     return {
       ngModule: CoreModule,
       providers: [
-        ConfigService,
-        AppInitService,
         NoAuthGuardService,
         AuthGuardService,
         CookieService,
