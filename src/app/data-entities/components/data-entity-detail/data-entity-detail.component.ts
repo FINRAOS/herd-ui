@@ -40,7 +40,7 @@ import {
 import { WarningAlert } from './../../../core/services/alert.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/alert.service';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import * as shape from 'd3-shape';
 import { EditEvent } from 'app/shared/components/edit/edit.component';
 import { Observable } from 'rxjs/Observable';
@@ -75,6 +75,7 @@ export class DataEntityDetailComponent implements OnInit {
 
   // variables for lineage visualization
   @ViewChild('viewLineage') viewLineage: TemplateRef<any>;
+  public popover: NgbPopover;
   colors: any[] = [{ name: 'parent', value: '#05af7e' },
   { name: 'child', value: '#55ACD2' },
   { name: 'center', value: '#000000' }];
@@ -526,6 +527,9 @@ export class DataEntityDetailComponent implements OnInit {
         this.hierarchialGraph.nodes = [...this.hierarchialGraph.nodes, ...graph.nodes];
         this.hierarchialGraph.links = [...this.hierarchialGraph.links, ...graph.links];
         this.hierarchialGraph.loaded = true;
+
+        // close the pop up after user clicks button
+        this.popover.close();
       });
   }
 
@@ -657,6 +661,11 @@ export class DataEntityDetailComponent implements OnInit {
 
   close() {
     this.modalReference.close();
+  }
+
+  popupOpen(ngbPopover) {
+    this.popover = ngbPopover;
+    ngbPopover.isOpen() ? ngbPopover.close() : ngbPopover.open();
   }
 
   hasDescriptiveLineage(): boolean {
