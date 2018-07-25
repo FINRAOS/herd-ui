@@ -22,7 +22,7 @@ export const environment = {
   brandHeader: '{{BRAND_HEADER}}',
   brandMotto: '{{BRAND_MOTO}}',
   docTitlePrefix: 'UDC',
-  useBasicAuth: true,
+  useBasicAuth: false,
   alertDelayInSeconds: 10,
   trackAnalytics: true,
   ga: {
