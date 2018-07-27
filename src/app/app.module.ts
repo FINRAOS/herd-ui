@@ -37,13 +37,12 @@ export function appApiConfigFactory(): Configuration {
 }
 
 export function restBasePathFactory(apiConfig: Configuration): string {
+  apiConfig.withCredentials = !environment.useBasicAuth;
   if (environment.useBasicAuth && environment.basicAuthRestBaseUri) {
-    apiConfig.withCredentials = true;
     return environment.basicAuthRestBaseUri;
+  } else {
+    return environment.restBaseUri;
   }
-
-  apiConfig.withCredentials = true;
-  return environment.restBaseUri;
 }
 
 @NgModule({

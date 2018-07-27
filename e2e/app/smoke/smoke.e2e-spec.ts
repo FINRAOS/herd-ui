@@ -22,14 +22,15 @@ import {CategoryPage} from '../category/categories.po';
 import {DataObjectListPage} from '../data-objects/list/data-objects-list.po';
 import {DataObjectDetailPage} from '../data-objects/detail/data-object-detail.po';
 import {DataEntityListPage} from '../data-entity/list/data-entity-list.po';
+import { environment } from '../../../src/environments/environment';
 
 const conf = require('../../config/conf.e2e.json');
-const appConf = require('../../../src/configuration.json');
+
 
 describe('Smoke Tests', () => {
   const searchTerm = 'smoketest';
-  const searchHeading = appConf.brandHeader;
-  const searchSubHeading = appConf.brandMotto;
+  const searchHeading = environment.brandHeader;
+  const searchSubHeading = environment.brandMotto;
   const searchBoxDescription = 'I can help you to find anything you want!';
   const searchResultUrl = browser.baseUrl + '/search/' + searchTerm + '?match=';
   const searchPage = new SearchPage();
