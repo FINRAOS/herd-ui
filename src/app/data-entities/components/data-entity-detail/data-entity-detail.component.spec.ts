@@ -22,7 +22,7 @@ import {
   DAGNodeTypeColor,
   DAGNodeType, HierarchialGraph, DataEntityWithFormatColumn
 } from './data-entity-detail.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import {RouterTestingModule} from '@angular/router/testing';
 import {SideActionComponent} from '../../../shared/components/side-action/side-action.component';
 import {
@@ -1052,6 +1052,7 @@ describe('DataEntityDetailComponent', () => {
       };
       expectedGraph.nodes.push(grandParent);
       expectedGraph.links.push({source: grandParent.id, target: parentToShowFurther.id});
+      component.popover = {close: () => {}} as NgbPopover;
       component.showFurther(parentToShowFurther);
 
       // goes throguh the hierarchialGraph and makes the loadlineage false
@@ -1137,6 +1138,7 @@ describe('DataEntityDetailComponent', () => {
       };
       expectedGraph.nodes.push(grandChild);
       expectedGraph.links.push({target: grandChild.id, source: childToShowFurther.id});
+      component.popover = {close: () => {}} as NgbPopover;
       component.showFurther(childToShowFurther);
 
       // goes throguh the hierarchialGraph and makes the loadlineage false
@@ -1197,7 +1199,7 @@ describe('DataEntityDetailComponent', () => {
         nodes: [...component.hierarchialGraph.nodes],
         links: [...component.hierarchialGraph.links]
       };
-
+      component.popover = {close: () => {}} as NgbPopover;
       component.showFurther(toShowFurther);
 
       expect(alerter.alert).toHaveBeenCalledWith(new WarningAlert('No Further Lineage', '',
