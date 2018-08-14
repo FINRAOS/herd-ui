@@ -18,7 +18,7 @@ import { TestBed, inject, async } from '@angular/core/testing';
 import { SearchResolveData, SearchResolverService } from './search-resolver.service';
 import { SearchService } from '../../shared/services/search.service';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { RouterStub } from '../../../testing/router-stubs';
 import { CategoryDetailResolverData } from '../../categories/services/categories-detail-resolver';
 

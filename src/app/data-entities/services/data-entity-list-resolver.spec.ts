@@ -16,7 +16,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { DataEntityListResolverService, DataEntityListResolverData } from './data-entity-list-resolver';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { BusinessObjectDefinitionService } from '@herd/angular-client';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { async } from '@angular/core/testing';

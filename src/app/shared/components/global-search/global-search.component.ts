@@ -15,7 +15,7 @@
 */
 import { Component, ElementRef, OnInit, ViewChild, HostListener, Output, EventEmitter, Input } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators/filter';
+import { filter } from 'rxjs/operators';
 import { HitMatchTypes } from '../../services/search.service';
 
 @Component({

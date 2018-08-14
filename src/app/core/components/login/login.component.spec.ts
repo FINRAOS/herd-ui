@@ -19,7 +19,7 @@ import { ActivatedRouteStub, RouterStub } from '../../../../testing/router-stubs
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
 import { UserService } from '../../services/user.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable, throwError } from 'rxjs';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { inject } from '@angular/core/testing';
 
@@ -99,7 +99,7 @@ describe('Logincomponent', () => {
 
   it('should show error on unsucessful login', inject([Router, AlertService, UserService],
     (r: RouterStub, a: AlertService, c: UserService) => {
-      (c.getCurrentUser as jasmine.Spy).and.returnValue(Observable.throw('login http error'));
+      (c.getCurrentUser as jasmine.Spy).and.returnValue(throwError('login http error'));
       fixture.detectChanges();
       component.loginForm.controls['username'].setValue('testusername');
       component.loginForm.controls['password'].setValue('testpassword');

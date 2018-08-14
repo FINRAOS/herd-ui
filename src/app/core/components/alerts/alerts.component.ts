@@ -15,9 +15,9 @@
 */
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Alert,  AlertService } from 'app/core/services/alert.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { take, map } from 'rxjs/operators'
-import { timer } from 'rxjs/observable/timer'
+import { timer } from 'rxjs'
 import {environment} from '../../../../environments/environment';
 
 @Component({

@@ -18,7 +18,8 @@ import { Resolve, RouterStateSnapshot,
     ActivatedRouteSnapshot
 } from '@angular/router';
 import { BusinessObjectDefinitionService, BusinessObjectDefinitionKey } from '@herd/angular-client';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 export interface TitleResolverData {
@@ -43,15 +44,15 @@ export class DataEntityListResolverService implements Resolve<any> {
 
         // if we don't currently have all the bdef keys go get them and sort by the search term if it exists.
         if (!this.allBdefKeys || !this.allBdefKeys.length) {
-            return this.bdef.businessObjectDefinitionGetBusinessObjectDefinitions()
-                .map((resp) => {
+            return this.bdef.businessObjectDefinitionGetBusinessObjectDefinitions().pipe(
+                map((resp) => {
 
                     this.allBdefKeys = resp.businessObjectDefinitionKeys;
                     const retval: DataEntityListResolverData = this.filter(route.queryParams.searchTerm);
                     retval.title = 'Data Entities';
 
                     return retval;
-                })
+                }))
         } else {
             // If we do have the bdefkeys simply do the search.
             const retval = this.filter(route.queryParams.searchTerm);

@@ -24,13 +24,13 @@ import {SharedModule} from '../../../shared/shared.module';
 import {AlertService} from '../../../core/services/alert.service';
 import {UserService} from '../../../core/services/user.service';
 import {EncryptionService} from '../../../shared/services/encryption.service';
-import {Observable} from 'rxjs/Observable';
+import { Observable, throwError } from 'rxjs';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {By} from '@angular/platform-browser';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SimpleChange} from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 
 describe('ContactsComponent', () => {
@@ -44,7 +44,7 @@ describe('ContactsComponent', () => {
         SharedModule,
         NgbModule.forRoot(),
         HttpClientTestingModule,
-        HttpModule
+        HttpClientModule
       ],
       declarations: [
         ContactsComponent
@@ -190,7 +190,7 @@ describe('ContactsComponent', () => {
 
     businessObjectDefinitionSubjectMatterExpertApi
       .businessObjectDefinitionSubjectMatterExpertCreateBusinessObjectDefinitionSubjectMatterExpert
-      .and.returnValue(Observable.throw({
+      .and.returnValue(throwError({
       contactDetails: {
         emailAddress: 'testemail@email.com'
       }
@@ -198,7 +198,7 @@ describe('ContactsComponent', () => {
 
     businessObjectDefinitionSubjectMatterExpertApi
       .businessObjectDefinitionSubjectMatterExpertDeleteBusinessObjectDefinitionSubjectMatterExpert
-      .and.returnValue(Observable.throw({
+      .and.returnValue(throwError({
       contactDetails: {
         emailAddress: 'testemail@email.com'
       }
@@ -215,7 +215,7 @@ describe('ContactsComponent', () => {
     expect(fixture.componentInstance.validationError).toBe('');
 
     subjectMatterExpertApi.subjectMatterExpertGetSubjectMatterExpert
-      .and.returnValue(Observable.throw({
+      .and.returnValue(throwError({
       contactDetails: {
         emailAddress: 'testemail@email.com'
       }

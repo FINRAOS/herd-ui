@@ -38,9 +38,9 @@ import {
   Configuration, UserAuthorizations,
   NamespaceAuthorization, BusinessObjectDefinitionDescriptiveInformationUpdateRequest, BusinessObjectDefinitionDescriptionSuggestionService
 } from '@herd/angular-client';
-import {HttpModule, Headers} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
+import { Observable, throwError } from 'rxjs';
 import {AlertService, SuccessAlert, DangerAlert, WarningAlert} from '../../../core/services/alert.service';
 import {UserService} from '../../../core/services/user.service';
 import {EncryptionService} from '../../../shared/services/encryption.service';
@@ -300,7 +300,7 @@ describe('DataEntityDetailComponent', () => {
         NgbModule.forRoot(),
         BrowserModule,
         RouterTestingModule,
-        HttpModule,
+        HttpClientModule,
         DataTableModule,
         ButtonModule,
         FormsModule,
@@ -564,7 +564,7 @@ describe('DataEntityDetailComponent', () => {
       const alertSpy = alerter.alert as jasmine.Spy;
 
       // for failure on delete
-      bdefSuggestionSpy.and.returnValue(Observable.throw({status: 404}));
+      bdefSuggestionSpy.and.returnValue(throwError({status: 404}));
 
 
       // fixture.detectChanges();
@@ -614,10 +614,10 @@ describe('DataEntityDetailComponent', () => {
             .businessObjectDefinitionSubjectMatterExpertGetBusinessObjectDefinitionSubjectMatterExpertsByBusinessObjectDefinition
         ).and.returnValue(Observable.of(bdefSmes));
         spySmeApi = (<jasmine.Spy>smeApi.subjectMatterExpertGetSubjectMatterExpert)
-          .and.returnValue(Observable.throw(new Error()));
+          .and.returnValue(throwError(new Error()));
         // throw error when no access to formats
         spyBdefFormatAllApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormats)
-          .and.returnValue(Observable.throw(new Error()));
+          .and.returnValue(throwError(new Error()));
 
         fixture.detectChanges();
         expect(component.bdef).toEqual(activeRoute.testData.resolvedData.bdef);
@@ -808,7 +808,7 @@ describe('DataEntityDetailComponent', () => {
       (defApi: BusinessObjectDefinitionService, alerter: AlertService, activeRoute: ActivatedRouteStub) => {
         const alertSpy = alerter.alert as jasmine.Spy;
         const updateSpy = defApi.businessObjectDefinitionUpdateBusinessObjectDefinitionDescriptiveInformation as jasmine.Spy;
-        updateSpy.and.returnValue(Observable.throw('the error'));
+        updateSpy.and.returnValue(throwError('the error'));
         const expectedDisplayName = expectedBdef.displayName;
 
         activeRoute.testData = {
@@ -860,7 +860,7 @@ describe('DataEntityDetailComponent', () => {
       (defApi: BusinessObjectDefinitionService, alerter: AlertService, activeRoute: ActivatedRouteStub) => {
         const alertSpy = alerter.alert as jasmine.Spy;
         const updateSpy = defApi.businessObjectDefinitionUpdateBusinessObjectDefinitionDescriptiveInformation as jasmine.Spy;
-        updateSpy.and.returnValue(Observable.throw('the error'));
+        updateSpy.and.returnValue(throwError('the error'));
         const expectedDescription = expectedBdef.description;
 
         activeRoute.testData = {
@@ -978,7 +978,7 @@ describe('DataEntityDetailComponent', () => {
         expect(detailsSpy).toHaveBeenCalled();
         detailsSpy.calls.reset();
 
-        putSpy.and.returnValue(Observable.throw('error in updating desc format'));
+        putSpy.and.returnValue(throwError('error in updating desc format'));
         component.updateDescriptiveFormat(formatKeys[1], false);
         expect(component.bdef).toEqual(withoutDescriptiveFormat);
         expect(detailsSpy).not.toHaveBeenCalled();
@@ -1654,7 +1654,7 @@ describe('DataEntityDetailComponent', () => {
     };
 
     const ddlSpy = (formatApi.businessObjectFormatGenerateBusinessObjectFormatDdl as jasmine.Spy);
-    ddlSpy.and.returnValue(Observable.throw({
+    ddlSpy.and.returnValue(throwError({
       status: '500',
       statusText: 'Internal Server Error',
       url: 'theDDLURL',
@@ -1728,7 +1728,7 @@ describe('DataEntityDetailComponent', () => {
 
       mockColumn = {...initialMockColumn};
       // for failure
-      updateSpy.and.returnValue(Observable.throw({status: 404}));
+      updateSpy.and.returnValue(throwError({status: 404}));
       component.saveDataEntityColumnDescriptionChange(mockEvent, mockColumn);
 
       expect(updateSpy).toHaveBeenCalledWith(component.bdef.namespace,
@@ -1790,7 +1790,7 @@ describe('DataEntityDetailComponent', () => {
       const failedOutput = {...mockColumn};
 
       // for failure on delete
-      deleteSpy.and.returnValue(Observable.throw({status: 404}));
+      deleteSpy.and.returnValue(throwError({status: 404}));
       component.saveDataEntityColumnNameChange(mockEvent, mockColumn);
 
       expect(deleteSpy).toHaveBeenCalledWith(component.bdef.namespace,
@@ -1808,7 +1808,7 @@ describe('DataEntityDetailComponent', () => {
 
       // for failure after delete on create
       deleteSpy.and.returnValue(Observable.of(succesDeleteResponse));
-      createSpy.and.returnValue(Observable.throw({status: 500}));
+      createSpy.and.returnValue(throwError({status: 500}));
       component.saveDataEntityColumnNameChange(mockEvent, mockColumn);
 
       expect(deleteSpy).toHaveBeenCalledWith(component.bdef.namespace,

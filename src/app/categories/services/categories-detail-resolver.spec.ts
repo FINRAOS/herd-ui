@@ -16,7 +16,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { CategoryDetailResolverService, CategoryDetailResolverData } from './categories-detail-resolver';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import {
   Tag, TagService, TagKey, TagSearchRequest
 } from '@herd/angular-client';

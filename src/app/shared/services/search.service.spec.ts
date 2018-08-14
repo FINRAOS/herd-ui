@@ -16,8 +16,8 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { SearchService, HitMatchTypes } from './search.service';
 import { IndexSearchService, IndexSearchResponse, Facet, Highlight } from '@herd/angular-client';
-import { Observable } from 'rxjs/Observable';
-import { HttpModule } from '@angular/http';
+import { Observable } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
 import { async } from '@angular/core/testing';
 import { IndexSearchMockData } from 'testing/IndexSearchMockData';
 
@@ -28,7 +28,7 @@ describe('SearchService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpModule
+        HttpClientModule
       ],
       providers: [
         IndexSearchService,

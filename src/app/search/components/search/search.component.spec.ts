@@ -19,8 +19,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchService } from '../../../shared/services/search.service';
 import { IndexSearchService } from '@herd/angular-client';
-import { HttpModule } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { IndexSearchMockData } from 'testing/IndexSearchMockData';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,6 +30,7 @@ import { EncryptionService } from '../../../shared/services/encryption.service';
 import { APP_BASE_HREF } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterStub } from '../../../../testing/router-stubs';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('SearchComponent', () => {
   const mockData: IndexSearchMockData = new IndexSearchMockData();
@@ -42,7 +42,7 @@ describe('SearchComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         NgbModule.forRoot(),
-        HttpModule,
+        HttpClientModule,
         RouterTestingModule,
         SharedModule
       ],

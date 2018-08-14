@@ -17,8 +17,8 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {TagService, TagTypeService, BusinessObjectDefinitionTagService} from '@herd/angular-client';
 import {TagsComponent} from './tags.component';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {HttpModule} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import {HttpClientModule} from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 
 describe('TagsComponent', () => {
   let component: TagsComponent;
@@ -79,7 +79,7 @@ describe('TagsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpModule
+        HttpClientModule
       ],
       declarations: [TagsComponent],
       providers: [
@@ -133,7 +133,7 @@ describe('TagsComponent', () => {
     expect(component.selectedTags).toContain({'tagTypeCode': 'TEST_TAGTYPE_CODE2', 'tagCode': 'TEST_TAG_CODE2'});
     businessObjectDefinitionTagApi
       .businessObjectDefinitionTagCreateBusinessObjectDefinitionTag
-      .and.returnValue(Observable.throw({status: 404}));
+      .and.returnValue(throwError({status: 404}));
     component.selected({tagKey: {'tagTypeCode': 'TEST_TAGTYPE_CODE2', 'tagCode': 'TEST_TAG_CODE2'}});
     fixture.detectChanges();
     expect(component.selectedTags).not.toContain({'tagTypeCode': 'TEST_TAGTYPE_CODE2', 'tagCode': 'TEST_TAG_CODE2'});
@@ -146,7 +146,7 @@ describe('TagsComponent', () => {
     expect(component.selectedTags).not.toContain('{\'tagTypeCode\': \'TEST_TAGTYPE_CODE1\', \'tagCode\': \'TEST_TAG_CODE1\'}');
     businessObjectDefinitionTagApi
       .businessObjectDefinitionTagDeleteBusinessObjectDefinitionTag
-      .and.returnValue(Observable.throw({status: 404}));
+      .and.returnValue(throwError({status: 404}));
     component.removed({tagKey: {'tagTypeCode': 'TEST_TAGTYPE_CODE2', 'tagCode': 'TEST_TAG_CODE2'}});
     component.blur({});
     fixture.detectChanges();

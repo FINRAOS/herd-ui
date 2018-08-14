@@ -16,7 +16,7 @@
 import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 import { GlobalSearchComponent } from './global-search.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRouteStub, RouterStub } from 'testing/router-stubs';
@@ -33,7 +33,7 @@ describe('GlobalSearchComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         NgbModule.forRoot(),
-        HttpModule,
+        HttpClientModule,
         FormsModule
       ],
       declarations: [GlobalSearchComponent],

@@ -13,25 +13,18 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {TestBed, inject} from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 
-import {EncryptionService} from './encryption.service';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpInterceptService } from './http-intercept.service';
 
-describe('EncryptionService', () => {
+describe('HttpInterceptService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule
-      ],
-      providers: [
-        EncryptionService,
-      ]
+      providers: [HttpInterceptService]
     });
   });
 
-  it('should encrypt the user id', inject([EncryptionService], (service: EncryptionService) => {
-    const encryptedValue = service.encryptAndGet('userid');
-    expect(encryptedValue).not.toEqual('');
+  it('should be created', inject([HttpInterceptService], (service: HttpInterceptService) => {
+    expect(service).toBeTruthy();
   }));
 });

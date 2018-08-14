@@ -19,8 +19,9 @@ import {
   ActivatedRouteSnapshot
 } from '@angular/router';
 import {IndexSearchResult, Facet} from '@herd/angular-client';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {SearchService} from '../../shared/services/search.service';
+import { map } from 'rxjs/operators';
 
 export interface TitleResolverData {
   title?: string;
@@ -53,13 +54,15 @@ export class SearchResolverService implements Resolve<any> {
         totalIndexSearchResults: 0,
         title: ''
       };
-      return this.searchService.search(route.params.searchText, [], route.queryParams.match).map((response) => {
-        retval.indexSearchResults = response.indexSearchResults;
-        retval.facets = response.facets;
-        retval.totalIndexSearchResults = response.totalIndexSearchResults;
-        retval.title = 'Global Search - ' + route.params.searchText;
-        return retval;
-      }) ;
+      return this.searchService.search(route.params.searchText, [], route.queryParams.match).pipe(
+        map((response) => {
+          retval.indexSearchResults = response.indexSearchResults;
+          retval.facets = response.facets;
+          retval.totalIndexSearchResults = response.totalIndexSearchResults;
+          retval.title = 'Global Search - ' + route.params.searchText;
+          return retval;
+        })
+      ) ;
 
     } else {
       return {

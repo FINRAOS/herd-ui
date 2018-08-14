@@ -28,9 +28,10 @@ import { RouteReuseStrategy } from '@angular/router';
 import { CustomRouteReuseStrategy } from 'app/core/services/custom-route-reuse-strategy.service';
 import { CustomLocation } from 'app/core/services/custom-location.service';
 import { Location } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { HttpInterceptorModule } from 'ng-http-interceptor';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { environment } from '../environments/environment';
+import { HttpInterceptService } from './core/services/http-intercept.service';
+import { InlineSVGService } from '../../node_modules/ng-inline-svg/lib/inline-svg.service';
 
 export function appApiConfigFactory(): Configuration {
   return new Configuration();
@@ -50,7 +51,6 @@ export function restBasePathFactory(apiConfig: Configuration): string {
     AppComponent
   ],
   imports: [
-    HttpInterceptorModule,
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
@@ -60,6 +60,12 @@ export function restBasePathFactory(apiConfig: Configuration): string {
     ApiModule.forRoot(appApiConfigFactory)
   ],
   providers: [
+    HttpInterceptService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptService,
+      multi: true
+    },
     {
       provide: Configuration,
       useFactory: appApiConfigFactory,
@@ -76,7 +82,8 @@ export function restBasePathFactory(apiConfig: Configuration): string {
     }, {
       provide: Location,
       useClass: CustomLocation
-    }
+    },
+    InlineSVGService
   ],
   bootstrap: [AppComponent]
 })

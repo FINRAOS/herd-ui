@@ -19,14 +19,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '../../../shared/shared.module';
 import { FormatDetailComponent } from './format-detail.component';
 import { ActivatedRoute } from '@angular/router';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import {
   StorageService,
   BusinessObjectFormatService,
   BusinessObjectDataService,
   BusinessObjectDefinitionColumnService
 } from '@herd/angular-client';
-import { Observable } from 'rxjs/Observable';
+import { Observable, throwError } from 'rxjs';
 import { AlertService } from '../../../core/services/alert.service';
 import { SchemaColumnsComponent } from 'app/formats/components/schema-columns/schema-columns.component';
 import { AttributeDefinitionsComponent } from 'app/formats/components/attribute-definitions/attribute-definitions.component';
@@ -46,7 +46,7 @@ describe('FormatDetailComponent', () => {
         NgbModule.forRoot(),
         SharedModule,
         RouterTestingModule,
-        HttpModule
+        HttpClientModule
       ],
       declarations: [
         FormatDetailComponent,
@@ -151,7 +151,7 @@ describe('FormatDetailComponent', () => {
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumns as jasmine.Spy)
           .and.returnValue(Observable.of({businessObjectDefinitionColumnKeys: []}));
         (businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability as jasmine.Spy)
-          .and.returnValue(Observable.throw({status: 403}));
+          .and.returnValue(throwError({status: 403}));
 
         fixture.detectChanges();
       }));
@@ -181,7 +181,7 @@ describe('FormatDetailComponent', () => {
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumns as jasmine.Spy)
           .and.returnValue(Observable.of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinationColumnKeys}));
         (businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability as jasmine.Spy)
-          .and.returnValue(Observable.throw({status: 404}));
+          .and.returnValue(throwError({status: 404}));
 
         fixture.detectChanges();
       }));

@@ -14,9 +14,10 @@
 * limitations under the License.
 */
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {IndexSearchResponse, IndexSearchService, IndexSearchRequest, IndexSearchFilter, Highlight} from '@herd/angular-client';
 import {HighlightDisplayMapping} from './highlight-display-mapping';
+import { map } from 'rxjs/operators';
 
 export enum HitMatchTypes {
   column = 'column'
@@ -43,8 +44,8 @@ export class SearchService {
       indexSearchRequest.searchTerm = searchText;
     }
 
-    return this.indexSearchApi.indexSearchIndexSearch(indexSearchRequest, this.fields, match)
-      .map((response) => {
+    return this.indexSearchApi.indexSearchIndexSearch(indexSearchRequest, this.fields, match).pipe(
+      map((response) => {
         // Include Result type
         const resultType = {
           facetDisplayName: 'Result Type',
@@ -79,7 +80,7 @@ export class SearchService {
           response.facets.push(resultType);
         }
         return response;
-      });
+      }));
   }
 
   public joinHighlight(highlight: Highlight) {

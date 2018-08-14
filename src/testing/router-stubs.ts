@@ -22,7 +22,7 @@ import {
   NavigationCancel, Event
 } from '@angular/router';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ActivatedRouteStub {

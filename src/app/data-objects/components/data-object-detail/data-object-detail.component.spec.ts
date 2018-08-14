@@ -27,7 +27,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '../../../shared/shared.module';
 import { DataObjectDetailComponent, DataObjectDetailRequest } from './data-object-detail.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 
 describe('DataObjectDetailComponent', () => {

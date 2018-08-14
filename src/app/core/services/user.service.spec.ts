@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 import {EncryptionService} from './../../shared/services/encryption.service';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {TestBed, inject} from '@angular/core/testing';
 
 import {UserService} from './user.service';
@@ -33,8 +33,8 @@ describe('CurrentUserService', () => {
         {
           provide: CurrentUserService,
           useValue: {
-            currentUserGetCurrentUserWithHttpInfo:
-              jasmine.createSpy('currentUserGetCurrentUserWithHttpInfo')
+            currentUserGetCurrentUser:
+              jasmine.createSpy('currentUserGetCurrentUser')
                 .and.returnValue(Observable.of({
                 json: () => {
                   return {userId: 'userid'}
@@ -56,7 +56,7 @@ describe('CurrentUserService', () => {
 
   it('should populate encrypted user', inject([UserService, CurrentUserService, EncryptionService],
     (service: UserService, currentUserApi: CurrentUserService, encryptionService: EncryptionService) => {
-      const spyCuApi = (<jasmine.Spy>currentUserApi.currentUserGetCurrentUserWithHttpInfo)
+      const spyCuApi = (<jasmine.Spy>currentUserApi.currentUserGetCurrentUser)
       const spyEncrypt = (<jasmine.Spy>encryptionService.encryptAndGet)
       // this proves that we proply set and sent the observable info.
       service.user.subscribe((userInfo) => {

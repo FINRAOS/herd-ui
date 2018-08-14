@@ -15,7 +15,7 @@
 */
 import { TestBed, inject, async } from '@angular/core/testing';
 import {FormatResolverService, FormatResolverServiceData} from './format-resolver.service';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {ActivatedRouteSnapshot, Router, RouterStateSnapshot} from '@angular/router';
 import {RouterStub} from '../../testing/router-stubs';
 

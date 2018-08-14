@@ -21,10 +21,10 @@ import { AlertService } from '../../../core/services/alert.service';
 import { BusinessObjectDefinitionDescriptionSuggestionService, Configuration } from '@herd/angular-client';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { HttpModule } from '@angular/http';
+import { Observable, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('SuggestionsComponent', () => {
   let component: SuggestionsComponent;
@@ -59,7 +59,7 @@ describe('SuggestionsComponent', () => {
         FormsModule,
         DiffMatchPatchModule,
         CKEditorModule,
-        HttpModule
+        HttpClientModule
       ],
       declarations: [
         SuggestionsComponent
@@ -142,7 +142,7 @@ describe('SuggestionsComponent', () => {
   it(' save should not save the edit of suggestion on error', async () => {
     const error = spyOn(businessObjectDefinitionDescriptionSuggestionService,
       'businessObjectDefinitionDescriptionSuggestionUpdateBusinessObjectDefinitionDescriptionSuggestion').and.returnValue(
-      Observable.throw({error: 'this is a error'})
+      throwError({error: 'this is a error'})
     );
     suggestions[0].newSuggestion = 'error suggestion';
     component.save(suggestions[0] as Suggestions, index);
@@ -166,7 +166,7 @@ describe('SuggestionsComponent', () => {
   it(' approve should not accept the suggestion  on error', async () => {
     spyOn(businessObjectDefinitionDescriptionSuggestionService,
       'businessObjectDefinitionDescriptionSuggestionAcceptBusinessObjectDefinitionDescriptionSuggestion').and.returnValue(
-      Observable.throw({error: 'this is approval error'})
+      throwError({error: 'this is approval error'})
     );
     suggestions[0].newSuggestion = 'error suggestion';
     component.approve(suggestions[0] as Suggestions, index);

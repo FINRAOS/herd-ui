@@ -17,7 +17,7 @@ import {AuthorizedDirective, AuthMap} from './authorized.directive';
 import {UserService} from '../../../core/services/user.service';
 import {Component, ElementRef, Input, DebugElement} from '@angular/core';
 import {ComponentFixture, TestBed, async} from '@angular/core/testing';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import { UserAuthorizations, NamespaceAuthorization } from '@herd/angular-client';
 import { By } from '@angular/platform-browser';
 

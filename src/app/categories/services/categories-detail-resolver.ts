@@ -24,8 +24,9 @@ import {
 
 import { Title } from '@angular/platform-browser';
 import { SearchService } from '../../shared/services/search.service';
-import { Observable } from 'rxjs/Observable';
-import { forkJoin } from 'rxjs/observable/forkJoin';
+import { Observable } from 'rxjs';
+import { forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 export interface TitleResolverData {
@@ -78,7 +79,8 @@ export class CategoryDetailResolverService implements Resolve<any> {
       return forkJoin(
         this.tagApi.tagGetTag(route.params.tagTypeCode, route.params.tagCode),
         this.searchService.search(searchText, indexSearchFilters, match)
-      ).map((data) => {
+      ).pipe(
+        map((data) => {
         const retval: CategoryDetailResolverData = {
           category: data[0],
           title: 'Category - ' + data[0].displayName + (route.params.searchText ? ' ( search: ' + route.params.searchText + ' )' : ''),
@@ -87,7 +89,8 @@ export class CategoryDetailResolverService implements Resolve<any> {
           totalIndexSearchResults: data[1].totalIndexSearchResults,
         };
         return retval;
-      });
+      })
+      );
     } else {
       // If we do have the category return the title and prev stored category details
       const handle: DetachedRouteHandle = this.router.routeReuseStrategy.retrieve(route);

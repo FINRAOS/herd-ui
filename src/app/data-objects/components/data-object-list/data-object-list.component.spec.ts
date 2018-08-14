@@ -37,14 +37,14 @@ import {
 import {FilterTemplateComponent} from 'app/data-objects/components/filter-template/filter-template.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {HttpModule} from '@angular/http';
 import {DataTable} from 'primeng/primeng';
-import {Observable} from 'rxjs/Observable';
+import { Observable, throwError } from 'rxjs';
 import {CodemirrorModule} from 'ng2-codemirror';
 import {ClipboardModule} from 'ngx-clipboard';
 import {SpinnerComponent} from 'app/shared/components/spinner/spinner.component';
 import {InlineSVGModule} from 'ng-inline-svg';
 import {RegistrationDateRangeFilterComponent} from '../registration-date-range-filter/registration-date-range-filter.component';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('DataObjectListComponent', () => {
   let component: DataObjectListComponent;
@@ -65,7 +65,7 @@ describe('DataObjectListComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
-        HttpModule,
+        HttpClientModule,
         NgbModule.forRoot(),
         CodemirrorModule,
         ClipboardModule,
@@ -163,12 +163,12 @@ describe('DataObjectListComponent', () => {
 
   it('should show empty message on server 400 error while load data', () => {
     businessObjectDataApi.businessObjectDataSearchBusinessObjectData
-      .and.returnValue(Observable.throw({ status: 400, json: () => { return { message: 'not found error' } }, body: [] }));
+      .and.returnValue(throwError({ status: 400, json: () => { return { message: 'not found error' } }, body: [] }));
     fixture.detectChanges();
     component.loadData(dataObjectListFiltersChangeEventData);
     expect(component.data.length).toBe(0);
     businessObjectDataApi.businessObjectDataSearchBusinessObjectData
-      .and.returnValue(Observable.throw({
+      .and.returnValue(throwError({
         status: 401, url: 'test url for error',
         json: () => { return { message: 'not found error' } }, body: [], statusText: 'not found error'
       }));
@@ -187,7 +187,7 @@ describe('DataObjectListComponent', () => {
 
   it('should alert error when ddl is not generated', inject([AlertService], (a: AlertService) => {
     const s = (businessObjectDataApi.businessObjectDataGenerateBusinessObjectDataDdl as jasmine.Spy);
-    s.and.returnValue(Observable.throw({
+    s.and.returnValue(throwError({
       status: '500',
       statusText: 'Internal Server Error',
       url: 'theDDLURL',

@@ -26,12 +26,12 @@ import {
   BusinessObjectFormatService,
   PartitionValueFilter
 } from '@herd/angular-client';
-import {map, tap} from 'rxjs/operators';
+import { catchError, finalize, map, tap } from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {Response} from '@angular/http'
 import {default as AppIcons} from '../../../shared/utils/app-icons';
-import {Subscription} from 'rxjs/Subscription';
-import {Observable} from 'rxjs/Observable';
+import {Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Action} from 'app/shared/components/side-action/side-action.component';
 import {DataTable} from 'primeng/components/datatable/datatable';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -188,7 +188,7 @@ export class DataObjectListComponent implements OnInit {
       businessObjectDefinitionName: this.dataEntity.businessObjectDefinitionName,
       businessObjectFormatUsage: this.format.businessObjectFormatUsage,
       businessObjectFormatFileType: this.format.businessObjectFormatFileType,
-      outputFormat: BusinessObjectDataDdlRequest.OutputFormatEnum.DDL,
+      outputFormat: BusinessObjectDataDdlRequest.OutputFormatEnum.HIVE13DDL,
       tableName: this.dataEntity.businessObjectDefinitionName,
       partitionValueFilters: this.partitionValueFilters,
       allowMissingData: true
@@ -196,10 +196,10 @@ export class DataObjectListComponent implements OnInit {
     this.loadingDDL = true;
     this.bDataApi.defaultHeaders.append('skipAlert', 'true');
     return this.bDataApi.businessObjectDataGenerateBusinessObjectDataDdl(businessObjectDataDdlRequest)
-      .finally(() => {
+      .pipe(finalize(() => {
         this.bDataApi.defaultHeaders.delete('skipAlert');
         this.loadingDDL = false;
-      });
+      }));
   }
 
   open(content: TemplateRef<any> | String, windowClass?: string) {
@@ -292,24 +292,27 @@ export class DataObjectListComponent implements OnInit {
     }
     this.loading = true;
     if (event) {
-      this.lastLoad = this.doDataSearch(event).catch((e: Response) => {
-        if (e.status === 400) {
-          this.dt.emptyMessage = e.json().message;
-          return Observable.of(([] as DataObjectRowData[]));
-        } else if (e.url) {
-          this.alerter.alert(new DangerAlert('HTTP Error: ' + e.status + ' ' + e.statusText,
-            'URL: ' + e.url, 'Info: ' + e.json().message));
-          return Observable.of(([] as DataObjectRowData[]));
-        }
-      }).finally(() => {
-        this.loading = false;
-      }).subscribe((bData) => {
+      this.lastLoad = this.doDataSearch(event).pipe(
+        catchError((e: Response) => {
+          if (e.status === 400) {
+            this.dt.emptyMessage = e.json().message;
+            return new Observable(([] as DataObjectRowData[]) as any);
+          } else if (e.url) {
+            this.alerter.alert(new DangerAlert('HTTP Error: ' + e.status + ' ' + e.statusText,
+              'URL: ' + e.url, 'Info: ' + e.json().message));
+            return new Observable(([] as DataObjectRowData[]) as any);
+          }
+        }),
+        finalize(() => {
+          this.loading = false;
+        })
+      ).subscribe((bData: any) => {
         this.data = bData;
       });
     } else {
-      this.lastLoad = this.doDataGet().finally(() => {
+      this.lastLoad = this.doDataGet().pipe(finalize(() => {
         this.loading = false;
-      }).subscribe((r) => {
+      })).subscribe((r) => {
         this.data = r;
       });
     }
@@ -333,12 +336,12 @@ export class DataObjectListComponent implements OnInit {
         this.format.businessObjectFormatUsage,
         this.format.businessObjectFormatFileType,
         this.format.businessObjectFormatVersion
-      ).map((r) => r.businessObjectDataKeys.length && this.convertToRowData(r.businessObjectDataKeys)) || null;
+      ).pipe(map((r) => r.businessObjectDataKeys.length && this.convertToRowData(r.businessObjectDataKeys))) || null;
     } else {
       return this.bDataApi.businessObjectDataGetAllBusinessObjectDataByBusinessObjectDefinition(
         this.dataEntity.namespace,
         this.dataEntity.businessObjectDefinitionName
-      ).map((r) => r.businessObjectDataKeys.length && this.convertToRowData(r.businessObjectDataKeys)) || null;
+      ).pipe(map((r) => r.businessObjectDataKeys.length && this.convertToRowData(r.businessObjectDataKeys))) || null;
     }
   }
 
@@ -368,7 +371,7 @@ export class DataObjectListComponent implements OnInit {
         this.bDataApi.defaultHeaders.delete('skipAlert');
         return r;
       }),
-      map((r) => {
+      map((r: any) => {
 
         const fieldsToShow: string[] = [];
         if (r.businessObjectDataElements.length) {

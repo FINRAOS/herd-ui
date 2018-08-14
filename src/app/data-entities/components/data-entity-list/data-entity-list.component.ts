@@ -16,8 +16,8 @@
 import { Component, OnInit, ChangeDetectorRef, ElementRef, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BusinessObjectDefinitionKey } from '@herd/angular-client';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { fromEvent, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { debounceTime, map, skip} from 'rxjs/operators'
 
 @Component({
@@ -52,11 +52,12 @@ export class DataEntityListComponent implements OnInit {
             this.searchInput.focus();
         });
 
-        Observable
-            .fromEvent(this.searchInput, 'keyup')
-            .map((i: any) => i.currentTarget.value)
-            .debounceTime(500)
-            .subscribe((val) => {
+        fromEvent(this.searchInput, 'keyup')
+          .pipe(
+            map((i: any) => i.currentTarget.value),
+            debounceTime(500)
+          )
+          .subscribe((val) => {
                 this.router.navigate(['/data-entities'],
                     {
                         queryParams: {

@@ -18,7 +18,7 @@ import { async, inject, ComponentFixture, TestBed, tick, fakeAsync, flushMicrota
 import { AlertsComponent } from './alerts.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Alert, AlertService, SuccessAlert } from 'app/core/services/alert.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
 describe('AlertsComponent', () => {

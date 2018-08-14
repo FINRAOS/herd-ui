@@ -16,7 +16,7 @@
 import { BusinessObjectDataService, BusinessObjectData } from '@herd/angular-client';
 import { TestBed, inject } from '@angular/core/testing';
 import { DataObjectDetailResolverService, DataObjectDetailResolverData } from './data-object-detail-resolver.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, ActivatedRoute } from '@angular/router';
 import { RouterStub, ActivatedRouteStub } from 'testing/router-stubs';
 

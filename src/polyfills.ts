@@ -33,6 +33,9 @@
  * BROWSER POLYFILLS
  */
 
+// Angular global import issue. placed for ckeditor import
+// (window as any).global = window;
+
 /** IE9, IE10 and IE11 requires all of the following polyfills. **/
 import 'core-js/es6/symbol';
 import 'core-js/es6/object';
@@ -84,7 +87,9 @@ import 'proxy-polyfill/proxy.min'; // needed for ng-http-interceptor TODO: take 
  * Needed for: All but Chrome, Firefox, Edge, IE11 and Safari 10
  */
 import 'intl';  // Run `npm install --save intl`.
-import 'intl/locale-data/jsonp/en-US.js'; // needd for OS X 10.11 safari 9.0
+import 'intl/locale-data/jsonp/en-US.js'; // need for OS X 10.11 safari 9.0
+
+
 
 // used to programmatically set the configuration of the ckeditor file imports
 // Note: this must stay as an import due to all of the importans happening before a statement is run
@@ -92,3 +97,5 @@ import 'intl/locale-data/jsonp/en-US.js'; // needd for OS X 10.11 safari 9.0
 import './ckset';
 // needed for our in place editing features
 import 'ckeditor';
+
+

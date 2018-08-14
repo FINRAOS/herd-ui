@@ -19,9 +19,9 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {RouterTestingModule} from '@angular/router/testing';
 import {SharedModule} from '../../../shared/shared.module';
 import {CategoryDetailComponent} from './category-detail.component';
-import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {
   Tag, TagService, BusinessObjectDefinitionService,
   CurrentUserService, Configuration, TagSearchResponse, IndexSearchService
@@ -63,7 +63,7 @@ describe('CategoryDetailComponent', () => {
         NgbModule.forRoot(),
         SharedModule,
         RouterTestingModule,
-        HttpModule
+        HttpClientModule
       ],
       declarations: [CategoryDetailComponent],
       providers: [

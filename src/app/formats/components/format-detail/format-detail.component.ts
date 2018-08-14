@@ -21,9 +21,9 @@ import {
   BusinessObjectFormat, BusinessObjectFormatService, Namespace, BusinessObjectDataService,
   BusinessObjectDefinitionColumnService, BusinessObjectDataAvailabilityRequest, StorageService
 } from '@herd/angular-client';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AlertService, DangerAlert } from 'app/core/services/alert.service';
-import { map, startWith, flatMap } from 'rxjs/operators';
+import { map, startWith, flatMap, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'sd-format-detail',
@@ -155,16 +155,16 @@ export class FormatDetailComponent implements OnInit {
     this.businessObjectDataApi.defaultHeaders.append('skipAlert', 'true');
     this.storageApi.defaultHeaders.append('skipAlert', 'true');
     this.storageApi.storageGetStorages().pipe(
-      flatMap((resp) => {
+      flatMap((resp: any) => {
       request.storageNames = resp.storageKeys.map((key) => {
         return key.storageName;
       });
       return this.businessObjectDataApi
         .businessObjectDataCheckBusinessObjectDataAvailability(request)
-    })).finally(() => {
+    })).pipe(finalize(() => {
       this.businessObjectDataApi.defaultHeaders.delete('skipAlert');
       this.storageApi.defaultHeaders.delete('skipAlert');
-    }).subscribe(
+    })).subscribe(
       (response) => {
         if (response.availableStatuses.length) {
           this.minPrimaryPartitionValue = response.availableStatuses[0].partitionValue;

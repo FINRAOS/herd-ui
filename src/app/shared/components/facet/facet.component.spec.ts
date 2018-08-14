@@ -16,7 +16,7 @@
 import {GoogleAnalyticsService} from './../../services/google-analytics.service';
 import {async, ComponentFixture, TestBed, inject} from '@angular/core/testing';
 import {FacetComponent} from './facet.component';
-import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
 import {IndexSearchMockData} from 'testing/IndexSearchMockData';
 import {EventEmitter, NO_ERRORS_SCHEMA, SimpleChange} from '@angular/core';
 import {Facet} from '@herd/angular-client';
@@ -32,7 +32,7 @@ describe('FacetComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpModule
+        HttpClientModule
       ],
       declarations: [
         FacetComponent,

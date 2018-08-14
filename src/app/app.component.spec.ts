@@ -29,10 +29,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { WINDOW } from 'app/core/core.module';
 import { AlertService, DangerAlert } from 'app/core/services/alert.service';
 import { HttpInterceptorService } from 'ng-http-interceptor';
-import { Observable } from 'rxjs/Observable';
+import { Observable, throwError } from 'rxjs';
 import { EllipsisOverflowComponent } from 'app/shared/components/ellipsis-overflow/ellipsis-overflow.component';
 import { MockBackend } from '@angular/http/testing';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { ReplaySubject } from 'rxjs';
 import { Utils } from 'app/utils/utils';
 import { Component } from '@angular/core';
 import { UserService } from 'app/core/services/user.service';
@@ -143,7 +143,7 @@ describe('AppComponent', () => {
   it('should create alert for error responses', fakeAsync(inject([AlertService],
     (a: AlertService) => {
       const app = fixture.componentInstance;
-      app.respInterceptable(Observable.throw({}), 'GET').subscribe(null, e => {
+      app.respInterceptable(throwError({}), 'GET').subscribe(null, e => {
         expect(e).toBeDefined();
         // let jasmine know that it was a handled exception
         return 'passed test';
@@ -154,7 +154,7 @@ describe('AppComponent', () => {
 
       // not called because the url exists in skip url storage;
       app.skipDictionary['notthere.com'] = 1;
-      app.respInterceptable(Observable.throw({ url: 'notthere.com' }), 'GET').subscribe(null, e => {
+      app.respInterceptable(throwError({ url: 'notthere.com' }), 'GET').subscribe(null, e => {
         expect(e.url).toBeDefined();
         // let jasmine know that it was a handled exception
         return 'passed test';
@@ -165,7 +165,7 @@ describe('AppComponent', () => {
       expect(app.skipDictionary['notthere.com']).toBe(0);
 
       // will call alerter
-      app.respInterceptable(Observable.throw({
+      app.respInterceptable(throwError({
         url: 'notthere.com',
         status: 404, statusText: 'Not Found',
         json: () => { return { message: 'Test Info' } }

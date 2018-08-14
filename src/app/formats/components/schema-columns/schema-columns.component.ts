@@ -105,7 +105,7 @@ export class SchemaColumnsComponent implements OnInit {
       businessObjectDefinitionName: bdef.businessObjectDefinitionName,
       businessObjectFormatUsage: bdef.businessObjectFormatUsage,
       businessObjectFormatFileType: bdef.businessObjectFormatFileType,
-      outputFormat: BusinessObjectFormatDdlRequest.OutputFormatEnum.DDL,
+      outputFormat: BusinessObjectFormatDdlRequest.OutputFormatEnum.HIVE13DDL,
       tableName: bdef.businessObjectDefinitionName
     };
     this.businessObjectFormatService.defaultHeaders.append('skipAlert', 'true');

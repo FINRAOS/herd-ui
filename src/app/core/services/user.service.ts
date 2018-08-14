@@ -16,10 +16,11 @@
 import { EncryptionService } from './../../shared/services/encryption.service';
 import { Injectable } from '@angular/core';
 import { CurrentUserService, UserAuthorizations, Configuration } from '@herd/angular-client'
-import { Observable } from 'rxjs/Observable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Observable } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { Response, URLSearchParams } from '@angular/http'
-import {environment} from '../../../environments/environment';
+import { environment } from '../../../environments/environment';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
@@ -27,17 +28,19 @@ export class UserService {
   get user(): Observable<UserAuthorizations> {
     return this._user.asObservable();
   }
+
   get isAuthenticated() {
     return this.userAuthorizations && this.userAuthorizations.userId
   }
+
   // User info returned from Herd
   userAuthorizations: UserAuthorizations;
   // encrypted user id
   encryptedUserIdentifier: string;
 
   constructor(private currentUserApi: CurrentUserService,
-    private encryptionService: EncryptionService,
-    private apiConf: Configuration) {
+              private encryptionService: EncryptionService,
+              private apiConf: Configuration) {
   }
 
   getCurrentUser(username?: string, password?: string): Observable<UserAuthorizations> {
@@ -48,12 +51,13 @@ export class UserService {
     // the added timestamp of the query string forces legacy browsers to not cache the http response
     // for current user.  this fixes current user differentiated tests.
     const search = new URLSearchParams(`v=${Date.now()}`.toString());
-    return this.currentUserApi.currentUserGetCurrentUserWithHttpInfo({search}).map((res) => {
-      this.userAuthorizations = res.json();
-      this._user.next(res.json());
-      this.encryptedUserIdentifier = this.encryptionService.encryptAndGet((res.json() as UserAuthorizations).userId);
-      return res.json();
-    });
+    return this.currentUserApi.currentUserGetCurrentUser().pipe(
+      map((res: any) => {
+        this.userAuthorizations = res;
+        this._user.next(res.json());
+        this.encryptedUserIdentifier = this.encryptionService.encryptAndGet((res.json() as UserAuthorizations).userId);
+        return res.json();
+      }));
   }
 
 }

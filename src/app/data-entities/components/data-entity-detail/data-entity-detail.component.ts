@@ -43,9 +43,9 @@ import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/
 import { NgbModal, NgbModalRef, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import * as shape from 'd3-shape';
 import { EditEvent } from 'app/shared/components/edit/edit.component';
-import { Observable } from 'rxjs/Observable';
-import { forkJoin } from 'rxjs/observable/forkJoin';
-import { flatMap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { forkJoin } from 'rxjs';
+import { catchError, finalize, flatMap, map } from 'rxjs/operators';
 import {AuthMap} from '../../../shared/directive/authorized/authorized.directive';
 
 @Component({
@@ -146,7 +146,7 @@ export class DataEntityDetailComponent implements OnInit {
     this.getFormats();
 
     // Load the smes
-    this.getSMEContactDetails().subscribe((data) => {
+    this.getSMEContactDetails().subscribe((data: any) => {
       this.smes = data;
     });
   }
@@ -190,7 +190,7 @@ export class DataEntityDetailComponent implements OnInit {
       obs = createColumn();
     }
 
-    obs.finally(() => { this.businessObjectDefinitionColumnApi.defaultHeaders.delete('skipAlert'); }).subscribe((resp) => {
+    obs.pipe(finalize(() => { this.businessObjectDefinitionColumnApi.defaultHeaders.delete('skipAlert'); })).subscribe((resp) => {
       col.exists = true;
       col.businessObjectDefinitionColumnName = resp.businessObjectDefinitionColumnKey.businessObjectDefinitionColumnName;
       this.alertService.alert(new SuccessAlert('Success!', '', 'Your column creation was saved.'));
@@ -214,7 +214,7 @@ export class DataEntityDetailComponent implements OnInit {
       this.businessObjectDefinitionColumnApi
         .businessObjectDefinitionColumnUpdateBusinessObjectDefinitionColumn(this.bdef.namespace,
         this.bdef.businessObjectDefinitionName, col.businessObjectDefinitionColumnName, request)
-        .finally(() => { this.businessObjectDefinitionColumnApi.defaultHeaders.delete('skipAlert'); }).subscribe((resp) => {
+        .pipe(finalize(() => { this.businessObjectDefinitionColumnApi.defaultHeaders.delete('skipAlert'); })).subscribe((resp) => {
           col.description = resp.description;
           this.alertService.alert(new SuccessAlert('Success!', '', 'Your column edit was saved.'));
         }, (error) => {
@@ -347,9 +347,9 @@ export class DataEntityDetailComponent implements OnInit {
     this.businessObjectFormatApi.defaultHeaders.append('skipAlert', 'true');
     this.businessObjectFormatApi.businessObjectFormatGetBusinessObjectFormats(
       this.bdef.namespace, this.bdef.businessObjectDefinitionName, true
-    ).finally(() => {
+    ).pipe(finalize(() => {
       this.businessObjectFormatApi.defaultHeaders.delete('skipAlert');
-    }).subscribe((response) => {
+    })).subscribe((response) => {
       this.formats = response.businessObjectFormatKeys;
     }, (error) => {
       this.formats = [];
@@ -435,12 +435,14 @@ export class DataEntityDetailComponent implements OnInit {
 
   fetchBdefs(formatKeys: BusinessObjectFormatKey[]): Observable<BusinessObjectDefinition[]> {
     if (formatKeys.length > 0) {
-      const frmtQueues = Observable.of(formatKeys);
+      const frmtQueues = new Observable(formatKeys as any);
       const bdefRequest = format => this.businessObjectDefinitionApi
         .businessObjectDefinitionGetBusinessObjectDefinition(format.namespace, format.businessObjectDefinitionName);
-      return frmtQueues.pipe(flatMap(q => forkJoin(...q.map(bdefRequest))));
+      return frmtQueues.pipe(
+        flatMap((q: any) => forkJoin(...q.map(bdefRequest))
+        ));
     } else {
-      return Observable.of([]);
+      return new Observable([] as any);
     }
   }
 
@@ -457,7 +459,7 @@ export class DataEntityDetailComponent implements OnInit {
       }
       nodes.push(newNode);
     }
-    return Observable.of({ nodes, links });
+    return new Observable({ nodes, links } as any);
   }
 
   createNode(bdef: BusinessObjectDefinition, format: BusinessObjectFormatKey, type: DAGNodeType): DataEntityLineageNode {
@@ -499,15 +501,15 @@ export class DataEntityDetailComponent implements OnInit {
       selectedNode.bdefKey.split(this.displayDelimiter)[0],
       selectedNode.bdefKey.split(this.displayDelimiter)[1],
       selectedNode.tooltip.split(this.displayDelimiter)[0],
-      selectedNode.tooltip.split(this.displayDelimiter)[1]).flatMap((format) => {
+      selectedNode.tooltip.split(this.displayDelimiter)[1]).pipe(flatMap((format) => {
         if (selectedNode.type === DAGNodeType.parent) {
           return this.processParents(selectedNode, format);
         } else if (selectedNode.type === DAGNodeType.child) {
           return this.processChildren(selectedNode, format);
         }
 
-        return Observable.throw('invalidNodeType');
-      }).subscribe((graph: HierarchialGraph) => {
+        return throwError('invalidNodeType');
+      })).subscribe((graph: HierarchialGraph) => {
         // hide the show more link as we will not attempt to reload the parents or children
         this.hierarchialGraph.nodes.some((node) => {
           if (node.id === selectedNode.id) {
@@ -590,15 +592,15 @@ export class DataEntityDetailComponent implements OnInit {
       flatMap((data) => {
         return forkJoin(data.businessObjectDefinitionSubjectMatterExpertKeys.map((key) => {
           return this.subjectMatterExpertApi.subjectMatterExpertGetSubjectMatterExpert(key.userId)
-            .catch(() => {
-              return Observable.of(undefined);
-            });
+            .pipe(catchError(() => {
+              return new Observable(undefined);
+            }));
         }));
-      })).map((smes) => {
+      })).pipe(map((smes) => {
         return smes.filter((sme) => {
           return !!sme
         });
-      });
+      }));
   }
 
   getDDL() {
@@ -607,14 +609,14 @@ export class DataEntityDetailComponent implements OnInit {
       businessObjectDefinitionName: this.bdef.businessObjectDefinitionName,
       businessObjectFormatUsage: this.descriptiveFormat.businessObjectFormatUsage,
       businessObjectFormatFileType: this.descriptiveFormat.businessObjectFormatFileType,
-      outputFormat: BusinessObjectFormatDdlRequest.OutputFormatEnum.DDL,
+      outputFormat: BusinessObjectFormatDdlRequest.OutputFormatEnum.HIVE13DDL,
       tableName: this.bdef.businessObjectDefinitionName
     };
     this.businessObjectFormatApi.defaultHeaders.append('skipAlert', 'true');
     this.businessObjectFormatApi.businessObjectFormatGenerateBusinessObjectFormatDdl(businessObjectFormatDdlRequest)
-      .finally(() => {
+      .pipe(finalize(() => {
         this.businessObjectFormatApi.defaultHeaders.delete('skipAlert');
-      })
+      }))
       .subscribe((response) => {
         this.ddl = response.ddl;
       }, (error) => {

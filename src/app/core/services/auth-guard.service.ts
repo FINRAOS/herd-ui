@@ -15,9 +15,10 @@
 */
 import { Injectable } from '@angular/core';
 import { CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { UserService } from './user.service';
-import {environment} from '../../../environments/environment';
+import { environment } from '../../../environments/environment';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
@@ -33,21 +34,24 @@ export class AuthGuardService implements CanActivate {
       // If not logged in but we want to attempt to initialize the user information
       // due to APP_INITIALIZER based authentication happening
     } else if (!environment.useBasicAuth) {
-      return this.currentUserService.getCurrentUser().map((resp) => {
-        if (resp.userId) {
-          return true;
-        }
-      }).catch((e) => {
-        this.router.navigate(['/login'], {
-          replaceUrl: true,
-          queryParams: {
-            returnUrl: state.url,
+      return this.currentUserService.getCurrentUser().pipe(
+        map((resp: any) => {
+          if (resp.userId) {
+            return true;
           }
-        });
-        return Observable.of(false);
-      });
+        }),
+        catchError((e) => {
+          this.router.navigate(['/login'], {
+            replaceUrl: true,
+            queryParams: {
+              returnUrl: state.url,
+            }
+          });
+          return new Observable(false as any);
+        })
+      ) as any;
     } else {
-      this.router.navigate(['/login'],  {
+      this.router.navigate(['/login'], {
         replaceUrl: true,
         queryParams: {
           returnUrl: state.url

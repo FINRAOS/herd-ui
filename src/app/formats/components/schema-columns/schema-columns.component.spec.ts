@@ -21,7 +21,7 @@ import {Headers} from '@angular/http';
 import {BusinessObjectFormatService} from '@herd/angular-client';
 import {AlertService, DangerAlert, SuccessAlert} from '../../../core/services/alert.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {Observable} from 'rxjs/Observable';
+import { Observable, throwError } from 'rxjs';
 import {CodemirrorModule} from 'ng2-codemirror';
 import {ClipboardModule} from 'ngx-clipboard';
 
@@ -111,7 +111,7 @@ describe('SchemaColumnsComponent', () => {
       };
 
       // Test error condition of ddl
-      ddlSpy.and.returnValue(Observable.throw({
+      ddlSpy.and.returnValue(throwError({
         status: '500',
         statusText: 'Internal Server Error',
         url: 'theDDLURL',
