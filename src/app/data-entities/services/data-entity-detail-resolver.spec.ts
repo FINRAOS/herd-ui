@@ -16,7 +16,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { DataEntityDetailResolverService, DataEntityDetailResolverData } from './data-entity-detail-resolver';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { BusinessObjectDefinitionService, BusinessObjectDefinition } from '@herd/angular-client';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlSegment } from '@angular/router';
 import { async } from '@angular/core/testing';
@@ -56,7 +56,7 @@ describe('Data Entity Detail Resolver', () => {
                 }
 
                 const bdefSpy = (<jasmine.Spy>bdef.businessObjectDefinitionGetBusinessObjectDefinition);
-                bdefSpy.and.returnValue(Observable.of(expectedBdef));
+                bdefSpy.and.returnValue(of(expectedBdef));
 
 
                 const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach)
@@ -89,7 +89,7 @@ describe('Data Entity Detail Resolver', () => {
                 }
 
                 const bdefSpy = (<jasmine.Spy>bdef.businessObjectDefinitionGetBusinessObjectDefinition);
-                bdefSpy.and.returnValue(Observable.of(expectedBdef));
+                bdefSpy.and.returnValue(of(expectedBdef));
 
                 const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach)
                 shouldAttachSpy.and.returnValue(true);

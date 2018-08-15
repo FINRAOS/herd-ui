@@ -19,6 +19,7 @@ import { SpinnerComponent } from './spinner.component';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { InlineSVGService } from '../../../../../node_modules/ng-inline-svg/lib/inline-svg.service';
 
 describe('SpinnerComponent', () => {
   let component: SpinnerComponent;
@@ -26,14 +27,22 @@ describe('SpinnerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [InlineSVGModule, HttpClientTestingModule],
-      providers: [{
-        provide: APP_BASE_HREF,
-        useValue: '/'
-      }],
-      declarations: [ SpinnerComponent ]
+      imports: [
+        InlineSVGModule,
+        HttpClientTestingModule
+      ],
+      providers: [
+        {
+          provide: APP_BASE_HREF,
+          useValue: '/'
+        },
+        InlineSVGService
+      ],
+      declarations: [
+        SpinnerComponent
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -16,7 +16,7 @@
 import { BusinessObjectDataService, BusinessObjectData } from '@herd/angular-client';
 import { TestBed, inject } from '@angular/core/testing';
 import { DataObjectDetailResolverService, DataObjectDetailResolverData } from './data-object-detail-resolver.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, ActivatedRoute } from '@angular/router';
 import { RouterStub, ActivatedRouteStub } from 'testing/router-stubs';
 
@@ -68,7 +68,7 @@ describe('DataObjectDetailResolverService', () => {
                 version: 0
             }
             const dataSpy = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectData);
-            dataSpy.and.returnValue(Observable.of(expectedResult));
+            dataSpy.and.returnValue(of(expectedResult));
 
             const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach)
             shouldAttachSpy.and.returnValue(false);
@@ -114,7 +114,7 @@ describe('DataObjectDetailResolverService', () => {
                 version: 0
             }
             const dataSpy = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectData);
-            dataSpy.and.returnValue(Observable.of(expectedResult));
+            dataSpy.and.returnValue(of(expectedResult));
 
             const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach)
             shouldAttachSpy.and.returnValue(true);

@@ -15,10 +15,10 @@
 */
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Tag, TagService, TagType, TagTypeService, TagSearchRequest} from '@herd/angular-client';
-import {Observable} from 'rxjs';
 import {environment} from '../../../../environments/environment';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'sd-home',

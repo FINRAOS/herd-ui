@@ -24,8 +24,8 @@ import {SharedModule} from '../../../shared/shared.module';
 import {AlertService} from '../../../core/services/alert.service';
 import {UserService} from '../../../core/services/user.service';
 import {EncryptionService} from '../../../shared/services/encryption.service';
-import { Observable, throwError } from 'rxjs';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import { Observable, of, throwError } from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 import {By} from '@angular/platform-browser';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SimpleChange} from '@angular/core';
@@ -75,14 +75,14 @@ describe('ContactsComponent', () => {
     businessObjectDefinitionSubjectMatterExpertApi = TestBed.get(BusinessObjectDefinitionSubjectMatterExpertService);
     spyOn(businessObjectDefinitionSubjectMatterExpertApi,
       'businessObjectDefinitionSubjectMatterExpertCreateBusinessObjectDefinitionSubjectMatterExpert')
-      .and.returnValue(Observable.of({
+      .and.returnValue(of({
       contactDetails: {
         emailAddress: 'testemail@email.com'
       }
     }));
     spyOn(businessObjectDefinitionSubjectMatterExpertApi,
       'businessObjectDefinitionSubjectMatterExpertDeleteBusinessObjectDefinitionSubjectMatterExpert')
-      .and.returnValue(Observable.of({
+      .and.returnValue(of({
       contactDetails: {
         emailAddress: 'testemail@email.com'
       }
@@ -90,7 +90,7 @@ describe('ContactsComponent', () => {
 
     subjectMatterExpertApi = TestBed.get(SubjectMatterExpertService);
     spyOn(subjectMatterExpertApi, 'subjectMatterExpertGetSubjectMatterExpert')
-      .and.returnValue(Observable.of({
+      .and.returnValue(of({
       contactDetails: {
         emailAddress: 'testemail@email.com'
       }
@@ -244,7 +244,7 @@ export class MockUser {
   public user = new BehaviorSubject(userRoles.authorizedUserRoles);
 
   public getCurrentUser() {
-    return Observable.of({
+    return of({
       'securityRoles': [
         'TEST_APP'
       ]

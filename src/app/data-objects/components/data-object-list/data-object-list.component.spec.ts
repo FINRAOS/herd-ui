@@ -38,7 +38,7 @@ import {FilterTemplateComponent} from 'app/data-objects/components/filter-templa
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {DataTable} from 'primeng/primeng';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import {CodemirrorModule} from 'ng2-codemirror';
 import {ClipboardModule} from 'ngx-clipboard';
 import {SpinnerComponent} from 'app/shared/components/spinner/spinner.component';
@@ -111,16 +111,16 @@ describe('DataObjectListComponent', () => {
     spyOn(businessObjectDataApi, 'defaultHeaders')
       .and.callThrough();
     spyOn(businessObjectDataApi, 'businessObjectDataGetAllBusinessObjectDataByBusinessObjectFormat')
-      .and.returnValue(Observable.of(businessObjectDataKeys));
+      .and.returnValue(of(businessObjectDataKeys));
     spyOn(businessObjectDataApi, 'businessObjectDataGetAllBusinessObjectDataByBusinessObjectDefinition')
-      .and.returnValue(Observable.of(businessObjectDataKeys));
+      .and.returnValue(of(businessObjectDataKeys));
     spyOn(businessObjectDataApi, 'businessObjectDataSearchBusinessObjectData')
-      .and.returnValue(Observable.of(businessObjectSearchResult));
+      .and.returnValue(of(businessObjectSearchResult));
     spyOn(businessObjectDataApi, 'businessObjectDataGenerateBusinessObjectDataDdl')
-      .and.returnValue(Observable.of({ ddl: ddl } as BusinessObjectDataDdl));
+      .and.returnValue(of({ ddl: ddl } as BusinessObjectDataDdl));
 
     businessObjectFormatApi = fixture.debugElement.injector.get(BusinessObjectFormatService);
-    spyOn(businessObjectFormatApi, 'businessObjectFormatGetBusinessObjectFormat').and.returnValue(Observable.of(format));
+    spyOn(businessObjectFormatApi, 'businessObjectFormatGetBusinessObjectFormat').and.returnValue(of(format));
   });
 
   it('should create the component without error', () => {

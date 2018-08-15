@@ -19,7 +19,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchService } from '../../../shared/services/search.service';
 import { IndexSearchService } from '@herd/angular-client';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { IndexSearchMockData } from 'testing/IndexSearchMockData';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -77,8 +77,8 @@ describe('SearchComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            queryParams: Observable.of({match: 'test search'}),
-            data: Observable.of(
+            queryParams: of({match: 'test search'}),
+            data: of(
               {
                 resolvedData: {
                   indexSearchResults: mockData.indexSearchResponse['indexSearchResults'],
@@ -87,7 +87,7 @@ describe('SearchComponent', () => {
                   title: ''
                 }
               }),
-            params: Observable.of({searchText: 'test search'}),
+            params: of({searchText: 'test search'}),
             snapshot: {
               params: {searchTerm: 'test search'},
               data: {
@@ -122,7 +122,7 @@ describe('SearchComponent', () => {
 
   it('Search is returning index search result', async(() => {
     const searchCalled = spyOn(searchService, 'search')
-      .and.returnValue(Observable.of({indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
+      .and.returnValue(of({indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
     component.search();
     expect(component.indexSearchResults).toEqual(mockData.indexSearchResponse['indexSearchResults']);
     expect(searchCalled).toHaveBeenCalled();
@@ -148,7 +148,7 @@ describe('SearchComponent', () => {
 
   it('Facet change when no facet exists', async(() => {
     const searchCalled = spyOn(searchService, 'search')
-      .and.returnValue(Observable.of({indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
+      .and.returnValue(of({indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
     const event = {
       nofacets: []
     };
@@ -159,7 +159,7 @@ describe('SearchComponent', () => {
 
   it('Facet change function is changing facets and effecting search result', async () => {
     const searchCalled = spyOn(searchService, 'search')
-      .and.returnValue(Observable.of({indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
+      .and.returnValue(of({indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
     const event: any = {
       facets: mockData.facets,
       newSearch: true

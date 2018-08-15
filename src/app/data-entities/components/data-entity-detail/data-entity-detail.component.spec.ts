@@ -40,7 +40,7 @@ import {
 } from '@herd/angular-client';
 import {HttpClientModule} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import {AlertService, SuccessAlert, DangerAlert, WarningAlert} from '../../../core/services/alert.service';
 import {UserService} from '../../../core/services/user.service';
 import {EncryptionService} from '../../../shared/services/encryption.service';
@@ -64,7 +64,7 @@ import {NgxGraphModule} from '@swimlane/ngx-graph';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {InlineSVGModule} from 'ng-inline-svg';
 import {APP_BASE_HREF} from '@angular/common';
-import {ReplaySubject} from 'rxjs/ReplaySubject';
+import {ReplaySubject} from 'rxjs';
 import {ContactsComponent} from '../contacts/contacts.component';
 import { SuggestionsComponent } from '../suggestions/suggestions.component';
 import { DiffMatchPatchModule } from 'ng-diff-match-patch/dist';
@@ -341,7 +341,7 @@ describe('DataEntityDetailComponent', () => {
         {
           provide: UserService,
           useValue: {
-            user: Observable.of({
+            user: of({
               userId: 'test_user'
             } as UserAuthorizations)
           }
@@ -485,37 +485,37 @@ describe('DataEntityDetailComponent', () => {
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
-        Observable.of(descriptiveFormat));
+        of(descriptiveFormat));
       spyBdefColApi = (<jasmine.Spy>bColApi.businessObjectDefinitionColumnSearchBusinessObjectDefinitionColumns).and.returnValue(
-        Observable.of(bdefColSearchResponse));
+        of(bdefColSearchResponse));
       spyBdefFormatAllApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormats)
-        .and.returnValue(Observable.of(expectedFormats));
+        .and.returnValue(of(expectedFormats));
 
       spyBdefFormatDDLApi = (<jasmine.Spy>bformatApi.businessObjectFormatGenerateBusinessObjectFormatDdl)
-        .and.returnValue(Observable.of({ddl: ddl}));
+        .and.returnValue(of({ddl: ddl}));
 
       spyDownloadApi = (<jasmine.Spy>downloadApi.uploadandDownloadInitiateDownloadSingleSampleFile).and.returnValue(
-        Observable.of(sampleDataResponse));
+        of(sampleDataResponse));
 
       spyBdefTagApi = (<jasmine.Spy>bdefTagApi.businessObjectDefinitionTagGetBusinessObjectDefinitionTagsByBusinessObjectDefinition)
-        .and.returnValue(Observable.of(expectedBdefTags));
+        .and.returnValue(of(expectedBdefTags));
 
       spyBusinessObjectDefinitionApi = (<jasmine.Spy>bdefApi.businessObjectDefinitionUpdateBusinessObjectDefinitionDescriptiveInformation)
-        .and.returnValue(Observable.of(expectedBdef));
+        .and.returnValue(of(expectedBdef));
 
-      spyTagApi = (<jasmine.Spy>tagApi.tagGetTag).and.returnValue(Observable.of(tag.tag));
-      spyTagSearch = (<jasmine.Spy>tagApi.tagSearchTags).and.returnValue(Observable.of({tags: []}));
-      spyTagTypeApi = (<jasmine.Spy>tagTypeApi.tagTypeGetTagType).and.returnValue(Observable.of(tagType.tagType));
+      spyTagApi = (<jasmine.Spy>tagApi.tagGetTag).and.returnValue(of(tag.tag));
+      spyTagSearch = (<jasmine.Spy>tagApi.tagSearchTags).and.returnValue(of({tags: []}));
+      spyTagTypeApi = (<jasmine.Spy>tagTypeApi.tagTypeGetTagType).and.returnValue(of(tagType.tagType));
 
       spyBdefSmeApi = (<jasmine.Spy>bdefSmeApi
         .businessObjectDefinitionSubjectMatterExpertGetBusinessObjectDefinitionSubjectMatterExpertsByBusinessObjectDefinition)
-        .and.returnValue(Observable.of(bdefSmes));
+        .and.returnValue(of(bdefSmes));
       spySmeApi = (<jasmine.Spy>smeApi.subjectMatterExpertGetSubjectMatterExpert)
-        .and.returnValue(Observable.of(sme));
+        .and.returnValue(of(sme));
 
       spyBusinessObjectDefinitionDescriptionSuggestionServiceApi = (<jasmine.Spy>businessObjectDefinitionDescriptionSuggestionService
         .businessObjectDefinitionDescriptionSuggestionSearchBusinessObjectDefinitionDescriptionSuggestions)
-        .and.returnValue(Observable.of(bdefSuggestion));
+        .and.returnValue(of(bdefSuggestion));
     })));
 
   it('should set all data onInit', async(inject([ActivatedRoute], (activeRoute: ActivatedRouteStub) => {
@@ -612,7 +612,7 @@ describe('DataEntityDetailComponent', () => {
         // throw error when sme is invalid
         spyBdefSmeApi = (<jasmine.Spy>bdefSmeApi
             .businessObjectDefinitionSubjectMatterExpertGetBusinessObjectDefinitionSubjectMatterExpertsByBusinessObjectDefinition
-        ).and.returnValue(Observable.of(bdefSmes));
+        ).and.returnValue(of(bdefSmes));
         spySmeApi = (<jasmine.Spy>smeApi.subjectMatterExpertGetSubjectMatterExpert)
           .and.returnValue(throwError(new Error()));
         // throw error when no access to formats
@@ -671,9 +671,9 @@ describe('DataEntityDetailComponent', () => {
 
         // spy on the services
         spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
-          Observable.of(descriptiveFormat));
+          of(descriptiveFormat));
         spyBdefColApi = (<jasmine.Spy>bColApi.businessObjectDefinitionColumnSearchBusinessObjectDefinitionColumns).and.returnValue(
-          Observable.of(bdefColSearchResponse));
+          of(bdefColSearchResponse));
 
         fixture.detectChanges();
         expect(component.descriptiveFormat).toEqual(descriptiveFormat);
@@ -767,9 +767,9 @@ describe('DataEntityDetailComponent', () => {
 
         // spy on the services
         spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
-          Observable.of(descriptiveFormat));
+          of(descriptiveFormat));
         spyBdefColApi = (<jasmine.Spy>bColApi.businessObjectDefinitionColumnSearchBusinessObjectDefinitionColumns).and.returnValue(
-          Observable.of(bdefColSearchResponse));
+          of(bdefColSearchResponse));
 
         fixture.detectChanges();
         expect(component.descriptiveFormat).toEqual(descriptiveFormat);
@@ -965,14 +965,14 @@ describe('DataEntityDetailComponent', () => {
         detailsSpy.calls.reset();
 
         const bdefWithDescriptiveFormat: BusinessObjectDefinition = {...expectedBdef, descriptiveBusinessObjectFormat: formatKeys[1]};
-        putSpy.and.returnValue(Observable.of(bdefWithDescriptiveFormat));
+        putSpy.and.returnValue(of(bdefWithDescriptiveFormat));
         component.updateDescriptiveFormat(formatKeys[1], false);
         expect(component.bdef).toEqual(bdefWithDescriptiveFormat);
         expect(detailsSpy).toHaveBeenCalled();
         detailsSpy.calls.reset();
 
         const withoutDescriptiveFormat: BusinessObjectDefinition = {...expectedBdef, descriptiveBusinessObjectFormat: null};
-        putSpy.and.returnValue(Observable.of(withoutDescriptiveFormat));
+        putSpy.and.returnValue(of(withoutDescriptiveFormat));
         component.updateDescriptiveFormat(formatKeys[1], true);
         expect(component.bdef).toEqual(withoutDescriptiveFormat);
         expect(detailsSpy).toHaveBeenCalled();
@@ -1001,7 +1001,7 @@ describe('DataEntityDetailComponent', () => {
         }]
       };
       const getFormatSpy = (formatApi.businessObjectFormatGetBusinessObjectFormat as jasmine.Spy);
-      getFormatSpy.and.returnValue(Observable.of(parentFormat));
+      getFormatSpy.and.returnValue(of(parentFormat));
 
       const grandParent: DataEntityLineageNode = {
         id: 'test__grand__parent',
@@ -1033,7 +1033,7 @@ describe('DataEntityDetailComponent', () => {
 
       // mock out processParents to make the spec smaller
       spyOn(component, 'processParents').and
-        .returnValue(Observable.of({
+        .returnValue(of({
           nodes: [grandParent], links: [
             {
               source: grandParent.id,
@@ -1087,7 +1087,7 @@ describe('DataEntityDetailComponent', () => {
         }]
       };
       const getFormatSpy = (formatApi.businessObjectFormatGetBusinessObjectFormat as jasmine.Spy);
-      getFormatSpy.and.returnValue(Observable.of(childFormat));
+      getFormatSpy.and.returnValue(of(childFormat));
 
       const grandChild: DataEntityLineageNode = {
         id: 'test__grand__child',
@@ -1119,7 +1119,7 @@ describe('DataEntityDetailComponent', () => {
 
       // mock out processParents to make the spec smaller
       spyOn(component, 'processChildren').and
-        .returnValue(Observable.of({
+        .returnValue(of({
           nodes: [grandChild], links: [
             {
               target: grandChild.id,
@@ -1182,12 +1182,12 @@ describe('DataEntityDetailComponent', () => {
 
       // mock out processParents to make the spec smaller
       spyOn(component, 'processChildren').and
-        .returnValue(Observable.of({
+        .returnValue(of({
           nodes: [], links: []
         }));
 
       spyOn(component, 'processParents').and
-        .returnValue(Observable.of({
+        .returnValue(of({
           nodes: [], links: []
         }));
 
@@ -1312,8 +1312,8 @@ describe('DataEntityDetailComponent', () => {
       links: [{target: ['test', 'child', 'node', 'id'].join(component.idDelimiter), source: center.id}]
     };
 
-    spyOn(component, 'processParents').and.returnValue(Observable.of(parentsGraph));
-    spyOn(component, 'processChildren').and.returnValue(Observable.of(childrenGraph));
+    spyOn(component, 'processParents').and.returnValue(of(parentsGraph));
+    spyOn(component, 'processChildren').and.returnValue(of(childrenGraph));
     spyOn(component, 'createNode').and.returnValue(center);
     spyOn(component, 'open');
 
@@ -1421,8 +1421,8 @@ describe('DataEntityDetailComponent', () => {
         businessObjectFormatFileType: 'id'
       }]
     };
-    spyOn(component, 'fetchBdefs').and.returnValue(Observable.of([]));
-    spyOn(component, 'constructGraph').and.returnValue(Observable.of(parentsGraph));
+    spyOn(component, 'fetchBdefs').and.returnValue(of([]));
+    spyOn(component, 'constructGraph').and.returnValue(of(parentsGraph));
 
 
     component.processParents(center, format).subscribe((actualGraph) => {
@@ -1466,8 +1466,8 @@ describe('DataEntityDetailComponent', () => {
         businessObjectFormatFileType: 'id'
       }]
     };
-    spyOn(component, 'fetchBdefs').and.returnValue(Observable.of([]));
-    spyOn(component, 'constructGraph').and.returnValue(Observable.of(childrenGraph));
+    spyOn(component, 'fetchBdefs').and.returnValue(of([]));
+    spyOn(component, 'constructGraph').and.returnValue(of(childrenGraph));
 
     component.processChildren(center, format).subscribe((actualGraph) => {
       expect(actualGraph).toBe(childrenGraph);
@@ -1500,8 +1500,8 @@ describe('DataEntityDetailComponent', () => {
       }];
 
     (bdefApi.businessObjectDefinitionGetBusinessObjectDefinition as jasmine.Spy).and.returnValues(
-      Observable.of({namespace: 'ns', businessObjectDefinitionName: 'name'}),
-      Observable.of({namespace: 'ns', businessObjectDefinitionName: 'name2', displayName: 'test display Name'}));
+      of({namespace: 'ns', businessObjectDefinitionName: 'name'}),
+      of({namespace: 'ns', businessObjectDefinitionName: 'name2', displayName: 'test display Name'}));
 
 
     component.fetchBdefs(testFormatKeys).subscribe((bdefs) => {
@@ -1699,7 +1699,7 @@ describe('DataEntityDetailComponent', () => {
       const successOutput = {...mockColumn, description: mockEvent.text};
 
       const updateSpy = columnApi.businessObjectDefinitionColumnUpdateBusinessObjectDefinitionColumn as jasmine.Spy
-      updateSpy.and.returnValue(Observable.of(successResponse));
+      updateSpy.and.returnValue(of(successResponse));
       const alertSpy = alerter.alert as jasmine.Spy;
 
       // for success
@@ -1807,7 +1807,7 @@ describe('DataEntityDetailComponent', () => {
       deleteSpy.calls.reset();
 
       // for failure after delete on create
-      deleteSpy.and.returnValue(Observable.of(succesDeleteResponse));
+      deleteSpy.and.returnValue(of(succesDeleteResponse));
       createSpy.and.returnValue(throwError({status: 500}));
       component.saveDataEntityColumnNameChange(mockEvent, mockColumn);
 
@@ -1827,8 +1827,8 @@ describe('DataEntityDetailComponent', () => {
       createSpy.calls.reset();
 
       // success for when column exists
-      deleteSpy.and.returnValue(Observable.of(succesDeleteResponse));
-      createSpy.and.returnValue(Observable.of(succesCreateResponse));
+      deleteSpy.and.returnValue(of(succesDeleteResponse));
+      createSpy.and.returnValue(of(succesCreateResponse));
       component.saveDataEntityColumnNameChange(mockEvent, mockColumn);
 
       expect(deleteSpy).toHaveBeenCalledWith(component.bdef.namespace,
@@ -1855,7 +1855,7 @@ describe('DataEntityDetailComponent', () => {
       mockColumn.description = '';
       mockColumn.exists = false;
       // success for when column does not exist exists
-      createSpy.and.returnValue(Observable.of(succesCreateResponse));
+      createSpy.and.returnValue(of(succesCreateResponse));
       component.saveDataEntityColumnNameChange(mockEvent, mockColumn);
 
       expect(deleteSpy).not.toHaveBeenCalled();

@@ -21,7 +21,7 @@ import {Headers} from '@angular/http';
 import {BusinessObjectFormatService} from '@herd/angular-client';
 import {AlertService, DangerAlert, SuccessAlert} from '../../../core/services/alert.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { Observable, throwError } from 'rxjs';
+import {of, throwError } from 'rxjs';
 import {CodemirrorModule} from 'ng2-codemirror';
 import {ClipboardModule} from 'ngx-clipboard';
 
@@ -91,7 +91,7 @@ describe('SchemaColumnsComponent', () => {
         businessObjectFormatFileType: 'testFileType',
         partitionKey: 'testKey'
       };
-      ddlSpy.and.returnValue(Observable.of({ddl: ddl}));
+      ddlSpy.and.returnValue(of({ddl: ddl}));
       // fixture.detectChanges() does not work as one of the 3rd party component try to read read only property
       component.ngOnInit();
       component.getDDL(component.bdef);

@@ -26,7 +26,7 @@ import {
   BusinessObjectDataService,
   BusinessObjectDefinitionColumnService
 } from '@herd/angular-client';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { AlertService } from '../../../core/services/alert.service';
 import { SchemaColumnsComponent } from 'app/formats/components/schema-columns/schema-columns.component';
 import { AttributeDefinitionsComponent } from 'app/formats/components/attribute-definitions/attribute-definitions.component';
@@ -60,7 +60,7 @@ describe('FormatDetailComponent', () => {
           useValue: {
             configuration: {},
             defaultHeaders: new Headers(),
-            storageGetStorages: jasmine.createSpy('storageGetStorages').and.returnValue(Observable.of({storageKeys: []}))
+            storageGetStorages: jasmine.createSpy('storageGetStorages').and.returnValue(of({storageKeys: []}))
           }
         },
         {
@@ -70,7 +70,7 @@ describe('FormatDetailComponent', () => {
             businessObjectFormatGetBusinessObjectFormat: jasmine
               .createSpy('businessObjectFormatGetBusinessObjectFormat')
               .and
-              .returnValue(Observable.of({
+              .returnValue(of({
                 businessObjectFormatUsage: 'SRC',
                 businessObjectFormatFileType: 'TXT',
                 businessObjectFormatVersion: 0,
@@ -93,7 +93,7 @@ describe('FormatDetailComponent', () => {
             businessObjectFormatGetBusinessObjectFormats: jasmine
               .createSpy('businessObjectFormatGetBusinessObjectFormats')
               .and
-              .returnValue(Observable.of({
+              .returnValue(of({
                 businessObjectFormatKeys: [{
                   businessObjectFormatUsage: 'SRC',
                   businessObjectFormatFileType: 'TXT',
@@ -147,9 +147,9 @@ describe('FormatDetailComponent', () => {
     inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService],
       (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService) => {
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumn as jasmine.Spy)
-          .and.returnValue(Observable.of(mockData.formatDetail.schema.columns[0]));
+          .and.returnValue(of(mockData.formatDetail.schema.columns[0]));
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumns as jasmine.Spy)
-          .and.returnValue(Observable.of({businessObjectDefinitionColumnKeys: []}));
+          .and.returnValue(of({businessObjectDefinitionColumnKeys: []}));
         (businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability as jasmine.Spy)
           .and.returnValue(throwError({status: 403}));
 
@@ -161,11 +161,11 @@ describe('FormatDetailComponent', () => {
     inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService],
       (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService) => {
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumn as jasmine.Spy)
-          .and.returnValue(Observable.of(mockData.formatDetail.schema.columns[2]));
+          .and.returnValue(of(mockData.formatDetail.schema.columns[2]));
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumns as jasmine.Spy)
-          .and.returnValue(Observable.of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinationColumnKeys}));
+          .and.returnValue(of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinationColumnKeys}));
         (businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability as jasmine.Spy)
-          .and.returnValue(Observable.of({availableStatuses: [{partitionValue: 3}, {partitionValue: 4}]}));
+          .and.returnValue(of({availableStatuses: [{partitionValue: 3}, {partitionValue: 4}]}));
         fixture.detectChanges();
 
         expect(component.businessObjectFormatDetail.retentionType).toBe('xyz');
@@ -177,9 +177,9 @@ describe('FormatDetailComponent', () => {
     inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService],
       (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService) => {
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumn as jasmine.Spy)
-          .and.returnValue(Observable.of(mockData.formatDetail.schema.columns[2]));
+          .and.returnValue(of(mockData.formatDetail.schema.columns[2]));
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumns as jasmine.Spy)
-          .and.returnValue(Observable.of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinationColumnKeys}));
+          .and.returnValue(of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinationColumnKeys}));
         (businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability as jasmine.Spy)
           .and.returnValue(throwError({status: 404}));
 

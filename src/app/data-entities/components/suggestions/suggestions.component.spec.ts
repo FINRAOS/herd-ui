@@ -21,7 +21,7 @@ import { AlertService } from '../../../core/services/alert.service';
 import { BusinessObjectDefinitionDescriptionSuggestionService, Configuration } from '@herd/angular-client';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { FormsModule } from '@angular/forms';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -153,7 +153,7 @@ describe('SuggestionsComponent', () => {
   it(' save should save the edit of suggestion to herd', async () => {
     spyOn(businessObjectDefinitionDescriptionSuggestionService,
       'businessObjectDefinitionDescriptionSuggestionUpdateBusinessObjectDefinitionDescriptionSuggestion').and.returnValue(
-      Observable.of(suggestions)
+      of(suggestions)
     );
     suggestions[0].newSuggestion = 'test suggestion';
     component.save(suggestions[0] as Suggestions, index);
@@ -176,7 +176,7 @@ describe('SuggestionsComponent', () => {
   it(' approve should accept the suggestion and descrption to new suggestion', async () => {
     spyOn(businessObjectDefinitionDescriptionSuggestionService,
       'businessObjectDefinitionDescriptionSuggestionAcceptBusinessObjectDefinitionDescriptionSuggestion').and.returnValue(
-      Observable.of(suggestions)
+      of(suggestions)
     );
     component.suggestions = suggestions;
     fixture.detectChanges();

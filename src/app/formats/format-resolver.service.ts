@@ -18,7 +18,7 @@ import {
   Router, Resolve, RouterStateSnapshot,
   ActivatedRouteSnapshot
 } from '@angular/router';
-import {Observable} from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 export interface TitleResolverData {
   title?: string;
@@ -42,7 +42,7 @@ export class FormatResolverService implements Resolve<any> {
         title: 'Format - ' + route.params.formatUsage + ':'
         + route.params.formatFileType + ':' + route.params.formatVersion
       };
-      return new Observable(retval as any);
+      return of(retval as any);
 
     } else {
       return {

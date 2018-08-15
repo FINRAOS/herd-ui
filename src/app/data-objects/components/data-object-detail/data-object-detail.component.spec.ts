@@ -27,7 +27,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '../../../shared/shared.module';
 import { DataObjectDetailComponent, DataObjectDetailRequest } from './data-object-detail.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 
 describe('DataObjectDetailComponent', () => {
@@ -189,10 +189,10 @@ describe('DataObjectDetailComponent', () => {
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
-        Observable.of(expectedFormat));
+        of(expectedFormat));
 
       spydataApi = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectDataVersions).and.returnValue(
-        Observable.of(expectedVersionsResult));
+        of(expectedVersionsResult));
 
       fixture.detectChanges();
       expect(component).toBeTruthy();
@@ -232,10 +232,10 @@ describe('DataObjectDetailComponent', () => {
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
-        Observable.of(expectedFormat));
+        of(expectedFormat));
 
       spydataApi = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectDataVersions).and.returnValue(
-        Observable.of(expectedVersionsResult));
+        of(expectedVersionsResult));
 
       fixture.detectChanges();
       expect(spyBdefFormatApi.calls.count()).toEqual(0);
@@ -292,10 +292,10 @@ describe('DataObjectDetailComponent', () => {
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
-        Observable.of(expectedFrmt));
+        of(expectedFrmt));
 
       spydataApi = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectDataVersions).and.returnValue(
-        Observable.of(expectedVersionsResult));
+        of(expectedVersionsResult));
 
       fixture.detectChanges();
       expect(spyBdefFormatApi.calls.count()).toEqual(1);
@@ -378,10 +378,10 @@ describe('DataObjectDetailComponent', () => {
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
-        Observable.of(expectedFrmt));
+        of(expectedFrmt));
 
       spydataApi = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectDataVersions).and.returnValue(
-        Observable.of(expectedVersionsResult));
+        of(expectedVersionsResult));
 
       fixture.detectChanges();
       // for the ng init

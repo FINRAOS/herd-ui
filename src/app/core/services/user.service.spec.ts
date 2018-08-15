@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 import {EncryptionService} from './../../shared/services/encryption.service';
-import {Observable} from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {TestBed, inject} from '@angular/core/testing';
 
 import {UserService} from './user.service';
@@ -35,7 +35,7 @@ describe('CurrentUserService', () => {
           useValue: {
             currentUserGetCurrentUser:
               jasmine.createSpy('currentUserGetCurrentUser')
-                .and.returnValue(Observable.of({
+                .and.returnValue(of({
                 json: () => {
                   return {userId: 'userid'}
                 }

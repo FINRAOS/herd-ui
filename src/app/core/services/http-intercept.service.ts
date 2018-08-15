@@ -36,20 +36,26 @@ export class HttpInterceptService implements HttpInterceptor {
 
     // modify request
     if (request && request.headers && request.headers.get('skipAlert')) {
-      const key = request + (request.search && request.search.toString() ? `?${request.search.toString()}` : '');
+      const key = request + (request.urlWithParams && request.urlWithParams.toString() ? `?${request.urlWithParams.toString()}` : '');
       const value = this.skipDictionary[key];
       request.headers.delete('skipAlert');
       this.skipDictionary[key] = value ? value + 1 : 1;
     }
 
-    console.log('----request----');
-    console.log(request);
-    console.log('--- end of request---');
-
-
     return next.handle(request)
       .pipe(
-        tap(event => {
+        tap((event) => {
+          if (event instanceof HttpResponse) {
+            if (event.url && event.status !== 200) {
+              if (!this.skipDictionary[event.url] || this.skipDictionary[event.url] === 0) {
+                this.alertService.alert(new DangerAlert('HTTP Error: ' + event.status + ' ' + event.statusText,
+                  'URL: ' + event.url, 'Info: ' + event));
+              } else {
+                this.skipDictionary[event.url]--;
+              }
+            }
+          }
+        }, (event) => {
           if (event instanceof HttpResponse) {
             if (event.url) {
               if (!this.skipDictionary[event.url] || this.skipDictionary[event.url] === 0) {
@@ -60,18 +66,10 @@ export class HttpInterceptService implements HttpInterceptor {
               }
             }
             // http response status code
-            console.log('----response----');
+            console.log('----response error----');
             console.log(event);
-            console.log('----response----');
+            console.log('----end response error----');
           }
-        }, error => {
-          // http response status code
-          console.log('----response error----');
-          console.error('status code:');
-          console.error(error.status);
-          console.error(error.message);
-          console.log('--- end of response---');
-
         })
       )
 

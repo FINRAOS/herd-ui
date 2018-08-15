@@ -19,7 +19,7 @@ import { ActivatedRouteStub, RouterStub } from '../../../../testing/router-stubs
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
 import { UserService } from '../../services/user.service';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { inject } from '@angular/core/testing';
 
@@ -43,7 +43,7 @@ describe('Logincomponent', () => {
         {
           provide: UserService,
           useValue: {
-            getCurrentUser: jasmine.createSpy('getCurrentUser').and.returnValue(Observable.of({}))
+            getCurrentUser: jasmine.createSpy('getCurrentUser').and.returnValue(of({}))
           }
         },
         {

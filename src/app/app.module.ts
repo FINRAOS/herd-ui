@@ -62,11 +62,6 @@ export function restBasePathFactory(apiConfig: Configuration): string {
   providers: [
     HttpInterceptService,
     {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpInterceptService,
-      multi: true
-    },
-    {
       provide: Configuration,
       useFactory: appApiConfigFactory,
       multi: false
@@ -82,6 +77,11 @@ export function restBasePathFactory(apiConfig: Configuration): string {
     }, {
       provide: Location,
       useClass: CustomLocation
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptService,
+      multi: true
     },
     InlineSVGService
   ],

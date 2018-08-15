@@ -20,13 +20,14 @@ import { GlobalSearchComponent } from '../../../shared/components/global-search/
 import { InlineSVGModule } from 'ng-inline-svg';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TagService, TagTypeService } from '@herd/angular-client';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { TruncatedContentComponent } from 'app/shared/components/truncated-content/truncated-content.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { RouterStub } from '../../../../testing/router-stubs';
+import { InlineSVGService } from '../../../../../node_modules/ng-inline-svg/lib/inline-svg.service';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -136,19 +137,20 @@ describe('HomeComponent', () => {
         {
           provide: TagService,
           useValue: {
-            tagSearchTags: jasmine.createSpy('tagSearchTags').and.returnValue(Observable.of(tags))
+            tagSearchTags: jasmine.createSpy('tagSearchTags').and.returnValue(of(tags))
           }
         },
         {
           provide: TagTypeService,
           useValue: {
-            tagTypeSearchTagTypes: jasmine.createSpy('tagTypeSearchTagTypes').and.returnValue(Observable.of(tagTypes))
+            tagTypeSearchTagTypes: jasmine.createSpy('tagTypeSearchTagTypes').and.returnValue(of(tagTypes))
           }
         },
         {
           provide: Router,
           useClass: RouterStub
-        }
+        },
+        InlineSVGService
       ]
     })
       .compileComponents();

@@ -18,7 +18,7 @@ import {TagService, TagTypeService, BusinessObjectDefinitionTagService} from '@h
 import {TagsComponent} from './tags.component';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 
 describe('TagsComponent', () => {
   let component: TagsComponent;
@@ -99,19 +99,19 @@ describe('TagsComponent', () => {
     component.dataEntityName = 'test_data_entity_name';
 
     tagApi = TestBed.get(TagService);
-    spyOn(tagApi, 'tagGetTag').and.returnValue(Observable.of({displayName: 'test-display-name'}));
-    spyOn(tagApi, 'tagSearchTags').and.returnValue(Observable.of(tagSearchResult));
+    spyOn(tagApi, 'tagGetTag').and.returnValue(of({displayName: 'test-display-name'}));
+    spyOn(tagApi, 'tagSearchTags').and.returnValue(of(tagSearchResult));
 
     tagTypeApi = TestBed.get(TagTypeService);
-    spyOn(tagTypeApi, 'tagTypeGetTagType').and.returnValue(Observable.of({displayName: 'test-display-name'}));
+    spyOn(tagTypeApi, 'tagTypeGetTagType').and.returnValue(of({displayName: 'test-display-name'}));
 
     businessObjectDefinitionTagApi = TestBed.get(BusinessObjectDefinitionTagService);
     spyOn(businessObjectDefinitionTagApi, 'businessObjectDefinitionTagGetBusinessObjectDefinitionTagsByBusinessObjectDefinition')
-      .and.returnValue(Observable.of({businessObjectDefinitionTagKeys: businessObjectDefinitionTagKeys}));
+      .and.returnValue(of({businessObjectDefinitionTagKeys: businessObjectDefinitionTagKeys}));
     spyOn(businessObjectDefinitionTagApi, 'businessObjectDefinitionTagCreateBusinessObjectDefinitionTag')
-      .and.returnValue(Observable.of({businessObjectDefinitionTagKeys: businessObjectDefinitionTagKeys}));
+      .and.returnValue(of({businessObjectDefinitionTagKeys: businessObjectDefinitionTagKeys}));
     spyOn(businessObjectDefinitionTagApi, 'businessObjectDefinitionTagDeleteBusinessObjectDefinitionTag')
-      .and.returnValue(Observable.of({businessObjectDefinitionTagKeys: businessObjectDefinitionTagKeys}));
+      .and.returnValue(of({businessObjectDefinitionTagKeys: businessObjectDefinitionTagKeys}));
 
     fixture.detectChanges();
   });

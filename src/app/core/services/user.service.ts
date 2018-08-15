@@ -54,9 +54,9 @@ export class UserService {
     return this.currentUserApi.currentUserGetCurrentUser().pipe(
       map((res: any) => {
         this.userAuthorizations = res;
-        this._user.next(res.json());
-        this.encryptedUserIdentifier = this.encryptionService.encryptAndGet((res.json() as UserAuthorizations).userId);
-        return res.json();
+        this._user.next(res);
+        this.encryptedUserIdentifier = this.encryptionService.encryptAndGet((res as UserAuthorizations).userId);
+        return res;
       }));
   }
 

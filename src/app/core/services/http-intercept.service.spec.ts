@@ -16,11 +16,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { HttpInterceptService } from './http-intercept.service';
+import { AlertService } from './alert.service';
 
 describe('HttpInterceptService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [HttpInterceptService]
+      providers: [
+        AlertService,
+        HttpInterceptService
+      ]
     });
   });
 

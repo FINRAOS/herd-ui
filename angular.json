@@ -19,7 +19,6 @@
             "assets": [
               "src/assets",
               "src/favicon.ico",
-              "src/configuration.json",
               {
                 "glob": "{+(adapters|plugins|lang|skins)/**/*,config.js,styles.js,contents.css}",
                 "input": "node_modules/ckeditor",
@@ -92,7 +91,6 @@
             "assets": [
               "src/assets",
               "src/favicon.ico",
-              "src/configuration.json",
               {
                 "glob": "{+(adapters|plugins|lang|skins)/**/*,config.js,styles.js,contents.css}",
                 "input": "node_modules/ckeditor",

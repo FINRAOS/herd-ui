@@ -16,7 +16,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { DataEntityListResolverService, DataEntityListResolverData } from './data-entity-list-resolver';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { BusinessObjectDefinitionService } from '@herd/angular-client';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { async } from '@angular/core/testing';
@@ -45,7 +45,7 @@ describe('Data Entity List Resolver', () => {
             }];
 
             const bdefSpy = (<jasmine.Spy>bdef.businessObjectDefinitionGetBusinessObjectDefinitions);
-            bdefSpy.and.returnValue(Observable.of({businessObjectDefinitionKeys: expectedKeys}));
+            bdefSpy.and.returnValue(of({businessObjectDefinitionKeys: expectedKeys}));
 
             // no search term
             (service.resolve(({ queryParams: {} } as any) as ActivatedRouteSnapshot,
@@ -60,7 +60,7 @@ describe('Data Entity List Resolver', () => {
             bdefSpy.calls.reset();
 
             // search term = 'ns'
-            Observable.of(service.resolve(({ queryParams: { searchTerm: 'ns' } } as any) as ActivatedRouteSnapshot,
+            of(service.resolve(({ queryParams: { searchTerm: 'ns' } } as any) as ActivatedRouteSnapshot,
                 {} as RouterStateSnapshot)).subscribe((data) => {
                     expect((data as DataEntityListResolverData).dataEntities)
                         .toEqual([{ namespace: 'ns', businessObjectDefinitionName: 'bdef1' }, {
@@ -73,7 +73,7 @@ describe('Data Entity List Resolver', () => {
 
 
             // search term = 'bdef3'
-            Observable.of(service.resolve(({ queryParams: { searchTerm: 'bdef3' } } as any) as ActivatedRouteSnapshot,
+            of(service.resolve(({ queryParams: { searchTerm: 'bdef3' } } as any) as ActivatedRouteSnapshot,
                 {} as RouterStateSnapshot)).subscribe((data) => {
                     expect((data as DataEntityListResolverData).dataEntities)
                         .toEqual([{

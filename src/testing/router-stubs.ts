@@ -21,7 +21,7 @@ import {
   NavigationStart, NavigationEnd, NavigationError,
   NavigationCancel, Event
 } from '@angular/router';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { ReplaySubject } from 'rxjs';
 import { Observable } from 'rxjs';
 
 @Injectable()
