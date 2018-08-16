@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Tag, TagService, TagType, TagTypeService, TagSearchRequest} from '@herd/angular-client';
+import {TagService, TagType, TagTypeService, TagSearchRequest} from '@herd/angular-client';
 import {environment} from '../../../../environments/environment';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit {
           };
 
           this.tagApi
-            .tagSearchTags(body, 'displayName', tagType.tagTypeKey.tagTypeCode as 'events')
+            .tagSearchTags(body, 'displayName')
             .subscribe((value: any) => {
               (tagType as any).tags = value.tags;
             });
