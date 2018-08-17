@@ -87,7 +87,7 @@ import 'proxy-polyfill/proxy.min'; // needed for ng-http-interceptor TODO: take 
  * Needed for: All but Chrome, Firefox, Edge, IE11 and Safari 10
  */
 import 'intl/dist/intl.js';  // Run `npm install --save intl`.
-import 'intl/locale-data/jsonp/en-US.js'; // need for OS X 10.11 safari 9.0
+// import 'intl/locale-data/jsonp/en-US.js'; // need for OS X 10.11 safari 9.0
 
 
 

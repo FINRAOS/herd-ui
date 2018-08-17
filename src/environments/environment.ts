@@ -14,21 +14,17 @@
 * limitations under the License.
 */
 export const environment = {
-  production: true,
-  restBaseUri: '{{HERD_REST_BASE_URI}}',
-  basicAuthRestBaseUri: '{{HERD_REST_BASE_URI2}}',
-  helpUrl: '{{ORG_HELP_URL}}',
-  supportEmail: '{{ORG_SUPPORT_EMAIL}}',
+  production: false,
+  restBaseUri: 'https://datamgt-int.dev.aws.finra.org/herd-app/rest',
+  basicAuthRestBaseUri: 'https://datamgt-int.dev.aws.finra.org:8443/herd-app/rest',
+  helpUrl: 'https://products.finra.org/display/EData/Universal+Data+Catalog+User+Guide',
+  supportEmail: 'DL-DataCatalog_Support@finra.org',
   brandHeader: '{{BRAND_HEADER}}',
   brandMotto: '{{BRAND_MOTO}}',
   docTitlePrefix: 'UDC',
   useBasicAuth: false,
   alertDelayInSeconds: 10,
   trackAnalytics: true,
-  ga: {
-    key: '{{GA_KEY}}',
-    iv: '{{GA_IV}}',
-    trackingId: '{{TRACKING_ID}}'
-  }
+  ga: {key: '0123456789abcdef', iv: 'fedcba987654321', trackingId: '{{TRACKING_ID}}'}
 };
 
