@@ -54,15 +54,8 @@ export class BackTrackComponent implements OnInit {
         // pairwise()
       )
       .subscribe(event => {
-        console.log('event: %o | location: %o', event, this.location);
         const endRoute = Utils.findPrimaryRoute(this.router.routerState.root.snapshot);
         const historyState = (this.location as CustomLocation).getHistoryState();
-        // this.currentTitle = endRoute.data[DATA] && endRoute.data[DATA][TITLE] || ''
-        console.log('endRoute: %o', endRoute);
-        console.log('historyState: %o', historyState);
-        this.location.subscribe((state) => {
-          console.log('location stare, %o', state);
-        });
         if (event instanceof NavigationStart) {
           // this happens before resolve data is set for the new title
           // If a route is to be excluded from caching then its title should not be considered for being used

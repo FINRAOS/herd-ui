@@ -56,8 +56,8 @@ describe('CurrentUserService', () => {
 
   it('should populate encrypted user', inject([UserService, CurrentUserService, EncryptionService],
     (service: UserService, currentUserApi: CurrentUserService, encryptionService: EncryptionService) => {
-      const spyCuApi = (<jasmine.Spy>currentUserApi.currentUserGetCurrentUser)
-      const spyEncrypt = (<jasmine.Spy>encryptionService.encryptAndGet)
+      const spyCuApi = (<jasmine.Spy>currentUserApi.currentUserGetCurrentUser);
+      const spyEncrypt = (<jasmine.Spy>encryptionService.encryptAndGet);
       // this proves that we proply set and sent the observable info.
       service.user.subscribe((userInfo) => {
         expect(userInfo).toEqual(service.userAuthorizations);

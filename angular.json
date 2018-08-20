@@ -79,6 +79,7 @@
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
+            "sourceMap": true,
             "scripts": [],
             "styles": [
               "node_modules/bootstrap/scss/bootstrap.scss",
