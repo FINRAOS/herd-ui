@@ -77,15 +77,14 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  * APPLICATION IMPORTS
  */
 
-import 'proxy-polyfill/proxy.min'; // needed for ng-http-interceptor TODO: take this out when migrated from ng-http-interceptor
-
+// TODO: Below polyfills added in angular 2-5. Not required after angular 6 migration. can be removed after 4-5 months fro today (Aug2018)
 /**
  * Date, currency, decimal and percent pipes.
  * Needed for: All but Chrome, Firefox, Edge, IE11 and Safari 10
  */
 // Angular global import issue. placed for ckeditor import
-(window as any).global = window;
-import 'intl';  // Run `npm install --save intl`.
+// (window as any).global = window;
+// import 'intl';  // Run `npm install --save intl`.
 // import 'intl/locale-data/jsonp/en-US.js'; // need for OS X 10.11 safari 9.0
 
 
