@@ -17,19 +17,16 @@ import { UserService } from 'app/core/services/user.service';
 import { GoogleAnalyticsService } from './shared/services/google-analytics.service';
 import { Component, Inject, OnInit } from '@angular/core';
 // import { HttpInterceptorService, Interceptable, Interceptor } from 'ng-http-interceptor';
-import { AlertService, DangerAlert } from 'app/core/services/alert.service';
+import { AlertService} from 'app/core/services/alert.service';
 import { tap, debounceTime, filter } from 'rxjs/operators';
 import {merge, fromEvent} from 'rxjs';
-import { Observable } from 'rxjs';
 
 import {
   Router, NavigationEnd, NavigationStart, NavigationCancel,
-  NavigationError, ActivatedRoute, ActivatedRouteSnapshot, PRIMARY_OUTLET
-} from '@angular/router';
+  NavigationError, ActivatedRoute, ActivatedRouteSnapshot} from '@angular/router';
 import { CustomRouteReuseStrategy } from 'app/core/services/custom-route-reuse-strategy.service';
 import { WINDOW } from 'app/core/core.module';
 import { Utils } from 'app/utils/utils';
-import { HttpInterceptor } from '@angular/common/http';
 
 
 @Component({

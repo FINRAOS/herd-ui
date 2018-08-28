@@ -14,8 +14,7 @@
 * limitations under the License.
 */
 import {
-  Component, ElementRef, Input, OnChanges, OnInit, ViewEncapsulation,
-  AfterViewInit, AfterViewChecked, ChangeDetectionStrategy, ViewChild
+  Component, ElementRef, Input, OnInit, AfterViewInit, AfterViewChecked, ChangeDetectionStrategy, ViewChild
 } from '@angular/core';
 
 @Component({

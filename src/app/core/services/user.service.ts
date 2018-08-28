@@ -18,7 +18,6 @@ import { Injectable } from '@angular/core';
 import { CurrentUserService, UserAuthorizations, Configuration } from '@herd/angular-client'
 import { Observable } from 'rxjs';
 import { ReplaySubject } from 'rxjs';
-import { Response, URLSearchParams } from '@angular/http'
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 
@@ -50,7 +49,9 @@ export class UserService {
     }
     // the added timestamp of the query string forces legacy browsers to not cache the http response
     // for current user.  this fixes current user differentiated tests.
-    const search = new URLSearchParams(`v=${Date.now()}`.toString());
+    // const search = new URLSearchParams(`v=${Date.now()}`.toString());
+    // this.currentUserApi.defaultHeaders.append('Cache-Control', 'no-cache');
+    // console.log(this.currentUserApi.defaultHeaders.keys());
     return this.currentUserApi.currentUserGetCurrentUser().pipe(
       map((res: any) => {
         this.userAuthorizations = res;

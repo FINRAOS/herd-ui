@@ -21,10 +21,10 @@ import {SharedModule} from '../../../shared/shared.module';
 import {CategoryDetailComponent} from './category-detail.component';
 import {HttpClientModule} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import {
   Tag, TagService, BusinessObjectDefinitionService,
-  CurrentUserService, Configuration, TagSearchResponse, IndexSearchService
+  Configuration, TagSearchResponse, IndexSearchService
 } from '@herd/angular-client'
 import {IndexSearchMockData} from 'testing/IndexSearchMockData';
 import {RelatedDataEntities} from 'testing/RelatedDataEntities';

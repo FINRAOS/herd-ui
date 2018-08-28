@@ -15,8 +15,8 @@
 */
 import { TestBed, inject } from '@angular/core/testing';
 import { SearchService, HitMatchTypes } from './search.service';
-import { IndexSearchService, IndexSearchResponse, Facet, Highlight } from '@herd/angular-client';
-import { Observable, of } from 'rxjs';
+import { IndexSearchService, Facet, Highlight } from '@herd/angular-client';
+import { of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { async } from '@angular/core/testing';
 import { IndexSearchMockData } from 'testing/IndexSearchMockData';

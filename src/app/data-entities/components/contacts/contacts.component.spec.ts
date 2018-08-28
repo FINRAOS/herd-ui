@@ -24,14 +24,13 @@ import {SharedModule} from '../../../shared/shared.module';
 import {AlertService} from '../../../core/services/alert.service';
 import {UserService} from '../../../core/services/user.service';
 import {EncryptionService} from '../../../shared/services/encryption.service';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import {BehaviorSubject} from 'rxjs';
 import {By} from '@angular/platform-browser';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SimpleChange} from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClientModule } from '@angular/common/http';
-import {environment} from '../../../../environments/environment';
 
 describe('ContactsComponent', () => {
   let component: ContactsComponent;

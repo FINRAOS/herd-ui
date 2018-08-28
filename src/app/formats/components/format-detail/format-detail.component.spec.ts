@@ -26,7 +26,7 @@ import {
   BusinessObjectDataService,
   BusinessObjectDefinitionColumnService
 } from '@herd/angular-client';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { AlertService } from '../../../core/services/alert.service';
 import { SchemaColumnsComponent } from 'app/formats/components/schema-columns/schema-columns.component';
 import { AttributeDefinitionsComponent } from 'app/formats/components/attribute-definitions/attribute-definitions.component';

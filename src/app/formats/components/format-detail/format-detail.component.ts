@@ -13,12 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { Action } from '../../../shared/components/side-action/side-action.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  BusinessObjectFormat, BusinessObjectFormatService, Namespace, BusinessObjectDataService,
+  BusinessObjectFormatService, BusinessObjectDataService,
   BusinessObjectDefinitionColumnService, BusinessObjectDataAvailabilityRequest, StorageService
 } from '@herd/angular-client';
 import { Observable } from 'rxjs';

@@ -17,7 +17,7 @@ import {Component, Input, OnInit, TemplateRef, ViewEncapsulation} from '@angular
 import {AlertService, DangerAlert, SuccessAlert} from '../../../core/services/alert.service';
 import {BusinessObjectFormatDdlRequest, BusinessObjectFormatService} from '@herd/angular-client';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {finalize} from 'rxjs/operators';
+import { catchError, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'sd-schema-columns',
@@ -111,9 +111,16 @@ export class SchemaColumnsComponent implements OnInit {
     this.businessObjectFormatService.defaultHeaders.append('skipAlert', 'true');
 
     this.businessObjectFormatService.businessObjectFormatGenerateBusinessObjectFormatDdl(businessObjectFormatDdlRequest)
-      .pipe(finalize(() => {
-        this.businessObjectFormatService.defaultHeaders.delete('skipAlert');
-      })).subscribe((response) => {
+      .pipe(
+        finalize(() => {
+          this.businessObjectFormatService.defaultHeaders.delete('skipAlert');
+        }),
+        catchError((error) => {
+          this.ddlError = new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
+            'URL: ' + error.url, 'Info: ' + error.message);
+          return error;
+        })
+      ).subscribe((response: any) => {
       this.ddl = response.ddl;
     }, (error) => {
       this.ddlError = new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,

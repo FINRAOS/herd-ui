@@ -18,8 +18,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { CategoryDetailResolverService, CategoryDetailResolverData } from './categories-detail-resolver';
 import { Observable, of } from 'rxjs';
 import {
-  Tag, TagService, TagKey, TagSearchRequest
-} from '@herd/angular-client';
+  Tag, TagService} from '@herd/angular-client';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { async } from '@angular/core/testing';
 import { RouterStub } from 'testing/router-stubs';

@@ -19,7 +19,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchService } from '../../../shared/services/search.service';
 import { IndexSearchService } from '@herd/angular-client';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { IndexSearchMockData } from 'testing/IndexSearchMockData';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';

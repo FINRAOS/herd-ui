@@ -13,8 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Component, Input, ElementRef, OnChanges} from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
+import {Component, Input, OnChanges} from '@angular/core';
 
 @Component({
   selector: 'sd-read-more',

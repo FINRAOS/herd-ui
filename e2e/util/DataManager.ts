@@ -13,10 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import * as requestManager from 'sync-request';
 import * as winston from 'winston';
 import * as path from 'path';
 import * as fs from 'fs';
+import request from 'sync-request';
+import { Logger } from 'winston';
+
 
 const constants = require('../config/conf.e2e.json');
 const herdHost = process.env.HERD_HOST || constants.herdHost;
@@ -26,8 +28,12 @@ export interface DMOption {
   url: string,
   body?: any
 }
+
 // TODO refactoring the class is also needed
 export class DataManager {
+
+  static logger: Logger;
+
   static async initializeData(specs: string[]) {
     const processOps = async (opsLocation, spec) => {
       return new Promise(async (resolve, reject) => {
@@ -43,7 +49,7 @@ export class DataManager {
           doneFile = doneFile.replace(opsLocation + 'p ', opsLocation + 'd ');
           fs.writeFileSync('processed.txt', doneFile);
         } else {
-          winston.debug('Operations do not exist for spec: ' + spec);
+          DataManager.logger.log('info', 'Operations do not exist for spec: ' + spec);
           fs.appendFileSync('processed.txt', opsLocation + 'd ');
         }
         resolve();
@@ -65,7 +71,8 @@ export class DataManager {
           }
         } else {
           await processOps(opsLocation, spec);
-        };
+        }
+        ;
 
       }
     }
@@ -92,7 +99,7 @@ export class DataManager {
       if (opsLocation.length !== 0) {
         // check for ts on normal runs and .js on generated file debug runs.
         if (fs.existsSync(opsLocation + '.ts') || fs.existsSync(opsLocation + '.js')) {
-          const op =  await import(opsLocation);
+          const op = await import(opsLocation);
           if (op.tearDownRequests.updates) {
             dm.update(op.tearDownRequests.updates.options);
           }
@@ -106,9 +113,23 @@ export class DataManager {
     }
     return Promise.resolve();
   }
+
   constructor() {
     // Uncomment the following line to enable logging
-    winston.level = 'debug';
+    // winston.level = 'debug';
+    DataManager.logger = winston.createLogger({
+      level: 'info',
+      format: winston.format.json(),
+      transports: [
+        //
+        // - Write to all logs with level `info` and below to `combined.log`
+        // - Write all logs error (and below) to `error.log`.
+        //
+        // new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        // new winston.transports.File({ filename: 'combined.log' })
+        new winston.transports.Console()
+      ]
+    });
   }
 
   // sorts the list of options according to their provided 'order'
@@ -134,11 +155,11 @@ export class DataManager {
 
       option.url = herdHost + option.url;
 
-      winston.log('info', '------------------');
-      winston.log('info', 'Requested POST on path {%s}', option.url);
-      winston.log('info', 'Request body %s', JSON.stringify(option.body));
+      DataManager.logger.log('info', '------------------');
+      DataManager.logger.log('info', 'Requested POST on path {%s}', option.url);
+      DataManager.logger.log('info', 'Request body %s', JSON.stringify(option.body));
 
-      const response = requestManager('POST', option.url, {
+      const response = request('POST', option.url, {
         json: option.body, headers: {
           'Authorization': constants.authorization.basicKey
         }
@@ -148,12 +169,12 @@ export class DataManager {
         // try to get the body.  if this returns an error that means
         // the response was an error ( in most cases )
         const body = response.getBody('utf8');
-        winston.log('debug', 'Request succeeded.');
+        DataManager.logger.log('debug', 'Request succeeded.');
       } catch (e) {
         console.log(e.message);
-        // winston.log('debug', e);
+        // DataManager.logger.log('debug', e);
       } finally {
-        winston.log('info', '------------------');
+        DataManager.logger.log('info', '------------------');
       }
 
     });
@@ -170,11 +191,11 @@ export class DataManager {
     // ensure that the list of operations are performed sequentially
     options = this.sortOptions(options);
     options.forEach(function (option) {
-      winston.log('info', '------------------');
-      winston.log('info', 'Requested DELETE on path {%s}', option.url);
+      DataManager.logger.log('info', '------------------');
+      DataManager.logger.log('info', 'Requested DELETE on path {%s}', option.url);
       option.url = herdHost + option.url;
 
-      const response = requestManager('DELETE', option.url, {
+      const response = request('DELETE', option.url, {
         headers: {
           'Authorization': constants.authorization.basicKey
         }
@@ -184,12 +205,12 @@ export class DataManager {
         // try to get the body.  if this returns an error that means
         // the response was an error ( in most cases )
         const body = response.getBody('utf8');
-        winston.log('debug', 'Request succeeded.');
+        DataManager.logger.log('debug', 'Request succeeded.');
       } catch (e) {
         console.log(e.message);
-        // winston.log('debug', e);
+        // DataManager.logger.log('debug', e);
       } finally {
-        winston.log('info', '------------------');
+        DataManager.logger.log('info', '------------------');
       }
     });
   };
@@ -206,11 +227,11 @@ export class DataManager {
     options = this.sortOptions(options);
 
     options.forEach(function (option) {
-      winston.log('info', '------------------');
-      winston.log('info', 'Requested PUT on path {%s}', option.url);
+      DataManager.logger.log('info', '------------------');
+      DataManager.logger.log('info', 'Requested PUT on path {%s}', option.url);
       option.url = herdHost + option.url;
 
-      const response = requestManager('PUT', option.url, {
+      const response = request('PUT', option.url, {
         json: option.body, headers: {
           'Authorization': constants.authorization.basicKey
         }
@@ -220,11 +241,11 @@ export class DataManager {
         // try to get the body.  if this returns an error that means
         // the response was an error ( in most cases )
         const body = response.getBody('utf8');
-        winston.log('debug', 'Request succeeded.');
+        DataManager.logger.log('debug', 'Request succeeded.');
       } catch (e) {
-        winston.log('debug', e);
+        DataManager.logger.log('debug', e);
       } finally {
-        winston.log('info', '------------------');
+        DataManager.logger.log('info', '------------------');
       }
     });
   };
@@ -233,8 +254,8 @@ export class DataManager {
     // get indexes
 
     try {
-      winston.log('info', '------- Start Validate Indexes Outer Block ------ ');
-      const response = requestManager('GET', herdHost + '/searchIndexes', {
+      DataManager.logger.log('info', '------- Start Validate Indexes Outer Block ------ ');
+      const response = request('GET', herdHost + '/searchIndexes', {
         headers: {
           'Authorization': constants.authorization.basicKey,
           'Accept': 'application/json'
@@ -243,12 +264,12 @@ export class DataManager {
       // try to get the body.  if this returns an error that means
       // the response was an error ( in most cases )
       const body = JSON.parse(response.getBody('utf8'));
-      winston.log('debug', 'Got Search Indexes');
+      DataManager.logger.log('debug', 'Got Search Indexes');
 
       body.searchIndexKeys.forEach((key, i) => {
         try {
-          winston.log('info', '-------- Attempting to validate index ' + key.searchIndexName);
-          const validationResponse = requestManager('POST', herdHost + '/searchIndexValidations', {
+          DataManager.logger.log('info', '-------- Attempting to validate index ' + key.searchIndexName);
+          const validationResponse = request('POST', herdHost + '/searchIndexValidations', {
             json: {
               'searchIndexKey': key,
               'performFullSearchIndexValidation': true
@@ -259,17 +280,17 @@ export class DataManager {
             }
           });
           JSON.parse(response.getBody('utf8'));
-          winston.log('debug', 'Finished validating ' + key.searchIndexName);
+          DataManager.logger.log('debug', 'Finished validating ' + key.searchIndexName);
         } catch (e) {
           console.log(e.message);
         } finally {
-          winston.log('info', '--------- End Validation Request Block---------');
+          DataManager.logger.log('info', '--------- End Validation Request Block---------');
         }
       });
     } catch (e) {
       console.log(e.message);
     } finally {
-      winston.log('info', '------  End Validate Indexes Outer Block------');
+      DataManager.logger.log('info', '------  End Validate Indexes Outer Block------');
     }
   }
 

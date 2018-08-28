@@ -38,7 +38,7 @@ import {FilterTemplateComponent} from 'app/data-objects/components/filter-templa
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {DataTable} from 'primeng/primeng';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import {CodemirrorModule} from 'ng2-codemirror';
 import {ClipboardModule} from 'ngx-clipboard';
 import {SpinnerComponent} from 'app/shared/components/spinner/spinner.component';
@@ -163,14 +163,13 @@ describe('DataObjectListComponent', () => {
 
   it('should show empty message on server 400 error while load data', () => {
     businessObjectDataApi.businessObjectDataSearchBusinessObjectData
-      .and.returnValue(throwError({ status: 400, json: () => { return { message: 'not found error' } }, body: [] }));
+      .and.returnValue(throwError({ status: 400, message: 'not found error', body: [] }));
     fixture.detectChanges();
     component.loadData(dataObjectListFiltersChangeEventData);
     expect(component.data.length).toBe(0);
     businessObjectDataApi.businessObjectDataSearchBusinessObjectData
       .and.returnValue(throwError({
-        status: 401, url: 'test url for error',
-        json: () => { return { message: 'not found error' } }, body: [], statusText: 'not found error'
+        status: 401, url: 'test url for error', message: 'not found error', body: [], statusText: 'not found error'
       }));
     fixture.detectChanges();
     component.loadData(dataObjectListFiltersChangeEventData);
@@ -191,9 +190,7 @@ describe('DataObjectListComponent', () => {
       status: '500',
       statusText: 'Internal Server Error',
       url: 'theDDLURL',
-      json: () => {
-        return { message: 'Stuff blew up' }
-      }
+      message: 'Stuff blew up'
     }));
     const alertSpy = spyOn(a, 'alert');
     fixture.detectChanges();

@@ -18,7 +18,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { DataEntityDetailResolverService, DataEntityDetailResolverData } from './data-entity-detail-resolver';
 import { Observable, of } from 'rxjs';
 import { BusinessObjectDefinitionService, BusinessObjectDefinition } from '@herd/angular-client';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlSegment } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
 import { async } from '@angular/core/testing';
 import { RouterStub } from 'testing/router-stubs';
 

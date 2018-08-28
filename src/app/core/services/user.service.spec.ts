@@ -14,11 +14,11 @@
 * limitations under the License.
 */
 import {EncryptionService} from './../../shared/services/encryption.service';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import {TestBed, inject} from '@angular/core/testing';
 
 import {UserService} from './user.service';
-import {CurrentUserService, UserAuthorizations, Configuration} from '@herd/angular-client';
+import {CurrentUserService, Configuration} from '@herd/angular-client';
 import {environment} from '../../../environments/environment';
 
 describe('CurrentUserService', () => {
@@ -35,11 +35,7 @@ describe('CurrentUserService', () => {
           useValue: {
             currentUserGetCurrentUser:
               jasmine.createSpy('currentUserGetCurrentUser')
-                .and.returnValue(of({
-                json: () => {
-                  return {userId: 'userid'}
-                }
-              })),
+                .and.returnValue(of({userId: 'userid'})),
             configuration: {}
           }
         },

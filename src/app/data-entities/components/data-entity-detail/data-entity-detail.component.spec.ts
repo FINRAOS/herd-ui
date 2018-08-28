@@ -40,7 +40,7 @@ import {
 } from '@herd/angular-client';
 import {HttpClientModule} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import {AlertService, SuccessAlert, DangerAlert, WarningAlert} from '../../../core/services/alert.service';
 import {UserService} from '../../../core/services/user.service';
 import {EncryptionService} from '../../../shared/services/encryption.service';

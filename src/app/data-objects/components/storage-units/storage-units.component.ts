@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, Input, OnInit, ViewEncapsulation, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { StorageUnit } from '@herd/angular-client';
 
 @Component({
@@ -25,11 +25,18 @@ import { StorageUnit } from '@herd/angular-client';
 export class StorageUnitsComponent implements OnInit {
 
   @Input() storageUnits: StorageUnit[];
+  @Output() downloadAFile = new EventEmitter<object | any>();
   attributesToShow = ['bucket.name', 'jdbc.url', 'jdbc.username', 'jdbc.user.credential.name'];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
+    console.log('storageUnits: %o', this.storageUnits);
+  }
+
+  downloadFile(storageFile, storage, directoryPath) {
+    this.downloadAFile.emit({...storageFile, storage, directoryPath});
   }
 }
 

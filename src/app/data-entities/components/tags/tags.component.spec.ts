@@ -18,7 +18,7 @@ import {TagService, TagTypeService, BusinessObjectDefinitionTagService} from '@h
 import {TagsComponent} from './tags.component';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 describe('TagsComponent', () => {
   let component: TagsComponent;

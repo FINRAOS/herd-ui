@@ -185,7 +185,7 @@
 
     <!--storage unit and files-->
     <div class="content-wrapper">
-      <sd-storage-units [storageUnits]="businessObjectData.storageUnits"></sd-storage-units>
+      <sd-storage-units [storageUnits]="businessObjectData.storageUnits" (downloadAFile)="downloadAFile($event)"></sd-storage-units>
     </div>
 
   </div>

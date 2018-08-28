@@ -29,7 +29,6 @@ import {
   BusinessObjectDefinitionService,
   SubjectMatterExpertService,
   BusinessObjectDefinitionSubjectMatterExpertService,
-  BusinessObjectDefinitionTagService,
   BusinessObjectFormatDdlRequest,
   BusinessObjectDefinitionColumnUpdateRequest,
   BusinessObjectDefinitionColumnCreateRequest,
@@ -38,7 +37,7 @@ import {
   NamespaceAuthorization, BusinessObjectDefinitionDescriptionSuggestionService, BusinessObjectDefinitionDescriptionSuggestionSearchRequest
 } from '@herd/angular-client';
 import { WarningAlert } from './../../../core/services/alert.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/alert.service';
 import { NgbModal, NgbModalRef, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import * as shape from 'd3-shape';
@@ -501,15 +500,16 @@ export class DataEntityDetailComponent implements OnInit {
       selectedNode.bdefKey.split(this.displayDelimiter)[0],
       selectedNode.bdefKey.split(this.displayDelimiter)[1],
       selectedNode.tooltip.split(this.displayDelimiter)[0],
-      selectedNode.tooltip.split(this.displayDelimiter)[1]).pipe(flatMap((format) => {
-        if (selectedNode.type === DAGNodeType.parent) {
-          return this.processParents(selectedNode, format);
-        } else if (selectedNode.type === DAGNodeType.child) {
-          return this.processChildren(selectedNode, format);
-        }
-
-        return throwError('invalidNodeType');
-      })).subscribe((graph: HierarchialGraph) => {
+      selectedNode.tooltip.split(this.displayDelimiter)[1]).pipe(
+        flatMap((format) => {
+          if (selectedNode.type === DAGNodeType.parent) {
+            return this.processParents(selectedNode, format);
+          } else if (selectedNode.type === DAGNodeType.child) {
+            return this.processChildren(selectedNode, format);
+          }
+          return throwError('invalidNodeType');
+        })
+      ).subscribe((graph: HierarchialGraph) => {
         // hide the show more link as we will not attempt to reload the parents or children
         this.hierarchialGraph.nodes.some((node) => {
           if (node.id === selectedNode.id) {

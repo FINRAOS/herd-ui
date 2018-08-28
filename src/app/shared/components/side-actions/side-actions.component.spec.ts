@@ -51,7 +51,7 @@ describe('SideActionsComponent', () => {
   });
 
   it('should expose "Actions" object', () => {
-    component.actions.forEach(function(action, index){
+    component.actions.forEach(function(action, index) {
       expect(action).toBeDefined();
       expect(action.icon).toEqual(expectedActions[index].icon);
       expect(action.label).toEqual(expectedActions[index].label);

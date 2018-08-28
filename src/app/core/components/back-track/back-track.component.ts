@@ -20,7 +20,7 @@ import { Title } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { CustomLocation } from 'app/core/services/custom-location.service';
 import { Utils } from 'app/utils/utils';
-import { filter, pairwise } from 'rxjs/operators'
+import { filter} from 'rxjs/operators'
 import { environment } from '../../../../environments/environment';
 
 const DATA = 'resolvedData';

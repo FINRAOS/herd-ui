@@ -27,7 +27,6 @@ import { BackTrackComponent } from './components/back-track/back-track.component
 import { AuthGuardService } from 'app/core/services/auth-guard.service';
 import { CookieService } from 'ng2-cookies';
 import { AlertService } from 'app/core/services/alert.service';
-import { Http } from '@angular/http';
 import { NoAuthGuardService } from 'app/core/services/no-auth-guard.service';
 import { LoginComponent } from 'app/core/components/login/login.component';
 

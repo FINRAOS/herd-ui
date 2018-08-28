@@ -20,7 +20,7 @@ import { GlobalSearchComponent } from '../../../shared/components/global-search/
 import { InlineSVGModule } from 'ng-inline-svg';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TagService, TagTypeService } from '@herd/angular-client';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { TruncatedContentComponent } from 'app/shared/components/truncated-content/truncated-content.component';

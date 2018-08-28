@@ -20,7 +20,6 @@ import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterTemplateComponent } from 'app/data-objects/components/filter-template/filter-template.component';
 import { EllipsisOverflowComponent } from 'app/shared/components/ellipsis-overflow/ellipsis-overflow.component';
-import { AttributesComponent } from 'app/shared/components/attributes/attributes.component';
 import { SimpleChange } from '@angular/core';
 
 describe('PartitionFilterComponent', () => {

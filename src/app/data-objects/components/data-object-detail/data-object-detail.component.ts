@@ -13,11 +13,22 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {BusinessObjectDataService, BusinessObjectFormat, BusinessObjectFormatService} from '@herd/angular-client';
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {default as AppIcons} from '../../../shared/utils/app-icons';
-import {Action} from '../../../shared/components/side-action/side-action.component';
+import {
+  BusinessObjectDataService,
+  BusinessObjectFormat,
+  BusinessObjectFormatService,
+  DownloadBusinessObjectDefinitionSampleDataFileSingleInitiationRequest,
+  StorageUnitDownloadCredential,
+  StorageUnitService,
+  UploadAndDownloadService
+} from '@herd/angular-client';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { default as AppIcons } from '../../../shared/utils/app-icons';
+import { Action } from '../../../shared/components/side-action/side-action.component';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs/internal/observable/of';
+import { Observable } from 'rxjs/internal/Observable';
 
 export interface DataObjectDetailRequest {
   namespace: string,
@@ -49,9 +60,11 @@ export class DataObjectDetailComponent implements OnInit {
   public businessObjectDataVersions: number[] = [];
 
   constructor(private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private businessObjectFormatApi: BusinessObjectFormatService,
-    private businessObjectDataApi: BusinessObjectDataService) {
+              private activatedRoute: ActivatedRoute,
+              private businessObjectFormatApi: BusinessObjectFormatService,
+              private uploadAndDownloadService: UploadAndDownloadService,
+              private storageUnitService: StorageUnitService,
+              private businessObjectDataApi: BusinessObjectDataService) {
 
   }
 
@@ -83,8 +96,8 @@ export class DataObjectDetailComponent implements OnInit {
           this.request.namespace, this.request.dataEntityName,
           this.request.formatUsage, this.request.formatFileType,
           this.request.formatVersion).subscribe((formatResponse) => {
-            this.businessObjectData.subPartitionKeys = this.findSubPartitionKeys(formatResponse);
-          });
+          this.businessObjectData.subPartitionKeys = this.findSubPartitionKeys(formatResponse);
+        });
       }
     });
 
@@ -149,4 +162,43 @@ export class DataObjectDetailComponent implements OnInit {
     return result.subPartitionKeys;
   }
 
+  downloadAFile(event: any) {
+    console.log('this.businessObjectData:%o', this.businessObjectData);
+    console.log('event:%o', event);
+
+    this.storageUnitService.storageUnitGetStorageUnitDownloadCredential(
+      this.businessObjectData.namespace,
+      this.businessObjectData.businessObjectDefinitionName,
+      this.businessObjectData.businessObjectFormatUsage,
+      this.businessObjectData.businessObjectFormatFileType,
+      this.businessObjectData.businessObjectFormatVersion,
+      this.businessObjectData.partitionValue,
+      this.businessObjectData.businessObjectDataVersion || this.businessObjectData.version,
+      event.storage.name
+    )
+      .subscribe((response) => {
+        console.log('credential:%o', response);
+      }, (error) => {
+        console.log(error);
+      });
+    console.log(event);
+    const downloadBusinessObjectDefinitionSampleDataFileSingleInitiationRequest:
+      DownloadBusinessObjectDefinitionSampleDataFileSingleInitiationRequest = {
+      businessObjectDefinitionSampleDataFileKey: {
+        namespace: this.businessObjectData.namespace,
+        businessObjectDefinitionName: this.businessObjectData.businessObjectDefinitionName,
+        directoryPath: event.directoryPath,
+        fileName: event.filePath,
+      }
+    };
+
+    this.uploadAndDownloadService
+      .uploadandDownloadInitiateDownloadSingleSampleFile(downloadBusinessObjectDefinitionSampleDataFileSingleInitiationRequest)
+      .subscribe((response) => {
+        console.log(response);
+      }, (error) => {
+        console.log(error);
+      })
+    // this.businessObjectDataApi.businessObjectDataGetS3KeyPrefix()
+  }
 }

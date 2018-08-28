@@ -115,9 +115,7 @@ describe('SchemaColumnsComponent', () => {
         status: '500',
         statusText: 'Internal Server Error',
         url: 'theDDLURL',
-        json: () => {
-          return {message: 'Stuff blew up'}
-        }
+        message: 'Stuff blew up'
       }));
       // fixture.detectChanges() does not work as one of the 3rd party component try to read read only property
       component.getDDL(component.bdef);

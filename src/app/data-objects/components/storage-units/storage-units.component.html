@@ -89,16 +89,18 @@
       <div class="container columns-content" *ngIf="storageUnit.storageFiles && storageUnit.storageFiles.length > 0">
         <div class="list-group columns-header">
           <div class="row list-group-item">
-            <div class="col-9">File path</div>
+            <div class="col-8">File path</div>
             <div class="col-2">File size</div>
             <div class="col-1">Rows</div>
+            <div class="col-1">Download</div>
           </div>
         </div>
         <div class="list-group columns-detail files-loop" *ngFor="let storageFile of storageUnit.storageFiles">
           <div class="row list-group-item">
-            <div class="col-9">{{ storageFile.filePath }}</div>
+            <div class="col-8">{{ storageFile.filePath }}</div>
             <div class="col-2">{{(storageFile.fileSizeBytes / 1024).toFixed(2) }} kB</div>
             <div class="col-1">{{ storageFile.rowCount }}</div>
+            <div class="col-1" (click)="downloadFile(storageFile, storageUnit.storage, storageUnit.storageDirectory.directoryPath)">download</div>
           </div>
         </div>
       </div>

@@ -19,7 +19,7 @@ import { ActivatedRouteStub, RouterStub } from '../../../../testing/router-stubs
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
 import { UserService } from '../../services/user.service';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { inject } from '@angular/core/testing';
 

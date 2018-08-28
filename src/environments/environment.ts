@@ -15,8 +15,8 @@
 */
 export const environment = {
   production: false,
-  restBaseUri: 'https://datamgt-int.dev.aws.finra.org/herd-app/rest',
-  basicAuthRestBaseUri: 'https://datamgt-int.dev.aws.finra.org:8443/herd-app/rest',
+  restBaseUri: 'https://datamgt.dev.aws.finra.org/herd-app/rest',
+  basicAuthRestBaseUri: 'https://datamgt.dev.aws.finra.org:8443/herd-app/rest',
   helpUrl: 'https://products.finra.org/display/EData/Universal+Data+Catalog+User+Guide',
   supportEmail: 'DL-DataCatalog_Support@finra.org',
   brandHeader: '{{BRAND_HEADER}}',
