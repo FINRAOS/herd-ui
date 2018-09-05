@@ -185,7 +185,11 @@
 
     <!--storage unit and files-->
     <div class="content-wrapper">
-      <sd-storage-units [storageUnits]="businessObjectData.storageUnits"></sd-storage-units>
+      <sd-storage-units
+        sdFileDownloader [sampleDataFileUrl]='presignedURL'
+        [namespace]="businessObjectData.namespace"
+        [storageUnits]="businessObjectData.storageUnits"
+        (downloadAFile)="downloadAFile($event)"></sd-storage-units>
     </div>
 
   </div>
