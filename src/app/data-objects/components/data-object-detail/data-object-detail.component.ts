@@ -16,19 +16,15 @@
 import {
   BusinessObjectDataService,
   BusinessObjectFormat,
-  BusinessObjectFormatService,
-  DownloadBusinessObjectDefinitionSampleDataFileSingleInitiationRequest,
-  StorageUnitDownloadCredential,
-  StorageUnitService,
-  UploadAndDownloadService
+  BusinessObjectFormatService, StorageUnitService
 } from '@herd/angular-client';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { Action } from '../../../shared/components/side-action/side-action.component';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs/internal/observable/of';
-import { Observable } from 'rxjs/internal/Observable';
+import * as S3 from 'aws-sdk/clients/s3';
+import { Credentials } from 'aws-sdk';
+
 
 export interface DataObjectDetailRequest {
   namespace: string,
@@ -58,14 +54,16 @@ export class DataObjectDetailComponent implements OnInit {
   public businessObjectData;
   public businessObjectDataVersionSelected;
   public businessObjectDataVersions: number[] = [];
+  private s3;
+  public presignedURL: string;
 
-  constructor(private router: Router,
-              private activatedRoute: ActivatedRoute,
-              private businessObjectFormatApi: BusinessObjectFormatService,
-              private uploadAndDownloadService: UploadAndDownloadService,
-              private storageUnitService: StorageUnitService,
-              private businessObjectDataApi: BusinessObjectDataService) {
-
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private businessObjectFormatApi: BusinessObjectFormatService,
+    private storageUnitService: StorageUnitService,
+    private businessObjectDataApi: BusinessObjectDataService
+  ) {
   }
 
   ngOnInit() {
@@ -163,9 +161,8 @@ export class DataObjectDetailComponent implements OnInit {
   }
 
   downloadAFile(event: any) {
-    console.log('this.businessObjectData:%o', this.businessObjectData);
-    console.log('event:%o', event);
 
+    // calling the herd service to get credential
     this.storageUnitService.storageUnitGetStorageUnitDownloadCredential(
       this.businessObjectData.namespace,
       this.businessObjectData.businessObjectDefinitionName,
@@ -175,30 +172,36 @@ export class DataObjectDetailComponent implements OnInit {
       this.businessObjectData.partitionValue,
       this.businessObjectData.businessObjectDataVersion || this.businessObjectData.version,
       event.storage.name
-    )
-      .subscribe((response) => {
-        console.log('credential:%o', response);
+    ).subscribe((response) => {
+
+        const credentials =
+          new Credentials(response.awsCredential.awsAccessKey, response.awsCredential.awsSecretKey, response.awsCredential.awsSessionToken);
+
+        this.s3 = new S3({
+          signatureCache: false,
+          s3DisableBodySigning: true,
+          sslEnabled: true,
+          credentials: credentials,
+          params: {
+            Bucket: event.storage.attributes[0].value,
+            SSEAlgorithm: 'AWSS3V4SignerType',
+          }
+
+        });
+
+        // Get the pre signed url to download file
+        this.presignedURL = this.s3.getSignedUrl(
+          'getObject',
+          {
+            Bucket: event.storage.attributes[0].value,
+            Key: event.filePath,
+            Expires: 190
+          }
+        );
+
       }, (error) => {
         console.log(error);
       });
-    console.log(event);
-    const downloadBusinessObjectDefinitionSampleDataFileSingleInitiationRequest:
-      DownloadBusinessObjectDefinitionSampleDataFileSingleInitiationRequest = {
-      businessObjectDefinitionSampleDataFileKey: {
-        namespace: this.businessObjectData.namespace,
-        businessObjectDefinitionName: this.businessObjectData.businessObjectDefinitionName,
-        directoryPath: event.directoryPath,
-        fileName: event.filePath,
-      }
-    };
-
-    this.uploadAndDownloadService
-      .uploadandDownloadInitiateDownloadSingleSampleFile(downloadBusinessObjectDefinitionSampleDataFileSingleInitiationRequest)
-      .subscribe((response) => {
-        console.log(response);
-      }, (error) => {
-        console.log(error);
-      })
-    // this.businessObjectDataApi.businessObjectDataGetS3KeyPrefix()
   }
+
 }

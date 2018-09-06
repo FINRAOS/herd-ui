@@ -45,8 +45,8 @@
             <div class="col-6">
               <ng-container *ngFor="let attr of storageUnit.storage.attributes">
                 <div class="storage-attribute" *ngIf="attributesToShow.includes(attr.name)">
-                    <div><b>{{ attr.name }}:</b></div>
-                    <div>{{ attr.value }}</div>
+                  <div><b>{{ attr.name }}:</b></div>
+                  <div>{{ attr.value }}</div>
                 </div>
               </ng-container>
               <div class="storage-attribute" *ngIf="storageUnit.storageDirectory">
@@ -62,7 +62,8 @@
       <div class="col align-self-start left-blue-border">
         <h2 class="row">Status History</h2>
       </div>
-      <div class="container columns-content" *ngIf="storageUnit.storageUnitStatusHistory && storageUnit.storageUnitStatusHistory.length > 0;">
+      <div class="container columns-content"
+           *ngIf="storageUnit.storageUnitStatusHistory && storageUnit.storageUnitStatusHistory.length > 0;">
         <div class="list-group columns-header">
           <div class="row list-group-item">
             <div class="col-2">Status</div>
@@ -70,7 +71,8 @@
             <div class="col-6">User</div>
           </div>
         </div>
-        <div class="list-group columns-detail" *ngFor="let storageUnitStatusChangeEvent of storageUnit.storageUnitStatusHistory">
+        <div class="list-group columns-detail"
+             *ngFor="let storageUnitStatusChangeEvent of storageUnit.storageUnitStatusHistory">
           <div class="row list-group-item">
             <div class="col-2">{{ storageUnitStatusChangeEvent.status }}</div>
             <div class="col-4">{{ storageUnitStatusChangeEvent.eventTime | date:'short'}}</div>
@@ -78,7 +80,8 @@
           </div>
         </div>
       </div>
-      <div class="list-group-item" *ngIf="!storageUnit.storageUnitStatusHistory || storageUnit.storageUnitStatusHistory.length === 0">
+      <div class="list-group-item"
+           *ngIf="!storageUnit.storageUnitStatusHistory || storageUnit.storageUnitStatusHistory.length === 0">
         <div class="col">No storage unit status history found.</div>
       </div>
 
@@ -92,7 +95,11 @@
             <div class="col-8">File path</div>
             <div class="col-2">File size</div>
             <div class="col-1">Rows</div>
-            <div class="col-1">Download</div>
+            <div class="col-1"
+                 sdAuthorized [securityFunction]="authMap.readStorageUnitDownloadCredential"
+                 [namespace]="namespace" [namespacePermissions]="editDescriptiveContentPermissions">
+              Download
+            </div>
           </div>
         </div>
         <div class="list-group columns-detail files-loop" *ngFor="let storageFile of storageUnit.storageFiles">
@@ -100,7 +107,16 @@
             <div class="col-8">{{ storageFile.filePath }}</div>
             <div class="col-2">{{(storageFile.fileSizeBytes / 1024).toFixed(2) }} kB</div>
             <div class="col-1">{{ storageFile.rowCount }}</div>
-            <div class="col-1" (click)="downloadFile(storageFile, storageUnit.storage, storageUnit.storageDirectory.directoryPath)">download</div>
+            <div class="col-1 align-content-center"
+                 sdAuthorized [securityFunction]="authMap.readStorageUnitDownloadCredential"
+                 [namespace]="namespace" [namespacePermissions]="editDescriptiveContentPermissions">
+              <a
+                class="btn btn-link"
+                (click)="downloadFile(storageFile, storageUnit.storage, storageUnit.storageDirectory.directoryPath)">
+                <i class="fa fa-cloud-download"></i>
+              </a>
+
+            </div>
           </div>
         </div>
       </div>
