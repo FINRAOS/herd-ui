@@ -30,6 +30,16 @@
         .storage-attribute:not(:last-child) {
           margin-bottom: 10px;
         }
+        .btn-link {
+          padding: 0 8px;
+          text-align: center;
+          cursor: pointer;
+          cursor: hand;
+          .fa-cloud-download {
+            font-size: 25px;
+            color: #0074d9
+          }
+        }
       }
     }
 
