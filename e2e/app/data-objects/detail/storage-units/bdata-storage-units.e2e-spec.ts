@@ -122,6 +122,27 @@ describe('data-objects storage units', function () {
         expect(await f3.rowCount).toBe('');*/ //  didn't put a row count in for the auto generated file
       });
 
+    it('File download icon is not availbale if user is not permitted',
+      async () => {
+        await page.navigateTo(baseDetail
+          .replaceUrlParams(data.versionTestV2, null, null), constants.noAccessUser, constants.noAccessPassword);
+        // await baseDetail.initiateBrowser(data.versionTestV2, null, 0, 3);
+        const unit = page.getSingleStorageUnit(0);
+        expect(await unit.filesRepeater.count()).toBe(2);
+
+        const expectedUnit = data.versionTestV2.storageUnits[0];
+        const f1 = unit.getSingleFile(0);
+        expect(await f1.filePath).toBe(expectedUnit.storageFiles[0].filePath);
+        expect(await f1.fileSize).toBe((expectedUnit.storageFiles[0].fileSizeBytes / 1024).toPrecision(1) + ' kB');
+        expect(await f1.rowCount).toBe('1'); //  didn't put a row count in for the auto generated file
+
+        const f2 = unit.getSingleFile(1);
+        expect(await f2.filePath).toBe(expectedUnit.storageFiles[1].filePath);
+        expect(await f2.fileSize).toBe((expectedUnit.storageFiles[1].fileSizeBytes / 1024).toPrecision(1) + ' kB');
+        expect(await f2.rowCount).toBe('1'); //  didn't put a row count in for the auto generated file
+
+      });
+
   });
 
   describe('multiple storage units', () => {
