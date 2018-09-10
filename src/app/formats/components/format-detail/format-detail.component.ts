@@ -13,12 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { Action } from '../../../shared/components/side-action/side-action.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  BusinessObjectFormat, BusinessObjectFormatService, Namespace, BusinessObjectDataService,
+import { BusinessObjectFormatService, BusinessObjectDataService,
   BusinessObjectDefinitionColumnService, BusinessObjectDataAvailabilityRequest, StorageService
 } from '@herd/angular-client';
 import { Observable } from 'rxjs/Observable';
@@ -69,18 +68,20 @@ export class FormatDetailComponent implements OnInit {
 
       // used to fill in all of the versions for the select
       this.formatVersions = this.businessObjectFormatApi
-        .businessObjectFormatGetBusinessObjectFormats(this.namespace, this.businessObjectDefinitionName, false).pipe(
-        map((resp) => {
-          return resp.businessObjectFormatKeys.filter((key) => {
-            return key.businessObjectFormatUsage === this.businessObjectFormatUsage
-              && key.businessObjectFormatFileType === this.businessObjectFormatFileType;
-          }).map((key) => {
-            return key.businessObjectFormatVersion;
-          }).sort((a, b) => {
-            return a - b;
-          });
-        }),
-        startWith([])); // use starts with to get rid of template parsing errors using async pipe
+        .businessObjectFormatGetBusinessObjectFormats(this.namespace, this.businessObjectDefinitionName, false)
+        .pipe(
+          map((resp) => {
+            return resp.businessObjectFormatKeys.filter((key) => {
+              return key.businessObjectFormatUsage === this.businessObjectFormatUsage
+                && key.businessObjectFormatFileType === this.businessObjectFormatFileType;
+            }).map((key) => {
+              return key.businessObjectFormatVersion;
+            }).sort((a, b) => {
+              return a - b;
+            });
+          }),
+          startWith([]) // use starts with to get rid of template parsing errors using async pipe
+        );
 
       this.businessObjectFormatApi
         .businessObjectFormatGetBusinessObjectFormat(this.namespace,
@@ -146,7 +147,7 @@ export class FormatDetailComponent implements OnInit {
           '${maximum.partition.value}'
         ]
       }
-    }
+    };
 
     // to get the absolute possible maximum and minimum values
     // we hve to search accross all storage names for the request.
@@ -154,14 +155,15 @@ export class FormatDetailComponent implements OnInit {
 
     this.businessObjectDataApi.defaultHeaders.append('skipAlert', 'true');
     this.storageApi.defaultHeaders.append('skipAlert', 'true');
-    this.storageApi.storageGetStorages().pipe(
+    this.storageApi.storageGetStorages()
+      .pipe(
       flatMap((resp) => {
-      request.storageNames = resp.storageKeys.map((key) => {
-        return key.storageName;
-      });
-      return this.businessObjectDataApi
-        .businessObjectDataCheckBusinessObjectDataAvailability(request)
-    })).finally(() => {
+        request.storageNames = resp.storageKeys.map((key) => {
+          return key.storageName;
+        });
+        return this.businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability(request);
+      })
+    ).finally(() => {
       this.businessObjectDataApi.defaultHeaders.delete('skipAlert');
       this.storageApi.defaultHeaders.delete('skipAlert');
     }).subscribe(

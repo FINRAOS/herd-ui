@@ -234,6 +234,14 @@
           </sd-schema-columns>
         </ng-template>
       </ngb-tab>
+      <ngb-tab *ngIf="businessObjectFormatDetail && businessObjectFormatDetail.documentSchema">
+        <ng-template ngbTabTitle>
+          DOCUMENT SCHEMA
+        </ng-template>
+        <ng-template ngbTabContent>
+          <div class="document-schema">{{businessObjectFormatDetail && businessObjectFormatDetail.documentSchema}}</div>
+        </ng-template>
+      </ngb-tab>
     </ngb-tabset>
   </div>
 </sd-generic-view>
