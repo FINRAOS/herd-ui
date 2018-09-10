@@ -13,11 +13,18 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {BusinessObjectDataService, BusinessObjectFormat, BusinessObjectFormatService} from '@herd/angular-client';
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {default as AppIcons} from '../../../shared/utils/app-icons';
-import {Action} from '../../../shared/components/side-action/side-action.component';
+import {
+  BusinessObjectDataService,
+  BusinessObjectFormat,
+  BusinessObjectFormatService, StorageUnitService
+} from '@herd/angular-client';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { default as AppIcons } from '../../../shared/utils/app-icons';
+import { Action } from '../../../shared/components/side-action/side-action.component';
+import * as S3 from 'aws-sdk/clients/s3';
+import { Credentials } from 'aws-sdk';
+
 
 export interface DataObjectDetailRequest {
   namespace: string,
@@ -47,12 +54,16 @@ export class DataObjectDetailComponent implements OnInit {
   public businessObjectData;
   public businessObjectDataVersionSelected;
   public businessObjectDataVersions: number[] = [];
+  private s3;
+  public presignedURL: string;
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     private businessObjectFormatApi: BusinessObjectFormatService,
-    private businessObjectDataApi: BusinessObjectDataService) {
-
+    private storageUnitService: StorageUnitService,
+    private businessObjectDataApi: BusinessObjectDataService
+  ) {
   }
 
   ngOnInit() {
@@ -83,8 +94,8 @@ export class DataObjectDetailComponent implements OnInit {
           this.request.namespace, this.request.dataEntityName,
           this.request.formatUsage, this.request.formatFileType,
           this.request.formatVersion).subscribe((formatResponse) => {
-            this.businessObjectData.subPartitionKeys = this.findSubPartitionKeys(formatResponse);
-          });
+          this.businessObjectData.subPartitionKeys = this.findSubPartitionKeys(formatResponse);
+        });
       }
     });
 
@@ -147,6 +158,50 @@ export class DataObjectDetailComponent implements OnInit {
       }
     }
     return result.subPartitionKeys;
+  }
+
+  downloadAFile(event: any) {
+
+    // calling the herd service to get credential
+    this.storageUnitService.storageUnitGetStorageUnitDownloadCredential(
+      this.businessObjectData.namespace,
+      this.businessObjectData.businessObjectDefinitionName,
+      this.businessObjectData.businessObjectFormatUsage,
+      this.businessObjectData.businessObjectFormatFileType,
+      this.businessObjectData.businessObjectFormatVersion,
+      this.businessObjectData.partitionValue,
+      this.businessObjectData.businessObjectDataVersion || this.businessObjectData.version,
+      event.storage.name
+    ).subscribe((response) => {
+
+        const credentials =
+          new Credentials(response.awsCredential.awsAccessKey, response.awsCredential.awsSecretKey, response.awsCredential.awsSessionToken);
+
+        this.s3 = new S3({
+          signatureCache: false,
+          s3DisableBodySigning: true,
+          sslEnabled: true,
+          credentials: credentials,
+          params: {
+            Bucket: event.storage.attributes[0].value,
+            SSEAlgorithm: 'AWSS3V4SignerType',
+          }
+
+        });
+
+        // Get the pre signed url to download file
+        this.presignedURL = this.s3.getSignedUrl(
+          'getObject',
+          {
+            Bucket: event.storage.attributes[0].value,
+            Key: event.filePath,
+            Expires: 190
+          }
+        );
+
+      }, (error) => {
+        console.log(error);
+      });
   }
 
 }

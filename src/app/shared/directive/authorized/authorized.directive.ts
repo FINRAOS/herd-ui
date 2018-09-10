@@ -18,6 +18,7 @@ import {UserService} from '../../../core/services/user.service';
 import { UserAuthorizations, NamespaceAuthorization} from '@herd/angular-client';
 
 export class AuthMap {
+  static readStorageUnitDownloadCredential = 'FN_STORAGE_UNIT_DOWNLOAD_CREDENTIAL_GET';
   static editSmes = 'FN_BUSINESS_OBJECT_DEFINITION_SUBJECT_MATTER_EXPERTS_POST';
   static editTags = 'FN_BUSINESS_OBJECT_DEFINITION_TAGS_POST';
   static editDescriptiveInfo = 'FN_BUSINESS_OBJECT_DEFINITIONS_DESCRIPTIVE_INFO_PUT';
