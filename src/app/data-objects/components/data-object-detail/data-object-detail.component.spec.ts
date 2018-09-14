@@ -30,6 +30,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { S3Customizations } from 'aws-sdk/lib/services/s3';
+import { Observable } from 'rxjs/internal/Observable';
+import { throwError } from 'rxjs/internal/observable/throwError';
 
 describe('DataObjectDetailComponent', () => {
   let component: DataObjectDetailComponent;
@@ -445,7 +447,7 @@ describe('DataObjectDetailComponent', () => {
 
     // Spy on the services
     spyStorageUnitService = (<jasmine.Spy>storageUnitService.storageUnitGetStorageUnitDownloadCredential)
-      .and.returnValue(Observable.of(awsCredential));
+      .and.returnValue(of(awsCredential));
 
     component.businessObjectData = businessObjectData;
     component.downloadAFile(storageEvent);
@@ -489,7 +491,7 @@ describe('DataObjectDetailComponent', () => {
 
     // Spy on the services
     spyStorageUnitService = (<jasmine.Spy>storageUnitService.storageUnitGetStorageUnitDownloadCredential)
-      .and.returnValue(Observable.throw({status: 404}));
+      .and.returnValue(throwError({status: 404}));
 
     component.businessObjectData = businessObjectData;
     component.downloadAFile(storageEvent);

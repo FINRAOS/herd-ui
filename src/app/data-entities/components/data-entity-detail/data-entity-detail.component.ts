@@ -651,12 +651,17 @@ export class DataEntityDetailComponent implements OnInit {
     this.businessObjectDefinitionDescriptionSuggestionService
       .businessObjectDefinitionDescriptionSuggestionSearchBusinessObjectDefinitionDescriptionSuggestions(
         businessObjectDefinitionDescriptionSuggestionSearchRequest, 'status, descriptionSuggestion, createdByUserId, createdOn'
-      ).subscribe((response) => {
+      ).pipe(
+        catchError((error) => {
+          this.alertService.alert(new DangerAlert('Unable to get data entity description suggestions', '',
+            `Problem: ${error} : Try again later.`, 5));
+          return error;
+        })
+    ).subscribe((response) => {
       this.businessObjectDefinitionDescriptionSuggestions = response && response.businessObjectDefinitionDescriptionSuggestions;
     }, (error) => {
       this.alertService.alert(new DangerAlert('Unable to get data entity description suggestions', '',
-        `Problem: ${error} : Try again later.`, 5
-      ))
+        `Problem: ${error} : Try again later.`, 5))
     });
 
   }

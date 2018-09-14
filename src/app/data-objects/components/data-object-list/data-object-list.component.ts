@@ -308,6 +308,14 @@ export class DataObjectListComponent implements OnInit {
         })
       ).subscribe((bData: any) => {
         this.data = bData;
+      }, (e: Response) => {
+        if (e.status === 400) {
+          this.dt.emptyMessage = e.json().message;
+          return new Observable(([] as DataObjectRowData[]) as any);
+        } else if (e.url) {
+          this.alerter.alert(new DangerAlert('HTTP Error: ' + e.status + ' ' + e.statusText,
+            'URL: ' + e.url, 'Info: ' + e.json().message));
+        }
       });
     } else {
       this.lastLoad = this.doDataGet().pipe(finalize(() => {
