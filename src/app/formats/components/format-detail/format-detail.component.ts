@@ -45,7 +45,15 @@ export class FormatDetailComponent implements OnInit {
   formatVersions: Observable<number[]>;
   private errorMessageNotFound = 'No data registered';
   private errorMessageAuthorization = 'Access Denied';
-  private currentUrl: string;
+
+  documentSchemaConfig = {
+    lineNumbers: true,
+    lineWrapping: true,
+    mode: 'text/x-go',
+    readOnly: true,
+    scrollbarStyle: null,
+    fixedGutter: true
+  };
 
   constructor(
     private activatedRoute: ActivatedRoute,
