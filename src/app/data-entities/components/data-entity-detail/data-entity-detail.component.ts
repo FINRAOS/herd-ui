@@ -657,7 +657,7 @@ export class DataEntityDetailComponent implements OnInit {
             `Problem: ${error} : Try again later.`, 5));
           return error;
         })
-    ).subscribe((response) => {
+    ).subscribe((response: any) => {
       this.businessObjectDefinitionDescriptionSuggestions = response && response.businessObjectDefinitionDescriptionSuggestions;
     }, (error) => {
       this.alertService.alert(new DangerAlert('Unable to get data entity description suggestions', '',
