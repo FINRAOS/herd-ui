@@ -17,8 +17,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { Action } from '../../../shared/components/side-action/side-action.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  BusinessObjectFormatService, BusinessObjectDataService,
+import { BusinessObjectFormatService, BusinessObjectDataService,
   BusinessObjectDefinitionColumnService, BusinessObjectDataAvailabilityRequest, StorageService
 } from '@herd/angular-client';
 import { Observable } from 'rxjs';
@@ -46,7 +45,15 @@ export class FormatDetailComponent implements OnInit {
   formatVersions: Observable<number[]>;
   private errorMessageNotFound = 'No data registered';
   private errorMessageAuthorization = 'Access Denied';
-  private currentUrl: string;
+
+  documentSchemaConfig = {
+    lineNumbers: true,
+    lineWrapping: true,
+    mode: 'text/x-go',
+    readOnly: true,
+    scrollbarStyle: null,
+    fixedGutter: true
+  };
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -69,18 +76,20 @@ export class FormatDetailComponent implements OnInit {
 
       // used to fill in all of the versions for the select
       this.formatVersions = this.businessObjectFormatApi
-        .businessObjectFormatGetBusinessObjectFormats(this.namespace, this.businessObjectDefinitionName, false).pipe(
-        map((resp) => {
-          return resp.businessObjectFormatKeys.filter((key) => {
-            return key.businessObjectFormatUsage === this.businessObjectFormatUsage
-              && key.businessObjectFormatFileType === this.businessObjectFormatFileType;
-          }).map((key) => {
-            return key.businessObjectFormatVersion;
-          }).sort((a, b) => {
-            return a - b;
-          });
-        }),
-        startWith([])); // use starts with to get rid of template parsing errors using async pipe
+        .businessObjectFormatGetBusinessObjectFormats(this.namespace, this.businessObjectDefinitionName, false)
+        .pipe(
+          map((resp) => {
+            return resp.businessObjectFormatKeys.filter((key) => {
+              return key.businessObjectFormatUsage === this.businessObjectFormatUsage
+                && key.businessObjectFormatFileType === this.businessObjectFormatFileType;
+            }).map((key) => {
+              return key.businessObjectFormatVersion;
+            }).sort((a, b) => {
+              return a - b;
+            });
+          }),
+          startWith([]) // use starts with to get rid of template parsing errors using async pipe
+        );
 
       this.businessObjectFormatApi
         .businessObjectFormatGetBusinessObjectFormat(this.namespace,
@@ -146,7 +155,7 @@ export class FormatDetailComponent implements OnInit {
           '${maximum.partition.value}'
         ]
       }
-    }
+    };
 
     // to get the absolute possible maximum and minimum values
     // we hve to search accross all storage names for the request.
