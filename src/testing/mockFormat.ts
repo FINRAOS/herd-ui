@@ -25,6 +25,7 @@ export class MockFormat {
     'latestVersion': true,
     'partitionKey': 'PARTITION-KEY',
     'description': '',
+    'documentSchema': 'test document schema',
     'attributes': [],
     'attributeDefinitions': [],
     'recordFlag': 'true',

@@ -234,6 +234,23 @@
           </sd-schema-columns>
         </ng-template>
       </ngb-tab>
+      <ngb-tab *ngIf="businessObjectFormatDetail && businessObjectFormatDetail.documentSchema">
+        <ng-template ngbTabTitle>
+          DOCUMENT SCHEMA
+        </ng-template>
+        <ng-template ngbTabContent>
+          <div class="card container document-schema">
+            <div class="card-block">
+              <div class="row">
+                <codemirror class="ace-editor"
+                            [(ngModel)]="businessObjectFormatDetail && businessObjectFormatDetail.documentSchema"
+                            [config]="documentSchemaConfig">
+                </codemirror>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
     </ngb-tabset>
   </div>
 </sd-generic-view>
