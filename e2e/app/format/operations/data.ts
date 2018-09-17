@@ -20,6 +20,7 @@
 const conf = require('./../../../config/conf.e2e.json');
 export class Data {
     description = 'Sample description text for testing purpose. Used for all description fields';
+    documentSchema = 'Sample document schema';
     defaultDataProvider = 'DP_PROTRACTOR_TEST';
     defaultNamespace = 'NS_PROTRACTOR_TEST';
 
@@ -112,7 +113,8 @@ export class Data {
             'businessObjectFormatUsage': 'FORMAT_DETAILS_B',
             'businessObjectFormatFileType': 'TXT',
             'partitionKey': 'TEST_KEY',
-            'description': this.description
+            'description': this.description,
+            'documentSchema': this.documentSchema
         }
     }
 

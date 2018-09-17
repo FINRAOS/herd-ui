@@ -17,6 +17,7 @@ import * as winston from 'winston';
 import * as path from 'path';
 import * as fs from 'fs';
 import request from 'sync-request';
+// import request, {FormData} from 'then-request';
 import { Logger } from 'winston';
 
 
@@ -35,6 +36,7 @@ export class DataManager {
   static logger: Logger;
 
   static async initializeData(specs: string[]) {
+
     const processOps = async (opsLocation, spec) => {
       return new Promise(async (resolve, reject) => {
         // check for ts on normal runs and .js on generated file debug runs.
@@ -55,8 +57,10 @@ export class DataManager {
         resolve();
       });
     };
+
     const dm = new DataManager();
     const waitFor: string[] = [];
+
     for (const spec of specs) {
       // don't process ops for the base protractor spec or any spec marked with
       // noops in the file name.
@@ -85,7 +89,6 @@ export class DataManager {
         }
       });
     }
-
     return Promise.resolve();
   };
 
@@ -156,8 +159,8 @@ export class DataManager {
       option.url = herdHost + option.url;
 
       DataManager.logger.log('info', '------------------');
-      DataManager.logger.log('info', 'Requested POST on path {%s}', option.url);
-      DataManager.logger.log('info', 'Request body %s', JSON.stringify(option.body));
+      DataManager.logger.log('info', 'Requested POST on path {' + option.url + '}');
+      DataManager.logger.log('info', 'Request body ' + JSON.stringify(option.body));
 
       const response = request('POST', option.url, {
         json: option.body, headers: {
@@ -168,8 +171,9 @@ export class DataManager {
       try {
         // try to get the body.  if this returns an error that means
         // the response was an error ( in most cases )
+        DataManager.logger.log('warn', 'going to execute...');
         const body = response.getBody('utf8');
-        DataManager.logger.log('debug', 'Request succeeded.');
+        DataManager.logger.log('info', 'Request succeeded.');
       } catch (e) {
         console.log(e.message);
         // DataManager.logger.log('debug', e);
@@ -192,7 +196,7 @@ export class DataManager {
     options = this.sortOptions(options);
     options.forEach(function (option) {
       DataManager.logger.log('info', '------------------');
-      DataManager.logger.log('info', 'Requested DELETE on path {%s}', option.url);
+      DataManager.logger.log('info', 'Requested DELETE on path {' + option.url + '}');
       option.url = herdHost + option.url;
 
       const response = request('DELETE', option.url, {
@@ -205,7 +209,7 @@ export class DataManager {
         // try to get the body.  if this returns an error that means
         // the response was an error ( in most cases )
         const body = response.getBody('utf8');
-        DataManager.logger.log('debug', 'Request succeeded.');
+        DataManager.logger.log('info', 'Request succeeded.');
       } catch (e) {
         console.log(e.message);
         // DataManager.logger.log('debug', e);
@@ -228,7 +232,7 @@ export class DataManager {
 
     options.forEach(function (option) {
       DataManager.logger.log('info', '------------------');
-      DataManager.logger.log('info', 'Requested PUT on path {%s}', option.url);
+      DataManager.logger.log('info', 'Requested PUT on path {' + option.url + '}');
       option.url = herdHost + option.url;
 
       const response = request('PUT', option.url, {
@@ -241,9 +245,9 @@ export class DataManager {
         // try to get the body.  if this returns an error that means
         // the response was an error ( in most cases )
         const body = response.getBody('utf8');
-        DataManager.logger.log('debug', 'Request succeeded.');
+        DataManager.logger.log('warn', 'Request succeeded.');
       } catch (e) {
-        DataManager.logger.log('debug', e);
+        DataManager.logger.log('info', e);
       } finally {
         DataManager.logger.log('info', '------------------');
       }
@@ -264,7 +268,7 @@ export class DataManager {
       // try to get the body.  if this returns an error that means
       // the response was an error ( in most cases )
       const body = JSON.parse(response.getBody('utf8'));
-      DataManager.logger.log('debug', 'Got Search Indexes');
+      DataManager.logger.log('info', 'Got Search Indexes');
 
       body.searchIndexKeys.forEach((key, i) => {
         try {
@@ -280,7 +284,7 @@ export class DataManager {
             }
           });
           JSON.parse(response.getBody('utf8'));
-          DataManager.logger.log('debug', 'Finished validating ' + key.searchIndexName);
+          DataManager.logger.log('info', 'Finished validating ' + key.searchIndexName);
         } catch (e) {
           console.log(e.message);
         } finally {

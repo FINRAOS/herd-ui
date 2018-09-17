@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {RouterStub, ActivatedRouteStub} from 'testing/router-stubs';
-import {async, ComponentFixture, TestBed, inject} from '@angular/core/testing';
+import { RouterStub, ActivatedRouteStub } from 'testing/router-stubs';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 
 import {
   DataEntityDetailComponent,
@@ -23,8 +23,8 @@ import {
   DAGNodeType, HierarchialGraph, DataEntityWithFormatColumn
 } from './data-entity-detail.component';
 import { NgbModule, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
-import {RouterTestingModule} from '@angular/router/testing';
-import {SideActionComponent} from '../../../shared/components/side-action/side-action.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { SideActionComponent } from '../../../shared/components/side-action/side-action.component';
 import {
   CurrentUserService,
   SubjectMatterExpertService, BusinessObjectDefinitionSubjectMatterExpertService,
@@ -38,34 +38,34 @@ import {
   Configuration, UserAuthorizations,
   NamespaceAuthorization, BusinessObjectDefinitionDescriptiveInformationUpdateRequest, BusinessObjectDefinitionDescriptionSuggestionService
 } from '@herd/angular-client';
-import {HttpClientModule} from '@angular/common/http';
-import {ActivatedRoute, Router} from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import {AlertService, SuccessAlert, DangerAlert, WarningAlert} from '../../../core/services/alert.service';
-import {UserService} from '../../../core/services/user.service';
-import {EncryptionService} from '../../../shared/services/encryption.service';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {EditComponent, EditEvent} from 'app/shared/components/edit/edit.component';
-import {TagsComponent} from 'app/data-entities/components/tags/tags.component';
-import {SideActionsComponent} from 'app/shared/components/side-actions/side-actions.component';
-import {FileDownloaderDirective} from 'app/shared/directive/file-downloader/file-downloader.directive';
-import {AuthorizedDirective} from 'app/shared/directive/authorized/authorized.directive';
-import {EllipsisOverflowComponent} from 'app/shared/components/ellipsis-overflow/ellipsis-overflow.component';
-import {DataTableModule} from 'primeng/components/datatable/datatable';
-import {ButtonModule} from 'primeng/components/button/button';
-import {GenericViewComponent} from 'app/shared/components/generic-view/generic-view.component';
-import {CodemirrorModule} from 'ng2-codemirror/lib';
-import {ClipboardModule} from 'ngx-clipboard';
-import {BrowserModule, By} from '@angular/platform-browser';
-import {SelectModule} from 'ng-select';
-import {MockCkeditorComponent} from 'testing/mock-ckeditor.component';
-import {SpinnerComponent} from 'app/shared/components/spinner/spinner.component';
-import {NgxGraphModule} from '@swimlane/ngx-graph';
-import {NgxChartsModule} from '@swimlane/ngx-charts';
-import {InlineSVGModule} from 'ng-inline-svg';
-import {APP_BASE_HREF} from '@angular/common';
-import {ReplaySubject} from 'rxjs';
-import {ContactsComponent} from '../contacts/contacts.component';
+import { AlertService, SuccessAlert, DangerAlert, WarningAlert } from '../../../core/services/alert.service';
+import { UserService } from '../../../core/services/user.service';
+import { EncryptionService } from '../../../shared/services/encryption.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EditComponent, EditEvent } from 'app/shared/components/edit/edit.component';
+import { TagsComponent } from 'app/data-entities/components/tags/tags.component';
+import { SideActionsComponent } from 'app/shared/components/side-actions/side-actions.component';
+import { FileDownloaderDirective } from 'app/shared/directive/file-downloader/file-downloader.directive';
+import { AuthorizedDirective } from 'app/shared/directive/authorized/authorized.directive';
+import { EllipsisOverflowComponent } from 'app/shared/components/ellipsis-overflow/ellipsis-overflow.component';
+import { DataTableModule } from 'primeng/components/datatable/datatable';
+import { ButtonModule } from 'primeng/components/button/button';
+import { GenericViewComponent } from 'app/shared/components/generic-view/generic-view.component';
+import { CodemirrorModule } from 'ng2-codemirror/lib';
+import { ClipboardModule } from 'ngx-clipboard';
+import { BrowserModule, By } from '@angular/platform-browser';
+import { SelectModule } from 'ng-select';
+import { MockCkeditorComponent } from 'testing/mock-ckeditor.component';
+import { SpinnerComponent } from 'app/shared/components/spinner/spinner.component';
+import { NgxGraphModule } from '@swimlane/ngx-graph';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { InlineSVGModule } from 'ng-inline-svg';
+import { APP_BASE_HREF } from '@angular/common';
+import { ReplaySubject } from 'rxjs';
+import { ContactsComponent } from '../contacts/contacts.component';
 import { SuggestionsComponent } from '../suggestions/suggestions.component';
 import { DiffMatchPatchModule } from 'ng-diff-match-patch/dist';
 
@@ -471,14 +471,14 @@ describe('DataEntityDetailComponent', () => {
     ],
     (
       bdefSmeApi: BusinessObjectDefinitionSubjectMatterExpertService,
-     smeApi: SubjectMatterExpertService,
-     tagTypeApi: TagTypeService,
-     tagApi: TagService,
-     bdefTagApi: BusinessObjectDefinitionTagService,
-     bdefApi: BusinessObjectDefinitionService,
-     downloadApi: UploadAndDownloadService,
-     bformatApi: BusinessObjectFormatService,
-     bColApi: BusinessObjectDefinitionColumnService,
+      smeApi: SubjectMatterExpertService,
+      tagTypeApi: TagTypeService,
+      tagApi: TagService,
+      bdefTagApi: BusinessObjectDefinitionTagService,
+      bdefApi: BusinessObjectDefinitionService,
+      downloadApi: UploadAndDownloadService,
+      bformatApi: BusinessObjectFormatService,
+      bColApi: BusinessObjectDefinitionColumnService,
       activeRoute: ActivatedRouteStub,
       businessObjectDefinitionDescriptionSuggestionService: BusinessObjectDefinitionDescriptionSuggestionService
     ) => {
@@ -557,23 +557,24 @@ describe('DataEntityDetailComponent', () => {
 
   it('should show error when suggestions call fails and ',
     async(inject([BusinessObjectDefinitionDescriptionSuggestionService, AlertService],
-    (businessObjectDefinitionDescriptionSuggestionService: BusinessObjectDefinitionDescriptionSuggestionService, alerter: AlertService) => {
+      (businessObjectDefinitionDescriptionSuggestionService: BusinessObjectDefinitionDescriptionSuggestionService,
+       alerter: AlertService) => {
 
-      const bdefSuggestionSpy = businessObjectDefinitionDescriptionSuggestionService
-        .businessObjectDefinitionDescriptionSuggestionSearchBusinessObjectDefinitionDescriptionSuggestions as jasmine.Spy;
-      const alertSpy = alerter.alert as jasmine.Spy;
+        const bdefSuggestionSpy = businessObjectDefinitionDescriptionSuggestionService
+          .businessObjectDefinitionDescriptionSuggestionSearchBusinessObjectDefinitionDescriptionSuggestions as jasmine.Spy;
+        const alertSpy = alerter.alert as jasmine.Spy;
 
-      // for failure on delete
-      bdefSuggestionSpy.and.returnValue(throwError({status: 404}));
+        // for failure on delete
+        bdefSuggestionSpy.and.returnValue(throwError({status: 404}));
 
 
-      // fixture.detectChanges();
-      component.getAllPendingSuggestion('xxx', 'yyy', 'PENDING');
-      expect(component.businessObjectDefinitionDescriptionSuggestions).toEqual(undefined);
-      expect(bdefSuggestionSpy.calls.count()).toEqual(1);
-      expect(alertSpy.calls.count()).toEqual(1);
+        // fixture.detectChanges();
+        component.getAllPendingSuggestion('xxx', 'yyy', 'PENDING');
+        expect(component.businessObjectDefinitionDescriptionSuggestions).toEqual(undefined);
+        expect(bdefSuggestionSpy.calls.count()).toEqual(1);
+        expect(alertSpy.calls.count()).toEqual(1);
 
-  })));
+      })));
 
   it(' suggestionApprove should approve description suggestion', () => {
     component.open('');
@@ -655,10 +656,11 @@ describe('DataEntityDetailComponent', () => {
           businessObjectDefinitionName: 'bdef',
           dataProviderName: 'dp',
           displayName: 'display name',
-          sampleDataFiles: [{
-            directoryPath: '/tmp',
-            fileName: 'test'
-          }
+          sampleDataFiles: [
+            {
+              directoryPath: '/tmp',
+              fileName: 'test'
+            }
           ],
           descriptiveBusinessObjectFormat: descriptiveFormat
         };
@@ -1052,7 +1054,10 @@ describe('DataEntityDetailComponent', () => {
       };
       expectedGraph.nodes.push(grandParent);
       expectedGraph.links.push({source: grandParent.id, target: parentToShowFurther.id});
-      component.popover = {close: () => {}} as NgbPopover;
+      component.popover = {
+        close: () => {
+        }
+      } as NgbPopover;
       component.showFurther(parentToShowFurther);
 
       // goes throguh the hierarchialGraph and makes the loadlineage false
@@ -1138,7 +1143,10 @@ describe('DataEntityDetailComponent', () => {
       };
       expectedGraph.nodes.push(grandChild);
       expectedGraph.links.push({target: grandChild.id, source: childToShowFurther.id});
-      component.popover = {close: () => {}} as NgbPopover;
+      component.popover = {
+        close: () => {
+        }
+      } as NgbPopover;
       component.showFurther(childToShowFurther);
 
       // goes throguh the hierarchialGraph and makes the loadlineage false
@@ -1199,7 +1207,10 @@ describe('DataEntityDetailComponent', () => {
         nodes: [...component.hierarchialGraph.nodes],
         links: [...component.hierarchialGraph.links]
       };
-      component.popover = {close: () => {}} as NgbPopover;
+      component.popover = {
+        close: () => {
+        }
+      } as NgbPopover;
       component.showFurther(toShowFurther);
 
       expect(alerter.alert).toHaveBeenCalledWith(new WarningAlert('No Further Lineage', '',
