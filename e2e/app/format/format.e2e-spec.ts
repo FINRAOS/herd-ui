@@ -65,6 +65,7 @@ describe('Format page:', () => {
     await page.navigateTo(formatPageUrl + urlParams);
 
     // validate document schema tab
+    await expect(page.documentSchemaTab.isDisplayed()).toBeTruthy();
     await page.documentSchemaTab.click();
     await expect(page.documentSchemaContainer.getText()).toEqual('1\n' + data.bformat2().documentSchema);
 
@@ -126,6 +127,7 @@ describe('Format page:', () => {
     format.businessObjectFormatUsage,
     format.businessObjectFormatFileType, version].join('/');
     await page.navigateTo(formatPageUrl + urlParams);
+    await expect(page.documentSchemaTab.isDisplayed()).toBeFalsy();
     await validate(format, 'TEST_1', '');
 
     // partition columns
