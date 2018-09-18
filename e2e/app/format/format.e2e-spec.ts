@@ -38,7 +38,7 @@ describe('Format page:', () => {
     schemaColsHeader: ['Name', 'Type', 'Size', 'Required?', 'Default Value Description'].join('\n'),
     partitionColsHeader: ['Name', 'Type', 'Size', 'Required?', 'Default Value', 'Description'].join('\n'),
     noColsRegistered: 'No Columns Registered'
-  }
+  };
 
   beforeEach(() => {
 
@@ -63,6 +63,11 @@ describe('Format page:', () => {
     format.businessObjectFormatUsage,
     format.businessObjectFormatFileType, version].join('/');
     await page.navigateTo(formatPageUrl + urlParams);
+
+    // validate document schema tab
+    await page.documentSchemaTab.click();
+    await expect(page.documentSchemaContainer.getText()).toEqual('1\n' + data.bformat2().documentSchema);
+
     await validate(format, 'TEST_1', 'TEST_2');
 
     // Partitions and other attributes message
