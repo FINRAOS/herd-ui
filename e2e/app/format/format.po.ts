@@ -28,6 +28,7 @@ export class FormatPage extends BasePo {
 
   // tabs
   public _tabs = element.all(by.tagName('ngb-tabset'));
+  public documentSchemaTab = this._tabs.get(0).all(by.tagName('a')).get(2);
   public columnsTab = this._tabs.get(0).all(by.tagName('a')).get(1);
   public overviewTab = this._tabs.get(0).all(by.tagName('a')).get(0);
 
@@ -64,6 +65,10 @@ export class FormatPage extends BasePo {
   private schemaColumnsContainer = element(by.className('schema-columns'));
   public schemaColumnsHeader = this.schemaColumnsContainer.element(by.className('ui-datatable-thead'));
   public schemaColumnsEmptyMessage = this.schemaColumnsContainer.element(by.className('ui-datatable-emptymessage'));
+
+  // schema columns
+  public documentSchemaContainer = element(by.className('document-schema'));
+
 
   get schemaColData1(): ElementFinder {
          return this.schemaColumnsContainer.all(by.className('ui-datatable-even')).get(0);
