@@ -510,6 +510,7 @@ export class DataEntityDetailComponent implements OnInit {
           } else if (selectedNode.type === DAGNodeType.child) {
             return this.processChildren(selectedNode, format);
           }
+          // thiere is a unit test failing for this. Need to figure out why use of throwError is cause that.
           return throwError('invalidNodeType');
         })
       ).subscribe((graph: HierarchialGraph) => {

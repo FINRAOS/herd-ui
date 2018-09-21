@@ -79,7 +79,7 @@ exports.config = {
     const dataManager = require(path.resolve(__dirname + '/e2e/util/DataManager.ts')).DataManager;
     return dataManager.tearDownData();
   },
-  baseUrl: 'https://udc.dev.finra.org/',
+  baseUrl: 'http://localhost:4200/',
   beforeLaunch: function () {
     if (fs.existsSync('processed.txt')) {
       fs.unlinkSync("processed.txt");
