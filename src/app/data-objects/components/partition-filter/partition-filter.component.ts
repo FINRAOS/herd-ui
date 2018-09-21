@@ -13,10 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {
-    Component, OnInit, ChangeDetectionStrategy, Output, EventEmitter,
-    Input, OnChanges, SimpleChanges
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
 import { PartitionValueFilter } from '@herd/angular-client';
 import { merge } from 'rxjs';

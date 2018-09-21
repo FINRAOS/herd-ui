@@ -14,8 +14,8 @@
 * limitations under the License.
 */
 
-import {DataManager} from '../../../util/DataManager';
-import {browser} from 'protractor';
+import { DataManager } from '../../../util/DataManager';
+import { browser } from 'protractor';
 import data from './operations/data';
 import {
   AttributeFilter,

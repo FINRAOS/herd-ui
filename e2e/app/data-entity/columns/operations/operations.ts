@@ -18,9 +18,9 @@
  * Utilizes the data specified in jsonnew new schema.js and data.js
  */
 
-import {Data} from './data';
+import { Data } from './data';
 import * as schema from '../../../../util/JsonSchema';
-import {DataManager} from '../../../../util/DataManager';
+import { DataManager } from '../../../../util/DataManager';
 
 const data = new Data();
 
@@ -92,9 +92,9 @@ export const postRequests = function () {
                     data.bdefTestDF_FORMAT().schema.columns[1].description)
             }
         ]
-    }
+    };
     return setupOptions;
-}
+};
 
 /**
  * Generate requests to put bdef descriptive format
@@ -128,9 +128,9 @@ export const putDescriptiveFormatRequests = function () {
                     data.bdefTestDF_FORMAT_WithPartitions().businessObjectFormatFileType)
             }
         ]
-    }
+    };
     return setupOptions;
-}
+};
 
 
 
@@ -198,10 +198,10 @@ export const deleteRequests = function () {
                 'url': new schema.DataProvider().deleteUrl(data.defaultDataProvider)
             }
         ]
-    }
+    };
 
     return teardownOptions;
-}
+};
 
 
 /**
@@ -230,9 +230,9 @@ export const clearDescriptiveFormatRequests = function () {
                 'body': {}
             }
         ]
-    }
+    };
     return setupOptions;
-}
+};
 
 // due to running tests in parallel each tested browser for editing needs its own
 // to edit this function allows the browser to setup its own data as opposed to the
@@ -265,7 +265,7 @@ export const editableDataSetup = () => {
 
     dm.setUp(posts);
     dm.update(updates);
-}
+};
 
 // due to running tests in parallel each tested browser for editing needs its own
 // to edit this function allows the browser to delete its own data
@@ -296,7 +296,7 @@ export const editableDataTearDown = () => {
 
     dm.update(updates);
     dm.tearDown(deletes);
-}
+};
 
 export const initRequests = {
     posts: postRequests(),

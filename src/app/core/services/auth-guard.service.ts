@@ -14,11 +14,12 @@
 * limitations under the License.
 */
 import { Injectable } from '@angular/core';
-import { CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserService } from './user.service';
 import { environment } from '../../../environments/environment';
 import { catchError, map } from 'rxjs/operators';
+import { of } from 'rxjs/internal/observable/of';
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
@@ -47,7 +48,7 @@ export class AuthGuardService implements CanActivate {
               returnUrl: state.url,
             }
           });
-          return new Observable(false as any);
+          return of(false as any);
         })
       ) as any;
     } else {

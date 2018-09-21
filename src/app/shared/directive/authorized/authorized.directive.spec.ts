@@ -13,12 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {AuthorizedDirective, AuthMap} from './authorized.directive';
-import {UserService} from '../../../core/services/user.service';
-import {Component, Input, DebugElement} from '@angular/core';
-import {ComponentFixture, TestBed, async} from '@angular/core/testing';
+import { AuthMap, AuthorizedDirective } from './authorized.directive';
+import { UserService } from '../../../core/services/user.service';
+import { Component, DebugElement, Input } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { UserAuthorizations, NamespaceAuthorization } from '@herd/angular-client';
+import { NamespaceAuthorization, UserAuthorizations } from '@herd/angular-client';
 import { By } from '@angular/platform-browser';
 
 /*

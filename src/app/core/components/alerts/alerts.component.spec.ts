@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { async, inject, ComponentFixture, TestBed, tick, fakeAsync} from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 
 import { AlertsComponent } from './alerts.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';

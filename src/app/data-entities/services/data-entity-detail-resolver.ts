@@ -14,13 +14,8 @@
 * limitations under the License.
 */
 import { Injectable } from '@angular/core';
-import {
-    Router, Resolve, RouterStateSnapshot,
-    ActivatedRouteSnapshot, DetachedRouteHandle
-} from '@angular/router';
-import {
-    BusinessObjectDefinition, BusinessObjectDefinitionService
-} from '@herd/angular-client';
+import { ActivatedRouteSnapshot, DetachedRouteHandle, Resolve, Router, RouterStateSnapshot } from '@angular/router';
+import { BusinessObjectDefinition, BusinessObjectDefinitionService } from '@herd/angular-client';
 import { Observable } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { map } from 'rxjs/operators';
@@ -52,7 +47,7 @@ export class DataEntityDetailResolverService implements Resolve<any> {
                     const retVal: DataEntityDetailResolverData = {
                         bdef: res,
                         title: 'Data Entity - ' + (res.displayName || res.businessObjectDefinitionName)
-                    }
+                    };
                     return retVal;
                 }));
 

@@ -13,9 +13,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {TagService, TagType, TagTypeService, TagSearchRequest} from '@herd/angular-client';
-import {environment} from '../../../../environments/environment';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { TagSearchRequest, TagService, TagType, TagTypeService } from '@herd/angular-client';
+import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';

@@ -13,15 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {
-  Component, OnInit, ViewEncapsulation
-} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {SearchService} from '../../../shared/services/search.service';
-import {
-  IndexSearchResult, Facet, IndexSearchFilter,
-  IndexSearchKey, Highlight
-} from '@herd/angular-client';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SearchService } from '../../../shared/services/search.service';
+import { Facet, Highlight, IndexSearchFilter, IndexSearchKey, IndexSearchResult } from '@herd/angular-client';
 
 @Component({
   selector: 'sd-search',

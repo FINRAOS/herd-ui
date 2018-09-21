@@ -13,12 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { TestBed, inject } from '@angular/core/testing';
-import { SearchService, HitMatchTypes } from './search.service';
-import { IndexSearchService, Facet, Highlight } from '@herd/angular-client';
+import { async, inject, TestBed } from '@angular/core/testing';
+import { HitMatchTypes, SearchService } from './search.service';
+import { Facet, Highlight, IndexSearchService } from '@herd/angular-client';
 import { of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
-import { async } from '@angular/core/testing';
 import { IndexSearchMockData } from 'testing/IndexSearchMockData';
 
 
@@ -152,7 +151,7 @@ describe('SearchService', () => {
             ]
           }
         ]
-      }
+      };
       expect(service.joinHighlight(highlight))
       .toEqual('<span class="found">Found in - Name</span>&nbsp<hlt class="highlight"> test highlight <hlt></br>');
     }));

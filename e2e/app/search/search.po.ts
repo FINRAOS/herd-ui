@@ -13,10 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {browser, by, element, ElementArrayFinder, ElementFinder} from 'protractor';
-import {BasePo} from '../base/base.po';
+import { browser, by, element, ElementArrayFinder, ElementFinder } from 'protractor';
+import { BasePo } from '../base/base.po';
 import data from './operations/data';
-import {HitMatchTypes} from 'app/shared/services/search.service';
+import { HitMatchTypes } from 'app/shared/services/search.service';
 
 const conf = require('../../config/conf.e2e.json');
 

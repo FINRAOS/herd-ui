@@ -13,35 +13,48 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { RouterStub, ActivatedRouteStub } from 'testing/router-stubs';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { ActivatedRouteStub, RouterStub } from 'testing/router-stubs';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 
 import {
+  DAGNodeType,
+  DAGNodeTypeColor,
   DataEntityDetailComponent,
   DataEntityLineageNode,
-  DAGNodeTypeColor,
-  DAGNodeType, HierarchialGraph, DataEntityWithFormatColumn
+  DataEntityWithFormatColumn,
+  HierarchialGraph
 } from './data-entity-detail.component';
 import { NgbModule, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SideActionComponent } from '../../../shared/components/side-action/side-action.component';
 import {
-  CurrentUserService,
-  SubjectMatterExpertService, BusinessObjectDefinitionSubjectMatterExpertService,
-  TagService, TagTypeService, BusinessObjectDefinitionTagService, SubjectMatterExpert,
-  BusinessObjectDefinitionSubjectMatterExpertKeys,
-  BusinessObjectFormat, BusinessObjectDefinition, UploadAndDownloadService,
-  BusinessObjectDefinitionColumnService, BusinessObjectFormatService,
-  BusinessObjectDefinitionService, BusinessObjectDefinitionColumn,
+  BusinessObjectDefinition,
+  BusinessObjectDefinitionColumn,
   BusinessObjectDefinitionColumnSearchResponse,
+  BusinessObjectDefinitionColumnService,
+  BusinessObjectDefinitionDescriptionSuggestionService,
+  BusinessObjectDefinitionDescriptiveInformationUpdateRequest,
+  BusinessObjectDefinitionService,
+  BusinessObjectDefinitionSubjectMatterExpertKeys,
+  BusinessObjectDefinitionSubjectMatterExpertService,
+  BusinessObjectDefinitionTagService,
+  BusinessObjectFormat,
   BusinessObjectFormatKey,
-  Configuration, UserAuthorizations,
-  NamespaceAuthorization, BusinessObjectDefinitionDescriptiveInformationUpdateRequest, BusinessObjectDefinitionDescriptionSuggestionService
+  BusinessObjectFormatService,
+  Configuration,
+  CurrentUserService,
+  NamespaceAuthorization,
+  SubjectMatterExpert,
+  SubjectMatterExpertService,
+  TagService,
+  TagTypeService,
+  UploadAndDownloadService,
+  UserAuthorizations
 } from '@herd/angular-client';
 import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { of, throwError } from 'rxjs';
-import { AlertService, SuccessAlert, DangerAlert, WarningAlert } from '../../../core/services/alert.service';
+import { of, ReplaySubject, throwError } from 'rxjs';
+import { AlertService, DangerAlert, SuccessAlert, WarningAlert } from '../../../core/services/alert.service';
 import { UserService } from '../../../core/services/user.service';
 import { EncryptionService } from '../../../shared/services/encryption.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -64,7 +77,6 @@ import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { APP_BASE_HREF } from '@angular/common';
-import { ReplaySubject } from 'rxjs';
 import { ContactsComponent } from '../contacts/contacts.component';
 import { SuggestionsComponent } from '../suggestions/suggestions.component';
 import { DiffMatchPatchModule } from 'ng-diff-match-patch/dist';
@@ -1417,7 +1429,7 @@ describe('DataEntityDetailComponent', () => {
         color: DAGNodeTypeColor.parent
       }],
       links: [{source: ['testNS', 'testPBdefName', 'node', 'id'].join(component.idDelimiter), target: center.id}]
-    }
+    };
 
     const format: BusinessObjectFormat = {
       namespace: 'testNS',
@@ -1709,7 +1721,7 @@ describe('DataEntityDetailComponent', () => {
 
       const successOutput = {...mockColumn, description: mockEvent.text};
 
-      const updateSpy = columnApi.businessObjectDefinitionColumnUpdateBusinessObjectDefinitionColumn as jasmine.Spy
+      const updateSpy = columnApi.businessObjectDefinitionColumnUpdateBusinessObjectDefinitionColumn as jasmine.Spy;
       updateSpy.and.returnValue(of(successResponse));
       const alertSpy = alerter.alert as jasmine.Spy;
 

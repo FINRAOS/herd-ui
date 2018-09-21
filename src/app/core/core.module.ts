@@ -16,7 +16,7 @@
 import { EncryptionService } from './../shared/services/encryption.service';
 import { GoogleAnalyticsService } from './../shared/services/google-analytics.service';
 import { UserService } from './services/user.service';
-import { NgModule, ModuleWithProviders, SkipSelf, Optional, InjectionToken } from '@angular/core';
+import { InjectionToken, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { HomeComponent } from 'app/core/components/home/home.component';
 import { HeaderComponent } from 'app/core/components/header/header.component';
 import { RouterModule } from '@angular/router';

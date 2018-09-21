@@ -13,24 +13,27 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {ActivatedRouteStub, RouterStub} from './../../../../testing/router-stubs';
-import {async, ComponentFixture, TestBed, inject} from '@angular/core/testing';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {RouterTestingModule} from '@angular/router/testing';
-import {SharedModule} from '../../../shared/shared.module';
-import {CategoryDetailComponent} from './category-detail.component';
-import {HttpClientModule} from '@angular/common/http';
-import {ActivatedRoute, Router} from '@angular/router';
-import { of } from 'rxjs';
+import { ActivatedRouteStub, RouterStub } from './../../../../testing/router-stubs';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterTestingModule } from '@angular/router/testing';
+import { SharedModule } from '../../../shared/shared.module';
+import { CategoryDetailComponent } from './category-detail.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of, Subscription } from 'rxjs';
 import {
-  Tag, TagService, BusinessObjectDefinitionService,
-  Configuration, TagSearchResponse, IndexSearchService
+  BusinessObjectDefinitionService,
+  Configuration,
+  IndexSearchService,
+  Tag,
+  TagSearchResponse,
+  TagService
 } from '@herd/angular-client'
-import {IndexSearchMockData} from 'testing/IndexSearchMockData';
-import {RelatedDataEntities} from 'testing/RelatedDataEntities';
-import {GoogleAnalyticsService} from '../../../shared/services/google-analytics.service';
-import {SearchService} from '../../../shared/services/search.service';
-import {Subscription} from 'rxjs';
+import { IndexSearchMockData } from 'testing/IndexSearchMockData';
+import { RelatedDataEntities } from 'testing/RelatedDataEntities';
+import { GoogleAnalyticsService } from '../../../shared/services/google-analytics.service';
+import { SearchService } from '../../../shared/services/search.service';
 
 describe('CategoryDetailComponent', () => {
   const indexSearchMockData: IndexSearchMockData = new IndexSearchMockData();

@@ -13,34 +13,35 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {GlobalSearchComponent} from 'app/shared/components/global-search/global-search.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {SideActionComponent} from './components/side-action/side-action.component';
-import {SideActionsComponent} from './components/side-actions/side-actions.component';
-import {FileDownloaderDirective} from './directive/file-downloader/file-downloader.directive';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { GlobalSearchComponent } from 'app/shared/components/global-search/global-search.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SideActionComponent } from './components/side-action/side-action.component';
+import { SideActionsComponent } from './components/side-actions/side-actions.component';
+import { FileDownloaderDirective } from './directive/file-downloader/file-downloader.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {TriStateComponent} from './components/tri-state/tri-state.component';
-import {TruncatedContentComponent} from './components/truncated-content/truncated-content.component';
-import {SafeHtmlPipe} from './pipes/safe-html.pipe';
+import { TriStateComponent } from './components/tri-state/tri-state.component';
+import { TruncatedContentComponent } from './components/truncated-content/truncated-content.component';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { EllipsisOverflowComponent } from './components/ellipsis-overflow/ellipsis-overflow.component';
 import { GenericViewComponent } from './components/generic-view/generic-view.component';
 import { ReadMoreComponent } from './read-more/read-more.component';
-import {FacetComponent} from './components/facet/facet.component';
+import { FacetComponent } from './components/facet/facet.component';
 import { AttributesComponent } from './components/attributes/attributes.component';
-import {DataTableModule} from 'primeng/components/datatable/datatable';
-import {ButtonModule} from 'primeng/components/button/button';
+import { DataTableModule } from 'primeng/components/datatable/datatable';
+import { ButtonModule } from 'primeng/components/button/button';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { AuthorizedDirective } from './directive/authorized/authorized.directive';
 import { EditComponent } from './components/edit/edit.component';
-import {SelectModule} from 'ng-select';
-import {NgxGraphModule} from '@swimlane/ngx-graph';
+import { SelectModule } from 'ng-select';
+import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { InlineSVGModule } from 'ng-inline-svg/lib';
-import {ClipboardModule} from 'ngx-clipboard';
-import {CodemirrorModule} from 'ng2-codemirror';
+import { ClipboardModule } from 'ngx-clipboard';
+import { CodemirrorModule } from 'ng2-codemirror';
+
 @NgModule({
   imports: [
     CommonModule,

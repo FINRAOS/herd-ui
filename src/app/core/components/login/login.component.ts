@@ -17,7 +17,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { AlertService} from '../../services/alert.service';
+import { AlertService } from '../../services/alert.service';
 import { finalize } from 'rxjs/operators';
 
 @Component({

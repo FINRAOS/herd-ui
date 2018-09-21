@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {by, element} from 'protractor';
-import {BasePo} from '../base/base.po';
+import { by, element } from 'protractor';
+import { BasePo } from '../base/base.po';
 import data from './operations/data';
 
 export class HomePage extends BasePo {

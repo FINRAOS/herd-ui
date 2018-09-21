@@ -16,13 +16,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { Action } from '../../../shared/components/side-action/side-action.component';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  Tag, TagService, TagSearchRequest, Facet,
-  IndexSearchResult, IndexSearchKey, Highlight
-} from '@herd/angular-client'
-import { Subscription } from 'rxjs';
+import { Facet, Highlight, IndexSearchKey, IndexSearchResult, Tag, TagSearchRequest, TagService } from '@herd/angular-client'
 import { SearchService } from '../../../shared/services/search.service';
 import { map } from 'rxjs/operators';
 

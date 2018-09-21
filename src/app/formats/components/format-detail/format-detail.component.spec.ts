@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '../../../shared/shared.module';
@@ -21,10 +21,10 @@ import { FormatDetailComponent } from './format-detail.component';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import {
-  StorageService,
-  BusinessObjectFormatService,
   BusinessObjectDataService,
-  BusinessObjectDefinitionColumnService
+  BusinessObjectDefinitionColumnService,
+  BusinessObjectFormatService,
+  StorageService
 } from '@herd/angular-client';
 import { of, throwError } from 'rxjs';
 import { AlertService } from '../../../core/services/alert.service';

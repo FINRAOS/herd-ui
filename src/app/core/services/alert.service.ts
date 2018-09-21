@@ -14,8 +14,7 @@
 * limitations under the License.
 */
 import { Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 
 export interface Alert {
   title: string;

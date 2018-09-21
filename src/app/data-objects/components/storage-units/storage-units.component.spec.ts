@@ -15,7 +15,7 @@
 */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StorageUnitsComponent } from './storage-units.component';
-import { StorageUnit, Attribute, CurrentUserService, UserAuthorizations } from '@herd/angular-client';
+import { Attribute, CurrentUserService, StorageUnit, UserAuthorizations } from '@herd/angular-client';
 import { By } from '@angular/platform-browser';
 import { AuthorizedDirective } from '../../../shared/directive/authorized/authorized.directive';
 import { UserService } from '../../../core/services/user.service';

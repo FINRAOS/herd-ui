@@ -13,16 +13,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, } from '@angular/core';
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component, ElementRef, Input, OnInit,
-} from '@angular/core';
-import {
-  BusinessObjectDefinitionTagService, TagTypeService,
   BusinessObjectDefinitionTagCreateRequest,
-  BusinessObjectDefinitionTagKey, TagService, NamespaceAuthorization
+  BusinessObjectDefinitionTagKey,
+  BusinessObjectDefinitionTagService,
+  NamespaceAuthorization,
+  TagService,
+  TagTypeService
 } from '@herd/angular-client';
-import {AuthMap} from '../../../shared/directive/authorized/authorized.directive';
+import { AuthMap } from '../../../shared/directive/authorized/authorized.directive';
 
 @Component({
   selector: 'sd-tags',

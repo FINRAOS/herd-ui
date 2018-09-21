@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {by, element, ElementArrayFinder, ElementFinder, promise} from 'protractor';
-import {BasePo} from '../../base/base.po';
+import { by, element, ElementArrayFinder, ElementFinder, promise } from 'protractor';
+import { BasePo } from '../../base/base.po';
 
 export class OverviewPage extends BasePo {
 
@@ -217,7 +217,7 @@ export class OverviewPage extends BasePo {
   }
 
   async canEditDisplayName() {
-    const editDisplayNameElement = this._bdefTitleEl.element(by.css('div:nth-child(2)'))
+    const editDisplayNameElement = this._bdefTitleEl.element(by.css('div:nth-child(2)'));
     // some browsers properly see this is not there others grab all (including non displaying but present) elements
     // if it grabs it make sure that it isn't currently shown.
     return this.isDisplayedShim(editDisplayNameElement);

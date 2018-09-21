@@ -17,12 +17,16 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { Action } from '../../../shared/components/side-action/side-action.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BusinessObjectFormatService, BusinessObjectDataService,
-  BusinessObjectDefinitionColumnService, BusinessObjectDataAvailabilityRequest, StorageService
+import {
+  BusinessObjectDataAvailabilityRequest,
+  BusinessObjectDataService,
+  BusinessObjectDefinitionColumnService,
+  BusinessObjectFormatService,
+  StorageService
 } from '@herd/angular-client';
 import { Observable } from 'rxjs';
 import { AlertService, DangerAlert } from 'app/core/services/alert.service';
-import { map, startWith, flatMap, finalize } from 'rxjs/operators';
+import { finalize, flatMap, map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'sd-format-detail',

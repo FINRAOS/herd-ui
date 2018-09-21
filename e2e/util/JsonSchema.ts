@@ -15,7 +15,7 @@
 */
 
 
-import {BusinessObjectFormatKey, BusinessObjectFormatParentsUpdateRequest} from '@herd/angular-client';
+import { BusinessObjectFormatKey, BusinessObjectFormatParentsUpdateRequest } from '@herd/angular-client';
 
 /**
  * This file maintains all the URLS, request body for posting data to HERD
@@ -41,7 +41,7 @@ export class TagType {
   public deleteUrl(tagTypeKey) {
     return '/tagTypes/' + tagTypeKey;
   }
-};
+}
 
 export class Tags {
   public postUrl() {
@@ -75,7 +75,7 @@ export class Tags {
   public deleteUrl(tagTypeCode, tagCode) {
     return '/tags/tagTypes/' + tagTypeCode + '/tagCodes/' + tagCode
   }
-};
+}
 
 export class Namespace {
   public postUrl() {
@@ -91,7 +91,7 @@ export class Namespace {
   public deleteUrl(namespaceCode) {
     return '/namespaces/' + namespaceCode;
   }
-};
+}
 
 export class DataProvider {
   public postUrl() {
@@ -107,7 +107,7 @@ export class DataProvider {
   public deleteUrl(dataProviderName) {
     return '/dataProviders/' + dataProviderName;
   }
-};
+}
 
 export class BusinessObjectDefinitions {
   public postUrl() {
@@ -137,7 +137,7 @@ export class BusinessObjectDefinitions {
       'description': description, 'displayName': displayName
     };
   }
-};
+}
 
 export class BusinessObjectDefinitionSuggestions {
   public postUrl() {
@@ -148,7 +148,7 @@ export class BusinessObjectDefinitionSuggestions {
     return '/businessObjectDefinitionDescriptionSuggestions/namespaces/'
       + namespaceCode + '/businessObjectDefinitionNames/' + businessObjectDefinitionName + '/userIds/' + userId;
   };
-};
+}
 
 export class BusinessObjectDefinitionSmes {
   public postUrl() {
@@ -162,7 +162,7 @@ export class BusinessObjectDefinitionSmes {
       }
     };
   }
-};
+}
 
 export class BusinessObjectDefinitionTags {
   public postUrl() {
@@ -185,7 +185,7 @@ export class BusinessObjectDefinitionTags {
     return '/businessObjectDefinitionTags/namespaces/' + namespaceCode + '/businessObjectDefinitionNames/' + businessObjectDefinitionName
       + '/tagTypes/' + tagTypeCode + '/tagCodes/' + tagCode;
   }
-};
+}
 
 export class BusinessObjectFormats {
   public postUrl() {
@@ -210,7 +210,7 @@ export class BusinessObjectFormats {
       businessObjectFormatParents: parents
     }
   }
-};
+}
 
 export class BusinessObjectDefinitionColumns {
   public postUrl() {
@@ -231,7 +231,7 @@ export class BusinessObjectDefinitionColumns {
     return '/businessObjectDefinitionColumns/namespaces/' + namespace + '/businessObjectDefinitionNames/' + businessObjectDefinitionName +
       '/businessObjectDefinitionColumnNames/' + businessObjectDefinitionColumnName;
   }
-};
+}
 
 export class BusinessObjectDataAttribute {
 
@@ -251,7 +251,7 @@ export class BusinessObjectDataAttribute {
       businessObjectDataVersion + '/businessObjectDataAttributeNames/' + businessObjectDataAttributeName;
   }
 
-};
+}
 
 export class BusinessObjectDefinitionData {
   public putStatusUrl(namespace, bdefName, formatUsage, formatFileType, formatVersion, partitionValue, dataVersion) {
@@ -295,5 +295,5 @@ export class BusinessObjectDefinitionData {
       + '/partitionValues/' + partitionValue + '/businessObjectDataVersions/' + businessObjectDataVersion + '?deleteFiles=' + deleteFiles;
   }
 
-};
+}
 

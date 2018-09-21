@@ -13,12 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { BusinessObjectDataService, BusinessObjectData } from '@herd/angular-client';
-import { TestBed, inject } from '@angular/core/testing';
-import { DataObjectDetailResolverService, DataObjectDetailResolverData } from './data-object-detail-resolver.service';
+import { BusinessObjectData, BusinessObjectDataService } from '@herd/angular-client';
+import { inject, TestBed } from '@angular/core/testing';
+import { DataObjectDetailResolverData, DataObjectDetailResolverService } from './data-object-detail-resolver.service';
 import { Observable, of } from 'rxjs';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, ActivatedRoute } from '@angular/router';
-import { RouterStub, ActivatedRouteStub } from 'testing/router-stubs';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteStub, RouterStub } from 'testing/router-stubs';
 
 describe('DataObjectDetailResolverService', () => {
     beforeEach(() => {
@@ -54,7 +54,7 @@ describe('DataObjectDetailResolverService', () => {
                 partitionValue: '01-01-2017',
                 subPartitionValues: '01-01-2017',
                 dataObjectVersion: '0'
-            }
+            };
 
             const expectedResult: BusinessObjectData = {
                 namespace: 'ns',
@@ -66,11 +66,11 @@ describe('DataObjectDetailResolverService', () => {
                 partitionValue: '01-01-2017',
                 subPartitionValues: ['01-01-2017'],
                 version: 0
-            }
+            };
             const dataSpy = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectData);
             dataSpy.and.returnValue(of(expectedResult));
 
-            const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach)
+            const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach);
             shouldAttachSpy.and.returnValue(false);
 
             (service.resolve(
@@ -100,7 +100,7 @@ describe('DataObjectDetailResolverService', () => {
                 partitionValue: '01-01-2017',
                 subPartitionValues: '01-01-2017',
                 businessObjectDataVersion: '0'
-            }
+            };
 
             const expectedResult: BusinessObjectData = {
                 namespace: 'ns',
@@ -112,14 +112,14 @@ describe('DataObjectDetailResolverService', () => {
                 partitionValue: '01-01-2017',
                 subPartitionValues: ['01-01-2017'],
                 version: 0
-            }
+            };
             const dataSpy = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectData);
             dataSpy.and.returnValue(of(expectedResult));
 
-            const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach)
+            const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach);
             shouldAttachSpy.and.returnValue(true);
 
-            const retrieveSpy = (<jasmine.Spy>r.routeReuseStrategy.retrieve)
+            const retrieveSpy = (<jasmine.Spy>r.routeReuseStrategy.retrieve);
                 retrieveSpy.and.returnValue({
                         route : {
                             value: {

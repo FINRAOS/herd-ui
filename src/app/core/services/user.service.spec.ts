@@ -13,13 +13,13 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {EncryptionService} from './../../shared/services/encryption.service';
+import { EncryptionService } from './../../shared/services/encryption.service';
 import { of } from 'rxjs';
-import {TestBed, inject} from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
-import {UserService} from './user.service';
-import {CurrentUserService, Configuration} from '@herd/angular-client';
-import {environment} from '../../../environments/environment';
+import { UserService } from './user.service';
+import { Configuration, CurrentUserService } from '@herd/angular-client';
+import { environment } from '../../../environments/environment';
 
 describe('CurrentUserService', () => {
   beforeEach(() => {

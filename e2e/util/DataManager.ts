@@ -13,12 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+// import request, {FormData} from 'then-request';
 import * as winston from 'winston';
+import { Logger } from 'winston';
 import * as path from 'path';
 import * as fs from 'fs';
 import request from 'sync-request';
-// import request, {FormData} from 'then-request';
-import { Logger } from 'winston';
 
 
 const constants = require('../config/conf.e2e.json');
@@ -76,8 +76,6 @@ export class DataManager {
         } else {
           await processOps(opsLocation, spec);
         }
-        ;
-
       }
     }
 

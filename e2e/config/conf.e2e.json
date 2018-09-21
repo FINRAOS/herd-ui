@@ -18,13 +18,13 @@
   "defaultPrefix": "",
   "sauceUser": "k26686",
   "sauceKey": "38d01efd-5cfd-4fa7-b98d-acb1efc8c74b",
-  "loginUser": "Tst_Analyst1",
-  "loginPwd": "Winter2013",
+  "loginUser": "tst_dm_adm",
+  "loginPwd": ",6sJv]_j*S%WNQNe",
   "noAccessUser": "tst_dm_ro",
-  "noAccessPassword": "zLQYsep9zsGoqe5gSBZzJw2",
+  "noAccessPassword": "_3|#535;uh:XqUbs",
   "sauceSeleniumAddress": "http://localhost:4445/wd/hub",
   "authorization": {
-    "basicKey": "Basic dHN0X2RtX2FkbTpEc1J1VGZWek1lZFo5YmdBSUM1TWtxcA=="
+    "basicKey": "Basic VHN0X0FuYWx5c3QxOldpbnRlcjIwMTM="
   },
   "dev": {
     "host": "datamgtrepo-dev-pg.c9dfyqjobtqf.us-east-1.rds.amazonaws.com",

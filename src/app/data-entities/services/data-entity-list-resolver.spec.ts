@@ -13,13 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { TestBed, inject } from '@angular/core/testing';
+import { async, inject, TestBed } from '@angular/core/testing';
 
-import { DataEntityListResolverService, DataEntityListResolverData } from './data-entity-list-resolver';
+import { DataEntityListResolverData, DataEntityListResolverService } from './data-entity-list-resolver';
 import { Observable, of } from 'rxjs';
 import { BusinessObjectDefinitionService } from '@herd/angular-client';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { async } from '@angular/core/testing';
 
 describe('Data Entity List Resolver', () => {
     beforeEach(() => {

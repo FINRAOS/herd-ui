@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { ActivatedRouteStub, RouterStub } from '../../../../testing/router-stubs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,7 +21,6 @@ import { AlertService } from '../../services/alert.service';
 import { UserService } from '../../services/user.service';
 import { of, throwError } from 'rxjs';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
-import { inject } from '@angular/core/testing';
 
 describe('Logincomponent', () => {
   let component: LoginComponent;

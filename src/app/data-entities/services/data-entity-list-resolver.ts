@@ -14,10 +14,8 @@
 * limitations under the License.
 */
 import { Injectable } from '@angular/core';
-import { Resolve, RouterStateSnapshot,
-    ActivatedRouteSnapshot
-} from '@angular/router';
-import { BusinessObjectDefinitionService, BusinessObjectDefinitionKey } from '@herd/angular-client';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { BusinessObjectDefinitionKey, BusinessObjectDefinitionService } from '@herd/angular-client';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

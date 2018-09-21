@@ -13,10 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Component, Input, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
-import {AlertService, DangerAlert, SuccessAlert} from '../../../core/services/alert.service';
-import {BusinessObjectFormatDdlRequest, BusinessObjectFormatService} from '@herd/angular-client';
-import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/alert.service';
+import { BusinessObjectFormatDdlRequest, BusinessObjectFormatService } from '@herd/angular-client';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { catchError, finalize } from 'rxjs/operators';
 
 @Component({

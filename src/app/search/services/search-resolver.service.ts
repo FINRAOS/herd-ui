@@ -13,14 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Injectable} from '@angular/core';
-import {
-  Router, Resolve, RouterStateSnapshot,
-  ActivatedRouteSnapshot
-} from '@angular/router';
-import {IndexSearchResult, Facet} from '@herd/angular-client';
-import {Observable} from 'rxjs';
-import {SearchService} from '../../shared/services/search.service';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
+import { Facet, IndexSearchResult } from '@herd/angular-client';
+import { Observable } from 'rxjs';
+import { SearchService } from '../../shared/services/search.service';
 import { map } from 'rxjs/operators';
 
 export interface TitleResolverData {

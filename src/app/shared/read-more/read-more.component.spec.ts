@@ -13,9 +13,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {ReadMoreComponent} from './read-more.component';
-import {SharedModule} from '../shared.module';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReadMoreComponent } from './read-more.component';
+import { SharedModule } from '../shared.module';
 
 describe('ReadMoreComponent', () => {
   let component: ReadMoreComponent;

@@ -13,10 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {IndexSearchResponse, IndexSearchService, IndexSearchRequest, IndexSearchFilter, Highlight} from '@herd/angular-client';
-import {HighlightDisplayMapping} from './highlight-display-mapping';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Highlight, IndexSearchFilter, IndexSearchRequest, IndexSearchResponse, IndexSearchService } from '@herd/angular-client';
+import { HighlightDisplayMapping } from './highlight-display-mapping';
 import { map } from 'rxjs/operators';
 
 export enum HitMatchTypes {

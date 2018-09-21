@@ -14,8 +14,7 @@
 * limitations under the License.
 */
 import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy.service';
-import { ActivatedRouteSnapshot } from '@angular/router';
-import { UrlSegment, ParamMap } from '@angular/router';
+import { ActivatedRouteSnapshot, ParamMap, UrlSegment } from '@angular/router';
 
 describe('CustomRouteReuseStrategy', () => {
     it('should return true for shouldReuseRoute if the current and future route configs are the same and they have the same params', () => {
@@ -41,10 +40,10 @@ describe('CustomRouteReuseStrategy', () => {
             pathFromRoot: [],
             paramMap: {} as ParamMap,
             queryParamMap: {} as ParamMap
-        } as ActivatedRouteSnapshot
+        } as ActivatedRouteSnapshot;
 
         const curr = testConfig;
-        const future = testConfig
+        const future = testConfig;
 
         expect(strat.shouldReuseRoute(future, curr)).toBe(true);
     });
@@ -73,7 +72,7 @@ describe('CustomRouteReuseStrategy', () => {
             pathFromRoot: [],
             paramMap: {} as ParamMap,
             queryParamMap: {} as ParamMap
-        } as ActivatedRouteSnapshot
+        } as ActivatedRouteSnapshot;
         const testConfig2: ActivatedRouteSnapshot = {
             routeConfig: {
                 path: 'test/:stuff',
@@ -95,7 +94,7 @@ describe('CustomRouteReuseStrategy', () => {
             pathFromRoot: [],
             paramMap: {} as ParamMap,
             queryParamMap: {} as ParamMap
-        } as ActivatedRouteSnapshot
+        } as ActivatedRouteSnapshot;
 
         // due to hve different route config instances
         expect(strat.shouldReuseRoute(testConfig2, testConfig)).toBe(false);
@@ -110,19 +109,19 @@ describe('CustomRouteReuseStrategy', () => {
         const strat = new CustomRouteReuseStrategy();
         const testConfig2: ActivatedRouteSnapshot = {
             url: [new UrlSegment('test', {})]
-        } as ActivatedRouteSnapshot
+        } as ActivatedRouteSnapshot;
 
         const testConfig: ActivatedRouteSnapshot = {
             pathFromRoot: [{}, testConfig2, {}, {}, {
                 url: [new UrlSegment('url', { 'id': '1' })]
             }]
-        } as ActivatedRouteSnapshot
+        } as ActivatedRouteSnapshot;
 
         // due to no route config
         expect(strat.retrieve(testConfig)).toBe(null);
         (testConfig as any).routeConfig = {
             path: 'url'
-        }
+        };
         // due to not existing in storage
         expect(strat.retrieve(testConfig)).toBe(null);
 
@@ -146,7 +145,7 @@ describe('CustomRouteReuseStrategy', () => {
             pathFromRoot: [{
                 url: [new UrlSegment('url', { 'id': '1' })]
             }]
-        } as ActivatedRouteSnapshot
+        } as ActivatedRouteSnapshot;
         // due to internal detach tracker not being set to true
         expect(strat.shouldDetach(testConfig)).toBe(false);
 
@@ -156,11 +155,11 @@ describe('CustomRouteReuseStrategy', () => {
         // due to not having a routeConfig
         expect(strat.shouldDetach(testConfig)).toBe(false);
 
-        (testConfig as any).routeConfig = { loadChildren: 'fakeLoadchildren#module.module' }
+        (testConfig as any).routeConfig = { loadChildren: 'fakeLoadchildren#module.module' };
 
         // due to having loadChildren on routeConfig
         expect(strat.shouldDetach(testConfig)).toBe(false);
-        delete (testConfig as any).routeConfig.loadChildren
+        delete (testConfig as any).routeConfig.loadChildren;
 
         expect(strat.shouldDetach(testConfig)).toBe(true);
     });
@@ -171,7 +170,7 @@ describe('CustomRouteReuseStrategy', () => {
             pathFromRoot: [{
                 url: [new UrlSegment('url', { 'id': '1' })]
             }]
-        } as ActivatedRouteSnapshot
+        } as ActivatedRouteSnapshot;
 
         // due to not having routeConfig
         expect(strat.shouldAttach(testConfig)).toBe(false);
@@ -193,8 +192,8 @@ describe('CustomRouteReuseStrategy', () => {
             pathFromRoot: [{
                 url: [new UrlSegment('url', { 'id': '1' })]
             }]
-        } as ActivatedRouteSnapshot
-        paramsTest.params = { test: 'blah' }
+        } as ActivatedRouteSnapshot;
+        paramsTest.params = { test: 'blah' };
         paramsTest.queryParams = {};
         strat.store(paramsTest, { test: 'handle3' });
         // fail on reqular params
@@ -206,22 +205,22 @@ describe('CustomRouteReuseStrategy', () => {
             pathFromRoot: [{
                 url: [new UrlSegment('url', { 'id': '1' })]
             }]
-        } as ActivatedRouteSnapshot
+        } as ActivatedRouteSnapshot;
         queryParamsTest.params = {};
-        queryParamsTest.queryParams = { test: 'notTest' }
+        queryParamsTest.queryParams = { test: 'notTest' };
         strat.store(queryParamsTest, { test: 'handle4' });
         // fail on query params
         expect(strat.shouldAttach(testConfig)).toBe(false);
 
-        testConfig.params.test = 'paramsTest'
+        testConfig.params.test = 'paramsTest';
         testConfig.queryParams.test = 'queryParamsTest';
         const allTest = {
             pathFromRoot: [{
                 url: [new UrlSegment('url', { 'id': '1' })]
             }]
-        } as ActivatedRouteSnapshot
-        allTest.params = { test: 'paramsTest' }
-        allTest.queryParams = { test: 'queryParamsTest' }
+        } as ActivatedRouteSnapshot;
+        allTest.params = { test: 'paramsTest' };
+        allTest.queryParams = { test: 'queryParamsTest' };
         strat.store(allTest, { test: 'handle5' });
         // pass on full params and query params existing
         expect(strat.shouldAttach(testConfig)).toBe(true);
@@ -230,13 +229,13 @@ describe('CustomRouteReuseStrategy', () => {
     it('should return properly formatted url for static method makeKey', () => {
         const testConfig2: ActivatedRouteSnapshot = {
             url: [new UrlSegment('test', {})]
-        } as ActivatedRouteSnapshot
+        } as ActivatedRouteSnapshot;
 
         const testConfig: ActivatedRouteSnapshot = {
             pathFromRoot: [{}, testConfig2, {}, {}, {
                 url: [new UrlSegment('url', { 'id': '1' })]
             }]
-        } as ActivatedRouteSnapshot
+        } as ActivatedRouteSnapshot;
 
         expect(CustomRouteReuseStrategy.makeKey(testConfig)).toBe('/test/url;id=1');
 

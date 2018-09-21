@@ -16,12 +16,16 @@
 import { Action } from './../../../shared/components/side-action/side-action.component';
 import { StorageUnitsComponent } from './../storage-units/storage-units.component';
 import { LineageComponent } from './../lineage/lineage.component';
-import { RouterStub, ActivatedRouteStub } from './../../../../testing/router-stubs';
+import { ActivatedRouteStub, RouterStub } from './../../../../testing/router-stubs';
 import {
-  BusinessObjectFormatService, BusinessObjectDataService, BusinessObjectData, BusinessObjectFormat,
-  BusinessObjectDataVersions, StorageUnitService
+  BusinessObjectData,
+  BusinessObjectDataService,
+  BusinessObjectDataVersions,
+  BusinessObjectFormat,
+  BusinessObjectFormatService,
+  StorageUnitService
 } from '@herd/angular-client';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '../../../shared/shared.module';
@@ -29,8 +33,6 @@ import { DataObjectDetailComponent, DataObjectDetailRequest } from './data-objec
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
-import { S3Customizations } from 'aws-sdk/lib/services/s3';
-import { Observable } from 'rxjs/internal/Observable';
 import { throwError } from 'rxjs/internal/observable/throwError';
 
 describe('DataObjectDetailComponent', () => {

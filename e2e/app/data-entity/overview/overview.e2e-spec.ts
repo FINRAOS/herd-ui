@@ -13,11 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {NoAuthFrameData, OverviewPage} from './overview.po';
-import {protractor} from 'protractor';
-import {Data} from './operations/data';
+import { NoAuthFrameData, OverviewPage } from './overview.po';
+import { protractor } from 'protractor';
+import { Data } from './operations/data';
 import * as operations from './operations/operations'
-import {DataManager} from './../../../util/DataManager';
+import { DataManager } from './../../../util/DataManager';
 
 const conf = require('./../../../config/conf.e2e.json');
 
@@ -175,7 +175,7 @@ describe('Data Entity Overview Page', () => {
 
       it('should edit the displayName', async () => {
         const expectedName = data.editBdefTestData().displayName
-          || data.editBdefTestData().businessObjectDefinitionName
+          || data.editBdefTestData().businessObjectDefinitionName;
         await expect((await page.getBdefTitle()).trim()).toEqual(expectedName);
         await page.editDisplayName(newDisplayName);
         await expect((await page.getBdefTitle()).trim()).toEqual(newDisplayName);

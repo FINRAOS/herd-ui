@@ -16,8 +16,8 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import {
   BusinessObjectDefinitionSubjectMatterExpertService,
-  SubjectMatterExpertService,
-  NamespaceAuthorization
+  NamespaceAuthorization,
+  SubjectMatterExpertService
 } from '@herd/angular-client';
 import { AlertService, DangerAlert } from '../../../core/services/alert.service';
 import { AuthMap } from '../../../shared/directive/authorized/authorized.directive';

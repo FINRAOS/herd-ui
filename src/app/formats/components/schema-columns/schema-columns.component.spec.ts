@@ -13,17 +13,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 
-import {SchemaColumnsComponent} from './schema-columns.component';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {Headers} from '@angular/http';
-import {BusinessObjectFormatService} from '@herd/angular-client';
-import {AlertService, DangerAlert, SuccessAlert} from '../../../core/services/alert.service';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {of, throwError } from 'rxjs';
-import {CodemirrorModule} from 'ng2-codemirror';
-import {ClipboardModule} from 'ngx-clipboard';
+import { SchemaColumnsComponent } from './schema-columns.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Headers } from '@angular/http';
+import { BusinessObjectFormatService } from '@herd/angular-client';
+import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/alert.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { of, throwError } from 'rxjs';
+import { CodemirrorModule } from 'ng2-codemirror';
+import { ClipboardModule } from 'ngx-clipboard';
 
 describe('SchemaColumnsComponent', () => {
   let component: SchemaColumnsComponent;

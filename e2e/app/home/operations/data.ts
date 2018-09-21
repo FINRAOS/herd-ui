@@ -45,7 +45,7 @@ export default {
             'parentCode': ''
           }
         ]
-      }
+      };
       return tagTypeCode1;
     }
 
@@ -67,7 +67,7 @@ export default {
             'code': 'TYTA', 'displayName': 'Toyota', 'parentCode': ''
           }
         ]
-      }
+      };
       return tagTypeCode2;
     }
 
@@ -94,7 +94,7 @@ export default {
             'parentCode': 'SEDAN'
           }
         ]
-      }
+      };
       return tagTypeCode3;
     }
 
@@ -128,7 +128,7 @@ export default {
             'parentCode': ''
           }
         ]
-      }
+      };
       return tagTypeCode4;
     }
 
@@ -177,7 +177,7 @@ export default {
             'parentCode': ''
           }
         ]
-      }
+      };
       return tagTypeCode5;
     }
   ,
@@ -210,7 +210,7 @@ export default {
             'parentCode': ''
           }
         ]
-      }
+      };
       return tagTypeCode6;
     }
 }

@@ -118,7 +118,7 @@ export class Data {
                     }
                 ]
             }
-        }
+        };
         return befTestFormat;
     }
 
@@ -170,7 +170,7 @@ export class Data {
                     }
                 ]
             }
-        }
+        };
         return bdefTestFormatWithPartitions;
     }
 
@@ -203,7 +203,7 @@ export class Data {
                     }
                 ],
             }
-        }
+        };
         return bdefTestFormatWithPartitions;
     }
 
@@ -216,7 +216,7 @@ export class Data {
             'businessObjectFormatFileType': 'TXT',
             'partitionKey': 'TEST_KEY',
             'description': 'Nam et interdum quam, hendrerit varius magna.'
-        }
+        };
         return befTestFormat;
     }
 }

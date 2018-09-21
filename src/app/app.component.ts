@@ -16,14 +16,19 @@
 import { UserService } from 'app/core/services/user.service';
 import { GoogleAnalyticsService } from './shared/services/google-analytics.service';
 import { Component, Inject, OnInit } from '@angular/core';
-// import { HttpInterceptorService, Interceptable, Interceptor } from 'ng-http-interceptor';
-import { AlertService} from 'app/core/services/alert.service';
-import { tap, debounceTime, filter } from 'rxjs/operators';
-import {merge, fromEvent} from 'rxjs';
+import { AlertService } from 'app/core/services/alert.service';
+import { debounceTime, filter, tap } from 'rxjs/operators';
+import { fromEvent, merge } from 'rxjs';
 
 import {
-  Router, NavigationEnd, NavigationStart, NavigationCancel,
-  NavigationError, ActivatedRoute, ActivatedRouteSnapshot} from '@angular/router';
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router
+} from '@angular/router';
 import { CustomRouteReuseStrategy } from 'app/core/services/custom-route-reuse-strategy.service';
 import { WINDOW } from 'app/core/core.module';
 import { Utils } from 'app/utils/utils';

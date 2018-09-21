@@ -14,18 +14,12 @@
 * limitations under the License.
 */
 import { Injectable } from '@angular/core';
-import {
-  Router, Resolve, RouterStateSnapshot,
-  ActivatedRouteSnapshot, DetachedRouteHandle
-} from '@angular/router';
-import {
-  Tag, TagService, IndexSearchResult, Facet
-} from '@herd/angular-client';
+import { ActivatedRouteSnapshot, DetachedRouteHandle, Resolve, Router, RouterStateSnapshot } from '@angular/router';
+import { Facet, IndexSearchResult, Tag, TagService } from '@herd/angular-client';
 
 import { Title } from '@angular/platform-browser';
 import { SearchService } from '../../shared/services/search.service';
-import { Observable } from 'rxjs';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 

@@ -13,12 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, OnInit, ElementRef} from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BusinessObjectDefinitionKey } from '@herd/angular-client';
-import { fromEvent} from 'rxjs';
-import { Subscription } from 'rxjs';
-import { debounceTime, map} from 'rxjs/operators'
+import { fromEvent, Subscription } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators'
 
 @Component({
     selector: 'sd-data-entity-list',

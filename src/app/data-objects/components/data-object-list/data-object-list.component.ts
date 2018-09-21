@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {
   Attribute,
   BusinessObjectData,
@@ -27,18 +27,17 @@ import {
   PartitionValueFilter
 } from '@herd/angular-client';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
-import {ActivatedRoute} from '@angular/router';
-import {Response} from '@angular/http'
-import {default as AppIcons} from '../../../shared/utils/app-icons';
-import {Subscription} from 'rxjs';
-import {Observable} from 'rxjs';
-import {Action} from 'app/shared/components/side-action/side-action.component';
-import {DataTable} from 'primeng/components/datatable/datatable';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute } from '@angular/router';
+import { default as AppIcons } from '../../../shared/utils/app-icons';
+import { Observable, Subscription } from 'rxjs';
+import { Action } from 'app/shared/components/side-action/side-action.component';
+import { DataTable } from 'primeng/components/datatable/datatable';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   DataObjectListFiltersChangeEventData
 } from 'app/data-objects/components/data-object-list-filters/data-object-list-filters.component';
-import {AlertService, DangerAlert, SuccessAlert} from 'app/core/services/alert.service';
+import { AlertService, DangerAlert, SuccessAlert } from 'app/core/services/alert.service';
+import { of } from 'rxjs/internal/observable/of';
 
 class AttributeField implements Attribute {
   constructor(public name: string, public value: string) {
@@ -158,7 +157,7 @@ export class DataObjectListComponent implements OnInit {
     header: '',
     hide: false,
     sortable: false
-  }]
+  }];
   attributesCol = {
     templateField: 'attributes',
     field: 'attributes',
@@ -205,13 +204,14 @@ export class DataObjectListComponent implements OnInit {
   open(content: TemplateRef<any> | String, windowClass?: string) {
     // append the modal to the data-entity-detail container so when views are switched it goes away with taht view.
     const modalReference = this.modalService.open(content, {windowClass: windowClass, size: 'lg', container: '.data-object-list'});
-    this.getDDL().subscribe((response) => {
-      this.ddl = response.ddl;
-    }, (error) => {
-      this.alertService.alert(new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
-        'URL: ' + error.url, 'Info: ' + error.json().message));
-      modalReference.close();
-    });
+    this.getDDL()
+      .subscribe((response) => {
+        this.ddl = response.ddl;
+      }, (error) => {
+        this.alertService.alert(new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
+          'URL: ' + error.url, 'Info: ' + error.message));
+        modalReference.close();
+      });
     return modalReference;
   }
 
@@ -245,7 +245,7 @@ export class DataObjectListComponent implements OnInit {
     this.dataEntity = {
       businessObjectDefinitionName: params.dataEntityName,
       namespace: params.namespace
-    }
+    };
 
     if (params.formatUsage && params.formatFileType && !isNaN(params.formatVersion)) {
       this.formatService.businessObjectFormatGetBusinessObjectFormat(
@@ -293,30 +293,32 @@ export class DataObjectListComponent implements OnInit {
     this.loading = true;
     if (event) {
       this.lastLoad = this.doDataSearch(event).pipe(
-        catchError((e: Response) => {
+        catchError((e) => {
           if (e.status === 400) {
-            this.dt.emptyMessage = e.json().message;
-            return new Observable(([] as DataObjectRowData[]) as any);
+            this.dt.emptyMessage = e.message;
           } else if (e.url) {
             this.alerter.alert(new DangerAlert('HTTP Error: ' + e.status + ' ' + e.statusText,
-              'URL: ' + e.url, 'Info: ' + e.json().message));
-            return new Observable(([] as DataObjectRowData[]) as any);
+              'URL: ' + e.url, 'Info: ' + e.message));
           }
+          return of(([] as DataObjectRowData[]) as any);
         }),
         finalize(() => {
           this.loading = false;
         })
-      ).subscribe((bData: any) => {
-        this.data = bData;
-      }, (e: Response) => {
-        if (e.status === 400) {
-          this.dt.emptyMessage = e.json().message;
-          return new Observable(([] as DataObjectRowData[]) as any);
-        } else if (e.url) {
-          this.alerter.alert(new DangerAlert('HTTP Error: ' + e.status + ' ' + e.statusText,
-            'URL: ' + e.url, 'Info: ' + e.json().message));
+      ).subscribe(
+        (bData: any) => {
+          this.data = bData;
+        },
+        (e) => {
+          if (e.status === 400) {
+            this.dt.emptyMessage = e.message;
+            return of(([] as DataObjectRowData[]) as any);
+          } else if (e.url) {
+            this.alerter.alert(new DangerAlert('HTTP Error: ' + e.status + ' ' + e.statusText,
+              'URL: ' + e.url, 'Info: ' + e.message));
+          }
         }
-      });
+      );
     } else {
       this.lastLoad = this.doDataGet().pipe(finalize(() => {
         this.loading = false;
@@ -370,7 +372,7 @@ export class DataObjectListComponent implements OnInit {
           }]
         }
       ]
-    }
+    };
     this.bDataApi.defaultHeaders.append('skipAlert', 'true');
     return this.bDataApi.businessObjectDataSearchBusinessObjectData(searchRequest).pipe(
       tap((r) => {
@@ -410,14 +412,14 @@ export class DataObjectListComponent implements OnInit {
         usage: keyOrData.businessObjectFormatUsage,
         fileType: keyOrData.businessObjectFormatFileType,
         version: keyOrData.businessObjectFormatVersion
-      }
+      };
       row.partition = {
         key: keyOrData.partitionKey,
         value: keyOrData.partitionValue
-      }
+      };
       row.subPartitions = keyOrData.subPartitionValues || [];
       row.version = keyOrData.version === null || keyOrData.version === undefined ?
-        (<BusinessObjectDataKey>keyOrData).businessObjectDataVersion : keyOrData.version
+        (<BusinessObjectDataKey>keyOrData).businessObjectDataVersion : keyOrData.version;
       row.attributes = keyOrData.attributes || [];
       row.status = keyOrData.status;
 

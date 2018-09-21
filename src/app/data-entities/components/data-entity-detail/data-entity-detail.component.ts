@@ -13,39 +13,42 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, OnInit, ViewEncapsulation, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { Action } from '../../../shared/components/side-action/side-action.component';
 import {
   BusinessObjectDefinition,
-  UploadAndDownloadService,
-  DownloadBusinessObjectDefinitionSampleDataFileSingleInitiationRequest,
-  BusinessObjectDefinitionSampleDataFileKey,
-  BusinessObjectFormatService, BusinessObjectFormat,
-  BusinessObjectFormatKey,
-  BusinessObjectDefinitionColumnService,
-  BusinessObjectDefinitionColumnSearchRequest,
-  SubjectMatterExpert,
-  BusinessObjectDefinitionService,
-  SubjectMatterExpertService,
-  BusinessObjectDefinitionSubjectMatterExpertService,
-  BusinessObjectFormatDdlRequest,
-  BusinessObjectDefinitionColumnUpdateRequest,
-  BusinessObjectDefinitionColumnCreateRequest,
   BusinessObjectDefinitionColumn,
+  BusinessObjectDefinitionColumnCreateRequest,
+  BusinessObjectDefinitionColumnSearchRequest,
+  BusinessObjectDefinitionColumnService,
+  BusinessObjectDefinitionColumnUpdateRequest,
+  BusinessObjectDefinitionDescriptionSuggestionSearchRequest,
+  BusinessObjectDefinitionDescriptionSuggestionService,
   BusinessObjectDefinitionDescriptiveInformationUpdateRequest,
-  NamespaceAuthorization, BusinessObjectDefinitionDescriptionSuggestionService, BusinessObjectDefinitionDescriptionSuggestionSearchRequest
+  BusinessObjectDefinitionSampleDataFileKey,
+  BusinessObjectDefinitionService,
+  BusinessObjectDefinitionSubjectMatterExpertService,
+  BusinessObjectFormat,
+  BusinessObjectFormatDdlRequest,
+  BusinessObjectFormatKey,
+  BusinessObjectFormatService,
+  DownloadBusinessObjectDefinitionSampleDataFileSingleInitiationRequest,
+  NamespaceAuthorization,
+  SubjectMatterExpert,
+  SubjectMatterExpertService,
+  UploadAndDownloadService
 } from '@herd/angular-client';
 import { WarningAlert } from './../../../core/services/alert.service';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/alert.service';
 import { NgbModal, NgbModalRef, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import * as shape from 'd3-shape';
 import { EditEvent } from 'app/shared/components/edit/edit.component';
-import { Observable, throwError } from 'rxjs';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable, throwError } from 'rxjs';
 import { catchError, finalize, flatMap, map } from 'rxjs/operators';
-import {AuthMap} from '../../../shared/directive/authorized/authorized.directive';
+import { AuthMap } from '../../../shared/directive/authorized/authorized.directive';
+import { of } from 'rxjs/internal/observable/of';
 
 @Component({
   selector: 'sd-data-entity-detail',
@@ -434,14 +437,14 @@ export class DataEntityDetailComponent implements OnInit {
 
   fetchBdefs(formatKeys: BusinessObjectFormatKey[]): Observable<BusinessObjectDefinition[]> {
     if (formatKeys.length > 0) {
-      const frmtQueues = new Observable(formatKeys as any);
+      const frmtQueues = of(formatKeys as any);
       const bdefRequest = format => this.businessObjectDefinitionApi
         .businessObjectDefinitionGetBusinessObjectDefinition(format.namespace, format.businessObjectDefinitionName);
       return frmtQueues.pipe(
         flatMap((q: any) => forkJoin(...q.map(bdefRequest))
         ));
     } else {
-      return new Observable([] as any);
+      return of([] as any);
     }
   }
 
@@ -458,7 +461,7 @@ export class DataEntityDetailComponent implements OnInit {
       }
       nodes.push(newNode);
     }
-    return new Observable({ nodes, links } as any);
+    return of({ nodes, links } as any);
   }
 
   createNode(bdef: BusinessObjectDefinition, format: BusinessObjectFormatKey, type: DAGNodeType): DataEntityLineageNode {
@@ -587,20 +590,21 @@ export class DataEntityDetailComponent implements OnInit {
   getSMEContactDetails() {
     return this.businessObjectDefinitionSubjectMatterExpertApi
       .businessObjectDefinitionSubjectMatterExpertGetBusinessObjectDefinitionSubjectMatterExpertsByBusinessObjectDefinition(
-      this.bdef.namespace, this.bdef.businessObjectDefinitionName)
+        this.bdef.namespace, this.bdef.businessObjectDefinitionName)
       .pipe(
-      flatMap((data) => {
-        return forkJoin(data.businessObjectDefinitionSubjectMatterExpertKeys.map((key) => {
-          return this.subjectMatterExpertApi.subjectMatterExpertGetSubjectMatterExpert(key.userId)
-            .pipe(catchError(() => {
-              return new Observable(undefined);
-            }));
-        }));
-      })).pipe(map((smes) => {
-        return smes.filter((sme) => {
-          return !!sme
-        });
-      }));
+        flatMap((data) => {
+          return forkJoin(data.businessObjectDefinitionSubjectMatterExpertKeys.map((key) => {
+            return this.subjectMatterExpertApi.subjectMatterExpertGetSubjectMatterExpert(key.userId)
+              .pipe(catchError(() => {
+                return of(undefined);
+              }));
+          }));
+        }), map((smes) => {
+          return smes.filter((sme) => {
+            return !!sme
+          });
+        })
+      );
   }
 
   getDDL() {
@@ -655,7 +659,7 @@ export class DataEntityDetailComponent implements OnInit {
         catchError((error) => {
           this.alertService.alert(new DangerAlert('Unable to get data entity description suggestions', '',
             `Problem: ${error} : Try again later.`, 5));
-          return error;
+          return of(error);
         })
     ).subscribe((response: any) => {
       this.businessObjectDefinitionDescriptionSuggestions = response && response.businessObjectDefinitionDescriptionSuggestions;

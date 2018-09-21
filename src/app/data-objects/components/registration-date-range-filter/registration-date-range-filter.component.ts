@@ -13,9 +13,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormBuilder, FormGroup, ValidationErrors} from '@angular/forms';
-import {RegistrationDateRangeFilter} from '@herd/angular-client';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
+import { RegistrationDateRangeFilter } from '@herd/angular-client';
 
 @Component({
   selector: 'sd-registration-date-range-filter',

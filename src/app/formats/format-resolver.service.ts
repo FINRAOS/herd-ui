@@ -13,11 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Injectable} from '@angular/core';
-import {
-  Router, Resolve, RouterStateSnapshot,
-  ActivatedRouteSnapshot
-} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
 export interface TitleResolverData {
@@ -49,7 +46,7 @@ export class FormatResolverService implements Resolve<any> {
         title: 'Format - ' + route.params.formatUsage + ':'
         + route.params.formatFileType + ':' + route.params.formatVersion
       }
-    };
+    }
   }
 
 }

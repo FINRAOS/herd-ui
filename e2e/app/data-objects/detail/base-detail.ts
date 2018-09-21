@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {browser} from 'protractor';
+import { browser } from 'protractor';
 
 export class BaseDetail {
   private constants = require('../../../config/conf.e2e.json');

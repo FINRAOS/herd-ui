@@ -15,9 +15,8 @@
 */
 import { EncryptionService } from './../../shared/services/encryption.service';
 import { Injectable } from '@angular/core';
-import { CurrentUserService, UserAuthorizations, Configuration } from '@herd/angular-client'
-import { Observable } from 'rxjs';
-import { ReplaySubject } from 'rxjs';
+import { Configuration, CurrentUserService, UserAuthorizations } from '@herd/angular-client'
+import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 

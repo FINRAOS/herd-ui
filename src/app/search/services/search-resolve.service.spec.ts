@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { TestBed, inject, async } from '@angular/core/testing';
+import { async, inject, TestBed } from '@angular/core/testing';
 
 import { SearchResolveData, SearchResolverService } from './search-resolver.service';
 import { SearchService } from '../../shared/services/search.service';

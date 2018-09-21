@@ -91,6 +91,7 @@ module.exports = function (config) {
     conf.singleRun = true;
   } else {
     conf.browsers = ['ChromeDebugging'];
+    conf.singleRun = false;
   }
   config.set(conf);
 };

@@ -13,9 +13,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Injectable} from '@angular/core';
-import {Resolve, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
-import {TitleResolverData} from 'app/data-entities/services/data-entity-list-resolver';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { TitleResolverData } from 'app/data-entities/services/data-entity-list-resolver';
 
 @Injectable()
 export class DataObjectsResolverService implements Resolve<any> {

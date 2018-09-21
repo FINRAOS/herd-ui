@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-import {TriStateEnum} from './tri-state-enum.enum';
+import { TriStateEnum } from './tri-state-enum.enum';
 
 export enum FacetTriState {
   default = TriStateEnum.State1.valueOf(),

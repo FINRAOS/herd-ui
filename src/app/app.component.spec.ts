@@ -14,8 +14,8 @@
 * limitations under the License.
 */
 import { GoogleAnalyticsService } from './shared/services/google-analytics.service';
-import { RouterStub, ActivatedRouteStub } from 'testing/router-stubs';
-import { async, inject, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { ActivatedRouteStub, RouterStub } from 'testing/router-stubs';
+import { async, ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
@@ -24,13 +24,12 @@ import { AlertsComponent } from './core/components/alerts/alerts.component';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WINDOW } from 'app/core/core.module';
-import { AlertService} from 'app/core/services/alert.service';
-import { of} from 'rxjs';
+import { AlertService } from 'app/core/services/alert.service';
 import * as rxjs from 'rxjs';
+import { of, ReplaySubject } from 'rxjs';
 import { EllipsisOverflowComponent } from 'app/shared/components/ellipsis-overflow/ellipsis-overflow.component';
-import { ReplaySubject } from 'rxjs';
 import { Utils } from 'app/utils/utils';
 import { Component } from '@angular/core';
 import { UserService } from 'app/core/services/user.service';
@@ -125,7 +124,7 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
-  })
+  });
 
   it('should create the app', async(() => {
     const app = fixture.debugElement.componentInstance;

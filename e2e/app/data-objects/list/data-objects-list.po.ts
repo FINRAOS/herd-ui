@@ -13,9 +13,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {by, element, ElementArrayFinder, ElementFinder} from 'protractor';
-import {BasePo} from '../../base/base.po';
-import {RegistrationDateRangeFilter} from '@herd/angular-client';
+import { by, element, ElementArrayFinder, ElementFinder } from 'protractor';
+import { BasePo } from '../../base/base.po';
+import { RegistrationDateRangeFilter } from '@herd/angular-client';
 
 export class DataObjectListPage extends BasePo {
     emptyMessage: ElementFinder = element(by.css('.ui-datatable-emptymessage'));

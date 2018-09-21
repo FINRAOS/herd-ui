@@ -13,11 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {TagService, TagTypeService, BusinessObjectDefinitionTagService} from '@herd/angular-client';
-import {TagsComponent} from './tags.component';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BusinessObjectDefinitionTagService, TagService, TagTypeService } from '@herd/angular-client';
+import { TagsComponent } from './tags.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 
 describe('TagsComponent', () => {
