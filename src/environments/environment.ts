@@ -15,8 +15,8 @@
 */
 export const environment = {
   production: false,
-  restBaseUri: 'https://datamgt-int.dev.aws.finra.org/herd-app/rest',
-  basicAuthRestBaseUri: 'https://datamgt.dev.aws.finra.org:8443/herd-app/rest',
+  restBaseUri: '{{HERD_REST_BASE_URI}}',
+  basicAuthRestBaseUri: '{{HERD_REST_BASE_URI2}}',
   helpUrl: '{{ORG_HELP_URL}}',
   supportEmail: '{{ORG_SUPPORT_EMAIL}}',
   brandHeader: '{{BRAND_HEADER}}',
