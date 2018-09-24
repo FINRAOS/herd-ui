@@ -30,7 +30,7 @@ const data = new Data();
 /**
  * Generate the post requests for namespace, data provider
  * business object definitions, tag types and tags
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 
 export const postRequests = function () {
@@ -81,7 +81,7 @@ export const postRequests = function () {
 
 /**
  * Generate requests to post bdef-tag associations
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 export const postBdefTagRequests = function () {
 
@@ -138,13 +138,13 @@ export const putLineageRequests = (): { options: DMOption[] }  => {
         'body': new schema.BusinessObjectFormats().putParentsBody([data.bdefTestMultipleFormatVersions()])
       }
     ]
-  }
+  };
 };
 
 
 /**
  * Generate requests to post bdef formats
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 export const postBdefFormatRequests = function () {
 
@@ -175,7 +175,7 @@ export const postBdefFormatRequests = function () {
 /**
  * Generate the requests to delete bdefs, namespace and data providers
  * tag types and tags
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 export const deleteRequests = function () {
 
@@ -257,12 +257,12 @@ export const clearLineageRequets = () => {
         'body': new schema.BusinessObjectFormats().putParentsBody([])
       }
     ]
-  }
+  };
 };
 
 /**
  * Generate the requests to delete bdef formats
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 
 export const deleteBDefFormatRequests = function () {

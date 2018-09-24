@@ -96,7 +96,7 @@ export class SchemaColumnsComponent implements OnInit {
   alertSuccessfulCopy() {
     this.alertService.alert(new SuccessAlert(
       'Success!', '', 'DDL Successfully copied to clipboard'
-    ))
+    ));
   }
 
   getDDL(bdef) {

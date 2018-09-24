@@ -843,7 +843,7 @@ describe('DataEntityDetailComponent', () => {
           'Unable to save your edit. Try again or contact support team.',
           ''));
         // was never set through lifecycle changes which is fine.
-        expect(component.bdef.displayName).toEqual(expectedDisplayName)
+        expect(component.bdef.displayName).toEqual(expectedDisplayName);
       }));
 
   it('Should save edited description on click of save button and alert success',
@@ -895,7 +895,7 @@ describe('DataEntityDetailComponent', () => {
           'Unable to save your edit. Try again or contact support team.',
           ''));
         // was never set through lifecycle changes which is fine.
-        expect(component.bdef.description).toEqual(expectedDescription)
+        expect(component.bdef.description).toEqual(expectedDescription);
       }));
 
   // TODO: fix this test to actually verify modal information by giving it ddl
@@ -1451,7 +1451,7 @@ describe('DataEntityDetailComponent', () => {
     component.processParents(center, format).subscribe((actualGraph) => {
       expect(actualGraph).toBe(parentsGraph);
       expect(component.fetchBdefs).toHaveBeenCalledWith(format.businessObjectFormatParents);
-      expect(component.constructGraph).toHaveBeenCalledWith([], format.businessObjectFormatParents, DAGNodeType.parent, center)
+      expect(component.constructGraph).toHaveBeenCalledWith([], format.businessObjectFormatParents, DAGNodeType.parent, center);
     });
   });
 
@@ -1495,7 +1495,7 @@ describe('DataEntityDetailComponent', () => {
     component.processChildren(center, format).subscribe((actualGraph) => {
       expect(actualGraph).toBe(childrenGraph);
       expect(component.fetchBdefs).toHaveBeenCalledWith(format.businessObjectFormatChildren);
-      expect(component.constructGraph).toHaveBeenCalledWith([], format.businessObjectFormatChildren, DAGNodeType.child, center)
+      expect(component.constructGraph).toHaveBeenCalledWith([], format.businessObjectFormatChildren, DAGNodeType.child, center);
     });
   });
 
@@ -1538,7 +1538,7 @@ describe('DataEntityDetailComponent', () => {
       expect(bdefApi.businessObjectDefinitionGetBusinessObjectDefinition).toHaveBeenCalledWith(
         testFormatKeys[1].namespace,
         testFormatKeys[1].businessObjectDefinitionName
-      )
+      );
     });
   }));
 
@@ -1682,7 +1682,7 @@ describe('DataEntityDetailComponent', () => {
       statusText: 'Internal Server Error',
       url: 'theDDLURL',
       json: () => {
-        return {message: 'Stuff blew up'}
+        return {message: 'Stuff blew up'};
       }
     }));
     component.getDDL();
@@ -1927,7 +1927,7 @@ describe('DataEntityDetailComponent', () => {
               type: 'varchar (30)',
               exists: true
             }
-          ]
+          ];
         });
 
         activeRoute.testData = {

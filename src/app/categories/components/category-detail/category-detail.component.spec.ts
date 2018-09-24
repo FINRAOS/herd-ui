@@ -29,7 +29,7 @@ import {
   Tag,
   TagSearchResponse,
   TagService
-} from '@herd/angular-client'
+} from '@herd/angular-client';
 import { IndexSearchMockData } from 'testing/IndexSearchMockData';
 import { RelatedDataEntities } from 'testing/RelatedDataEntities';
 import { GoogleAnalyticsService } from '../../../shared/services/google-analytics.service';

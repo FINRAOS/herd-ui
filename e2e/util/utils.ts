@@ -17,4 +17,4 @@
 
 export default {
     dataPrefix: process.env.CURRENT_BROWSER || ''
-}
+};

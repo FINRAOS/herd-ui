@@ -45,7 +45,7 @@ export class FormatResolverService implements Resolve<any> {
       return {
         title: 'Format - ' + route.params.formatUsage + ':'
         + route.params.formatFileType + ':' + route.params.formatVersion
-      }
+      };
     }
   }
 

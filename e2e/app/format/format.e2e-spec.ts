@@ -173,7 +173,7 @@ describe('Format page:', () => {
       ['Partition:', format.partitionKey,
         'Min Value:', minValue,
         'Max Value:', maxValue].join('\n'));
-   }else {
+   } else {
        await expect(page.getDetailsGroup(2).getText()).toContain(
       ['Partition:', format.partitionKey,
         'Min Value:', minValue,

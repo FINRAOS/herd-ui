@@ -66,7 +66,7 @@ export class AuthorizedDirective implements OnInit, OnChanges {
 
   /**
    * @description User is authorized against security functions and namespace
-   * @returns {boolean}
+   * @returns boolean
    */
   authorized() {
     return this.matchNamespace() && this.matchSecurityFunctions();

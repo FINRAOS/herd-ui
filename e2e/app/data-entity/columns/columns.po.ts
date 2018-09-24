@@ -165,7 +165,7 @@ export class ColumnsPage extends OverviewPage {
                 .element(by.xpath('following-sibling::span')).getText()).trim(),
             dataType: (await rows.get(rowIndex).element(by.cssContainingText('td > span.ui-column-title', 'Data Type'))
                 .element(by.xpath('following-sibling::span')).getText()).trim()
-        })
+        });
     }
 }
 

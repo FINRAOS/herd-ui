@@ -123,7 +123,7 @@ export class BasePo {
     // immediately return if the login scren isn't there.
     return new Promise((resolve, reject) => {
       resolve();
-    })
+    });
   }
 }
 

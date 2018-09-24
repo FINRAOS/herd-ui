@@ -71,8 +71,8 @@ export class HttpInterceptService implements HttpInterceptor {
             console.log('----end response error----');
           }
         })
-      )
+      );
 
-  };
+  }
 
 }

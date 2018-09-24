@@ -15,7 +15,7 @@
 */
 import { DataObjectDetailRequest } from './../components/data-object-detail/data-object-detail.component';
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, DetachedRouteHandle, Resolve, Router, RouterStateSnapshot } from '@angular/router'
+import { ActivatedRouteSnapshot, DetachedRouteHandle, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { BusinessObjectData, BusinessObjectDataService } from '@herd/angular-client';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

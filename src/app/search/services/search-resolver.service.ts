@@ -64,7 +64,7 @@ export class SearchResolverService implements Resolve<any> {
     } else {
       return {
         title: 'Global Search - ' + route.params.searchText
-      }
+      };
     }
   }
 

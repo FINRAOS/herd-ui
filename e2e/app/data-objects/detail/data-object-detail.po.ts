@@ -94,7 +94,7 @@ export class DataObjectDetailPage extends BasePo {
       dataVersion: cell.get(5),
       link: row.element(by.tagName('a'))
     };
-  };
+  }
 
   public getSingleStorageUnit(index) {
     const storageUnit = this.storageUnitsRepeater.get(index);
@@ -124,7 +124,7 @@ export class DataObjectDetailPage extends BasePo {
       filesSectionColumnsLabel: storageUnit.all(by.className('list-group-item')).get(2),
       filesRepeater: storageUnit.all(by.css('.files-loop > .list-group-item')),
       getFileDownloadIcon: (findx) => {
-        return storageUnit.all(by.css('.files-loop > .list-group-item')).get(findx).element('fa-cloud-download')
+        return storageUnit.all(by.css('.files-loop > .list-group-item')).get(findx).element('fa-cloud-download');
       },
       getSingleFile: (fIndex) => {
         const file = storageUnit.all(by.css('.files-loop > .list-group-item')).get(fIndex);
@@ -133,9 +133,9 @@ export class DataObjectDetailPage extends BasePo {
           fileSize: file.all(by.tagName('div')).get(1).getText(),
           rowCount: file.all(by.tagName('div')).get(2).getText(),
           fileDownloadIcon: file.all(by.tagName('div')).get(3)
-        }
+        };
       }
-    }
+    };
   }
 
   public dataObjectPage(dataObjectrow = 0) {

@@ -25,7 +25,7 @@ const data = new Data();
 /**
  * Generate the post requests for namespace, data provider
  * business object definitions, tag types and tags
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 
 export const postRequests = function () {
@@ -82,7 +82,7 @@ const bdefPostUrl = new schema.BusinessObjectDefinitions().postUrl();
 /**
  * Generate the requests to delete bdefs, namespace and data providers
  * tag types and tags
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 export const deleteRequests = function () {
   return {

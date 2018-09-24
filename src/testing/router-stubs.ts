@@ -62,7 +62,7 @@ export class ActivatedRouteStub {
   private _children: ActivatedRouteStub[] = [];
 
   setChildren(children: ActivatedRouteStub[]) {
-    this._children = children
+    this._children = children;
   }
 
   get snapshot() {

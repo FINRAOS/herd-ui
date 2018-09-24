@@ -62,7 +62,7 @@ class FormatField {
   }
 
   toString() {
-    return `${this.usage} : ${this.fileType} : ${this.version}`
+    return `${this.usage} : ${this.fileType} : ${this.version}`;
   }
 }
 
@@ -103,7 +103,7 @@ class DataObjectRowData {
   }
 
   get formatField(): string {
-    return ''
+    return '';
   }
 }
 
@@ -218,7 +218,7 @@ export class DataObjectListComponent implements OnInit {
   alertSuccessfulCopy() {
     this.alertService.alert(new SuccessAlert(
       'Success!', '', 'DDL Successfully copied to clipboard'
-    ))
+    ));
   }
 
   isInvalidDDLRequest() {
@@ -267,7 +267,7 @@ export class DataObjectListComponent implements OnInit {
       new Action(AppIcons.shareIcon, 'Share'),
       new Action(AppIcons.saveIcon, 'Save'),
       new Action(AppIcons.watchIcon, 'Watch')
-    ]
+    ];
   }
 
   export(e: DataTable) {
@@ -397,7 +397,7 @@ export class DataObjectListComponent implements OnInit {
             }
           }
         }
-        return r.businessObjectDataElements.length && this.convertToRowData(r.businessObjectDataElements) || null
+        return r.businessObjectDataElements.length && this.convertToRowData(r.businessObjectDataElements) || null;
       }));
   }
 
@@ -425,7 +425,7 @@ export class DataObjectListComponent implements OnInit {
 
       return row;
     });
-    return retval
+    return retval;
   }
 
 }

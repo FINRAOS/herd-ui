@@ -18,9 +18,9 @@ import { ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy } from 
 import { Location } from '@angular/common';
 
 export interface CustomRouteReuseStorage {
-    route: ActivatedRouteSnapshot,
-    handle: DetachedRouteHandle,
-    scrollPosition?: number
+    route: ActivatedRouteSnapshot;
+    handle: DetachedRouteHandle;
+    scrollPosition?: number;
 }
 
 @Injectable()

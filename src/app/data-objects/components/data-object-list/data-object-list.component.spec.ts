@@ -46,6 +46,68 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { RegistrationDateRangeFilterComponent } from '../registration-date-range-filter/registration-date-range-filter.component';
 import { HttpClientModule } from '@angular/common/http';
 
+const testParam = {
+  namespace: 'ns', dataEntityname: 'name',
+  formatUsage: 'SRC', formatFileType: 'TXT', formatVersion: '1'
+};
+
+const dataObjectListFiltersChangeEventData = {
+  partitionValueFilters: [{
+    partitionKey: 'xxx',
+    partitionValue: 'xxx',
+  }],
+  attributeValueFilters: [{
+    attributeName: 'attr_name',
+    attributeValue: 'attr_val',
+  }],
+  latestValidVersion: false,
+  registrationDateRangeFilter: null
+};
+
+const businessObjectDataKeys = {
+  businessObjectDataKeys: [
+    {
+      businessObjectDefinitionName: 'test-bdef-name',
+      namespace: 'test-namespace', businessObjectFormatUsage: 'test-bdef-format-usage',
+      businessObjectFormatFileType: 'test-bdef-file-type',
+      businessObjectFormatVersion: 'bdef-format-version',
+      partitionKey: 'test-key',
+      subPartitionValues: ['test-sub-partition-key'],
+      attributes: [{ name: 'xxx', value: 'yyy' }, { name: 'xxxx', value: 'yyyyy' }],
+      version: 231,
+      status: false
+    },
+    {
+      businessObjectDefinitionName: 'test-bdef-name1',
+      namespace: 'test-namespace1', businessObjectFormatUsage: 'test-bdef-format-usage1',
+      businessObjectFormatFileType: 'test-bdef-file-type1',
+      businessObjectFormatVersion: 'bdef-format-version1',
+      partitionKey: 'test-key',
+      subPartitionValues: ['test-sub-partition-key'],
+      attributes: [{ name: 'xxx1', value: 'yyyy1' }, { name: 'xxxx1', value: 'yyyyy1' }],
+      version: 232,
+      status: false
+    }
+  ]
+};
+
+const businessObjectSearchResult = {
+  businessObjectDataElements: [
+    {
+      attributes: [{ name: 'xxx', value: 'yyyy' }, { name: 'xxx1', value: 'yyyy1' }, { name: 'xxx2', value: 'yyyy2' }],
+      status: true
+    },
+    {
+      attributes: [{ name: 'xxx3', value: 'yyyy3' }, { name: 'xxx4', value: 'yyyy4' }, { name: 'xxx5', value: 'yyyy5' }],
+      status: true
+    },
+    {
+      attributes: [{ name: 'xxx6', value: 'yyyy6' }, { name: 'xxx7', value: 'yyyy7' }, { name: 'xxx8', value: 'yyyy8' }],
+      status: true
+    }
+  ]
+};
+
 describe('DataObjectListComponent', () => {
   let component: DataObjectListComponent;
   let fixture: ComponentFixture<DataObjectListComponent>;
@@ -240,68 +302,4 @@ describe('DataObjectListComponent', () => {
     expect(result).toEqual(null);
   });
 });
-
-const testParam = {
-  namespace: 'ns', dataEntityname: 'name',
-  formatUsage: 'SRC', formatFileType: 'TXT', formatVersion: '1'
-};
-
-const dataObjectListFiltersChangeEventData = {
-  partitionValueFilters: [{
-    partitionKey: 'xxx',
-    partitionValue: 'xxx',
-  }],
-  attributeValueFilters: [{
-    attributeName: 'attr_name',
-    attributeValue: 'attr_val',
-  }],
-  latestValidVersion: false,
-  registrationDateRangeFilter: null
-};
-
-const businessObjectDataKeys = {
-  businessObjectDataKeys: [
-    {
-      businessObjectDefinitionName: 'test-bdef-name',
-      namespace: 'test-namespace', businessObjectFormatUsage: 'test-bdef-format-usage',
-      businessObjectFormatFileType: 'test-bdef-file-type',
-      businessObjectFormatVersion: 'bdef-format-version',
-      partitionKey: 'test-key',
-      subPartitionValues: ['test-sub-partition-key'],
-      attributes: [{ name: 'xxx', value: 'yyy' }, { name: 'xxxx', value: 'yyyyy' }],
-      version: 231,
-      status: false
-    },
-    {
-      businessObjectDefinitionName: 'test-bdef-name1',
-      namespace: 'test-namespace1', businessObjectFormatUsage: 'test-bdef-format-usage1',
-      businessObjectFormatFileType: 'test-bdef-file-type1',
-      businessObjectFormatVersion: 'bdef-format-version1',
-      partitionKey: 'test-key',
-      subPartitionValues: ['test-sub-partition-key'],
-      attributes: [{ name: 'xxx1', value: 'yyyy1' }, { name: 'xxxx1', value: 'yyyyy1' }],
-      version: 232,
-      status: false
-    }
-  ]
-};
-
-const businessObjectSearchResult = {
-  businessObjectDataElements: [
-    {
-      attributes: [{ name: 'xxx', value: 'yyyy' }, { name: 'xxx1', value: 'yyyy1' }, { name: 'xxx2', value: 'yyyy2' }],
-      status: true
-    },
-    {
-      attributes: [{ name: 'xxx3', value: 'yyyy3' }, { name: 'xxx4', value: 'yyyy4' }, { name: 'xxx5', value: 'yyyy5' }],
-      status: true
-    },
-    {
-      attributes: [{ name: 'xxx6', value: 'yyyy6' }, { name: 'xxx7', value: 'yyyy7' }, { name: 'xxx8', value: 'yyyy8' }],
-      status: true
-    }
-  ]
-};
-
-
 

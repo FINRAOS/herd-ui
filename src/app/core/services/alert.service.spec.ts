@@ -16,7 +16,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 
 import { AlertService, DangerAlert, InfoAlert, SuccessAlert, WarningAlert } from './alert.service';
-import { bufferCount } from 'rxjs/operators'
+import { bufferCount } from 'rxjs/operators';
 
 describe('AlertService', () => {
   beforeEach(() => {

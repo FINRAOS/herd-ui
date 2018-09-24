@@ -173,7 +173,7 @@ export class FormatDetailComponent implements OnInit {
         return key.storageName;
       });
       return this.businessObjectDataApi
-        .businessObjectDataCheckBusinessObjectDataAvailability(request)
+        .businessObjectDataCheckBusinessObjectDataAvailability(request);
     })).pipe(finalize(() => {
       this.businessObjectDataApi.defaultHeaders.delete('skipAlert');
       this.storageApi.defaultHeaders.delete('skipAlert');
@@ -211,7 +211,7 @@ export class FormatDetailComponent implements OnInit {
       new Action(AppIcons.shareIcon, 'Share'),
       new Action(AppIcons.saveIcon, 'Save'),
       new Action(AppIcons.watchIcon, 'Watch')
-    ]
+    ];
   }
 
 }

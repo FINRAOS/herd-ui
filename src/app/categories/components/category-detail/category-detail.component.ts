@@ -18,7 +18,7 @@ import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { Action } from '../../../shared/components/side-action/side-action.component';
 import { Observable, Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Facet, Highlight, IndexSearchKey, IndexSearchResult, Tag, TagSearchRequest, TagService } from '@herd/angular-client'
+import { Facet, Highlight, IndexSearchKey, IndexSearchResult, Tag, TagSearchRequest, TagService } from '@herd/angular-client';
 import { SearchService } from '../../../shared/services/search.service';
 import { map } from 'rxjs/operators';
 
@@ -119,7 +119,7 @@ export class CategoryDetailComponent implements OnInit {
       new Action(AppIcons.shareIcon, 'Share'),
       new Action(AppIcons.saveIcon, 'Save'),
       new Action(AppIcons.watchIcon, 'Watch')
-    ]
+    ];
   }
 
   public onCategoryLinkClick(tag) {
@@ -197,7 +197,7 @@ export class CategoryDetailComponent implements OnInit {
   }
 
   public makeHighlightFull(highlight: Highlight) {
-    return this.searchService.joinHighlight(highlight)
+    return this.searchService.joinHighlight(highlight);
   }
 
   globalSearch(event) {

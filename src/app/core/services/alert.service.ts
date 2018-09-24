@@ -35,7 +35,7 @@ export class InfoAlert implements Alert {
   readonly type: AlertType;
   constructor (public title: string, public subTitle, public text, public closeDelay?: number) {
     this.type = 'info';
-  };
+  }
 }
 export class WarningAlert implements Alert {
   readonly type: AlertType;
@@ -50,7 +50,7 @@ export class DangerAlert implements Alert {
   }
 }
 
-export type AlertType = 'success' | 'info' | 'warning' | 'danger'
+export type AlertType = 'success' | 'info' | 'warning' | 'danger';
 
 
 @Injectable()

@@ -17,6 +17,110 @@ import { by, element, ElementArrayFinder, ElementFinder } from 'protractor';
 import { BasePo } from '../../base/base.po';
 import { RegistrationDateRangeFilter } from '@herd/angular-client';
 
+
+export class AttributeFilter {
+  applyButton: ElementFinder;
+  cancelButton: ElementFinder;
+  title: ElementFinder;
+  clearButton: ElementFinder;
+  nameInput: ElementFinder;
+  valueInput: ElementFinder;
+  closeButton: ElementFinder;
+  constructor(public filter: ElementFinder) {
+    this.title = filter.element(by.className('filter-title'));
+    this.closeButton = this.title.element(by.className('close-col'));
+    this.clearButton = filter.all(by.tagName('button')).get(0);
+    this.applyButton = filter.all(by.tagName('button')).get(1);
+    this.cancelButton = filter.all(by.tagName('button')).get(2);
+    this.nameInput = filter.all(by.tagName('input')).get(0);
+    this.valueInput = filter.all(by.tagName('input')).get(1);
+  }
+}
+
+export class PartitionFilter {
+  closeButton: ElementFinder;
+  clearButton: ElementFinder;
+  applyButton: ElementFinder;
+  cancelButton: ElementFinder;
+  minInput: ElementFinder;
+  maxInput: ElementFinder;
+  keyInput: ElementFinder;
+  valueInput: ElementFinder;
+  title: ElementFinder;
+  constructor(public filter: ElementFinder) {
+    this.title = filter.element(by.className('filter-title'));
+    this.closeButton = this.title.element(by.className('close-col'));
+    this.keyInput = filter.all(by.tagName('input')).get(0);
+    this.valueInput = filter.all(by.tagName('input')).get(1);
+    this.minInput = filter.all(by.tagName('input')).get(2);
+    this.maxInput = filter.all(by.tagName('input')).get(3);
+  }
+}
+
+export class RegistrationDateValidFilter {
+  closeButton: ElementFinder;
+  clearButton: ElementFinder;
+  applyButton: ElementFinder;
+  cancelButton: ElementFinder;
+  startDateInput: ElementFinder;
+  endDateInput: ElementFinder;
+  title: ElementFinder;
+  constructor(public filter: ElementFinder) {
+    this.title = filter.element(by.className('filter-title'));
+    this.closeButton = this.title.element(by.className('close-col'));
+    this.startDateInput = filter.all(by.tagName('input')).get(0);
+    this.endDateInput = filter.all(by.tagName('input')).get(1);
+  }
+}
+
+export class LatestValidFilter {
+  closeButton: ElementFinder;
+  title: ElementFinder;
+  constructor(public filter: ElementFinder) {
+    this.title = filter.element(by.className('filter-title'));
+    this.closeButton = this.title.element(by.className('close-col'));
+  }
+}
+
+export class DataTable {
+  rows: RowData[];
+  constructor() {
+
+  }
+}
+
+export class RowData {
+  partition: ElementFinder;
+  version: ElementFinder;
+  subPartitions: ElementFinder;
+  format: ElementFinder;
+  link: ElementFinder;
+  attributes: ElementFinder;
+  status: ElementFinder;
+  constructor(public row: ElementFinder) {
+    this.status = this.row
+      .element(by.cssContainingText('td > span.ui-column-title', 'Status'))
+      .element(by.xpath('following-sibling::span'));
+    this.partition = this.row
+      .all(by.cssContainingText('td > span.ui-column-title', 'Partition')).first()
+      .element(by.xpath('following-sibling::span'));
+    this.version = this.row
+      .element(by.cssContainingText('td > span.ui-column-title', 'Version'))
+      .element(by.xpath('following-sibling::span'));
+    this.format = this.row
+      .element(by.cssContainingText('td > span.ui-column-title', 'Format'))
+      .element(by.xpath('following-sibling::span'));
+    this.subPartitions = this.row
+      .element(by.cssContainingText('td > span.ui-column-title', 'Sub Partitions'))
+      .element(by.xpath('following-sibling::span'));
+    this.attributes = this.row
+      .element(by.cssContainingText('td > span.ui-column-title', 'Attributes'))
+      .element(by.xpath('following-sibling::span'));
+    this.link = this.row
+      .element(by.linkText('View Data Object'));
+  }
+}
+
 export class DataObjectListPage extends BasePo {
     emptyMessage: ElementFinder = element(by.css('.ui-datatable-emptymessage'));
     mainHeader: ElementFinder = element(by.className('main-header'));
@@ -58,14 +162,14 @@ export class DataObjectListPage extends BasePo {
                 if (await this.addFilterMenuItems.count() > 2) {
                     await this.addFilterMenuItems.get(2).click();
                 } else {
-                    return null
+                    return null;
                 }
                 break;
            case 'regiDateRng':
                 if (await this.addFilterMenuItems.count() > 2) {
                     await this.addFilterMenuItems.get(2).click();
                 } else {
-                    return null
+                    return null;
                 }
                 break;
         }
@@ -93,106 +197,4 @@ export class DataObjectListPage extends BasePo {
     }
 }
 
-export class AttributeFilter {
-    applyButton: ElementFinder;
-    cancelButton: ElementFinder;
-    title: ElementFinder;
-    clearButton: ElementFinder;
-    nameInput: ElementFinder;
-    valueInput: ElementFinder;
-    closeButton: ElementFinder;
-    constructor(public filter: ElementFinder) {
-        this.title = filter.element(by.className('filter-title'));
-        this.closeButton = this.title.element(by.className('close-col'));
-        this.clearButton = filter.all(by.tagName('button')).get(0);
-        this.applyButton = filter.all(by.tagName('button')).get(1);
-        this.cancelButton = filter.all(by.tagName('button')).get(2);
-        this.nameInput = filter.all(by.tagName('input')).get(0);
-        this.valueInput = filter.all(by.tagName('input')).get(1);
-    }
-}
-
-export class PartitionFilter {
-    closeButton: ElementFinder;
-    clearButton: ElementFinder;
-    applyButton: ElementFinder;
-    cancelButton: ElementFinder;
-    minInput: ElementFinder;
-    maxInput: ElementFinder;
-    keyInput: ElementFinder;
-    valueInput: ElementFinder;
-    title: ElementFinder;
-    constructor(public filter: ElementFinder) {
-        this.title = filter.element(by.className('filter-title'));
-        this.closeButton = this.title.element(by.className('close-col'));
-        this.keyInput = filter.all(by.tagName('input')).get(0);
-        this.valueInput = filter.all(by.tagName('input')).get(1);
-        this.minInput = filter.all(by.tagName('input')).get(2);
-        this.maxInput = filter.all(by.tagName('input')).get(3);
-    }
-}
-
-export class RegistrationDateValidFilter {
-    closeButton: ElementFinder;
-    clearButton: ElementFinder;
-    applyButton: ElementFinder;
-    cancelButton: ElementFinder;
-    startDateInput: ElementFinder;
-    endDateInput: ElementFinder;
-    title: ElementFinder;
-    constructor(public filter: ElementFinder) {
-        this.title = filter.element(by.className('filter-title'));
-        this.closeButton = this.title.element(by.className('close-col'));
-        this.startDateInput = filter.all(by.tagName('input')).get(0);
-        this.endDateInput = filter.all(by.tagName('input')).get(1);
-    }
-}
-
-export class LatestValidFilter {
-    closeButton: ElementFinder;
-    title: ElementFinder;
-    constructor(public filter: ElementFinder) {
-        this.title = filter.element(by.className('filter-title'));
-        this.closeButton = this.title.element(by.className('close-col'));
-    }
-}
-
-export class DataTable {
-    rows: RowData[];
-    constructor() {
-
-    }
-}
-
-export class RowData {
-    partition: ElementFinder;
-    version: ElementFinder;
-    subPartitions: ElementFinder;
-    format: ElementFinder;
-    link: ElementFinder;
-    attributes: ElementFinder;
-    status: ElementFinder;
-    constructor(public row: ElementFinder) {
-        this.status = this.row
-            .element(by.cssContainingText('td > span.ui-column-title', 'Status'))
-            .element(by.xpath('following-sibling::span'));
-        this.partition = this.row
-            .all(by.cssContainingText('td > span.ui-column-title', 'Partition')).first()
-            .element(by.xpath('following-sibling::span'));
-        this.version = this.row
-            .element(by.cssContainingText('td > span.ui-column-title', 'Version'))
-            .element(by.xpath('following-sibling::span'));
-        this.format = this.row
-            .element(by.cssContainingText('td > span.ui-column-title', 'Format'))
-            .element(by.xpath('following-sibling::span'));
-        this.subPartitions = this.row
-            .element(by.cssContainingText('td > span.ui-column-title', 'Sub Partitions'))
-            .element(by.xpath('following-sibling::span'));
-        this.attributes = this.row
-            .element(by.cssContainingText('td > span.ui-column-title', 'Attributes'))
-            .element(by.xpath('following-sibling::span'));
-        this.link = this.row
-            .element(by.linkText('View Data Object'));
-    }
-}
 

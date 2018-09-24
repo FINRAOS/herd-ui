@@ -153,7 +153,7 @@ export const deleteRequests = function () {
     }, {
       'order': 5, 'url': new schema.DataProvider().deleteUrl(data.dataProviderName)
     }]
-  }
+  };
 };
 
 export const initRequests = {

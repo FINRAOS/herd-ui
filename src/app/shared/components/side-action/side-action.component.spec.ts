@@ -38,7 +38,7 @@ describe('SideActionComponent', () => {
     fixture = TestBed.createComponent(SideActionComponent);
     component = fixture.componentInstance;
     expectedAction = new Action('<i class=\'fa fa-share-alt\'></i>',
-        'Share', () => {return 'clicked share.' }, true);
+        'Share', () => 'clicked share.', true);
     component.action = expectedAction;
     fixture.detectChanges();
   });

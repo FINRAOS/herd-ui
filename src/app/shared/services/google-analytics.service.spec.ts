@@ -100,6 +100,6 @@ describe('Google Analytics Service', () => {
       expect(warn).toHaveBeenCalledWith(`Google Analytics has not been configured for this deployment.
       Either trackAnalytics has not been set in the configuration.json or ga.trackingId has not been provided in the configuration.`);
     }));
-  })
+  });
 
 });

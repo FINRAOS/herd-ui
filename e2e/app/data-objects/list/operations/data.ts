@@ -124,7 +124,8 @@ const bdataWithSubPartitions: BusinessObjectDataCreateRequest = {
             // used this due to such a long string. should not be used otherwise
             // tslint:disable-next-line:max-line-length
             'directoryPath': utils.dataPrefix +
-            'ns-protractor-test-dl/dp-protractor-test-dl/test-1/txt/data-object-list-test/schm-v0/data-v0/test-key=WithSubPartitions/' + conf.mmodule + '=BIRD/employee-key=CAT/data-key=ELEPHANT/firm-key=HIPPOPOTAMUS'
+            'ns-protractor-test-dl/dp-protractor-test-dl/test-1/txt/data-object-list-test/schm-v0/data-v0/test-key=WithSubPartitions/'
+              + conf.mmodule + '=BIRD/employee-key=CAT/data-key=ELEPHANT/firm-key=HIPPOPOTAMUS'
         }
     }]
 };
@@ -196,4 +197,4 @@ export default {
     bdata2,
     bdata3,
     bdataWithSubPartitions
-}
+};
