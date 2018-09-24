@@ -43,4 +43,4 @@ export class Data {
       'businessObjectDefinitionName': 'HERD_UI_SME_NONE'
     }
   }
-};
+}

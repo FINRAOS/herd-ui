@@ -18,8 +18,8 @@
  * Utilizes the data specified in jsonSchema.js and this.data.js
  */
 
-import {DataManager} from './../../../../../util/DataManager';
-import {Data} from './data';
+import { DataManager } from './../../../../../util/DataManager';
+import { Data } from './data';
 import * as schema from './../../../../../util/JsonSchema';
 
 

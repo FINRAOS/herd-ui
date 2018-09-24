@@ -16,20 +16,24 @@
 import { Action } from './../../../shared/components/side-action/side-action.component';
 import { StorageUnitsComponent } from './../storage-units/storage-units.component';
 import { LineageComponent } from './../lineage/lineage.component';
-import { RouterStub, ActivatedRouteStub } from './../../../../testing/router-stubs';
+import { ActivatedRouteStub, RouterStub } from './../../../../testing/router-stubs';
 import {
-  BusinessObjectFormatService, BusinessObjectDataService, BusinessObjectData, BusinessObjectFormat,
-  BusinessObjectDataVersions, StorageUnitService
+  BusinessObjectData,
+  BusinessObjectDataService,
+  BusinessObjectDataVersions,
+  BusinessObjectFormat,
+  BusinessObjectFormatService,
+  StorageUnitService
 } from '@herd/angular-client';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '../../../shared/shared.module';
 import { DataObjectDetailComponent, DataObjectDetailRequest } from './data-object-detail.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
-import { S3Customizations } from 'aws-sdk/lib/services/s3';
+import { throwError } from 'rxjs/internal/observable/throwError';
 
 describe('DataObjectDetailComponent', () => {
   let component: DataObjectDetailComponent;
@@ -201,10 +205,10 @@ describe('DataObjectDetailComponent', () => {
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
-        Observable.of(expectedFormat));
+        of(expectedFormat));
 
       spydataApi = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectDataVersions).and.returnValue(
-        Observable.of(expectedVersionsResult));
+        of(expectedVersionsResult));
 
       fixture.detectChanges();
       expect(component).toBeTruthy();
@@ -244,10 +248,10 @@ describe('DataObjectDetailComponent', () => {
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
-        Observable.of(expectedFormat));
+        of(expectedFormat));
 
       spydataApi = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectDataVersions).and.returnValue(
-        Observable.of(expectedVersionsResult));
+        of(expectedVersionsResult));
 
       fixture.detectChanges();
       expect(spyBdefFormatApi.calls.count()).toEqual(0);
@@ -304,10 +308,10 @@ describe('DataObjectDetailComponent', () => {
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
-        Observable.of(expectedFrmt));
+        of(expectedFrmt));
 
       spydataApi = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectDataVersions).and.returnValue(
-        Observable.of(expectedVersionsResult));
+        of(expectedVersionsResult));
 
       fixture.detectChanges();
       expect(spyBdefFormatApi.calls.count()).toEqual(1);
@@ -390,10 +394,10 @@ describe('DataObjectDetailComponent', () => {
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
-        Observable.of(expectedFrmt));
+        of(expectedFrmt));
 
       spydataApi = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectDataVersions).and.returnValue(
-        Observable.of(expectedVersionsResult));
+        of(expectedVersionsResult));
 
       fixture.detectChanges();
       // for the ng init
@@ -445,7 +449,7 @@ describe('DataObjectDetailComponent', () => {
 
     // Spy on the services
     spyStorageUnitService = (<jasmine.Spy>storageUnitService.storageUnitGetStorageUnitDownloadCredential)
-      .and.returnValue(Observable.of(awsCredential));
+      .and.returnValue(of(awsCredential));
 
     component.businessObjectData = businessObjectData;
     component.downloadAFile(storageEvent);
@@ -489,7 +493,7 @@ describe('DataObjectDetailComponent', () => {
 
     // Spy on the services
     spyStorageUnitService = (<jasmine.Spy>storageUnitService.storageUnitGetStorageUnitDownloadCredential)
-      .and.returnValue(Observable.throw({status: 404}));
+      .and.returnValue(throwError({status: 404}));
 
     component.businessObjectData = businessObjectData;
     component.downloadAFile(storageEvent);

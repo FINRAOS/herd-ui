@@ -77,7 +77,7 @@ export class RelatedDataEntities {
         'facets': null
       }]
     }]
-  }
+  };
 
   get relatedDataEntities() {
     return this._relatedDataEntities;

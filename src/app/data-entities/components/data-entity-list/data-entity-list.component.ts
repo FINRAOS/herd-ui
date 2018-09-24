@@ -13,12 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, OnInit, ChangeDetectorRef, ElementRef, AfterViewInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BusinessObjectDefinitionKey } from '@herd/angular-client';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import { debounceTime, map, skip} from 'rxjs/operators'
+import { fromEvent, Subscription } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators'
 
 @Component({
     selector: 'sd-data-entity-list',
@@ -52,11 +51,12 @@ export class DataEntityListComponent implements OnInit {
             this.searchInput.focus();
         });
 
-        Observable
-            .fromEvent(this.searchInput, 'keyup')
-            .map((i: any) => i.currentTarget.value)
-            .debounceTime(500)
-            .subscribe((val) => {
+        fromEvent(this.searchInput, 'keyup')
+          .pipe(
+            map((i: any) => i.currentTarget.value),
+            debounceTime(500)
+          )
+          .subscribe((val) => {
                 this.router.navigate(['/data-entities'],
                     {
                         queryParams: {

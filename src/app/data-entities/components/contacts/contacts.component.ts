@@ -16,11 +16,12 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import {
   BusinessObjectDefinitionSubjectMatterExpertService,
-  SubjectMatterExpertService,
-  NamespaceAuthorization
+  NamespaceAuthorization,
+  SubjectMatterExpertService
 } from '@herd/angular-client';
 import { AlertService, DangerAlert } from '../../../core/services/alert.service';
 import { AuthMap } from '../../../shared/directive/authorized/authorized.directive';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'sd-contacts',
@@ -90,13 +91,13 @@ export class ContactsComponent implements OnInit, OnChanges {
       this.validationError = '';
       this.subjectMatterExpertApi.defaultHeaders.append('skipAlert', 'true');
       this.businessObjectDefinitionSubjectMatterExpert.defaultHeaders.append('skipAlert', 'true');
-      this.subjectMatterExpertApi.subjectMatterExpertGetSubjectMatterExpert(this.userId).finally(() => {
+      this.subjectMatterExpertApi.subjectMatterExpertGetSubjectMatterExpert(this.userId).pipe(finalize(() => {
         this.subjectMatterExpertApi.defaultHeaders.delete('skipAlert');
-      }).subscribe((sme) => {
+      })).subscribe((sme) => {
         this.businessObjectDefinitionSubjectMatterExpert
-          .businessObjectDefinitionSubjectMatterExpertCreateBusinessObjectDefinitionSubjectMatterExpert(request).finally(() => {
+          .businessObjectDefinitionSubjectMatterExpertCreateBusinessObjectDefinitionSubjectMatterExpert(request).pipe(finalize(() => {
           this.businessObjectDefinitionSubjectMatterExpert.defaultHeaders.delete('skipAlert');
-        }).subscribe((response) => {
+        })).subscribe((response) => {
           this.displayingContacts.push(sme);
           this.userId = '';
         }, (error) => {
@@ -116,9 +117,9 @@ export class ContactsComponent implements OnInit, OnChanges {
     this.businessObjectDefinitionSubjectMatterExpert
       .businessObjectDefinitionSubjectMatterExpertDeleteBusinessObjectDefinitionSubjectMatterExpert(
         this.namespace, this.businessObjectDefinitionName, event.subjectMatterExpertKey.userId)
-      .finally(() => {
+      .pipe(finalize(() => {
         this.businessObjectDefinitionSubjectMatterExpert.defaultHeaders.delete('skipAlert');
-      })
+      }))
       .subscribe((response) => {
         this.displayingContacts = this.displayingContacts.filter((key) => {
           return !(key.contactDetails.emailAddress === event.contactDetails.emailAddress);

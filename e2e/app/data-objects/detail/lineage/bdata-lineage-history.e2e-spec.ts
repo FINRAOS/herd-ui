@@ -13,12 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {browser} from 'protractor';
-import {DataManager} from '../../../../util/DataManager';
-import {Operations} from '../operations/operations';
-import {Data} from './operations/data';
-import {DataObjectDetailPage} from '../data-object-detail.po';
-import {BaseDetail} from '../base-detail';
+import { browser } from 'protractor';
+import { DataManager } from '../../../../util/DataManager';
+import { Operations } from '../operations/operations';
+import { Data } from './operations/data';
+import { DataObjectDetailPage } from '../data-object-detail.po';
+import { BaseDetail } from '../base-detail';
 
 
 describe('Feature:BDataLineage', () => {

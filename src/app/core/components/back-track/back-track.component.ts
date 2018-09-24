@@ -13,15 +13,15 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Component, OnInit, Input, ChangeDetectionStrategy} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {Router, NavigationEnd, NavigationStart} from '@angular/router';
-import {Title} from '@angular/platform-browser';
-import {Location} from '@angular/common';
-import {CustomLocation} from 'app/core/services/custom-location.service';
-import {Utils} from 'app/utils/utils';
-import {filter} from 'rxjs/operators'
-import {environment} from '../../../../environments/environment';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { Location } from '@angular/common';
+import { CustomLocation } from 'app/core/services/custom-location.service';
+import { Utils } from 'app/utils/utils';
+import { filter } from 'rxjs/operators'
+import { environment } from '../../../../environments/environment';
 
 const DATA = 'resolvedData';
 const TITLE = 'title';
@@ -48,7 +48,11 @@ export class BackTrackComponent implements OnInit {
 
   ngOnInit() {
     // subscribe to the NavigationEnd event
-    this.router.events.pipe(filter((event) => event instanceof NavigationStart || event instanceof NavigationEnd))
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationStart || event instanceof NavigationEnd),
+        // pairwise()
+      )
       .subscribe(event => {
         const endRoute = Utils.findPrimaryRoute(this.router.routerState.root.snapshot);
         const historyState = (this.location as CustomLocation).getHistoryState();
@@ -69,7 +73,10 @@ export class BackTrackComponent implements OnInit {
           this.tempPreviousTitle = (this.tempPreviousTitle && this.tempPreviousTitle.replace(environment.docTitlePrefix, ''));
           this.tempPreviousTitle = (this.tempPreviousTitle && this.tempPreviousTitle.replace(SEPARATOR, ''));
 
-          if (historyState) {
+          this.previousTitle = this.tempPreviousTitle;
+          this.currentTitle = endRoute.data[DATA] && endRoute.data[DATA][TITLE] || '';
+
+          /*if (historyState) {
             if (endRoute.data && endRoute.data.excludeFromCaching) {
               this.currentTitle = endRoute.data[DATA] && endRoute.data[DATA][TITLE] || ''
             } else {
@@ -80,14 +87,14 @@ export class BackTrackComponent implements OnInit {
           } else {
             this.previousTitle = this.tempPreviousTitle;
             this.currentTitle = endRoute.data[DATA] && endRoute.data[DATA][TITLE] || ''
-          }
+          }*/
 
           if (!endRoute.data || endRoute.data.ignorePreviousTitle) {
             this.previousTitle = undefined;
           }
 
           const setTitle = this.currentTitle ?
-            environment.docTitlePrefix + SEPARATOR + this.currentTitle : environment.docTitlePrefix
+            environment.docTitlePrefix + SEPARATOR + this.currentTitle : environment.docTitlePrefix;
 
           this.title.setTitle(setTitle);
 

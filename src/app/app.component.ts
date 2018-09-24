@@ -16,16 +16,18 @@
 import { UserService } from 'app/core/services/user.service';
 import { GoogleAnalyticsService } from './shared/services/google-analytics.service';
 import { Component, Inject, OnInit } from '@angular/core';
-import { Response, RequestOptions } from '@angular/http';
-import { HttpInterceptorService, Interceptable, Interceptor } from 'ng-http-interceptor';
-import { AlertService, DangerAlert } from 'app/core/services/alert.service';
-import { tap, debounceTime, filter } from 'rxjs/operators';
-import { merge } from 'rxjs/observable/merge'
-import { Observable } from 'rxjs/Observable';
+import { AlertService } from 'app/core/services/alert.service';
+import { debounceTime, filter, tap } from 'rxjs/operators';
+import { fromEvent, merge } from 'rxjs';
 
 import {
-  Router, NavigationEnd, NavigationStart, NavigationCancel,
-  NavigationError, ActivatedRoute, ActivatedRouteSnapshot, PRIMARY_OUTLET
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router
 } from '@angular/router';
 import { CustomRouteReuseStrategy } from 'app/core/services/custom-route-reuse-strategy.service';
 import { WINDOW } from 'app/core/core.module';
@@ -42,32 +44,8 @@ export class AppComponent implements OnInit {
   previousScroll: number;
   isLoading = false;
   skipDictionary: { [path: string]: number };
-  reqInterceptable: Interceptor<any[], any[]> = req => {
-    // the header can't be in the request for servers that don't support it
-    // In this case rip out this header and mark that we want
-    // to skip this url
-    if (req[1] && req[1].headers && (req[1] as RequestOptions).headers.get('skipAlert')) {
-      const key = req[0] + (req[1].search && req[1].search.toString() ? `?${req[1].search.toString()}` : '');
-      const value = this.skipDictionary[key];
-      (req[1] as RequestOptions).headers.delete('skipAlert');
-      this.skipDictionary[key] = value ? value + 1 : 1;
-    }
 
-    return req;
-  };
-  respInterceptable: Interceptor<Observable<Response>, Observable<Response>> = res => res.pipe(tap(null, e => {
-    if (e.url) {
-      if (!this.skipDictionary[e.url] || this.skipDictionary[e.url] === 0) {
-        this.alerter.alert(new DangerAlert('HTTP Error: ' + e.status + ' ' + e.statusText,
-          'URL: ' + e.url, 'Info: ' + e.json().message));
-      } else {
-        this.skipDictionary[e.url]--;
-      }
-    }
-    return e;
-  }));
   constructor(private alerter: AlertService,
-    public interceptor: HttpInterceptorService,
     private router: Router,
     private ga: GoogleAnalyticsService,
     public cu: UserService,
@@ -76,10 +54,10 @@ export class AppComponent implements OnInit {
   ) {
     this.skipDictionary = {};
     // handled skipAlert flag for messaging of failed requests
-    this.interceptor.request().addInterceptor(this.reqInterceptable);
+    // this.interceptor.request().addInterceptor(this.reqInterceptable);
 
     // for every request if we get an error notify the user of it
-    this.interceptor.response().addInterceptor(this.respInterceptable);
+    // this.interceptor.response().addInterceptor(this.respInterceptable);
   }
 
   ngOnInit() {
@@ -90,8 +68,8 @@ export class AppComponent implements OnInit {
     } else {
       // Observable.fromEvent is the only way for us to copmletely test this module
       // TODO: look for ways to mock the lettable operator fromEvent and use it instead
-      const scrollEvents = Observable.fromEvent<UIEvent>(this.window, 'scroll');
-      const popStateEvents = Observable.fromEvent<PopStateEvent>(this.window, 'popstate');
+      const scrollEvents = fromEvent<UIEvent>(this.window, 'scroll');
+      const popStateEvents = fromEvent<PopStateEvent>(this.window, 'popstate');
 
       merge(scrollEvents, popStateEvents).pipe(debounceTime(100)).subscribe((e) => {
         if (e instanceof UIEvent) {
@@ -106,7 +84,7 @@ export class AppComponent implements OnInit {
         event instanceof NavigationCancel ||
         event instanceof NavigationError),
       tap(event => {
-        this.isLoading = false
+        this.isLoading = false;
         if (event instanceof NavigationEnd) {
           const savedRoute = (this.router.routeReuseStrategy as CustomRouteReuseStrategy)
             .getStorageUnit(Utils.findPrimaryRoute(this.route.snapshot));

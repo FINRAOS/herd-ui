@@ -13,10 +13,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
-import { AlertService, SuccessAlert, InfoAlert, WarningAlert, DangerAlert } from './alert.service';
-import { Observable } from 'rxjs/Observable';
+import { AlertService, DangerAlert, InfoAlert, SuccessAlert, WarningAlert } from './alert.service';
 import { bufferCount } from 'rxjs/operators'
 
 describe('AlertService', () => {

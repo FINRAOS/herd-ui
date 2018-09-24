@@ -24,7 +24,7 @@ describe('FileDownloaderDirective', () => {
 
   it('should call download file when url changes and does not when invalid', () => {
     const directive = new FileDownloaderDirective();
-    directive.sampleDataFileUrl = 'http://herd-ui.test'
+    directive.sampleDataFileUrl = 'http://herd-ui.test';
     let fc = true;
     const downloadSpy = spyOn(directive, 'download');
     const changeObj: SimpleChanges = {

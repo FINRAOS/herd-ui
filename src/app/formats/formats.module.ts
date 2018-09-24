@@ -13,12 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {SharedModule} from '../shared/shared.module';
-import {FormatsRoutingModule} from './formats-routing.module';
-import {FormatDetailComponent} from 'app/formats/components/format-detail/format-detail.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../shared/shared.module';
+import { FormatsRoutingModule } from './formats-routing.module';
+import { FormatDetailComponent } from 'app/formats/components/format-detail/format-detail.component';
 import { SchemaColumnsComponent } from './components/schema-columns/schema-columns.component';
 import { AttributeDefinitionsComponent } from './components/attribute-definitions/attribute-definitions.component';
 

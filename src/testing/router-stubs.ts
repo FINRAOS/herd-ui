@@ -16,13 +16,9 @@
 
 // Only implements params and part of snapshot.params
 
-import { Injectable, Directive, Input} from '@angular/core';
-import {
-  NavigationStart, NavigationEnd, NavigationError,
-  NavigationCancel, Event
-} from '@angular/router';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { Observable } from 'rxjs/Observable';
+import { Directive, Injectable, Input } from '@angular/core';
+import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart } from '@angular/router';
+import { Observable, ReplaySubject } from 'rxjs';
 
 @Injectable()
 export class ActivatedRouteStub {
@@ -97,11 +93,11 @@ export class RouterStub {
     shouldReuseRoute: jasmine.createSpy('shouldReuseRoute'),
     makeKey: jasmine.createSpy('makeKey'),
     getStorageUnit: jasmine.createSpy('getStorageUnit')
-  }
+  };
 
   // Router.events is Observable
   events: Observable<Event>;
-  routerState: { root: ActivatedRouteStub, snapshot: any }
+  routerState: { root: ActivatedRouteStub, snapshot: any };
 
   constructor() {
     this.events = this.eventsSubject.asObservable();

@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { async, ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 
 import { DataEntityListComponent } from './data-entity-list.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -68,7 +68,7 @@ describe('DataEntityListComponent', () => {
         }],
         total: 3
       }
-    }
+    };
 
     fixture.detectChanges();
     expect(component.dataEntities).toEqual((route as any).testData.resolvedData.dataEntities);
@@ -82,7 +82,7 @@ describe('DataEntityListComponent', () => {
       spyOn(component.searchInput, 'focus');
       (route as any).testQueryParams = {
         searchTerm: 'testSearchTerm'
-      }
+      };
       fixture.detectChanges();
       expect(component.searchTerm).toEqual(route.testQueryParams.searchTerm);
       expect(component.searchInput.focus).toHaveBeenCalled();
@@ -91,7 +91,7 @@ describe('DataEntityListComponent', () => {
       component.searchTerm = undefined;
       (route as any).testQueryParams = {
         searchTerm: ''
-      }
+      };
       fixture.detectChanges();
       expect(component.searchTerm).toEqual(route.testQueryParams.searchTerm);
       expect(component.searchInput.focus).toHaveBeenCalledTimes(2);
@@ -101,15 +101,15 @@ describe('DataEntityListComponent', () => {
     (route: ActivatedRouteStub, router: Router) => {
 
       const input = component.searchInput;
-      input.value = 'test'
+      input.value = 'test';
       input.dispatchEvent(newEvent('keyup'));
       tick(250);
       expect(router.navigate).not.toHaveBeenCalled();
-      input.value = 'tes2'
+      input.value = 'tes2';
       input.dispatchEvent(newEvent('keyup'));
       tick(250);
       expect(router.navigate).not.toHaveBeenCalled();
-      input.value = 'test3'
+      input.value = 'test3';
       input.dispatchEvent(newEvent('keyup'));
       tick(500);
 

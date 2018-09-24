@@ -15,7 +15,7 @@
 */
 import { UserService } from 'app/core/services/user.service';
 import { Injectable } from '@angular/core';
-import {environment} from '../../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 declare let ga: Function;
 

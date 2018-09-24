@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {browser, by, element, ElementArrayFinder, ElementFinder, promise} from 'protractor';
-import {LoginPage} from '../login/login.po';
+import { browser, by, element, ElementArrayFinder, ElementFinder, promise } from 'protractor';
+import { LoginPage } from '../login/login.po';
 
 const conf = require('./../../config/conf.e2e.json');
 
@@ -49,7 +49,7 @@ export class BasePo {
         `var range = document.createRange();
    range.selectNodeContents(arguments[0]);
    range.deleteContents();
-   arguments[0].innerHTML = arguments[1];`
+   arguments[0].innerHTML = arguments[1];`;
       return browser.executeScript(script, elm.getWebElement(), replacement || `''`);
     } else {
       return Promise.resolve('no contents in the element');

@@ -13,25 +13,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {
-  BusinessObjectDefinitionSubjectMatterExpertService,
-  SubjectMatterExpertService
-} from '@herd/angular-client';
-import {ContactsComponent} from './contacts.component';
-import {AuthorizedDirective} from '../../../shared/directive/authorized/authorized.directive';
-import {SharedModule} from '../../../shared/shared.module';
-import {AlertService} from '../../../core/services/alert.service';
-import {UserService} from '../../../core/services/user.service';
-import {EncryptionService} from '../../../shared/services/encryption.service';
-import {Observable} from 'rxjs/Observable';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {By} from '@angular/platform-browser';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {SimpleChange} from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BusinessObjectDefinitionSubjectMatterExpertService, SubjectMatterExpertService } from '@herd/angular-client';
+import { ContactsComponent } from './contacts.component';
+import { AuthorizedDirective } from '../../../shared/directive/authorized/authorized.directive';
+import { SharedModule } from '../../../shared/shared.module';
+import { AlertService } from '../../../core/services/alert.service';
+import { UserService } from '../../../core/services/user.service';
+import { EncryptionService } from '../../../shared/services/encryption.service';
+import { BehaviorSubject, of, throwError } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SimpleChange } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HttpModule } from '@angular/http';
-import {environment} from '../../../../environments/environment';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ContactsComponent', () => {
   let component: ContactsComponent;
@@ -44,7 +39,7 @@ describe('ContactsComponent', () => {
         SharedModule,
         NgbModule.forRoot(),
         HttpClientTestingModule,
-        HttpModule
+        HttpClientModule
       ],
       declarations: [
         ContactsComponent
@@ -75,14 +70,14 @@ describe('ContactsComponent', () => {
     businessObjectDefinitionSubjectMatterExpertApi = TestBed.get(BusinessObjectDefinitionSubjectMatterExpertService);
     spyOn(businessObjectDefinitionSubjectMatterExpertApi,
       'businessObjectDefinitionSubjectMatterExpertCreateBusinessObjectDefinitionSubjectMatterExpert')
-      .and.returnValue(Observable.of({
+      .and.returnValue(of({
       contactDetails: {
         emailAddress: 'testemail@email.com'
       }
     }));
     spyOn(businessObjectDefinitionSubjectMatterExpertApi,
       'businessObjectDefinitionSubjectMatterExpertDeleteBusinessObjectDefinitionSubjectMatterExpert')
-      .and.returnValue(Observable.of({
+      .and.returnValue(of({
       contactDetails: {
         emailAddress: 'testemail@email.com'
       }
@@ -90,7 +85,7 @@ describe('ContactsComponent', () => {
 
     subjectMatterExpertApi = TestBed.get(SubjectMatterExpertService);
     spyOn(subjectMatterExpertApi, 'subjectMatterExpertGetSubjectMatterExpert')
-      .and.returnValue(Observable.of({
+      .and.returnValue(of({
       contactDetails: {
         emailAddress: 'testemail@email.com'
       }
@@ -190,7 +185,7 @@ describe('ContactsComponent', () => {
 
     businessObjectDefinitionSubjectMatterExpertApi
       .businessObjectDefinitionSubjectMatterExpertCreateBusinessObjectDefinitionSubjectMatterExpert
-      .and.returnValue(Observable.throw({
+      .and.returnValue(throwError({
       contactDetails: {
         emailAddress: 'testemail@email.com'
       }
@@ -198,7 +193,7 @@ describe('ContactsComponent', () => {
 
     businessObjectDefinitionSubjectMatterExpertApi
       .businessObjectDefinitionSubjectMatterExpertDeleteBusinessObjectDefinitionSubjectMatterExpert
-      .and.returnValue(Observable.throw({
+      .and.returnValue(throwError({
       contactDetails: {
         emailAddress: 'testemail@email.com'
       }
@@ -215,7 +210,7 @@ describe('ContactsComponent', () => {
     expect(fixture.componentInstance.validationError).toBe('');
 
     subjectMatterExpertApi.subjectMatterExpertGetSubjectMatterExpert
-      .and.returnValue(Observable.throw({
+      .and.returnValue(throwError({
       contactDetails: {
         emailAddress: 'testemail@email.com'
       }
@@ -244,7 +239,7 @@ export class MockUser {
   public user = new BehaviorSubject(userRoles.authorizedUserRoles);
 
   public getCurrentUser() {
-    return Observable.of({
+    return of({
       'securityRoles': [
         'TEST_APP'
       ]

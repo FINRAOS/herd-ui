@@ -13,15 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {
-    Component, OnInit, ChangeDetectionStrategy, Output, EventEmitter,
-    Input, OnChanges, SimpleChanges, ViewChild
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
 import { PartitionValueFilter } from '@herd/angular-client';
-import { FilterTemplateComponent } from 'app/data-objects/components/filter-template/filter-template.component';
-import { Observable } from 'rxjs/Observable';
-import { merge } from 'rxjs/observable/merge';
+import { merge } from 'rxjs';
 import { pairwise } from 'rxjs/operators';
 
 @Component({

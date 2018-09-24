@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 import { Injectable } from '@angular/core';
-import { RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from '@angular/router';
+import { ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy } from '@angular/router';
 import { Location } from '@angular/common';
 
 export interface CustomRouteReuseStorage {
@@ -55,9 +55,8 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
         // return null if the path does not have a routerConfig OR if there is no stored route for that routerConfig
         if (!route.routeConfig || !this.storage[path] || route.routeConfig.loadChildren) {
             return null;
-        };
-
-        return this.storage[path].handle;
+        }
+      return this.storage[path].handle;
     }
 
     shouldDetach(route: ActivatedRouteSnapshot): boolean {

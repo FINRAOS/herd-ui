@@ -14,37 +14,37 @@
 * limitations under the License.
 */
 
-import {AlertService, DangerAlert, SuccessAlert} from 'app/core/services/alert.service';
-import {BusinessObjectDataDdl, BusinessObjectDataService, BusinessObjectFormatService} from '@herd/angular-client';
-import {ActivatedRouteStub} from 'testing/router-stubs';
-import {ActivatedRoute} from '@angular/router';
-import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import { AlertService, DangerAlert, SuccessAlert } from 'app/core/services/alert.service';
+import { BusinessObjectDataDdl, BusinessObjectDataService, BusinessObjectFormatService } from '@herd/angular-client';
+import { ActivatedRouteStub } from 'testing/router-stubs';
+import { ActivatedRoute } from '@angular/router';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 
-import {DataObjectListComponent} from './data-object-list.component';
-import {SideActionComponent} from 'app/shared/components/side-action/side-action.component';
-import {SideActionsComponent} from 'app/shared/components/side-actions/side-actions.component';
-import {RouterTestingModule} from '@angular/router/testing';
-import {DataObjectListFiltersComponent} from 'app/data-objects/components/data-object-list-filters/data-object-list-filters.component';
-import {DataTableModule} from 'primeng/components/datatable/datatable';
-import {ButtonModule} from 'primeng/components/button/button';
-import {EllipsisOverflowComponent} from 'app/shared/components/ellipsis-overflow/ellipsis-overflow.component';
-import {GenericViewComponent} from 'app/shared/components/generic-view/generic-view.component';
-import {PartitionFilterComponent} from 'app/data-objects/components/partition-filter/partition-filter.component';
-import {AttributeFilterComponent} from 'app/data-objects/components/attribute-filter/attribute-filter.component';
+import { DataObjectListComponent } from './data-object-list.component';
+import { SideActionComponent } from 'app/shared/components/side-action/side-action.component';
+import { SideActionsComponent } from 'app/shared/components/side-actions/side-actions.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { DataObjectListFiltersComponent } from 'app/data-objects/components/data-object-list-filters/data-object-list-filters.component';
+import { DataTableModule } from 'primeng/components/datatable/datatable';
+import { ButtonModule } from 'primeng/components/button/button';
+import { EllipsisOverflowComponent } from 'app/shared/components/ellipsis-overflow/ellipsis-overflow.component';
+import { GenericViewComponent } from 'app/shared/components/generic-view/generic-view.component';
+import { PartitionFilterComponent } from 'app/data-objects/components/partition-filter/partition-filter.component';
+import { AttributeFilterComponent } from 'app/data-objects/components/attribute-filter/attribute-filter.component';
 import {
   LatestValidVersionFilterComponent
 } from 'app/data-objects/components/latest-valid-version-filter/latest-valid-version-filter.component';
-import {FilterTemplateComponent} from 'app/data-objects/components/filter-template/filter-template.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {HttpModule} from '@angular/http';
-import {DataTable} from 'primeng/primeng';
-import {Observable} from 'rxjs/Observable';
-import {CodemirrorModule} from 'ng2-codemirror';
-import {ClipboardModule} from 'ngx-clipboard';
-import {SpinnerComponent} from 'app/shared/components/spinner/spinner.component';
-import {InlineSVGModule} from 'ng-inline-svg';
-import {RegistrationDateRangeFilterComponent} from '../registration-date-range-filter/registration-date-range-filter.component';
+import { FilterTemplateComponent } from 'app/data-objects/components/filter-template/filter-template.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DataTable } from 'primeng/primeng';
+import { of, throwError } from 'rxjs';
+import { CodemirrorModule } from 'ng2-codemirror';
+import { ClipboardModule } from 'ngx-clipboard';
+import { SpinnerComponent } from 'app/shared/components/spinner/spinner.component';
+import { InlineSVGModule } from 'ng-inline-svg';
+import { RegistrationDateRangeFilterComponent } from '../registration-date-range-filter/registration-date-range-filter.component';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('DataObjectListComponent', () => {
   let component: DataObjectListComponent;
@@ -65,7 +65,7 @@ describe('DataObjectListComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
-        HttpModule,
+        HttpClientModule,
         NgbModule.forRoot(),
         CodemirrorModule,
         ClipboardModule,
@@ -111,16 +111,16 @@ describe('DataObjectListComponent', () => {
     spyOn(businessObjectDataApi, 'defaultHeaders')
       .and.callThrough();
     spyOn(businessObjectDataApi, 'businessObjectDataGetAllBusinessObjectDataByBusinessObjectFormat')
-      .and.returnValue(Observable.of(businessObjectDataKeys));
+      .and.returnValue(of(businessObjectDataKeys));
     spyOn(businessObjectDataApi, 'businessObjectDataGetAllBusinessObjectDataByBusinessObjectDefinition')
-      .and.returnValue(Observable.of(businessObjectDataKeys));
+      .and.returnValue(of(businessObjectDataKeys));
     spyOn(businessObjectDataApi, 'businessObjectDataSearchBusinessObjectData')
-      .and.returnValue(Observable.of(businessObjectSearchResult));
+      .and.returnValue(of(businessObjectSearchResult));
     spyOn(businessObjectDataApi, 'businessObjectDataGenerateBusinessObjectDataDdl')
-      .and.returnValue(Observable.of({ ddl: ddl } as BusinessObjectDataDdl));
+      .and.returnValue(of({ ddl: ddl } as BusinessObjectDataDdl));
 
     businessObjectFormatApi = fixture.debugElement.injector.get(BusinessObjectFormatService);
-    spyOn(businessObjectFormatApi, 'businessObjectFormatGetBusinessObjectFormat').and.returnValue(Observable.of(format));
+    spyOn(businessObjectFormatApi, 'businessObjectFormatGetBusinessObjectFormat').and.returnValue(of(format));
   });
 
   it('should create the component without error', () => {
@@ -163,14 +163,13 @@ describe('DataObjectListComponent', () => {
 
   it('should show empty message on server 400 error while load data', () => {
     businessObjectDataApi.businessObjectDataSearchBusinessObjectData
-      .and.returnValue(Observable.throw({ status: 400, json: () => { return { message: 'not found error' } }, body: [] }));
+      .and.returnValue(throwError({ status: 400, message: 'not found error', body: [] }));
     fixture.detectChanges();
     component.loadData(dataObjectListFiltersChangeEventData);
     expect(component.data.length).toBe(0);
     businessObjectDataApi.businessObjectDataSearchBusinessObjectData
-      .and.returnValue(Observable.throw({
-        status: 401, url: 'test url for error',
-        json: () => { return { message: 'not found error' } }, body: [], statusText: 'not found error'
+      .and.returnValue(throwError({
+        status: 401, url: 'test url for error', message: 'not found error', body: [], statusText: 'not found error'
       }));
     fixture.detectChanges();
     component.loadData(dataObjectListFiltersChangeEventData);
@@ -187,13 +186,11 @@ describe('DataObjectListComponent', () => {
 
   it('should alert error when ddl is not generated', inject([AlertService], (a: AlertService) => {
     const s = (businessObjectDataApi.businessObjectDataGenerateBusinessObjectDataDdl as jasmine.Spy);
-    s.and.returnValue(Observable.throw({
+    s.and.returnValue(throwError({
       status: '500',
       statusText: 'Internal Server Error',
       url: 'theDDLURL',
-      json: () => {
-        return { message: 'Stuff blew up' }
-      }
+      message: 'Stuff blew up'
     }));
     const alertSpy = spyOn(a, 'alert');
     fixture.detectChanges();

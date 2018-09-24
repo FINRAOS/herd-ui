@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { CategoryDetailComponent } from 'app/categories/components/category-detail/category-detail.component';
 import { CategoryDetailResolverService } from 'app/categories/services/categories-detail-resolver';
 

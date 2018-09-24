@@ -37,6 +37,7 @@ exports.config = {
     dataObjectDetailLineage: './e2e/**/data-objects/detail/lineage/**/*.e2e-spec.ts',
     dataObjectDetailStorageUnits: './e2e/**/data-objects/detail/storage-units/**/*.e2e-spec.ts'
   },
+  // suite: 'dataObjectDetailStorageUnits',
   capabilities: {
     'browserName': 'chrome',
     'chromeOptions': {
@@ -78,7 +79,7 @@ exports.config = {
     const dataManager = require(path.resolve(__dirname + '/e2e/util/DataManager.ts')).DataManager;
     return dataManager.tearDownData();
   },
-  baseUrl: 'http://localhost:4200',
+  baseUrl: 'http://localhost:4200/',
   beforeLaunch: function () {
     if (fs.existsSync('processed.txt')) {
       fs.unlinkSync("processed.txt");

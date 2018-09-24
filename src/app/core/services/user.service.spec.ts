@@ -13,13 +13,13 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {EncryptionService} from './../../shared/services/encryption.service';
-import {Observable} from 'rxjs/Observable';
-import {TestBed, inject} from '@angular/core/testing';
+import { EncryptionService } from './../../shared/services/encryption.service';
+import { of } from 'rxjs';
+import { inject, TestBed } from '@angular/core/testing';
 
-import {UserService} from './user.service';
-import {CurrentUserService, UserAuthorizations, Configuration} from '@herd/angular-client';
-import {environment} from '../../../environments/environment';
+import { UserService } from './user.service';
+import { Configuration, CurrentUserService } from '@herd/angular-client';
+import { environment } from '../../../environments/environment';
 
 describe('CurrentUserService', () => {
   beforeEach(() => {
@@ -33,13 +33,9 @@ describe('CurrentUserService', () => {
         {
           provide: CurrentUserService,
           useValue: {
-            currentUserGetCurrentUserWithHttpInfo:
-              jasmine.createSpy('currentUserGetCurrentUserWithHttpInfo')
-                .and.returnValue(Observable.of({
-                json: () => {
-                  return {userId: 'userid'}
-                }
-              })),
+            currentUserGetCurrentUser:
+              jasmine.createSpy('currentUserGetCurrentUser')
+                .and.returnValue(of({userId: 'userid'})),
             configuration: {}
           }
         },
@@ -56,8 +52,8 @@ describe('CurrentUserService', () => {
 
   it('should populate encrypted user', inject([UserService, CurrentUserService, EncryptionService],
     (service: UserService, currentUserApi: CurrentUserService, encryptionService: EncryptionService) => {
-      const spyCuApi = (<jasmine.Spy>currentUserApi.currentUserGetCurrentUserWithHttpInfo)
-      const spyEncrypt = (<jasmine.Spy>encryptionService.encryptAndGet)
+      const spyCuApi = (<jasmine.Spy>currentUserApi.currentUserGetCurrentUser);
+      const spyEncrypt = (<jasmine.Spy>encryptionService.encryptAndGet);
       // this proves that we proply set and sent the observable info.
       service.user.subscribe((userInfo) => {
         expect(userInfo).toEqual(service.userAuthorizations);

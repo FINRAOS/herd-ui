@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {browser, by, element, ElementArrayFinder, ElementFinder, protractor} from 'protractor';
-import {OverviewPage} from '../overview/overview.po';
+import { browser, by, element, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
+import { OverviewPage } from '../overview/overview.po';
 
 export class ColumnsPage extends OverviewPage {
     private _container = element(by.id('columns-panel'));
@@ -129,7 +129,7 @@ export class ColumnsPage extends OverviewPage {
 
 
     async getRowData(rowIndex: number): Promise<DataEntityColumnRowData> {
-        this.columnsTab.click()
+        this.columnsTab.click();
 
         const rows = element.all(by.css('p-datatable tbody > tr'));
 

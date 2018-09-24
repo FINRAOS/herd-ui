@@ -13,9 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { browser, by, element, ElementArrayFinder, ElementFinder } from 'protractor';
+import { by, element, ElementFinder } from 'protractor';
 import { BasePo } from '../base/base.po';
-import data from '../search/operations/data';
 
 export class CategoryPage extends BasePo {
 

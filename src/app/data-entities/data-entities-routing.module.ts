@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { DataEntityListComponent } from 'app/data-entities/components/data-entity-list/data-entity-list.component';
 import { DataEntityDetailComponent } from 'app/data-entities/components/data-entity-detail/data-entity-detail.component';
 import { DataEntityListResolverService } from 'app/data-entities/services/data-entity-list-resolver';

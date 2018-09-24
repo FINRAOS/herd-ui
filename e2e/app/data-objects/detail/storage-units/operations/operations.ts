@@ -18,10 +18,10 @@
  * Utilizes the data specified in jsonSchema.js and this.data.js
  */
 
-import {Data} from './data';
+import { Data } from './data';
 import * as schema from './../../../../../util/JsonSchema';
-import {DataManager} from './../../../../../util/DataManager';
-import {S3Manager} from '../../../../../util/S3Manager';
+import { DataManager } from './../../../../../util/DataManager';
+import { S3Manager } from '../../../../../util/S3Manager';
 
 export class Operations {
   public dataManager: DataManager;
@@ -104,7 +104,7 @@ export class Operations {
   public AWSRequests () {
   const retval = {
     options: []
-  }
+  };
 
   retval.options.push(this.aws.S3MOption(this.data.singleStorageFile.storageUnits[0].storageFiles[0].filePath, null));
 

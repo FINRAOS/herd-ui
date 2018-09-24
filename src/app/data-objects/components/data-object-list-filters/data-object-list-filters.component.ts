@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AttributeValueFilter, PartitionValueFilter, RegistrationDateRangeFilter} from '@herd/angular-client';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AttributeValueFilter, PartitionValueFilter, RegistrationDateRangeFilter } from '@herd/angular-client';
 
 interface FilterType {
   type: string,

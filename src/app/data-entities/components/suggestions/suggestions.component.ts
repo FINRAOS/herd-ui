@@ -18,9 +18,7 @@ import {
   BusinessObjectDefinitionDescriptionSuggestion
 } from '@herd/angular-client/dist/model/businessObjectDefinitionDescriptionSuggestion';
 import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/alert.service';
-import {
-  BusinessObjectDefinitionDescriptionSuggestionService
-} from '@herd/angular-client';
+import { BusinessObjectDefinitionDescriptionSuggestionService } from '@herd/angular-client';
 
 
 export interface Suggestions extends BusinessObjectDefinitionDescriptionSuggestion {

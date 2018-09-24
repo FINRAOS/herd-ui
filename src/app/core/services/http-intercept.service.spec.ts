@@ -13,22 +13,22 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-export const environment = {
-  production: false,
-  restBaseUri: '{{HERD_REST_BASE_URI}}',
-  basicAuthRestBaseUri: '{{HERD_REST_BASE_URI2}}',
-  helpUrl: '{{ORG_HELP_URL}}',
-  supportEmail: '{{ORG_SUPPORT_EMAIL}}',
-  brandHeader: '{{BRAND_HEADER}}',
-  brandMotto: '{{BRAND_MOTO}}',
-  docTitlePrefix: 'UDC',
-  useBasicAuth: false,
-  alertDelayInSeconds: 10,
-  trackAnalytics: true,
-  ga: {
-    key: '{{GA_KEY}}',
-    iv: '{{GA_IV}}',
-    trackingId: '{{TRACKING_ID}}'
-  }
-};
+import { inject, TestBed } from '@angular/core/testing';
 
+import { HttpInterceptService } from './http-intercept.service';
+import { AlertService } from './alert.service';
+
+describe('HttpInterceptService', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        AlertService,
+        HttpInterceptService
+      ]
+    });
+  });
+
+  it('should be created', inject([HttpInterceptService], (service: HttpInterceptService) => {
+    expect(service).toBeTruthy();
+  }));
+});

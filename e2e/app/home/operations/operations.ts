@@ -244,9 +244,9 @@ export const postRequests = function () {
           .tagTypeCode6().tags[3].displayName, data.description)
       }
     ]
-  }
+  };
   return setupOptions;
-}
+};
 
 
 /**
@@ -389,10 +389,10 @@ export const deleteRequests = function () {
         'url': new schema.TagType().deleteUrl(data.tagTypeCode6().code)
       }
     ]
-  }
+  };
 
   return teardownOptions;
-}
+};
 
 /*
 * This method is used to remove association between tag and tag parent
@@ -426,10 +426,10 @@ export const updateRequests = function () {
           .tags[4].displayName, data.description)
       }
     ]
-  }
+  };
 
   return updateOptions;
-}
+};
 
 export const initRequests = {
   posts: postRequests()

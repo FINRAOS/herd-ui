@@ -16,9 +16,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SideActionsComponent } from './side-actions.component';
-import {SideActionComponent} from '../side-action/side-action.component';
+import { Action, SideActionComponent } from '../side-action/side-action.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {Action} from '../side-action/side-action.component';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 
 describe('SideActionsComponent', () => {
@@ -51,7 +50,7 @@ describe('SideActionsComponent', () => {
   });
 
   it('should expose "Actions" object', () => {
-    component.actions.forEach(function(action, index){
+    component.actions.forEach(function(action, index) {
       expect(action).toBeDefined();
       expect(action.icon).toEqual(expectedActions[index].icon);
       expect(action.label).toEqual(expectedActions[index].label);

@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
 import { AuthGuardService } from './auth-guard.service';
 import { Router } from '@angular/router';
@@ -40,7 +40,7 @@ describe('AuthGuardService', () => {
 
   it('should be created', inject([AuthGuardService], (service: AuthGuardService) => {
     expect(service).toBeDefined();
-  }))
+  }));
 
   it('should not call load if already authenticated', inject([AuthGuardService, Router],
     (service: AuthGuardService, router: Router, userService: UserService) => {

@@ -17,7 +17,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TruncatedContentComponent } from './truncated-content.component';
 import { click } from '../../utils/click-helper';
-import { SimpleChanges } from '@angular/core';
 
 
 describe('TruncatedContentComponent', () => {

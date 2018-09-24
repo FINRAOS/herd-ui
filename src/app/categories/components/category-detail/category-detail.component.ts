@@ -16,14 +16,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { Action } from '../../../shared/components/side-action/side-action.component';
-import { Observable } from 'rxjs/Observable';
+import { Observable, Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  Tag, TagService, TagSearchRequest, Facet,
-  IndexSearchResult, IndexSearchKey, Highlight
-} from '@herd/angular-client'
-import { Subscription } from 'rxjs/Subscription';
+import { Facet, Highlight, IndexSearchKey, IndexSearchResult, Tag, TagSearchRequest, TagService } from '@herd/angular-client'
 import { SearchService } from '../../../shared/services/search.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'sd-category-detail',
@@ -103,10 +100,10 @@ export class CategoryDetailComponent implements OnInit {
     const fields = 'displayName,description,parentTagKey,hasChildren';
 
     if (this.category.parentTagKey !== null) {
-      this.parent = this.tagApi.tagGetTag(this.tagTypeCode, this.category.parentTagKey.tagCode)
-        .map((parent) => {
+      this.parent = this.tagApi.tagGetTag(this.tagTypeCode, this.category.parentTagKey.tagCode).pipe(
+        map((parent) => {
           return parent;
-        });
+        }));
     }
     this.tagApi.tagSearchTags(tagSearchRequest, fields).subscribe((tagChildren) => {
       this.tagChildren = tagChildren.tags;

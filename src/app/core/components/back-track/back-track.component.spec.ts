@@ -13,15 +13,15 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {async, ComponentFixture, TestBed, inject} from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 
-import {BackTrackComponent} from './back-track.component';
-import {Injectable} from '@angular/core';
-import {Router, PRIMARY_OUTLET} from '@angular/router';
-import {Location} from '@angular/common';
-import {Title, By} from '@angular/platform-browser';
-import {RouterStub, ActivatedRouteStub} from 'testing/router-stubs';
-import {environment} from '../../../../environments/environment';
+import { BackTrackComponent } from './back-track.component';
+import { Injectable } from '@angular/core';
+import { PRIMARY_OUTLET, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { By, Title } from '@angular/platform-browser';
+import { ActivatedRouteStub, RouterStub } from 'testing/router-stubs';
+import { environment } from '../../../../environments/environment';
 
 @Injectable()
 export class MockCustomLocation {
@@ -94,7 +94,7 @@ describe('BackTrackComponent', () => {
         resolvedData: {
           title: 'Test 1'
         }
-      }
+      };
       router.routerState.root.setChildren([]);
 
       router.emitEnd();
@@ -225,7 +225,7 @@ describe('BackTrackComponent', () => {
       expect(title.setTitle).toHaveBeenCalledWith(environment.docTitlePrefix);
       // does not merge state
       expect(((loc as any) as MockCustomLocation).mergeState).not.toHaveBeenCalled();
-    }))
+    }));
 
   it('should find primary route through a tree of snapshots',
     inject([Router, Location, Title], (router: RouterStub, loc: Location, title: Title) => {
