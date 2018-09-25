@@ -17,7 +17,7 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BusinessObjectDefinitionKey } from '@herd/angular-client';
 import { fromEvent, Subscription } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators'
+import { debounceTime, map } from 'rxjs/operators';
 
 @Component({
     selector: 'sd-data-entity-list',

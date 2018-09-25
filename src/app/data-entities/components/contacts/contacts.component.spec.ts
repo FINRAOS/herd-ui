@@ -28,6 +28,52 @@ import { SimpleChange } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClientModule } from '@angular/common/http';
 
+const userRoles = {
+  'authorizedUserRoles': {
+    'securityRoles': [
+      'TEST_APP', 'TEST_ADMIN', 'TEST_READ', 'TEST_WRITE'
+    ],
+    'namespaceAuthorizations': [
+      {
+        'namespace': 'TESTNAMESPACE',
+        'namespacePermissions': [
+          'READ', 'WRITE', 'EXECUTE', 'GRANT'
+        ]
+      },
+      {
+        'namespace': 'TESTNAMESPACE1',
+        'namespacePermissions': [
+          'READ', 'WRITE', 'EXECUTE', 'GRANT'
+        ]
+      },
+      {
+        'namespace': 'TESTNAMESPACE2',
+        'namespacePermissions': [
+          'READ', 'WRITE', 'EXECUTE', 'GRANT'
+        ]
+      }
+    ]
+  },
+  'UnAuthorizedUserRoles': {
+    'securityRoles': [
+      'TEST_APP_NONE'
+    ]
+  }
+};
+
+export class MockUser {
+  public user = new BehaviorSubject(userRoles.authorizedUserRoles);
+
+  public getCurrentUser() {
+    return of({
+      'securityRoles': [
+        'TEST_APP'
+      ]
+    });
+  }
+}
+
+
 describe('ContactsComponent', () => {
   let component: ContactsComponent;
   let fixture: ComponentFixture<ContactsComponent>;
@@ -235,48 +281,4 @@ describe('ContactsComponent', () => {
 });
 
 
-export class MockUser {
-  public user = new BehaviorSubject(userRoles.authorizedUserRoles);
-
-  public getCurrentUser() {
-    return of({
-      'securityRoles': [
-        'TEST_APP'
-      ]
-    });
-  }
-}
-
-const userRoles = {
-  'authorizedUserRoles': {
-    'securityRoles': [
-      'TEST_APP', 'TEST_ADMIN', 'TEST_READ', 'TEST_WRITE'
-    ],
-    'namespaceAuthorizations': [
-      {
-        'namespace': 'TESTNAMESPACE',
-        'namespacePermissions': [
-          'READ', 'WRITE', 'EXECUTE', 'GRANT'
-        ]
-      },
-      {
-        'namespace': 'TESTNAMESPACE1',
-        'namespacePermissions': [
-          'READ', 'WRITE', 'EXECUTE', 'GRANT'
-        ]
-      },
-      {
-        'namespace': 'TESTNAMESPACE2',
-        'namespacePermissions': [
-          'READ', 'WRITE', 'EXECUTE', 'GRANT'
-        ]
-      }
-    ]
-  },
-  'UnAuthorizedUserRoles': {
-    'securityRoles': [
-      'TEST_APP_NONE'
-    ]
-  }
-};
 

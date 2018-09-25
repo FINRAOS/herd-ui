@@ -31,7 +31,7 @@ import { AlertService } from '../../../core/services/alert.service';
 import { SchemaColumnsComponent } from 'app/formats/components/schema-columns/schema-columns.component';
 import { AttributeDefinitionsComponent } from 'app/formats/components/attribute-definitions/attribute-definitions.component';
 import { ActivatedRouteStub } from 'testing/router-stubs';
-import { Headers } from '@angular/http'
+import { Headers } from '@angular/http';
 import { MockFormat } from 'testing/mockFormat';
 
 describe('FormatDetailComponent', () => {

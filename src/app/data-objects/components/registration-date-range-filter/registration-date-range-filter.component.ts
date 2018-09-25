@@ -122,13 +122,13 @@ export class RegistrationDateRangeFilterComponent implements OnInit, OnChanges {
     let tempTitle = '';
     if (this.filter) {
       if (this.filter.startRegistrationDate != null) {
-        tempTitle += 'starts from ' + this.filter.startRegistrationDate
+        tempTitle += 'starts from ' + this.filter.startRegistrationDate;
       }
       if (this.filter.startRegistrationDate != null && this.filter.endRegistrationDate != null) {
-        tempTitle += ' and '
+        tempTitle += ' and ';
       }
       if (this.filter.endRegistrationDate != null) {
-        tempTitle += 'ends ' + this.filter.endRegistrationDate
+        tempTitle += 'ends ' + this.filter.endRegistrationDate;
       }
     }
     this.title = this.titlePrefix + (tempTitle ? ' ' + tempTitle : tempTitle);

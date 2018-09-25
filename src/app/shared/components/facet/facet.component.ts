@@ -83,7 +83,7 @@ export class FacetComponent implements OnInit, OnChanges {
       });
     });
     return returnValue;
-  };
+  }
 
   private updateFacetCount(newFacets) {
     const newFacetsMap = this.createFacetMap(newFacets);

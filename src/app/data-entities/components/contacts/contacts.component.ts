@@ -108,7 +108,7 @@ export class ContactsComponent implements OnInit, OnChanges {
       });
 
     } else {
-      this.validationError = 'Please enter user id.'
+      this.validationError = 'Please enter user id.';
     }
   }
 

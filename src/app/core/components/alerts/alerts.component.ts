@@ -15,8 +15,8 @@
 */
 import { Component, Input, OnInit } from '@angular/core';
 import { Alert, AlertService } from 'app/core/services/alert.service';
-import { map, take } from 'rxjs/operators'
-import { timer } from 'rxjs'
+import { map, take } from 'rxjs/operators';
+import { timer } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
 @Component({

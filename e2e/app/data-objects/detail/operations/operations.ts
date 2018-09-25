@@ -31,7 +31,7 @@ export class Operations {
   /**
    * Generate the post requests for required data:
    * namespace / data provider / bdef / bdata
-   * @returns {{options: *[]}}
+   * @returns options: *[]
    */
 
   public postRequests() {
@@ -49,7 +49,7 @@ export class Operations {
         this.dataManager.DMOption(7, new schema.BusinessObjectDefinitionData().postUrl(), this.data.versionTestV1),
         this.dataManager.DMOption(8, new schema.BusinessObjectDefinitionData().postUrl(), this.data.versionTestV2),
       ]
-    }
+    };
   }
 
   public deleteRequests() {
@@ -119,7 +119,7 @@ export class Operations {
         )),
         this.dataManager.DMOption(6, new schema.DataProvider().deleteUrl(this.data.defaultDataProvider)),
         this.dataManager.DMOption(7, new schema.Namespace().deleteUrl(this.data.defaultNamespace))]
-    }
+    };
   }
 }
 

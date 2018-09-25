@@ -57,7 +57,7 @@ export class EditComponent implements OnInit {
     }
 
     return Object.keys(retVal).length > 0 ? retVal : null;
-  };
+  }
 
   containsIllegalCharacters(value: string): boolean {
     return this.illegalCharacters.some((c) => {
@@ -66,7 +66,7 @@ export class EditComponent implements OnInit {
   }
 
   showEditIcon() {
-    return this.hover && !this.disableEdit
+    return this.hover && !this.disableEdit;
   }
 
   enterEdit() {

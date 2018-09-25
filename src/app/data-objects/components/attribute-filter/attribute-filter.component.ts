@@ -80,7 +80,7 @@ export class AttributeFilterComponent implements OnInit {
 
     attributeFormValidator(fg: FormGroup): ValidationErrors | null {
         if (!fg.value.name && !fg.value.value) {
-            return { 'atLeastOneRequired': 'Must supply at least a name or a value.' }
+            return { 'atLeastOneRequired': 'Must supply at least a name or a value.' };
         } else {
             return null;
         }

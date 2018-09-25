@@ -26,7 +26,9 @@ import {
 } from './data-object-list-filters.component';
 import { PartitionFilterComponent } from 'app/data-objects/components/partition-filter/partition-filter.component';
 import { AttributeFilterComponent } from 'app/data-objects/components/attribute-filter/attribute-filter.component';
-import { LatestValidVersionFilterComponent } from 'app/data-objects/components/latest-valid-version-filter/latest-valid-version-filter.component';
+import {
+  LatestValidVersionFilterComponent
+} from 'app/data-objects/components/latest-valid-version-filter/latest-valid-version-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterTemplateComponent } from 'app/data-objects/components/filter-template/filter-template.component';

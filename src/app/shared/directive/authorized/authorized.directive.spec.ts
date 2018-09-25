@@ -98,7 +98,7 @@ describe('AuthorizedDirective', () => {
         AuthorizedDirective
       ],
       providers: [
-        {provide: UserService, useValue: { get user() { return of(userInfo) } } }
+        {provide: UserService, useValue: { get user() { return of(userInfo); } } }
       ]
     }).compileComponents();
     fixture = TestBed.createComponent(TestAuthorizedDirectiveComponent);

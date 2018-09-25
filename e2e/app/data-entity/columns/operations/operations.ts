@@ -28,7 +28,7 @@ const data = new Data();
 /**
  * Generate the post requests for namespace, data provider
  * business object definitions
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 
 export const postRequests = function () {
@@ -136,7 +136,7 @@ export const putDescriptiveFormatRequests = function () {
 
 /**
  * Generate the requests to delete bdefs, namespace and data providers
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 export const deleteRequests = function () {
     const teardownOptions = {

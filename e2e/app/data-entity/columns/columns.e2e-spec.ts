@@ -16,7 +16,7 @@
 import { ColumnsPage, DataEntityColumnRowData } from './columns.po';
 import { browser } from 'protractor';
 import { Data } from './operations/data';
-import * as ops from './operations/operations'
+import * as ops from './operations/operations';
 import { DataManager } from './../../../util/DataManager';
 
 const conf = require('./../../../config/conf.e2e.json');

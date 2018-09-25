@@ -37,7 +37,7 @@ export class Operations {
   /**
    * Generate the post requests for required data:
    * namespace / data provider / bdef / data-objects
-   * @returns {{options: *[]}}
+   * @return options: *[]
    */
 
   public postRequests () {
@@ -52,7 +52,7 @@ export class Operations {
       this.dataManager.DMOption(5, new schema.BusinessObjectDefinitionData().postUrl(), this.data.multipleStorageFiles),
       this.dataManager.DMOption(5, new schema.BusinessObjectDefinitionData().postUrl(), this.data.multipleStorageUnits),
     ]
-  }
+  };
 }
 
   public deleteRequests () {
@@ -98,7 +98,7 @@ export class Operations {
       this.dataManager.DMOption(4, new schema.DataProvider().deleteUrl(this.data.defaultDataProvider)),
       this.dataManager.DMOption(5, new schema.Namespace().deleteUrl(this.data.defaultNamespace))
     ]
-  }
+  };
 }
 
   public AWSRequests () {

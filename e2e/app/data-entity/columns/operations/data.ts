@@ -22,7 +22,7 @@
  * bdefShortDescription: exports.data.bdefShortDescription, bdefNoDescription: exports.data.bdefNoDescription,
  * bdefNoDisplayName: exports.data.bdefNoDisplayName}}
  */
-import utils from '../../../../util/utils'
+import utils from '../../../../util/utils';
 
 export class Data {
     description = 'Sample description text for testing purpose. Used for all description fields';
@@ -55,7 +55,7 @@ export class Data {
             'businessObjectDefinitionName': this.bdefTestDFName,
             'description': this.description,
             'displayName': this.displayName + this.bdefTestDFName
-        }
+        };
     }
 
     bdefTestDFNoSchema() {
@@ -65,7 +65,7 @@ export class Data {
             'businessObjectDefinitionName': this.bdefTestDFNoSchemaName,
             'description': this.description,
             'displayName': this.displayName + this.bdefTestDFNoSchemaName
-        }
+        };
     }
 
     bdefTestDFSchemaWith_Partitions() {
@@ -75,7 +75,7 @@ export class Data {
             'businessObjectDefinitionName': this.bdefTestDFSchemaWithPartitions,
             'description': this.description,
             'displayName': this.displayName + this.bdefTestDFSchemaWithPartitions
-        }
+        };
     }
 
     get editColumnBdef() {
@@ -85,7 +85,7 @@ export class Data {
             'businessObjectDefinitionName': this.bdefTestEditColumns,
             'description': this.description,
             'displayName': this.displayName + this.bdefTestEditColumns
-        }
+        };
     }
 
     // put DF, contains schema columns => put respective bdef columns

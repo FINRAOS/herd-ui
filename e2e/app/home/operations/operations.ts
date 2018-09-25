@@ -23,7 +23,7 @@ import * as schema from '../../../util/JsonSchema';
 
 /**
  * Generates requests for posting tag types and tags
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 export const postRequests = function () {
   // const root = path.resolve(__dirname).split('e2e')[0];
@@ -251,7 +251,7 @@ export const postRequests = function () {
 
 /**
  * Generates requests for deleting tag types and tags
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 export const deleteRequests = function () {
   const teardownOptions = {

@@ -64,7 +64,6 @@ export class S3Manager {
 
     });
   }
-  ;
 
   /**
    * Utility function to list objects on S3. This could be used to find out if a certain object already exists.
@@ -88,7 +87,7 @@ export class S3Manager {
         }
       });
     });
-  };
+  }
 
   public deleteObject(options) {
     return Q.Promise(function (resolve, reject) {

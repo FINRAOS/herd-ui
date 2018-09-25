@@ -116,7 +116,7 @@ export class SearchComponent implements OnInit {
   }
 
   public makeHighlightFull(highlight: Highlight) {
-    return this.searchService.joinHighlight(highlight)
+    return this.searchService.joinHighlight(highlight);
   }
 
   globalSearch(event) {

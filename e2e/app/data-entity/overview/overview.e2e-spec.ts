@@ -16,7 +16,7 @@
 import { NoAuthFrameData, OverviewPage } from './overview.po';
 import { protractor } from 'protractor';
 import { Data } from './operations/data';
-import * as operations from './operations/operations'
+import * as operations from './operations/operations';
 import { DataManager } from './../../../util/DataManager';
 
 const conf = require('./../../../config/conf.e2e.json');

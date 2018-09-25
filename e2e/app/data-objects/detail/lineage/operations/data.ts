@@ -16,7 +16,7 @@
 /**
  * This file maintains all the data to be posted to HERD and validated against in tests.
  * Use this data in specs.
- * @type {{}}
+ * @types {{}}
  */
 
 export class Data {
@@ -318,5 +318,5 @@ export class Data {
         'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=CrazyEights'
       }
     }]
-  }
+  };
 }

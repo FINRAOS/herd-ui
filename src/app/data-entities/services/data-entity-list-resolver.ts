@@ -50,7 +50,7 @@ export class DataEntityListResolverService implements Resolve<any> {
                     retval.title = 'Data Entities';
 
                     return retval;
-                }))
+                }));
         } else {
             // If we do have the bdefkeys simply do the search.
             const retval = this.filter(route.queryParams.searchTerm);

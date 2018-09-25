@@ -29,7 +29,7 @@ const tagPostUrl = new schema.Tags().postUrl();
 /**
  * Generate the post requests for namespace, data provider
  * business object definitions, tag types and tags
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 
 export const postRequests = function () {
@@ -129,7 +129,7 @@ export const postRequests = function () {
 
 /**
  * Generate requests to post bdef-tag associations
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 export const postBdefTagRequests = function () {
   let ops = [];
@@ -142,7 +142,7 @@ export const postBdefTagRequests = function () {
         'url': new schema.BusinessObjectDefinitionTags().postUrl(),
         'body': new schema.BusinessObjectDefinitionTags().postBody(data.defaultNamespace, data[bdef.name]().businessObjectDefinitionName,
         tagType.code, tag.code)
-      }
+      };
     }));
   }
 
@@ -162,7 +162,7 @@ export const postBdefTagRequests = function () {
 /**
  * Generate the requests to delete bdefs, namespace and data providers
  * tag types and tags
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 export const deleteRequests = function () {
   return {
@@ -213,7 +213,7 @@ export const deleteRequests = function () {
 
 /**
  * Generate the requests to delete bdef tag associations
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 
 export const deleteBDefTagRequests = function () {
@@ -227,11 +227,11 @@ export const deleteBDefTagRequests = function () {
           'order': -1,
           'url': new schema.BusinessObjectDefinitionTags().deleteUrl(data.defaultNamespace,
           data[bdef.name]().businessObjectDefinitionName, tagType.code, tag.code)
-        }
+        };
       }
     }));
     ops = ops.filter(function (n) {
-      return n != null
+      return n != null;
     });
   }
 

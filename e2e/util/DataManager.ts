@@ -25,9 +25,9 @@ const constants = require('../config/conf.e2e.json');
 const herdHost = process.env.HERD_HOST || constants.herdHost;
 
 export interface DMOption {
-  order: number,
-  url: string,
-  body?: any
+  order: number;
+  url: string;
+  body?: any;
 }
 
 // TODO refactoring the class is also needed
@@ -36,6 +36,8 @@ export class DataManager {
   static logger: Logger;
 
   static async initializeData(specs: string[]) {
+
+    const dm = new DataManager();
 
     const processOps = async (opsLocation, spec) => {
       return new Promise(async (resolve, reject) => {
@@ -58,7 +60,6 @@ export class DataManager {
       });
     };
 
-    const dm = new DataManager();
     const waitFor: string[] = [];
 
     for (const spec of specs) {
@@ -88,7 +89,7 @@ export class DataManager {
       });
     }
     return Promise.resolve();
-  };
+  }
 
   static async tearDownData() {
     const dm = new DataManager();
@@ -139,7 +140,7 @@ export class DataManager {
       return a.order - b.order;
     });
     return options;
-  };
+  }
 
   /**
    * Utility function to make POST requests to Herd. This is currently being used to set up test data before the specs are run.
@@ -180,7 +181,7 @@ export class DataManager {
       }
 
     });
-  };
+  }
 
   /**
    * Utility function to make DELETE requests to Herd. This is currently being used to tear down test data after the specs have been run.
@@ -215,7 +216,7 @@ export class DataManager {
         DataManager.logger.log('info', '------------------');
       }
     });
-  };
+  }
 
   /**
    * Utility function to make PUT requests to Herd.
@@ -250,7 +251,7 @@ export class DataManager {
         DataManager.logger.log('info', '------------------');
       }
     });
-  };
+  }
 
   public validateIndexes() {
     // get indexes
@@ -302,8 +303,8 @@ export class DataManager {
       order: order,
       url: url,
       body: body
-    }
-  };
+    };
+  }
 }
 
 

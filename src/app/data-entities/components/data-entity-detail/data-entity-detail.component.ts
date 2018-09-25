@@ -50,6 +50,48 @@ import { catchError, finalize, flatMap, map } from 'rxjs/operators';
 import { AuthMap } from '../../../shared/directive/authorized/authorized.directive';
 import { of } from 'rxjs/internal/observable/of';
 
+export enum DAGNodeType {
+  parent = 'parent',
+  child = 'child',
+  center = 'center'
+}
+
+export enum DAGNodeTypeColor {
+  parent = '#05af7e',
+  child = '#55ACD2'
+}
+
+export interface DAGLink {
+  source: string;
+  target: string;
+}
+
+export interface HierarchialGraph {
+  nodes: DataEntityLineageNode[];
+  links: DAGLink[];
+  loaded?: boolean;
+}
+
+export interface DataEntityLineageNode {
+  id: string;
+  label: string;
+  tooltip: string;
+  type: DAGNodeType;
+  bdefKey: string;
+  loadLineage: boolean;
+  color?: DAGNodeTypeColor;
+}
+
+export interface DataEntityWithFormatColumn {
+  businessObjectDefinitionColumnName: string;
+  description: string;
+  schemaColumnName: string;
+  type: string;
+  // if the column existed when the page loaded
+  exists: boolean;
+}
+
+
 @Component({
   selector: 'sd-data-entity-detail',
   templateUrl: './data-entity-detail.component.html',
@@ -120,7 +162,7 @@ export class DataEntityDetailComponent implements OnInit {
       style: { 'width': '100px' }
     }];
 
-  groupResultsBy = (node: DataEntityLineageNode) => { return node.type };
+  groupResultsBy = (node: DataEntityLineageNode) => node.type;
   constructor(
     private route: ActivatedRoute,
     private businessObjectDefinitionApi: BusinessObjectDefinitionService,
@@ -156,7 +198,7 @@ export class DataEntityDetailComponent implements OnInit {
   alertSuccessfulCopy() {
     this.alertService.alert(new SuccessAlert(
       'Success!', '', 'DDL Successfully copied to clipboard'
-    ))
+    ));
   }
 
 
@@ -171,7 +213,7 @@ export class DataEntityDetailComponent implements OnInit {
           businessObjectDefinitionColumnName: event.text
         }
       };
-      return this.businessObjectDefinitionColumnApi.businessObjectDefinitionColumnCreateBusinessObjectDefinitionColumn(request)
+      return this.businessObjectDefinitionColumnApi.businessObjectDefinitionColumnCreateBusinessObjectDefinitionColumn(request);
     };
 
     let obs: Observable<BusinessObjectDefinitionColumn>;
@@ -384,15 +426,15 @@ export class DataEntityDetailComponent implements OnInit {
         this.descriptiveFormat =  undefined;
         this.getBdefDetails();
         this.alertService.alert(new SuccessAlert('', 'Recommended Format changed successfully', '', 5
-        ))
+        ));
       },
       (error) => {
         this.alertService.alert(new DangerAlert('Unable to set Recommended Format', '',
           `Format with businessObjectFormatUsage: ${format.businessObjectFormatUsage} and businessObjectFormatFileType:
            ${format.businessObjectFormatFileType} did not change due to some error. Try again later.`, 5
-        ))
+        ));
       }
-    )
+    );
   }
 
   // this will and should only ever be called if the descriptiveFormat exists from the side action button
@@ -490,7 +532,7 @@ export class DataEntityDetailComponent implements OnInit {
       bdefKey: [bdef.namespace, bdef.businessObjectDefinitionName].join(this.displayDelimiter),
       loadLineage: type === DAGNodeType.center ? false : true,
       color
-    }
+    };
   }
 
   showFurther(selectedNode: DataEntityLineageNode) {
@@ -527,7 +569,7 @@ export class DataEntityDetailComponent implements OnInit {
           this.alertService.alert(new WarningAlert('No Further Lineage', '',
             `${selectedNode.label} does not have any more ${selectedNode.type === DAGNodeType.parent ? 'parents.' : 'children.'}`,
             5
-          ))
+          ));
         }
 
         this.hierarchialGraph.nodes = [...this.hierarchialGraph.nodes, ...graph.nodes];
@@ -602,7 +644,7 @@ export class DataEntityDetailComponent implements OnInit {
           }));
         }), map((smes) => {
           return smes.filter((sme) => {
-            return !!sme
+            return !!sme;
           });
         })
       );
@@ -666,7 +708,7 @@ export class DataEntityDetailComponent implements OnInit {
       this.businessObjectDefinitionDescriptionSuggestions = response && response.businessObjectDefinitionDescriptionSuggestions;
     }, (error) => {
       this.alertService.alert(new DangerAlert('Unable to get data entity description suggestions', '',
-        `Problem: ${error} : Try again later.`, 5))
+        `Problem: ${error} : Try again later.`, 5));
     });
 
   }
@@ -684,48 +726,8 @@ export class DataEntityDetailComponent implements OnInit {
     return !!(this.descriptiveFormat &&
       ((this.descriptiveFormat.businessObjectFormatChildren && this.descriptiveFormat.businessObjectFormatChildren.length > 0) ||
         (this.descriptiveFormat.businessObjectFormatParents && this.descriptiveFormat.businessObjectFormatParents.length > 0))
-    )
+    );
   }
 }
 
 
-export enum DAGNodeType {
-  parent = 'parent',
-  child = 'child',
-  center = 'center'
-}
-
-export enum DAGNodeTypeColor {
-  parent = '#05af7e',
-  child = '#55ACD2'
-}
-
-export interface DAGLink {
-  source: string,
-  target: string
-}
-
-export interface HierarchialGraph {
-  nodes: DataEntityLineageNode[],
-  links: DAGLink[],
-  loaded?: boolean
-}
-
-export interface DataEntityLineageNode {
-  id: string,
-  label: string,
-  tooltip: string,
-  type: DAGNodeType,
-  bdefKey: string,
-  loadLineage: boolean,
-  color?: DAGNodeTypeColor
-}
-
-export interface DataEntityWithFormatColumn {
-  businessObjectDefinitionColumnName: string;
-  description: string;
-  schemaColumnName: string;
-  type: string;
-  // if the column existed when the page loaded
-  exists: boolean;
-}

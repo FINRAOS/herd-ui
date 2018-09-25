@@ -102,7 +102,7 @@ export class AppComponent implements OnInit {
             // TODO: use a better solution than setTimeout if one becomes avaialble for autoscrolling after content loads
             setTimeout(() => {
               this.window.scrollTo(0, Math.round(saved.scrollPosition));
-            }, 0)
+            }, 0);
           } else {
             this.window.scrollTo(0, 0);
           }
@@ -121,7 +121,7 @@ export class AppComponent implements OnInit {
       debounceTime(500),
       filter(event => event instanceof NavigationStart),
     ).subscribe(event => {
-      this.isLoading = true
+      this.isLoading = true;
     });
   }
 

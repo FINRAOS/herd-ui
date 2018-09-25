@@ -23,18 +23,18 @@ import { Credentials } from 'aws-sdk';
 
 
 export interface DataObjectDetailRequest {
-  namespace: string,
-  dataEntityName: string,
-  formatUsage: string,
-  formatFileType: string,
-  partitionKey: string,
-  partitionValue: string,
-  subPartitionValues: string,
-  formatVersion: number,
-  dataObjectVersion: number,
-  dataObjectStatus: string,
-  includeDataObjectStatusHistory: boolean,
-  includeStorageUnitStatusHistory: boolean
+  namespace: string;
+  dataEntityName: string;
+  formatUsage: string;
+  formatFileType: string;
+  partitionKey: string;
+  partitionValue: string;
+  subPartitionValues: string;
+  formatVersion: number;
+  dataObjectVersion: number;
+  dataObjectStatus: string;
+  includeDataObjectStatusHistory: boolean;
+  includeStorageUnitStatusHistory: boolean;
 }
 
 @Component({
@@ -132,14 +132,14 @@ export class DataObjectDetailComponent implements OnInit {
       {
         subPartitionValues: this.request.subPartitionValues
       }]);
-  };
+  }
 
   private populateSideActions() {
     this.sideActions = [
       new Action(AppIcons.shareIcon, 'Share'),
       new Action(AppIcons.saveIcon, 'Save'),
       new Action(AppIcons.watchIcon, 'Watch')
-    ]
+    ];
   }
 
   public findSubPartitionKeys(response: BusinessObjectFormat) {

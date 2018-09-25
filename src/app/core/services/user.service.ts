@@ -15,7 +15,7 @@
 */
 import { EncryptionService } from './../../shared/services/encryption.service';
 import { Injectable } from '@angular/core';
-import { Configuration, CurrentUserService, UserAuthorizations } from '@herd/angular-client'
+import { Configuration, CurrentUserService, UserAuthorizations } from '@herd/angular-client';
 import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
@@ -28,7 +28,7 @@ export class UserService {
   }
 
   get isAuthenticated() {
-    return this.userAuthorizations && this.userAuthorizations.userId
+    return this.userAuthorizations && this.userAuthorizations.userId;
   }
 
   // User info returned from Herd

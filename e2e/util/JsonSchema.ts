@@ -19,7 +19,7 @@ import { BusinessObjectFormatKey, BusinessObjectFormatParentsUpdateRequest } fro
 
 /**
  * This file maintains all the URLS, request body for posting data to HERD
- * @type {;
+ * @types {;
  * {postUrl: expor
  * public tagType.postUrl, postBody: export class tagType.postBody, deleteUrl: export class tagType.deleteUrl}}
  */
@@ -28,7 +28,7 @@ export class TagType {
 
   public postUrl() {
     return '/tagTypes';
-  };
+  }
 
   public postBody(tagTypeKey, tagTypeDisplayName, tagTypeOrder, tagTypeDescription?) {
     return {
@@ -46,7 +46,7 @@ export class TagType {
 export class Tags {
   public postUrl() {
     return '/tags';
-  };
+  }
 
   public postBodyWithParent(tagTypeCode, tagCode, displayName, description, parentTagTypeCode, parentTagCode) {
     return {
@@ -56,7 +56,7 @@ export class Tags {
         'tagTypeCode': parentTagTypeCode, 'tagCode': parentTagCode
       }
     };
-  };
+  }
 
   public postBodyWithoutParent(tagTypeCode, tagCode, displayName, description) {
     return {
@@ -64,29 +64,29 @@ export class Tags {
         'tagTypeCode': tagTypeCode, 'tagCode': tagCode
       }, 'displayName': displayName, 'description': description
     };
-  };
+  }
 
   public putBody(tagTypeCode, tagCode, displayName, description) {
     return {
       'displayName': displayName, 'description': description
     };
-  };
+  }
 
   public deleteUrl(tagTypeCode, tagCode) {
-    return '/tags/tagTypes/' + tagTypeCode + '/tagCodes/' + tagCode
+    return '/tags/tagTypes/' + tagTypeCode + '/tagCodes/' + tagCode;
   }
 }
 
 export class Namespace {
   public postUrl() {
     return '/namespaces';
-  };
+  }
 
   public postBody(namespace) {
     return {
       'namespaceCode': namespace
     };
-  };
+  }
 
   public deleteUrl(namespaceCode) {
     return '/namespaces/' + namespaceCode;
@@ -96,13 +96,13 @@ export class Namespace {
 export class DataProvider {
   public postUrl() {
     return '/dataProviders';
-  };
+  }
 
   public postBody(dataProvider) {
     return {
       'dataProviderName': dataProvider
     };
-  };
+  }
 
   public deleteUrl(dataProviderName) {
     return '/dataProviders/' + dataProviderName;
@@ -112,16 +112,16 @@ export class DataProvider {
 export class BusinessObjectDefinitions {
   public postUrl() {
     return '/businessObjectDefinitions';
-  };
+  }
 
   public deleteUrl(namespaceCode, businessObjectDefinitionName) {
     return '/businessObjectDefinitions/namespaces/' + namespaceCode + '/businessObjectDefinitionNames/' + businessObjectDefinitionName;
-  };
+  }
 
   public updateDescriptiveInformationUrl(namespace, businessObjectDefinitionName) {
     return '/businessObjectDefinitionDescriptiveInformation/namespaces/' + namespace
       + '/businessObjectDefinitionNames/' + businessObjectDefinitionName;
-  };
+  }
 
   public putDescriptiveInformation(description, displayName, businessObjectFormatUsage, businessObjectFormatFileType) {
     return {
@@ -130,7 +130,7 @@ export class BusinessObjectDefinitions {
         'businessObjectFormatFileType': businessObjectFormatFileType
       }
     };
-  };
+  }
 
   public clearDescriptiveInformation(description, displayName) {
     return {
@@ -142,18 +142,18 @@ export class BusinessObjectDefinitions {
 export class BusinessObjectDefinitionSuggestions {
   public postUrl() {
     return '/businessObjectDefinitionDescriptionSuggestions';
-  };
+  }
 
   public deleteUrl(namespaceCode, businessObjectDefinitionName, userId) {
     return '/businessObjectDefinitionDescriptionSuggestions/namespaces/'
       + namespaceCode + '/businessObjectDefinitionNames/' + businessObjectDefinitionName + '/userIds/' + userId;
-  };
+  }
 }
 
 export class BusinessObjectDefinitionSmes {
   public postUrl() {
     return '/businessObjectDefinitionSubjectMatterExperts';
-  };
+  }
 
   public postBody(namespace, businessObjectDefinitionName, userId) {
     return {
@@ -167,7 +167,7 @@ export class BusinessObjectDefinitionSmes {
 export class BusinessObjectDefinitionTags {
   public postUrl() {
     return '/businessObjectDefinitionTags';
-  };
+  }
 
   public postBody(namespace, businessObjectDefinitionName, tagTypeCode, tagCode) {
     return {
@@ -208,7 +208,7 @@ export class BusinessObjectFormats {
   public putParentsBody(parents: BusinessObjectFormatKey[]): BusinessObjectFormatParentsUpdateRequest {
     return {
       businessObjectFormatParents: parents
-    }
+    };
   }
 }
 
@@ -237,7 +237,7 @@ export class BusinessObjectDataAttribute {
 
   public postUrl() {
     return '/businessObjectDataAttributes';
-  };
+  }
 
   public deleteUrl(namespace, businessObjectDefinitionName, businessObjectFormatUsage,
     businessObjectFormatFileType, businessObjectFormatVersion,
@@ -259,7 +259,7 @@ export class BusinessObjectDefinitionData {
       + '/businessObjectFormatUsages/' + formatUsage + '/businessObjectFormatFileTypes/' + formatFileType
       + '/businessObjectFormatVersions/' + formatVersion
       + '/partitionValues/' + partitionValue + '/businessObjectDataVersions/' + dataVersion;
-  };
+  }
 
   public postUrl() {
     return '/businessObjectData';
@@ -275,7 +275,7 @@ export class BusinessObjectDefinitionData {
       + '/subPartition1Values/' + subPartition1Value + '/subPartition2Values/' +
       subPartition2Value + '/subPartition3Values/' + subPartition3Value + '/subPartition4Values/' + subPartition4Value
       + '/businessObjectDataVersions/' + businessObjectDataVersion + '?deleteFiles=' + deleteFiles;
-  };
+  }
 
   public deleteWith1SubPartitionsUrl(namespace, businessObjectDefinitionName, businessObjectFormatUsage,
     businessObjectFormatFileType, businessObjectFormatVersion, partitionValue,
@@ -285,7 +285,7 @@ export class BusinessObjectDefinitionData {
       + '/businessObjectFormatVersions/' + businessObjectFormatVersion + '/partitionValues/' + partitionValue
       + '/subPartition1Values/' + subPartition1Value + '/businessObjectDataVersions/' + businessObjectDataVersion
       + '?deleteFiles=' + deleteFiles;
-  };
+  }
 
   public deleteWithoutSubPartitionsUrl(namespace, businessObjectDefinitionName, businessObjectFormatUsage, businessObjectFormatFileType,
     businessObjectFormatVersion, partitionValue, businessObjectDataVersion, deleteFiles) {

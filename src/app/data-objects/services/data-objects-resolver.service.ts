@@ -24,7 +24,7 @@ export class DataObjectsResolverService implements Resolve<any> {
     const bdefString = `${params.namespace} : ${params.dataEntityName}`;
     const schemaString = params.formatUsage && params.formatFileType && params.formatVersion ?
       `${params.formatUsage} : ${ params.formatFileType} : ${params.formatVersion}` : '';
-    return {title: 'Data Objects - ' + bdefString + (schemaString ? ` | ${schemaString}` : '')}
+    return {title: 'Data Objects - ' + bdefString + (schemaString ? ` | ${schemaString}` : '')};
   }
 
   constructor() {

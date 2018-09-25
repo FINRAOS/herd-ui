@@ -38,8 +38,8 @@ describe('SideActionsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SideActionsComponent);
     component = fixture.componentInstance;
-    expectedActions = [new Action(AppIcons.shareIcon, 'Share', () => {return 'clicked share.' }, true),
-            new Action(AppIcons.watchIcon, 'Watch', () => {return 'clicked watch.' }, true)];
+    expectedActions = [new Action(AppIcons.shareIcon, 'Share', () => 'clicked share.', true),
+            new Action(AppIcons.watchIcon, 'Watch', () => 'clicked watch.', true)];
     component.actions = expectedActions;
     fixture.detectChanges();
 
