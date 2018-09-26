@@ -19,16 +19,20 @@
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular/cli'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
-      require('karma-phantomjs-launcher'),
+      require('karma-chrome-launcher'),
       require('karma-junit-reporter'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
       require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-scss-preprocessor')
     ],
+    client: {
+      captureConsole: true,
+      clearContext: false
+    },
     files: [
       { pattern: './src/test.ts', watched: false },
       { pattern: './src/**/*.scss', watched: false, included: false, served: true },
@@ -46,7 +50,6 @@ module.exports = function (config) {
       }
     },
     preprocessors: {
-      './src/test.ts': ['@angular/cli'],
       './src/**/*.scss': ['scss'],
       './node_modules/font-awesome/scss/font-awesome.scss': ['scss'],
       './node_modules/bootstrap/scss/bootstrap.scss': ['scss'],
@@ -61,19 +64,13 @@ module.exports = function (config) {
     junitReporter: {
       outputDir: 'coverage/junit'
     },
-    angularCli: {
-      environment: 'dev'
-    },
     reporters: ['progress', 'coverage-istanbul', 'junit'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_DEBUG,
-    client: {
-      captureConsole: true,
-    },
     browserNoActivityTimeout: 60000,
     autoWatch: false,
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
     singleRun: true
   });
 };
