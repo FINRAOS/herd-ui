@@ -37,6 +37,7 @@ exports.config = {
     dataObjectDetailLineage: './e2e/**/data-objects/detail/lineage/**/*.e2e-spec.ts',
     dataObjectDetailStorageUnits: './e2e/**/data-objects/detail/storage-units/**/*.e2e-spec.ts'
   },
+  baseUrl: 'http://localhost:4200/',
   // suite: 'dataObjectDetailStorageUnits',
   capabilities: {
     'browserName': 'chrome',
@@ -74,17 +75,17 @@ exports.config = {
     defaultTimeoutInterval: 240000,
     print: function () { }
   },
-  afterLaunch: function () {
-    // tear down all data that was setup.
-    const dataManager = require(path.resolve(__dirname + '/e2e/util/DataManager.ts')).DataManager;
-    return dataManager.tearDownData();
-  },
-  baseUrl: 'http://localhost:4200/',
   beforeLaunch: function () {
     if (fs.existsSync('processed.txt')) {
       fs.unlinkSync("processed.txt");
     }
   },
+  afterLaunch: function () {
+    // tear down all data that was setup.
+    const dataManager = require(path.resolve(__dirname + '/e2e/util/DataManager.ts')).DataManager;
+    return dataManager.tearDownData();
+  },
+
   onPrepare: function () {
     require('ts-node').register({
       project: 'e2e/tsconfig.e2e.json'

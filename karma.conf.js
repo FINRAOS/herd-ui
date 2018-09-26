@@ -49,7 +49,6 @@ module.exports = function (config) {
       }
     },
     preprocessors: {
-      
       './src/**/*.scss': ['scss'],
       './node_modules/font-awesome/scss/font-awesome.scss': ['scss'],
       './node_modules/bootstrap/scss/bootstrap.scss': ['scss'],
@@ -64,7 +63,6 @@ module.exports = function (config) {
     junitReporter: {
       outputDir: 'coverage/junit'
     },
-    
     reporters: config.angularCli && config.angularCli.codeCoverage
       ? ['progress', 'coverage-istanbul', 'junit', 'kjhtml']
       : ['progress', 'kjhtml'],
