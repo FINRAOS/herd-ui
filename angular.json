@@ -138,43 +138,17 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "Herd-UI:serve"
+            "protractorConfig": "./protractor.conf.js"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "Herd-UI:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "Herd-UI-e2e-ci": {
-      "root": "e2e/",
-      "sourceRoot": "e2e",
-      "projectType": "application",
-      "prefix": "",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "./protractor.conf.ci.js"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "Herd-UI:serve:production"
+              "devServer Target": "Herd-UI:serve:production",
+              "serve": false,
+              "webdriverUpdate": false
             },
             "e2e-ci": {
-              "protractorConfig": "./protractor.conf.ci.js"
+              "protractorConfig": "./protractor.conf.ci.js",
+              "baseUrl": "https://udc.dev.finra.org"
             }
           }
         },

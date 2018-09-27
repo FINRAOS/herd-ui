@@ -22,7 +22,7 @@ module.exports = function (config) {
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
-      require('karma-chrome-launcher'),
+      require('karma-phantomjs-launcher'),
       require('karma-junit-reporter'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
@@ -70,7 +70,7 @@ module.exports = function (config) {
     logLevel: config.LOG_DEBUG,
     browserNoActivityTimeout: 60000,
     autoWatch: false,
-    browsers: ['ChromeHeadless'],
+    browsers: ['PhantomJS'],
     singleRun: true
   });
 };
