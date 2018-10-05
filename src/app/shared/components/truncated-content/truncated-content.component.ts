@@ -13,10 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {
-  Component, ElementRef, Input, OnChanges, OnInit, ViewEncapsulation,
-  AfterViewInit, AfterViewChecked, ChangeDetectionStrategy, ViewChild
-} from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'sd-truncated-content',

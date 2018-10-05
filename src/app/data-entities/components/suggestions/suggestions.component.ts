@@ -18,9 +18,7 @@ import {
   BusinessObjectDefinitionDescriptionSuggestion
 } from '@herd/angular-client/dist/model/businessObjectDefinitionDescriptionSuggestion';
 import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/alert.service';
-import {
-  BusinessObjectDefinitionDescriptionSuggestionService
-} from '@herd/angular-client';
+import { BusinessObjectDefinitionDescriptionSuggestionService } from '@herd/angular-client';
 
 
 export interface Suggestions extends BusinessObjectDefinitionDescriptionSuggestion {
@@ -134,7 +132,7 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
           this.alertService.alert(new SuccessAlert('Edited suggestion saved successfully.', '',
             ``, 5
           ));
-          this.editDone(index)
+          this.editDone(index);
         },
         (error) => {
           this.alertService.alert(new DangerAlert('Unable to get data entity description suggestions', '',
@@ -170,7 +168,7 @@ export class SuggestionsComponent implements OnInit, AfterViewInit {
         this.alertService.alert(new SuccessAlert('Success!', 'This suggestion approved successfully.',
           ``, 5
         ));
-        this.editDone(index)
+        this.editDone(index);
       },
       (error) => {
         this.alertService.alert(new DangerAlert('Error!', 'Unable to approve this suggestion.',

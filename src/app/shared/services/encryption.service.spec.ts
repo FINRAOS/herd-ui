@@ -13,16 +13,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {TestBed, inject} from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
-import {EncryptionService} from './encryption.service';
-import {HttpModule} from '@angular/http';
+import { EncryptionService } from './encryption.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('EncryptionService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpModule
+        HttpClientModule
       ],
       providers: [
         EncryptionService,

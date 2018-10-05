@@ -19,6 +19,7 @@ import { HeaderComponent } from './header.component';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { InlineSVGService } from '../../../../../node_modules/ng-inline-svg/lib/inline-svg.service';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -33,6 +34,9 @@ describe('HeaderComponent', () => {
       ],
       declarations: [
         HeaderComponent
+      ],
+      providers: [
+        InlineSVGService
       ]
     })
       .compileComponents();

@@ -16,7 +16,7 @@
 /**
  * This file maintains all the data to be posted to HERD and validated against in tests.
  * Use this data in specs.
- * @type {{}}
+ * @types {{}}
  */
 
 export class Data {

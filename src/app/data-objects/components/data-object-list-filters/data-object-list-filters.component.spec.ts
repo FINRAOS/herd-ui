@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import {
   AnyFilter,
@@ -24,16 +24,16 @@ import {
   PartitionFilter,
   RegistrationFilter
 } from './data-object-list-filters.component';
-import {PartitionFilterComponent} from 'app/data-objects/components/partition-filter/partition-filter.component';
-import {AttributeFilterComponent} from 'app/data-objects/components/attribute-filter/attribute-filter.component';
+import { PartitionFilterComponent } from 'app/data-objects/components/partition-filter/partition-filter.component';
+import { AttributeFilterComponent } from 'app/data-objects/components/attribute-filter/attribute-filter.component';
 import {
   LatestValidVersionFilterComponent
 } from 'app/data-objects/components/latest-valid-version-filter/latest-valid-version-filter.component';
-import {ReactiveFormsModule} from '@angular/forms';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {FilterTemplateComponent} from 'app/data-objects/components/filter-template/filter-template.component';
-import {EllipsisOverflowComponent} from 'app/shared/components/ellipsis-overflow/ellipsis-overflow.component';
-import {RegistrationDateRangeFilterComponent} from '../registration-date-range-filter/registration-date-range-filter.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FilterTemplateComponent } from 'app/data-objects/components/filter-template/filter-template.component';
+import { EllipsisOverflowComponent } from 'app/shared/components/ellipsis-overflow/ellipsis-overflow.component';
+import { RegistrationDateRangeFilterComponent } from '../registration-date-range-filter/registration-date-range-filter.component';
 
 describe('DataObjectListFiltersComponent', () => {
   let component: DataObjectListFiltersComponent;

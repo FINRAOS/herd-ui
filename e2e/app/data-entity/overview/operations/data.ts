@@ -68,7 +68,7 @@ export class Data {
       'businessObjectDefinitionName': 'BDEF_TEST',
       'description': 'Leverage agile frameworks to provide a robust synopsis for high level overviews.',
       'displayName': 'This is a display name of bef'
-    }
+    };
   }
 
   bdefTest() {
@@ -84,7 +84,7 @@ export class Data {
           'value': 'test-attr-val'
         }
       ]
-    }
+    };
   }
 
   // add the data prefix so each browser has a separate one to edit.
@@ -95,7 +95,7 @@ export class Data {
       'businessObjectDefinitionName': utils.dataPrefix + 'BDEF_Edit_Desc_Frmt',
       'description': 'Leverage agile frameworks to provide a robust synopsis for high level overviews.',
       'displayName': 'Edit Descriptive Information'
-    }
+    };
   }
 
   formatTestEditDescriptiveFormat() {
@@ -106,7 +106,7 @@ export class Data {
       'businessObjectFormatFileType': 'ORC',
       'partitionKey': 'TEST_KEY',
       'description': 'Nam et interdum quam, hendrerit varius magna.',
-    }
+    };
   }
 
   formatTestEditDescriptiveFormat2() {
@@ -117,7 +117,7 @@ export class Data {
       'businessObjectFormatFileType': 'TXT',
       'partitionKey': 'TEST_KEY2',
       'description': 'Nam et interdum quam, hendrerit varius magna.',
-    }
+    };
   }
 
   bdefTestMultipleFormatVersions() {
@@ -150,7 +150,7 @@ export class Data {
           }
         ]
       }
-    }
+    };
   }
 
   bdefTestSingleFormatVersion() {
@@ -215,7 +215,7 @@ export class Data {
           }
         ]
       }
-    }
+    };
   }
 
   bdefSuggestion() {
@@ -226,7 +226,7 @@ export class Data {
         'userId': 'user123'
       },
       'descriptionSuggestion': 'protractor test suggestion'
-    }
+    };
   }
 
 }

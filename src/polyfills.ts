@@ -48,47 +48,39 @@ import 'core-js/es7/array';
 import 'core-js/es6/regexp';
 import 'core-js/es6/map';
 import 'core-js/es6/set';
-
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
-import 'classlist.js';  // Run `npm install --save classlist.js`.
-
+import 'classlist.js'; // Run `npm install --save classlist.js`.
 /** IE10 and IE11 requires the following to support `@angular/animation`. */
-import 'web-animations-js';  // Run `npm install --save web-animations-js`.
-
-
+import 'web-animations-js'; // Run `npm install --save web-animations-js`.
 /** Evergreen browsers require these. **/
 import 'core-js/es6/reflect';
 import 'core-js/es7/reflect';
-
-
-/** ALL Firefox browsers require the following to support `@angular/animation`. **/
-// import 'web-animations-js';  // Run `npm install --save web-animations-js`.
-
-
-
 /***************************************************************************************************
  * Zone JS is required by Angular itself.
  */
-import 'zone.js/dist/zone';  // Included with Angular CLI.
-
-
-
-/***************************************************************************************************
- * APPLICATION IMPORTS
- */
-
-import 'proxy-polyfill/proxy.min'; // needed for ng-http-interceptor TODO: take this out when migrated from ng-http-interceptor
-
-/**
- * Date, currency, decimal and percent pipes.
- * Needed for: All but Chrome, Firefox, Edge, IE11 and Safari 10
- */
-import 'intl';  // Run `npm install --save intl`.
-import 'intl/locale-data/jsonp/en-US.js'; // needd for OS X 10.11 safari 9.0
-
+import 'zone.js/dist/zone'; // Included with Angular CLI.
 // used to programmatically set the configuration of the ckeditor file imports
 // Note: this must stay as an import due to all of the importans happening before a statement is run
 // no matter where the statement is in this file.
 import './ckset';
 // needed for our in place editing features
 import 'ckeditor';
+
+
+/** ALL Firefox browsers require the following to support `@angular/animation`. **/
+// import 'web-animations-js';  // Run `npm install --save web-animations-js`.
+
+
+/***************************************************************************************************
+ * APPLICATION IMPORTS
+ */
+
+// TODO: Below polyfills added in angular 2-5. Not required after angular 6 migration. can be removed after 4-5 months fro today (Aug2018)
+/**
+ * Date, currency, decimal and percent pipes.
+ * Needed for: All but Chrome, Firefox, Edge, IE11 and Safari 10
+ */
+// Angular global import issue. migration to 6/7 interduced this issue. specially while going to data object list page router shows error
+(window as any).global = window;
+// import 'intl';  // Run `npm install --save intl`.
+// import 'intl/locale-data/jsonp/en-US.js'; // need for OS X 10.11 safari 9.0

@@ -14,9 +14,9 @@
 * limitations under the License.
 */
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { FormatDetailComponent } from 'app/formats/components/format-detail/format-detail.component';
-import {FormatResolverService} from './format-resolver.service';
+import { FormatResolverService } from './format-resolver.service';
 
 const routes: Routes = [{
   path: ':namespace/:dataEntityname/:formatUsage/:formatFileType/:formatVersion',

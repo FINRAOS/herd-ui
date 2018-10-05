@@ -13,12 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Alert,  AlertService } from 'app/core/services/alert.service';
-import { Observable } from 'rxjs/Observable';
-import { take, map } from 'rxjs/operators'
-import { timer } from 'rxjs/observable/timer'
-import {environment} from '../../../../environments/environment';
+import { Component, Input, OnInit } from '@angular/core';
+import { Alert, AlertService } from 'app/core/services/alert.service';
+import { map, take } from 'rxjs/operators';
+import { timer } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'sd-alerts',

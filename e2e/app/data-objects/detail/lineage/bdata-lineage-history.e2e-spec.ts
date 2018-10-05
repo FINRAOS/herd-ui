@@ -13,12 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {browser} from 'protractor';
-import {DataManager} from '../../../../util/DataManager';
-import {Operations} from '../operations/operations';
-import {Data} from './operations/data';
-import {DataObjectDetailPage} from '../data-object-detail.po';
-import {BaseDetail} from '../base-detail';
+import { browser } from 'protractor';
+import { DataManager } from '../../../../util/DataManager';
+import { Operations } from '../operations/operations';
+import { Data } from './operations/data';
+import { DataObjectDetailPage } from '../data-object-detail.po';
+import { BaseDetail } from '../base-detail';
 
 
 describe('Feature:BDataLineage', () => {
@@ -183,7 +183,7 @@ describe('Feature:BDataLineage', () => {
       });
       page.getLineageRowData(page.childLineageRepeater, 0).link.click();
       browser.getCurrentUrl().then(function (urlText) {
-        const expectedUrl = baseDetail.replaceUrlParams(data.bdataLeafWithoutSubpartitions,
+        const expUrl = baseDetail.replaceUrlParams(data.bdataLeafWithoutSubpartitions,
           data.formatWithSubpartitions.schema.delimiter)
           .replace(/ /g, '%20')
           .replace(/\|/g, '%7C')
@@ -191,7 +191,7 @@ describe('Feature:BDataLineage', () => {
           // for the child or parent of a data-objects.  this can be taken out when that changes
           .replace(new RegExp('&partitionKey=' + data.bdataLeafWithoutSubpartitions.partitionKey), '')
           .replace(constants.baseURL, constants.baseURLNoPassword);
-        expect(urlText).toEqual(expectedUrl);
+        expect(urlText).toEqual(expUrl);
       });
       //  Hit back button
       browser.navigate().back();

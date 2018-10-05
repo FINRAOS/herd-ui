@@ -13,15 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { TestBed, inject } from '@angular/core/testing';
+import { async, inject, TestBed } from '@angular/core/testing';
 
-import { CategoryDetailResolverService, CategoryDetailResolverData } from './categories-detail-resolver';
-import { Observable } from 'rxjs/Observable';
-import {
-  Tag, TagService, TagKey, TagSearchRequest
-} from '@herd/angular-client';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { async } from '@angular/core/testing';
+import { CategoryDetailResolverData, CategoryDetailResolverService } from './categories-detail-resolver';
+import { Observable, of } from 'rxjs';
+import { Tag, TagService } from '@herd/angular-client';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { RouterStub } from 'testing/router-stubs';
 import { SearchService } from '../../shared/services/search.service';
 
@@ -68,8 +65,8 @@ describe('Category Detail Resolver', () => {
           totalIndexSearchResults: 90
         };
 
-        const tagSpy = (<jasmine.Spy>tagApi.tagGetTag).and.returnValue(Observable.of(expectedTag));
-        const searchSpy = (<jasmine.Spy>searchService.search).and.returnValue(Observable.of(searchResult));
+        const tagSpy = (<jasmine.Spy>tagApi.tagGetTag).and.returnValue(of(expectedTag));
+        const searchSpy = (<jasmine.Spy>searchService.search).and.returnValue(of(searchResult));
 
         (<jasmine.Spy>r.routeReuseStrategy.shouldAttach).and.returnValue(false);
 
@@ -109,8 +106,8 @@ describe('Category Detail Resolver', () => {
           totalIndexSearchResults: 90
         };
 
-        const tagSpy = (<jasmine.Spy>tagApi.tagGetTag).and.returnValue(Observable.of(expectedTag));
-        const searchSpy = (<jasmine.Spy>searchService.search).and.returnValue(Observable.of(searchResult));
+        const tagSpy = (<jasmine.Spy>tagApi.tagGetTag).and.returnValue(of(expectedTag));
+        const searchSpy = (<jasmine.Spy>searchService.search).and.returnValue(of(searchResult));
 
         (<jasmine.Spy>r.routeReuseStrategy.shouldAttach).and.returnValue(false);
 
@@ -143,12 +140,12 @@ describe('Category Detail Resolver', () => {
 
 
         const tagSpy = (<jasmine.Spy>tag.tagGetTag);
-        tagSpy.and.returnValue(Observable.of(expectedTag));
+        tagSpy.and.returnValue(of(expectedTag));
 
-        const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach)
+        const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach);
         shouldAttachSpy.and.returnValue(true);
 
-        const retrieveSpy = (<jasmine.Spy>r.routeReuseStrategy.retrieve)
+        const retrieveSpy = (<jasmine.Spy>r.routeReuseStrategy.retrieve);
         retrieveSpy.and.returnValue({
           route: {
             value: {

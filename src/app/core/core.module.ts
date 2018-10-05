@@ -16,7 +16,7 @@
 import { EncryptionService } from './../shared/services/encryption.service';
 import { GoogleAnalyticsService } from './../shared/services/google-analytics.service';
 import { UserService } from './services/user.service';
-import { NgModule, ModuleWithProviders, SkipSelf, Optional, InjectionToken } from '@angular/core';
+import { InjectionToken, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { HomeComponent } from 'app/core/components/home/home.component';
 import { HeaderComponent } from 'app/core/components/header/header.component';
 import { RouterModule } from '@angular/router';
@@ -27,7 +27,6 @@ import { BackTrackComponent } from './components/back-track/back-track.component
 import { AuthGuardService } from 'app/core/services/auth-guard.service';
 import { CookieService } from 'ng2-cookies';
 import { AlertService } from 'app/core/services/alert.service';
-import { Http } from '@angular/http';
 import { NoAuthGuardService } from 'app/core/services/no-auth-guard.service';
 import { LoginComponent } from 'app/core/components/login/login.component';
 

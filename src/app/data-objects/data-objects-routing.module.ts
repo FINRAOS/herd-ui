@@ -14,11 +14,11 @@
 * limitations under the License.
 */
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { DataObjectDetailComponent } from 'app/data-objects/components/data-object-detail/data-object-detail.component';
 import { DataObjectListComponent } from 'app/data-objects/components/data-object-list/data-object-list.component';
 import { DataObjectsResolverService } from 'app/data-objects/services/data-objects-resolver.service';
-import {DataObjectDetailResolverService} from './services/data-object-detail-resolver.service';
+import { DataObjectDetailResolverService } from './services/data-object-detail-resolver.service';
 
 const routes: Routes = [{
   path: `:namespace/:dataEntityName/:formatUsage/:formatFileType/:formatVersion/:partitionValue/:dataObjectVersion`,

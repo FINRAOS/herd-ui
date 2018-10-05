@@ -13,25 +13,25 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '../../../shared/shared.module';
 import { FormatDetailComponent } from './format-detail.component';
 import { ActivatedRoute } from '@angular/router';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import {
-  StorageService,
-  BusinessObjectFormatService,
   BusinessObjectDataService,
-  BusinessObjectDefinitionColumnService
+  BusinessObjectDefinitionColumnService,
+  BusinessObjectFormatService,
+  StorageService
 } from '@herd/angular-client';
-import { Observable } from 'rxjs/Observable';
+import { of, throwError } from 'rxjs';
 import { AlertService } from '../../../core/services/alert.service';
 import { SchemaColumnsComponent } from 'app/formats/components/schema-columns/schema-columns.component';
 import { AttributeDefinitionsComponent } from 'app/formats/components/attribute-definitions/attribute-definitions.component';
 import { ActivatedRouteStub } from 'testing/router-stubs';
-import { Headers } from '@angular/http'
+import { Headers } from '@angular/http';
 import { MockFormat } from 'testing/mockFormat';
 
 describe('FormatDetailComponent', () => {
@@ -46,7 +46,7 @@ describe('FormatDetailComponent', () => {
         NgbModule.forRoot(),
         SharedModule,
         RouterTestingModule,
-        HttpModule
+        HttpClientModule
       ],
       declarations: [
         FormatDetailComponent,
@@ -60,7 +60,7 @@ describe('FormatDetailComponent', () => {
           useValue: {
             configuration: {},
             defaultHeaders: new Headers(),
-            storageGetStorages: jasmine.createSpy('storageGetStorages').and.returnValue(Observable.of({storageKeys: []}))
+            storageGetStorages: jasmine.createSpy('storageGetStorages').and.returnValue(of({storageKeys: []}))
           }
         },
         {
@@ -70,7 +70,7 @@ describe('FormatDetailComponent', () => {
             businessObjectFormatGetBusinessObjectFormat: jasmine
               .createSpy('businessObjectFormatGetBusinessObjectFormat')
               .and
-              .returnValue(Observable.of({
+              .returnValue(of({
                 businessObjectFormatUsage: 'SRC',
                 businessObjectFormatFileType: 'TXT',
                 businessObjectFormatVersion: 0,
@@ -94,7 +94,7 @@ describe('FormatDetailComponent', () => {
             businessObjectFormatGetBusinessObjectFormats: jasmine
               .createSpy('businessObjectFormatGetBusinessObjectFormats')
               .and
-              .returnValue(Observable.of({
+              .returnValue(of({
                 businessObjectFormatKeys: [{
                   businessObjectFormatUsage: 'SRC',
                   businessObjectFormatFileType: 'TXT',
@@ -148,11 +148,11 @@ describe('FormatDetailComponent', () => {
     inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService],
       (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService) => {
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumn as jasmine.Spy)
-          .and.returnValue(Observable.of(mockData.formatDetail.schema.columns[0]));
+          .and.returnValue(of(mockData.formatDetail.schema.columns[0]));
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumns as jasmine.Spy)
-          .and.returnValue(Observable.of({businessObjectDefinitionColumnKeys: []}));
+          .and.returnValue(of({businessObjectDefinitionColumnKeys: []}));
         (businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability as jasmine.Spy)
-          .and.returnValue(Observable.throw({status: 403}));
+          .and.returnValue(throwError({status: 403}));
 
         fixture.detectChanges();
       }));
@@ -162,11 +162,11 @@ describe('FormatDetailComponent', () => {
     inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService],
       (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService) => {
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumn as jasmine.Spy)
-          .and.returnValue(Observable.of(mockData.formatDetail.schema.columns[2]));
+          .and.returnValue(of(mockData.formatDetail.schema.columns[2]));
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumns as jasmine.Spy)
-          .and.returnValue(Observable.of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinationColumnKeys}));
+          .and.returnValue(of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinationColumnKeys}));
         (businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability as jasmine.Spy)
-          .and.returnValue(Observable.of({availableStatuses: [{partitionValue: 3}, {partitionValue: 4}]}));
+          .and.returnValue(of({availableStatuses: [{partitionValue: 3}, {partitionValue: 4}]}));
         fixture.detectChanges();
 
         expect(component.businessObjectFormatDetail.retentionType).toBe('xyz');
@@ -179,11 +179,11 @@ describe('FormatDetailComponent', () => {
     inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService],
       (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService) => {
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumn as jasmine.Spy)
-          .and.returnValue(Observable.of(mockData.formatDetail.schema.columns[2]));
+          .and.returnValue(of(mockData.formatDetail.schema.columns[2]));
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumns as jasmine.Spy)
-          .and.returnValue(Observable.of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinationColumnKeys}));
+          .and.returnValue(of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinationColumnKeys}));
         (businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability as jasmine.Spy)
-          .and.returnValue(Observable.throw({status: 404}));
+          .and.returnValue(throwError({status: 404}));
 
         fixture.detectChanges();
       }));

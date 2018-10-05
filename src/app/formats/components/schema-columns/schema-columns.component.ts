@@ -13,11 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Component, Input, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
-import {AlertService, DangerAlert, SuccessAlert} from '../../../core/services/alert.service';
-import {BusinessObjectFormatDdlRequest, BusinessObjectFormatService} from '@herd/angular-client';
-import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {finalize} from 'rxjs/operators';
+import { Component, Input, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/alert.service';
+import { BusinessObjectFormatDdlRequest, BusinessObjectFormatService } from '@herd/angular-client';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { catchError, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'sd-schema-columns',
@@ -96,7 +96,7 @@ export class SchemaColumnsComponent implements OnInit {
   alertSuccessfulCopy() {
     this.alertService.alert(new SuccessAlert(
       'Success!', '', 'DDL Successfully copied to clipboard'
-    ))
+    ));
   }
 
   getDDL(bdef) {
@@ -105,19 +105,26 @@ export class SchemaColumnsComponent implements OnInit {
       businessObjectDefinitionName: bdef.businessObjectDefinitionName,
       businessObjectFormatUsage: bdef.businessObjectFormatUsage,
       businessObjectFormatFileType: bdef.businessObjectFormatFileType,
-      outputFormat: BusinessObjectFormatDdlRequest.OutputFormatEnum.DDL,
+      outputFormat: BusinessObjectFormatDdlRequest.OutputFormatEnum.HIVE13DDL,
       tableName: bdef.businessObjectDefinitionName
     };
     this.businessObjectFormatService.defaultHeaders.append('skipAlert', 'true');
 
     this.businessObjectFormatService.businessObjectFormatGenerateBusinessObjectFormatDdl(businessObjectFormatDdlRequest)
-      .pipe(finalize(() => {
-        this.businessObjectFormatService.defaultHeaders.delete('skipAlert');
-      })).subscribe((response) => {
+      .pipe(
+        finalize(() => {
+          this.businessObjectFormatService.defaultHeaders.delete('skipAlert');
+        }),
+        catchError((error) => {
+          this.ddlError = new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
+            'URL: ' + error.url, 'Info: ' + error.message);
+          return error;
+        })
+      ).subscribe((response: any) => {
       this.ddl = response.ddl;
     }, (error) => {
       this.ddlError = new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
-        'URL: ' + error.url, 'Info: ' + error.json().message);
+        'URL: ' + error.url, 'Info: ' + error.message);
     });
   }
 

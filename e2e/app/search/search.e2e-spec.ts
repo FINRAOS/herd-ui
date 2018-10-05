@@ -13,11 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {SearchPage} from './search.po';
-import {browser} from 'protractor';
-import {BaseE2e} from '../base/base.e2e';
+import { SearchPage } from './search.po';
+import { browser } from 'protractor';
+import { BaseE2e } from '../base/base.e2e';
 import data from './operations/data';
-import {DataManager} from './../../util/DataManager';
+import { DataManager } from './../../util/DataManager';
 
 const conf = require('./../../config/conf.e2e.json');
 

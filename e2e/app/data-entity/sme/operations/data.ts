@@ -41,6 +41,6 @@ export class Data {
       'namespace': this.defaultNamespace,
       'dataProviderName': this.defaultDataProvider,
       'businessObjectDefinitionName': 'HERD_UI_SME_NONE'
-    }
+    };
   }
-};
+}

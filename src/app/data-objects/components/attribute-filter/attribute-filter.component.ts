@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, OnInit, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
-import { FormGroup, FormBuilder, ValidationErrors } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
 import { AttributeValueFilter } from '@herd/angular-client';
 
 @Component({
@@ -25,7 +25,7 @@ import { AttributeValueFilter } from '@herd/angular-client';
 })
 export class AttributeFilterComponent implements OnInit {
 
-    title = ''
+    title = '';
     attributeFilterForm: FormGroup;
     @Input() filter: AttributeValueFilter;
     @Output() filterChange: EventEmitter<AttributeValueFilter> = new EventEmitter();
@@ -80,7 +80,7 @@ export class AttributeFilterComponent implements OnInit {
 
     attributeFormValidator(fg: FormGroup): ValidationErrors | null {
         if (!fg.value.name && !fg.value.value) {
-            return { 'atLeastOneRequired': 'Must supply at least a name or a value.' }
+            return { 'atLeastOneRequired': 'Must supply at least a name or a value.' };
         } else {
             return null;
         }

@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from 'app/core/components/home/home.component';
 import { AuthGuardService } from 'app/core/services/auth-guard.service';
 import { LoginComponent } from './core/components/login/login.component';

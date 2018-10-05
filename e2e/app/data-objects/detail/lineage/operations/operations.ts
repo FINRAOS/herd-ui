@@ -18,8 +18,8 @@
  * Utilizes the data specified in jsonSchema.js and this.data.js
  */
 
-import {DataManager} from './../../../../../util/DataManager';
-import {Data} from './data';
+import { DataManager } from './../../../../../util/DataManager';
+import { Data } from './data';
 import * as schema from './../../../../../util/JsonSchema';
 
 
@@ -31,7 +31,7 @@ export class Operations {
   /**
    * Generate the post requests for required data:
    * namespace / data provider / bdef / data-objects
-   * @returns {{options: *[]}}
+   * @returns options: *[]
    */
 
   public postRequests() {
@@ -54,7 +54,7 @@ export class Operations {
         this.dataManager.DMOption(7, new schema.BusinessObjectDefinitionData().postUrl(), this.data.noLineageBdata),
         this.dataManager.DMOption(7, new schema.BusinessObjectDefinitionData().postUrl(), this.data.statusChange)
       ]
-    }
+    };
   }
 
   public deleteRequests() {
@@ -157,7 +157,7 @@ export class Operations {
         this.dataManager.DMOption(6, new schema.DataProvider().deleteUrl(this.data.defaultDataProvider)),
         this.dataManager.DMOption(7, new schema.Namespace().deleteUrl(this.data.defaultNamespace))
       ]
-    }
+    };
   }
 
   public updateRequests() {
@@ -171,7 +171,7 @@ export class Operations {
           this.data.statusChange.partitionValue,
           0), {status: 'VALID'})
       ]
-    }
+    };
   }
 }
 

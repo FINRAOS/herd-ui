@@ -14,8 +14,7 @@
 * limitations under the License.
 */
 import { Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { Observable } from 'rxjs/Observable';
+import { Observable, ReplaySubject } from 'rxjs';
 
 export interface Alert {
   title: string;
@@ -36,7 +35,7 @@ export class InfoAlert implements Alert {
   readonly type: AlertType;
   constructor (public title: string, public subTitle, public text, public closeDelay?: number) {
     this.type = 'info';
-  };
+  }
 }
 export class WarningAlert implements Alert {
   readonly type: AlertType;
@@ -51,7 +50,7 @@ export class DangerAlert implements Alert {
   }
 }
 
-export type AlertType = 'success' | 'info' | 'warning' | 'danger'
+export type AlertType = 'success' | 'info' | 'warning' | 'danger';
 
 
 @Injectable()

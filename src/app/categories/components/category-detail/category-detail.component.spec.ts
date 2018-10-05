@@ -13,24 +13,27 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {ActivatedRouteStub, RouterStub} from './../../../../testing/router-stubs';
-import {async, ComponentFixture, TestBed, inject} from '@angular/core/testing';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {RouterTestingModule} from '@angular/router/testing';
-import {SharedModule} from '../../../shared/shared.module';
-import {CategoryDetailComponent} from './category-detail.component';
-import {HttpModule} from '@angular/http';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
+import { ActivatedRouteStub, RouterStub } from './../../../../testing/router-stubs';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterTestingModule } from '@angular/router/testing';
+import { SharedModule } from '../../../shared/shared.module';
+import { CategoryDetailComponent } from './category-detail.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of, Subscription } from 'rxjs';
 import {
-  Tag, TagService, BusinessObjectDefinitionService,
-  CurrentUserService, Configuration, TagSearchResponse, IndexSearchService
-} from '@herd/angular-client'
-import {IndexSearchMockData} from 'testing/IndexSearchMockData';
-import {RelatedDataEntities} from 'testing/RelatedDataEntities';
-import {GoogleAnalyticsService} from '../../../shared/services/google-analytics.service';
-import {SearchService} from '../../../shared/services/search.service';
-import {Subscription} from 'rxjs/Subscription';
+  BusinessObjectDefinitionService,
+  Configuration,
+  IndexSearchService,
+  Tag,
+  TagSearchResponse,
+  TagService
+} from '@herd/angular-client';
+import { IndexSearchMockData } from 'testing/IndexSearchMockData';
+import { RelatedDataEntities } from 'testing/RelatedDataEntities';
+import { GoogleAnalyticsService } from '../../../shared/services/google-analytics.service';
+import { SearchService } from '../../../shared/services/search.service';
 
 describe('CategoryDetailComponent', () => {
   const indexSearchMockData: IndexSearchMockData = new IndexSearchMockData();
@@ -63,7 +66,7 @@ describe('CategoryDetailComponent', () => {
         NgbModule.forRoot(),
         SharedModule,
         RouterTestingModule,
-        HttpModule
+        HttpClientModule
       ],
       declarations: [CategoryDetailComponent],
       providers: [
@@ -118,10 +121,10 @@ describe('CategoryDetailComponent', () => {
      tagApi: TagService,
      bdefApi: BusinessObjectDefinitionService) => {
       // Spy on the services
-      spyParentTagApi = (<jasmine.Spy>tagApi.tagGetTag).and.returnValue(Observable.of(parentTag.tag));
-      spyTagSearchApi = (<jasmine.Spy>tagApi.tagSearchTags).and.returnValue(Observable.of(tagSearchResponse));
+      spyParentTagApi = (<jasmine.Spy>tagApi.tagGetTag).and.returnValue(of(parentTag.tag));
+      spyTagSearchApi = (<jasmine.Spy>tagApi.tagSearchTags).and.returnValue(of(tagSearchResponse));
       spySearchServiceApi = (<jasmine.Spy>indexSearchService.indexSearchIndexSearch)
-        .and.returnValue(Observable.of(indexSearchMockData.indexSearchResponse));
+        .and.returnValue(of(indexSearchMockData.indexSearchResponse));
     })));
   it('should create', async(() => {
     expect(component).toBeTruthy();
@@ -313,7 +316,7 @@ describe('CategoryDetailComponent', () => {
     event.facets[1]['facets'][0].state = 2;
     const searchService = fixture.debugElement.injector.get(SearchService);
     const spySearchService = spyOn(searchService, 'search')
-      .and.returnValue(Observable.of({ indexSearchResults: indexSearchMockData.indexSearchResponse['indexSearchResults']}));
+      .and.returnValue(of({ indexSearchResults: indexSearchMockData.indexSearchResponse['indexSearchResults']}));
 
     component.facetChange(event);
     expect(component.results).toEqual(indexSearchMockData.indexSearchResponse['indexSearchResults']);

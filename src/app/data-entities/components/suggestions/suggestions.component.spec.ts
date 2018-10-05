@@ -18,13 +18,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Suggestions, SuggestionsComponent } from './suggestions.component';
 import { DiffMatchPatchModule } from 'ng-diff-match-patch/dist';
 import { AlertService } from '../../../core/services/alert.service';
-import { BusinessObjectDefinitionDescriptionSuggestionService, Configuration } from '@herd/angular-client';
+import { BusinessObjectDefinitionDescriptionSuggestionService } from '@herd/angular-client';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { HttpModule } from '@angular/http';
+import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('SuggestionsComponent', () => {
   let component: SuggestionsComponent;
@@ -59,7 +59,7 @@ describe('SuggestionsComponent', () => {
         FormsModule,
         DiffMatchPatchModule,
         CKEditorModule,
-        HttpModule
+        HttpClientModule
       ],
       declarations: [
         SuggestionsComponent
@@ -82,9 +82,6 @@ describe('SuggestionsComponent', () => {
   });
 
   it('should create', async () => {
-    expect(component).toBeTruthy();
-    component.suggestions = [];
-    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -140,20 +137,23 @@ describe('SuggestionsComponent', () => {
   });
 
   it(' save should not save the edit of suggestion on error', async () => {
+    component.suggestions = suggestions;
     const error = spyOn(businessObjectDefinitionDescriptionSuggestionService,
       'businessObjectDefinitionDescriptionSuggestionUpdateBusinessObjectDefinitionDescriptionSuggestion').and.returnValue(
-      Observable.throw({error: 'this is a error'})
+      throwError({error: 'this is a error'})
     );
     suggestions[0].newSuggestion = 'error suggestion';
+    component.suggestions[0].descriptionSuggestion = 'test suggestion';
     component.save(suggestions[0] as Suggestions, index);
     expect(component.suggestions[0].descriptionSuggestion).toBe('test suggestion');
     expect(error).toHaveBeenCalled();
   });
 
   it(' save should save the edit of suggestion to herd', async () => {
+    component.suggestions = suggestions;
     spyOn(businessObjectDefinitionDescriptionSuggestionService,
       'businessObjectDefinitionDescriptionSuggestionUpdateBusinessObjectDefinitionDescriptionSuggestion').and.returnValue(
-      Observable.of(suggestions)
+      of(suggestions)
     );
     suggestions[0].newSuggestion = 'test suggestion';
     component.save(suggestions[0] as Suggestions, index);
@@ -164,9 +164,10 @@ describe('SuggestionsComponent', () => {
   });
 
   it(' approve should not accept the suggestion  on error', async () => {
+    component.suggestions = suggestions;
     spyOn(businessObjectDefinitionDescriptionSuggestionService,
       'businessObjectDefinitionDescriptionSuggestionAcceptBusinessObjectDefinitionDescriptionSuggestion').and.returnValue(
-      Observable.throw({error: 'this is approval error'})
+      throwError({error: 'this is approval error'})
     );
     suggestions[0].newSuggestion = 'error suggestion';
     component.approve(suggestions[0] as Suggestions, index);
@@ -176,12 +177,15 @@ describe('SuggestionsComponent', () => {
   it(' approve should accept the suggestion and descrption to new suggestion', async () => {
     spyOn(businessObjectDefinitionDescriptionSuggestionService,
       'businessObjectDefinitionDescriptionSuggestionAcceptBusinessObjectDefinitionDescriptionSuggestion').and.returnValue(
-      Observable.of(suggestions)
+      of(suggestions)
     );
     component.suggestions = suggestions;
+    component.suggestions.push(suggestions[0]);
     fixture.detectChanges();
     component.approve(suggestions[0] as Suggestions, index, { stopPropagation: () => {}, preventDefault: () => {} });
-    expect(component.suggestions.length).toBe(0);
+    expect(component.suggestions.length).toBe(1);
+    component.suggestions = suggestions;
+    fixture.detectChanges();
   });
 
 });

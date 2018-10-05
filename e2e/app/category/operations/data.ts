@@ -17,7 +17,7 @@
 /**
  * This file maintains all the data to be posted to HERD and validated against in tests.
  * Use this data in specs. DO NOT HARD-CODE DATA IN SPECS
- * @type {{description: string, defaultDataProvider: string, defaultNamespace: string,
+ * @types description: string, defaultDataProvider: string, defaultNamespace: string,
  * tagTypeCode1: exports.data.tagTypeCode1, tagTypeCode2: exports.data.tagTypeCode2, tagTypeCode3:
  * exports.data.tagTypeCode3, bdefLongDescription: exports.data.bdefLongDescription,
  * bdefShortDescription: exports.data.bdefShortDescription, bdefNoDescription: exports.data.bdefNoDescription,
@@ -181,4 +181,4 @@ export class Data {
     };
     return bdef;
   }
-};
+}

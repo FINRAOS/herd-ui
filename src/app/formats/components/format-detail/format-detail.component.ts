@@ -17,12 +17,16 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { Action } from '../../../shared/components/side-action/side-action.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BusinessObjectFormatService, BusinessObjectDataService,
-  BusinessObjectDefinitionColumnService, BusinessObjectDataAvailabilityRequest, StorageService
+import {
+  BusinessObjectDataAvailabilityRequest,
+  BusinessObjectDataService,
+  BusinessObjectDefinitionColumnService,
+  BusinessObjectFormatService,
+  StorageService
 } from '@herd/angular-client';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AlertService, DangerAlert } from 'app/core/services/alert.service';
-import { map, startWith, flatMap } from 'rxjs/operators';
+import { finalize, flatMap, map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'sd-format-detail',
@@ -163,18 +167,17 @@ export class FormatDetailComponent implements OnInit {
 
     this.businessObjectDataApi.defaultHeaders.append('skipAlert', 'true');
     this.storageApi.defaultHeaders.append('skipAlert', 'true');
-    this.storageApi.storageGetStorages()
-      .pipe(
-      flatMap((resp) => {
-        request.storageNames = resp.storageKeys.map((key) => {
-          return key.storageName;
-        });
-        return this.businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability(request);
-      })
-    ).finally(() => {
+    this.storageApi.storageGetStorages().pipe(
+      flatMap((resp: any) => {
+      request.storageNames = resp.storageKeys.map((key) => {
+        return key.storageName;
+      });
+      return this.businessObjectDataApi
+        .businessObjectDataCheckBusinessObjectDataAvailability(request);
+    })).pipe(finalize(() => {
       this.businessObjectDataApi.defaultHeaders.delete('skipAlert');
       this.storageApi.defaultHeaders.delete('skipAlert');
-    }).subscribe(
+    })).subscribe(
       (response) => {
         if (response.availableStatuses.length) {
           this.minPrimaryPartitionValue = response.availableStatuses[0].partitionValue;
@@ -208,7 +211,7 @@ export class FormatDetailComponent implements OnInit {
       new Action(AppIcons.shareIcon, 'Share'),
       new Action(AppIcons.saveIcon, 'Save'),
       new Action(AppIcons.watchIcon, 'Watch')
-    ]
+    ];
   }
 
 }

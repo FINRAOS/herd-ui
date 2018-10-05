@@ -23,7 +23,7 @@ import * as schema from '../../../util/JsonSchema';
 
 /**
  * Generates requests for posting tag types and tags
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 export const postRequests = function () {
   // const root = path.resolve(__dirname).split('e2e')[0];
@@ -244,14 +244,14 @@ export const postRequests = function () {
           .tagTypeCode6().tags[3].displayName, data.description)
       }
     ]
-  }
+  };
   return setupOptions;
-}
+};
 
 
 /**
  * Generates requests for deleting tag types and tags
- * @returns {{options: *[]}}
+ * @returns options: *[]
  */
 export const deleteRequests = function () {
   const teardownOptions = {
@@ -389,10 +389,10 @@ export const deleteRequests = function () {
         'url': new schema.TagType().deleteUrl(data.tagTypeCode6().code)
       }
     ]
-  }
+  };
 
   return teardownOptions;
-}
+};
 
 /*
 * This method is used to remove association between tag and tag parent
@@ -426,10 +426,10 @@ export const updateRequests = function () {
           .tags[4].displayName, data.description)
       }
     ]
-  }
+  };
 
   return updateOptions;
-}
+};
 
 export const initRequests = {
   posts: postRequests()

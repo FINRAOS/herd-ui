@@ -13,14 +13,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {RegistrationDateRangeFilterComponent} from './registration-date-range-filter.component';
-import {ReactiveFormsModule} from '@angular/forms';
-import {FilterTemplateComponent} from '../filter-template/filter-template.component';
-import {EllipsisOverflowComponent} from '../../../shared/components/ellipsis-overflow/ellipsis-overflow.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {SimpleChange} from '@angular/core';
+import { RegistrationDateRangeFilterComponent } from './registration-date-range-filter.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FilterTemplateComponent } from '../filter-template/filter-template.component';
+import { EllipsisOverflowComponent } from '../../../shared/components/ellipsis-overflow/ellipsis-overflow.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SimpleChange } from '@angular/core';
 
 describe('RegistrationDateRangeFilterComponent', () => {
   let component: RegistrationDateRangeFilterComponent;

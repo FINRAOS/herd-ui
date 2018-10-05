@@ -13,10 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {FormatPage} from './format.po';
-import {browser} from 'protractor';
-import {Data} from './operations/data';
-import {DataManager} from './../../util/DataManager';
+import { FormatPage } from './format.po';
+import { browser } from 'protractor';
+import { Data } from './operations/data';
+import { DataManager } from './../../util/DataManager';
 
 const operations = require('./operations/operations');
 const data = new Data();
@@ -173,7 +173,7 @@ describe('Format page:', () => {
       ['Partition:', format.partitionKey,
         'Min Value:', minValue,
         'Max Value:', maxValue].join('\n'));
-   }else {
+   } else {
        await expect(page.getDetailsGroup(2).getText()).toContain(
       ['Partition:', format.partitionKey,
         'Min Value:', minValue,

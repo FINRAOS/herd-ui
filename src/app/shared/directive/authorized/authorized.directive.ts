@@ -13,9 +13,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Directive, ElementRef, Input, OnInit, OnChanges} from '@angular/core';
-import {UserService} from '../../../core/services/user.service';
-import { UserAuthorizations, NamespaceAuthorization} from '@herd/angular-client';
+import { Directive, ElementRef, Input, OnChanges, OnInit } from '@angular/core';
+import { UserService } from '../../../core/services/user.service';
+import { NamespaceAuthorization, UserAuthorizations } from '@herd/angular-client';
 
 export class AuthMap {
   static readStorageUnitDownloadCredential = 'FN_STORAGE_UNIT_DOWNLOAD_CREDENTIAL_GET';
@@ -66,7 +66,7 @@ export class AuthorizedDirective implements OnInit, OnChanges {
 
   /**
    * @description User is authorized against security functions and namespace
-   * @returns {boolean}
+   * @returns boolean
    */
   authorized() {
     return this.matchNamespace() && this.matchSecurityFunctions();

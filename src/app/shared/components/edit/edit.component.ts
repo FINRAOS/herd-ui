@@ -13,11 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {
-  Component,
-  ElementRef,
-  EventEmitter, Input, OnInit, Output
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
 
 export interface EditEvent {
@@ -61,7 +57,7 @@ export class EditComponent implements OnInit {
     }
 
     return Object.keys(retVal).length > 0 ? retVal : null;
-  };
+  }
 
   containsIllegalCharacters(value: string): boolean {
     return this.illegalCharacters.some((c) => {
@@ -70,7 +66,7 @@ export class EditComponent implements OnInit {
   }
 
   showEditIcon() {
-    return this.hover && !this.disableEdit
+    return this.hover && !this.disableEdit;
   }
 
   enterEdit() {
