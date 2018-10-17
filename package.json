@@ -41,7 +41,7 @@
     "@herd/angular-client": "^0.81.0 || >0.81.0-SNAPSHOT",
     "@ng-bootstrap/ng-bootstrap": "3.2.2",
     "@swimlane/ngx-charts": "9.0.0",
-    "@swimlane/ngx-graph": "5.1.0",
+    "@swimlane/ngx-graph": "5.1.1",
     "bootstrap": "4.0.0-alpha.6",
     "ckeditor": "4.10.1",
     "classlist.js": "1.1.20150312",
