@@ -8,7 +8,7 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 4200 --host 0.0.0.0 --disableHostCheck true",
+    "start": "ng serve",
     "build": "ng build",
     "buildprod": "ng build --prod",
     "buildprod-aot": "ng build --prod --aot --output-hashing none",
