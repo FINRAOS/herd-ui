@@ -40,8 +40,8 @@ export class Data {
       'dataProviderName': this.defaultDataProvider,
       'businessObjectDefinitionName': 'FORMAT_DETAILS_PLUS',
       'description': this.description
-    }
-  };
+    };
+  }
 
   formatNoData() {
     return {
@@ -116,7 +116,7 @@ export class Data {
       'partitionKey': 'TEST_KEY',
       'description': this.description,
       'documentSchema': this.documentSchema
-    }
+    };
   }
 
   bformat21() {
@@ -169,7 +169,7 @@ export class Data {
           'publish': false
         }
       ]
-    }
+    };
   }
 
   bformat3() {
@@ -210,7 +210,7 @@ export class Data {
           }
         ]
       }
-    }
+    };
   }
 
   bformat4() {
@@ -241,7 +241,7 @@ export class Data {
           }
         ]
       }
-    }
+    };
   }
 
   bformat5() {
@@ -268,7 +268,7 @@ export class Data {
           }
         ]
       }
-    }
+    };
   }
 
   bformat6() {
@@ -313,7 +313,7 @@ export class Data {
           }
         ]
       }
-    }
+    };
   }
 
   bformat7() {
@@ -359,7 +359,7 @@ export class Data {
           }
         ]
       }
-    }
+    };
   }
 
   bdata1() {
@@ -481,7 +481,7 @@ export class Data {
             'format-details-e/txt/format-details/schm-v0/data-v0/test-key=TEST_2'
         }
       }]
-    }
+    };
   }
 
   bdata7() {
@@ -501,7 +501,7 @@ export class Data {
             'format-details-f/txt/format-details/schm-v0/data-v0/test-key=TEST_1'
         }
       }]
-    }
+    };
   }
 
   bdata8() {

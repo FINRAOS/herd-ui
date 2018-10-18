@@ -13,13 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { TestBed, inject } from '@angular/core/testing';
+import { async, inject, TestBed } from '@angular/core/testing';
 
-import { DataEntityDetailResolverService, DataEntityDetailResolverData } from './data-entity-detail-resolver';
-import { Observable } from 'rxjs/Observable';
-import { BusinessObjectDefinitionService, BusinessObjectDefinition } from '@herd/angular-client';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlSegment } from '@angular/router';
-import { async } from '@angular/core/testing';
+import { DataEntityDetailResolverData, DataEntityDetailResolverService } from './data-entity-detail-resolver';
+import { Observable, of } from 'rxjs';
+import { BusinessObjectDefinition, BusinessObjectDefinitionService } from '@herd/angular-client';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { RouterStub } from 'testing/router-stubs';
 
 describe('Data Entity Detail Resolver', () => {
@@ -53,13 +52,13 @@ describe('Data Entity Detail Resolver', () => {
                         directoryPath: '/tmp',
                         fileName: 'test'
                     }]
-                }
+                };
 
                 const bdefSpy = (<jasmine.Spy>bdef.businessObjectDefinitionGetBusinessObjectDefinition);
-                bdefSpy.and.returnValue(Observable.of(expectedBdef));
+                bdefSpy.and.returnValue(of(expectedBdef));
 
 
-                const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach)
+                const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach);
                 shouldAttachSpy.and.returnValue(false);
 
                 (service.resolve(
@@ -86,15 +85,15 @@ describe('Data Entity Detail Resolver', () => {
                         directoryPath: '/tmp',
                         fileName: 'test'
                     }]
-                }
+                };
 
                 const bdefSpy = (<jasmine.Spy>bdef.businessObjectDefinitionGetBusinessObjectDefinition);
-                bdefSpy.and.returnValue(Observable.of(expectedBdef));
+                bdefSpy.and.returnValue(of(expectedBdef));
 
-                const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach)
+                const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach);
                 shouldAttachSpy.and.returnValue(true);
 
-                const retrieveSpy = (<jasmine.Spy>r.routeReuseStrategy.retrieve)
+                const retrieveSpy = (<jasmine.Spy>r.routeReuseStrategy.retrieve);
                 retrieveSpy.and.returnValue({
                         route : {
                             value: {

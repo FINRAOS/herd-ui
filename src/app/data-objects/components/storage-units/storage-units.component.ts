@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, Input, OnInit, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { NamespaceAuthorization, StorageUnit } from '@herd/angular-client';
 import { AuthMap } from '../../../shared/directive/authorized/authorized.directive';
 

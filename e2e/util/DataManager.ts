@@ -13,22 +13,32 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import * as requestManager from 'sync-request';
+// import request, {FormData} from 'then-request';
 import * as winston from 'winston';
+import { Logger } from 'winston';
 import * as path from 'path';
 import * as fs from 'fs';
+import request from 'sync-request';
+
 
 const constants = require('../config/conf.e2e.json');
 const herdHost = process.env.HERD_HOST || constants.herdHost;
 
 export interface DMOption {
-  order: number,
-  url: string,
-  body?: any
+  order: number;
+  url: string;
+  body?: any;
 }
+
 // TODO refactoring the class is also needed
 export class DataManager {
+
+  static logger: Logger;
+
   static async initializeData(specs: string[]) {
+
+    const dm = new DataManager();
+
     const processOps = async (opsLocation, spec) => {
       return new Promise(async (resolve, reject) => {
         // check for ts on normal runs and .js on generated file debug runs.
@@ -43,14 +53,15 @@ export class DataManager {
           doneFile = doneFile.replace(opsLocation + 'p ', opsLocation + 'd ');
           fs.writeFileSync('processed.txt', doneFile);
         } else {
-          winston.debug('Operations do not exist for spec: ' + spec);
+          DataManager.logger.log('info', 'Operations do not exist for spec: ' + spec);
           fs.appendFileSync('processed.txt', opsLocation + 'd ');
         }
         resolve();
       });
     };
-    const dm = new DataManager();
+
     const waitFor: string[] = [];
+
     for (const spec of specs) {
       // don't process ops for the base protractor spec or any spec marked with
       // noops in the file name.
@@ -65,8 +76,7 @@ export class DataManager {
           }
         } else {
           await processOps(opsLocation, spec);
-        };
-
+        }
       }
     }
 
@@ -78,9 +88,8 @@ export class DataManager {
         }
       });
     }
-
     return Promise.resolve();
-  };
+  }
 
   static async tearDownData() {
     const dm = new DataManager();
@@ -92,7 +101,7 @@ export class DataManager {
       if (opsLocation.length !== 0) {
         // check for ts on normal runs and .js on generated file debug runs.
         if (fs.existsSync(opsLocation + '.ts') || fs.existsSync(opsLocation + '.js')) {
-          const op =  await import(opsLocation);
+          const op = await import(opsLocation);
           if (op.tearDownRequests.updates) {
             dm.update(op.tearDownRequests.updates.options);
           }
@@ -106,9 +115,23 @@ export class DataManager {
     }
     return Promise.resolve();
   }
+
   constructor() {
     // Uncomment the following line to enable logging
-    winston.level = 'debug';
+    // winston.level = 'debug';
+    DataManager.logger = winston.createLogger({
+      level: 'info',
+      format: winston.format.json(),
+      transports: [
+        //
+        // - Write to all logs with level `info` and below to `combined.log`
+        // - Write all logs error (and below) to `error.log`.
+        //
+        // new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        // new winston.transports.File({ filename: 'combined.log' })
+        new winston.transports.Console()
+      ]
+    });
   }
 
   // sorts the list of options according to their provided 'order'
@@ -117,7 +140,7 @@ export class DataManager {
       return a.order - b.order;
     });
     return options;
-  };
+  }
 
   /**
    * Utility function to make POST requests to Herd. This is currently being used to set up test data before the specs are run.
@@ -134,11 +157,11 @@ export class DataManager {
 
       option.url = herdHost + option.url;
 
-      winston.log('info', '------------------');
-      winston.log('info', 'Requested POST on path {%s}', option.url);
-      winston.log('info', 'Request body %s', JSON.stringify(option.body));
+      DataManager.logger.log('info', '------------------');
+      DataManager.logger.log('info', 'Requested POST on path {' + option.url + '}');
+      DataManager.logger.log('info', 'Request body ' + JSON.stringify(option.body));
 
-      const response = requestManager('POST', option.url, {
+      const response = request('POST', option.url, {
         json: option.body, headers: {
           'Authorization': constants.authorization.basicKey
         }
@@ -147,17 +170,18 @@ export class DataManager {
       try {
         // try to get the body.  if this returns an error that means
         // the response was an error ( in most cases )
+        DataManager.logger.log('warn', 'going to execute...');
         const body = response.getBody('utf8');
-        winston.log('debug', 'Request succeeded.');
+        DataManager.logger.log('info', 'Request succeeded.');
       } catch (e) {
         console.log(e.message);
-        // winston.log('debug', e);
+        // DataManager.logger.log('debug', e);
       } finally {
-        winston.log('info', '------------------');
+        DataManager.logger.log('info', '------------------');
       }
 
     });
-  };
+  }
 
   /**
    * Utility function to make DELETE requests to Herd. This is currently being used to tear down test data after the specs have been run.
@@ -170,11 +194,11 @@ export class DataManager {
     // ensure that the list of operations are performed sequentially
     options = this.sortOptions(options);
     options.forEach(function (option) {
-      winston.log('info', '------------------');
-      winston.log('info', 'Requested DELETE on path {%s}', option.url);
+      DataManager.logger.log('info', '------------------');
+      DataManager.logger.log('info', 'Requested DELETE on path {' + option.url + '}');
       option.url = herdHost + option.url;
 
-      const response = requestManager('DELETE', option.url, {
+      const response = request('DELETE', option.url, {
         headers: {
           'Authorization': constants.authorization.basicKey
         }
@@ -184,15 +208,15 @@ export class DataManager {
         // try to get the body.  if this returns an error that means
         // the response was an error ( in most cases )
         const body = response.getBody('utf8');
-        winston.log('debug', 'Request succeeded.');
+        DataManager.logger.log('info', 'Request succeeded.');
       } catch (e) {
         console.log(e.message);
-        // winston.log('debug', e);
+        // DataManager.logger.log('debug', e);
       } finally {
-        winston.log('info', '------------------');
+        DataManager.logger.log('info', '------------------');
       }
     });
-  };
+  }
 
   /**
    * Utility function to make PUT requests to Herd.
@@ -206,11 +230,11 @@ export class DataManager {
     options = this.sortOptions(options);
 
     options.forEach(function (option) {
-      winston.log('info', '------------------');
-      winston.log('info', 'Requested PUT on path {%s}', option.url);
+      DataManager.logger.log('info', '------------------');
+      DataManager.logger.log('info', 'Requested PUT on path {' + option.url + '}');
       option.url = herdHost + option.url;
 
-      const response = requestManager('PUT', option.url, {
+      const response = request('PUT', option.url, {
         json: option.body, headers: {
           'Authorization': constants.authorization.basicKey
         }
@@ -220,21 +244,21 @@ export class DataManager {
         // try to get the body.  if this returns an error that means
         // the response was an error ( in most cases )
         const body = response.getBody('utf8');
-        winston.log('debug', 'Request succeeded.');
+        DataManager.logger.log('warn', 'Request succeeded.');
       } catch (e) {
-        winston.log('debug', e);
+        DataManager.logger.log('info', e);
       } finally {
-        winston.log('info', '------------------');
+        DataManager.logger.log('info', '------------------');
       }
     });
-  };
+  }
 
   public validateIndexes() {
     // get indexes
 
     try {
-      winston.log('info', '------- Start Validate Indexes Outer Block ------ ');
-      const response = requestManager('GET', herdHost + '/searchIndexes', {
+      DataManager.logger.log('info', '------- Start Validate Indexes Outer Block ------ ');
+      const response = request('GET', herdHost + '/searchIndexes', {
         headers: {
           'Authorization': constants.authorization.basicKey,
           'Accept': 'application/json'
@@ -243,12 +267,12 @@ export class DataManager {
       // try to get the body.  if this returns an error that means
       // the response was an error ( in most cases )
       const body = JSON.parse(response.getBody('utf8'));
-      winston.log('debug', 'Got Search Indexes');
+      DataManager.logger.log('info', 'Got Search Indexes');
 
       body.searchIndexKeys.forEach((key, i) => {
         try {
-          winston.log('info', '-------- Attempting to validate index ' + key.searchIndexName);
-          const validationResponse = requestManager('POST', herdHost + '/searchIndexValidations', {
+          DataManager.logger.log('info', '-------- Attempting to validate index ' + key.searchIndexName);
+          const validationResponse = request('POST', herdHost + '/searchIndexValidations', {
             json: {
               'searchIndexKey': key,
               'performFullSearchIndexValidation': true
@@ -259,17 +283,17 @@ export class DataManager {
             }
           });
           JSON.parse(response.getBody('utf8'));
-          winston.log('debug', 'Finished validating ' + key.searchIndexName);
+          DataManager.logger.log('info', 'Finished validating ' + key.searchIndexName);
         } catch (e) {
           console.log(e.message);
         } finally {
-          winston.log('info', '--------- End Validation Request Block---------');
+          DataManager.logger.log('info', '--------- End Validation Request Block---------');
         }
       });
     } catch (e) {
       console.log(e.message);
     } finally {
-      winston.log('info', '------  End Validate Indexes Outer Block------');
+      DataManager.logger.log('info', '------  End Validate Indexes Outer Block------');
     }
   }
 
@@ -279,8 +303,8 @@ export class DataManager {
       order: order,
       url: url,
       body: body
-    }
-  };
+    };
+  }
 }
 
 

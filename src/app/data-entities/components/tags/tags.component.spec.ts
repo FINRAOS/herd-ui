@@ -13,12 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {TagService, TagTypeService, BusinessObjectDefinitionTagService} from '@herd/angular-client';
-import {TagsComponent} from './tags.component';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {HttpModule} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BusinessObjectDefinitionTagService, TagService, TagTypeService } from '@herd/angular-client';
+import { TagsComponent } from './tags.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { of, throwError } from 'rxjs';
 
 describe('TagsComponent', () => {
   let component: TagsComponent;
@@ -79,7 +79,7 @@ describe('TagsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpModule
+        HttpClientModule
       ],
       declarations: [TagsComponent],
       providers: [
@@ -99,19 +99,19 @@ describe('TagsComponent', () => {
     component.dataEntityName = 'test_data_entity_name';
 
     tagApi = TestBed.get(TagService);
-    spyOn(tagApi, 'tagGetTag').and.returnValue(Observable.of({displayName: 'test-display-name'}));
-    spyOn(tagApi, 'tagSearchTags').and.returnValue(Observable.of(tagSearchResult));
+    spyOn(tagApi, 'tagGetTag').and.returnValue(of({displayName: 'test-display-name'}));
+    spyOn(tagApi, 'tagSearchTags').and.returnValue(of(tagSearchResult));
 
     tagTypeApi = TestBed.get(TagTypeService);
-    spyOn(tagTypeApi, 'tagTypeGetTagType').and.returnValue(Observable.of({displayName: 'test-display-name'}));
+    spyOn(tagTypeApi, 'tagTypeGetTagType').and.returnValue(of({displayName: 'test-display-name'}));
 
     businessObjectDefinitionTagApi = TestBed.get(BusinessObjectDefinitionTagService);
     spyOn(businessObjectDefinitionTagApi, 'businessObjectDefinitionTagGetBusinessObjectDefinitionTagsByBusinessObjectDefinition')
-      .and.returnValue(Observable.of({businessObjectDefinitionTagKeys: businessObjectDefinitionTagKeys}));
+      .and.returnValue(of({businessObjectDefinitionTagKeys: businessObjectDefinitionTagKeys}));
     spyOn(businessObjectDefinitionTagApi, 'businessObjectDefinitionTagCreateBusinessObjectDefinitionTag')
-      .and.returnValue(Observable.of({businessObjectDefinitionTagKeys: businessObjectDefinitionTagKeys}));
+      .and.returnValue(of({businessObjectDefinitionTagKeys: businessObjectDefinitionTagKeys}));
     spyOn(businessObjectDefinitionTagApi, 'businessObjectDefinitionTagDeleteBusinessObjectDefinitionTag')
-      .and.returnValue(Observable.of({businessObjectDefinitionTagKeys: businessObjectDefinitionTagKeys}));
+      .and.returnValue(of({businessObjectDefinitionTagKeys: businessObjectDefinitionTagKeys}));
 
     fixture.detectChanges();
   });
@@ -133,7 +133,7 @@ describe('TagsComponent', () => {
     expect(component.selectedTags).toContain({'tagTypeCode': 'TEST_TAGTYPE_CODE2', 'tagCode': 'TEST_TAG_CODE2'});
     businessObjectDefinitionTagApi
       .businessObjectDefinitionTagCreateBusinessObjectDefinitionTag
-      .and.returnValue(Observable.throw({status: 404}));
+      .and.returnValue(throwError({status: 404}));
     component.selected({tagKey: {'tagTypeCode': 'TEST_TAGTYPE_CODE2', 'tagCode': 'TEST_TAG_CODE2'}});
     fixture.detectChanges();
     expect(component.selectedTags).not.toContain({'tagTypeCode': 'TEST_TAGTYPE_CODE2', 'tagCode': 'TEST_TAG_CODE2'});
@@ -146,7 +146,7 @@ describe('TagsComponent', () => {
     expect(component.selectedTags).not.toContain('{\'tagTypeCode\': \'TEST_TAGTYPE_CODE1\', \'tagCode\': \'TEST_TAG_CODE1\'}');
     businessObjectDefinitionTagApi
       .businessObjectDefinitionTagDeleteBusinessObjectDefinitionTag
-      .and.returnValue(Observable.throw({status: 404}));
+      .and.returnValue(throwError({status: 404}));
     component.removed({tagKey: {'tagTypeCode': 'TEST_TAGTYPE_CODE2', 'tagCode': 'TEST_TAG_CODE2'}});
     component.blur({});
     fixture.detectChanges();

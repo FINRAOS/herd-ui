@@ -13,14 +13,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {APP_INITIALIZER, NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-import {SearchRoutingModule} from './search-routing.module';
-import {SearchComponent} from 'app/search/components/search/search.component';
-import {SharedModule} from '../shared/shared.module';
-import {SearchService} from '../shared/services/search.service';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { SearchRoutingModule } from './search-routing.module';
+import { SearchComponent } from 'app/search/components/search/search.component';
+import { SharedModule } from '../shared/shared.module';
+import { SearchService } from '../shared/services/search.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [

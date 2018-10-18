@@ -14,11 +14,10 @@
 * limitations under the License.
 */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import { SideActionComponent } from './side-action.component';
+import { By } from '@angular/platform-browser';
+import { Action, SideActionComponent } from './side-action.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {Action} from './side-action.component';
-import {click} from '../../utils/click-helper';
+import { click } from '../../utils/click-helper';
 
 describe('SideActionComponent', () => {
   let component: SideActionComponent;
@@ -39,7 +38,7 @@ describe('SideActionComponent', () => {
     fixture = TestBed.createComponent(SideActionComponent);
     component = fixture.componentInstance;
     expectedAction = new Action('<i class=\'fa fa-share-alt\'></i>',
-        'Share', () => {return 'clicked share.' }, true);
+        'Share', () => 'clicked share.', true);
     component.action = expectedAction;
     fixture.detectChanges();
   });
@@ -73,7 +72,7 @@ describe('SideActionComponent', () => {
     it('should not call the "onAction" binding when clicked and component is disabled as function', () => {
       component.action.isDisabled = function () {
         return true;
-      }
+      };
       click(divElement);
       expect(onActionSpy).not.toHaveBeenCalled();
     });
@@ -81,7 +80,7 @@ describe('SideActionComponent', () => {
     it('should call the "onAction" binding when clicked and component is enabled as function', () => {
       component.action.isDisabled = function () {
         return false;
-      }
+      };
       click(divElement);
       expect(onActionSpy).toHaveBeenCalled();
     });

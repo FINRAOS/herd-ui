@@ -13,12 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { TestBed, inject } from '@angular/core/testing';
-import { SearchService, HitMatchTypes } from './search.service';
-import { IndexSearchService, IndexSearchResponse, Facet, Highlight } from '@herd/angular-client';
-import { Observable } from 'rxjs/Observable';
-import { HttpModule } from '@angular/http';
-import { async } from '@angular/core/testing';
+import { async, inject, TestBed } from '@angular/core/testing';
+import { HitMatchTypes, SearchService } from './search.service';
+import { Facet, Highlight, IndexSearchService } from '@herd/angular-client';
+import { of } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
 import { IndexSearchMockData } from 'testing/IndexSearchMockData';
 
 
@@ -28,7 +27,7 @@ describe('SearchService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpModule
+        HttpClientModule
       ],
       providers: [
         IndexSearchService,
@@ -66,7 +65,7 @@ describe('SearchService', () => {
         ]
       };
 
-      iSearchSpy = spyOn(indexSearchApi, 'indexSearchIndexSearch').and.returnValue(Observable.of(
+      iSearchSpy = spyOn(indexSearchApi, 'indexSearchIndexSearch').and.returnValue(of(
         {
           facets: [...data.facets],
           totalIndexSearchResults: data.totalIndexSearchResults,
@@ -88,7 +87,7 @@ describe('SearchService', () => {
       });
 
       // refresh data (new instance)
-      iSearchSpy.and.returnValue(Observable.of(
+      iSearchSpy.and.returnValue(of(
         {
           facets: [...data.facets],
           totalIndexSearchResults: data.totalIndexSearchResults,
@@ -127,7 +126,7 @@ describe('SearchService', () => {
       });
 
       // returning no facets
-      iSearchSpy.and.returnValue(Observable.of({...(new IndexSearchMockData()).indexSearchResponse, facets: [] }));
+      iSearchSpy.and.returnValue(of({...(new IndexSearchMockData()).indexSearchResponse, facets: [] }));
       service.search('this is not me 3', []).subscribe((retval) => {
         expect(iSearchSpy).toHaveBeenCalledWith({
           searchTerm: 'this is not me 3',
@@ -152,7 +151,7 @@ describe('SearchService', () => {
             ]
           }
         ]
-      }
+      };
       expect(service.joinHighlight(highlight))
       .toEqual('<span class="found">Found in - Name</span>&nbsp<hlt class="highlight"> test highlight <hlt></br>');
     }));

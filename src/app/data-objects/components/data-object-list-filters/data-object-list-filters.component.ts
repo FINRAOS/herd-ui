@@ -13,41 +13,41 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AttributeValueFilter, PartitionValueFilter, RegistrationDateRangeFilter} from '@herd/angular-client';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AttributeValueFilter, PartitionValueFilter, RegistrationDateRangeFilter } from '@herd/angular-client';
 
 interface FilterType {
-  type: string,
-  displayName: string
+  type: string;
+  displayName: string;
 }
 
 export type AnyFilter = PartitionFilter | AttributeFilter | LatestValidVersionFilter | RegistrationFilter;
 
 export interface PartitionFilter {
-  type: 'partition',
-  data?: PartitionValueFilter
+  type: 'partition';
+  data?: PartitionValueFilter;
 }
 
 export interface AttributeFilter {
-  type: 'attribute',
-  data?: AttributeValueFilter
+  type: 'attribute';
+  data?: AttributeValueFilter;
 }
 
 export interface LatestValidVersionFilter {
-  type: 'lvv',
-  data?
+  type: 'lvv';
+  data?;
 }
 
 export interface RegistrationFilter {
-  type: 'registrationDate',
-  data?: RegistrationDateRangeFilter
+  type: 'registrationDate';
+  data?: RegistrationDateRangeFilter;
 }
 
 export interface DataObjectListFiltersChangeEventData {
-  partitionValueFilters: PartitionValueFilter[],
-  attributeValueFilters: AttributeValueFilter[],
-  latestValidVersion: boolean,
-  registrationDateRangeFilter: RegistrationDateRangeFilter
+  partitionValueFilters: PartitionValueFilter[];
+  attributeValueFilters: AttributeValueFilter[];
+  latestValidVersion: boolean;
+  registrationDateRangeFilter: RegistrationDateRangeFilter;
 }
 
 @Component({
@@ -118,7 +118,7 @@ export class DataObjectListFiltersComponent implements OnInit {
     const pValFilters: PartitionValueFilter[] = [];
     const aValFilters: AttributeValueFilter[] = [];
     let lvv = false;
-    let registrationDateFilter = undefined;
+    let registrationDateFilter;
 
     this.filters.forEach((f) => {
       switch (f.type) {

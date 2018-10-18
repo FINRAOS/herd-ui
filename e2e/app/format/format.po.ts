@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {by, element, ElementFinder} from 'protractor';
-import {BasePo} from '../base/base.po';
+import { by, element, ElementFinder } from 'protractor';
+import { BasePo } from '../base/base.po';
 
 export class FormatPage extends BasePo {
 

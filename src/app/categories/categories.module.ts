@@ -20,7 +20,7 @@ import { CommonModule } from '@angular/common';
 
 import { CategoriesRoutingModule } from './categories-routing.module';
 import { CategoryDetailComponent } from './components/category-detail/category-detail.component';
-import {SearchService} from '../shared/services/search.service';
+import { SearchService } from '../shared/services/search.service';
 
 @NgModule({
   imports: [

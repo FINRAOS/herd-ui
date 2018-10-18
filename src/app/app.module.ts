@@ -20,17 +20,16 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import 'codemirror/mode/go/go'; // styles for codemirror
-import {
-  BASE_PATH, ApiModule, Configuration
-} from '@herd/angular-client';
+import { ApiModule, BASE_PATH, Configuration } from '@herd/angular-client';
 import { CoreModule } from 'app/core/core.module';
 import { RouteReuseStrategy } from '@angular/router';
 import { CustomRouteReuseStrategy } from 'app/core/services/custom-route-reuse-strategy.service';
 import { CustomLocation } from 'app/core/services/custom-location.service';
 import { Location } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { HttpInterceptorModule } from 'ng-http-interceptor';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { environment } from '../environments/environment';
+import { HttpInterceptService } from './core/services/http-intercept.service';
+import { InlineSVGService } from '../../node_modules/ng-inline-svg/lib/inline-svg.service';
 
 export function appApiConfigFactory(): Configuration {
   return new Configuration();
@@ -50,7 +49,6 @@ export function restBasePathFactory(apiConfig: Configuration): string {
     AppComponent
   ],
   imports: [
-    HttpInterceptorModule,
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
@@ -60,6 +58,7 @@ export function restBasePathFactory(apiConfig: Configuration): string {
     ApiModule.forRoot(appApiConfigFactory)
   ],
   providers: [
+    HttpInterceptService,
     {
       provide: Configuration,
       useFactory: appApiConfigFactory,
@@ -76,7 +75,13 @@ export function restBasePathFactory(apiConfig: Configuration): string {
     }, {
       provide: Location,
       useClass: CustomLocation
-    }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptService,
+      multi: true
+    },
+    InlineSVGService
   ],
   bootstrap: [AppComponent]
 })

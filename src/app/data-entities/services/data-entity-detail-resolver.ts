@@ -13,20 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Injectable, Inject } from '@angular/core';
-import {
-    Router, Resolve, RouterStateSnapshot,
-    ActivatedRouteSnapshot, DetachedRouteHandle
-} from '@angular/router';
-import { default as AppIcons } from '../../shared/utils/app-icons';
-import { Action } from '../../shared/components/side-action/side-action.component';
-import {
-    BusinessObjectDefinition, BusinessObjectDefinitionService
-} from '@herd/angular-client';
-import { Observable } from 'rxjs/Observable';
-import { Response } from '@angular/http';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, DetachedRouteHandle, Resolve, Router, RouterStateSnapshot } from '@angular/router';
+import { BusinessObjectDefinition, BusinessObjectDefinitionService } from '@herd/angular-client';
+import { Observable } from 'rxjs';
 import { Title } from '@angular/platform-browser';
+import { map } from 'rxjs/operators';
 
 
 export interface TitleResolverData {
@@ -51,13 +43,13 @@ export class DataEntityDetailResolverService implements Resolve<any> {
         if (!this.router.routeReuseStrategy.shouldAttach(route)) {
             // Subscribe to the bdef
             return this.businessObjectDefinitionApi.businessObjectDefinitionGetBusinessObjectDefinition(
-                route.params.namespace, route.params.dataEntityName).map((res) => {
+                route.params.namespace, route.params.dataEntityName).pipe(map((res) => {
                     const retVal: DataEntityDetailResolverData = {
                         bdef: res,
                         title: 'Data Entity - ' + (res.displayName || res.businessObjectDefinitionName)
-                    }
+                    };
                     return retVal;
-                });
+                }));
 
         } else {
             // If we do have the bdef return the title

@@ -16,7 +16,7 @@
 /**
  * This file maintains all the data to be posted to HERD and validated against in tests.
  * Use this data in specs.
- * @type {{}}
+ * @types {{}}
  */
 export class Data {
   public description = 'Sample description text for testing purpose. Used for data-objects detail screen';
@@ -30,7 +30,7 @@ export class Data {
     'businessObjectDefinitionName': 'DATA_LINEAGE_TEST',
     'description': 'Description of the bdef',
     'displayName': 'DATA FOR TESTING BDATA DETAIL'
-  }
+  };
 
   public formatWithNoSubpartitions = {
     'namespace': this.namespace,
@@ -55,7 +55,7 @@ export class Data {
         }
       ]
     }
-  }
+  };
 
 // storage units spec data
   public noStorageFiles = {
@@ -73,7 +73,7 @@ export class Data {
         'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=TEST_60'
       }
     }]
-  }
+  };
 
 
   public versionTestV2 = {
@@ -137,7 +137,7 @@ export class Data {
         'value': '20160815 11:38:39'
       }],
     'createNewVersion': 'true'
-  }
+  };
 
 
   public singleStorageFile = {
@@ -162,7 +162,7 @@ export class Data {
       }]
     }]
 
-  }
+  };
 
   public multipleStorageFiles = {
     'namespace': this.namespace,
@@ -197,7 +197,7 @@ export class Data {
         }]
     }]
 
-  }
+  };
 
   public multipleStorageUnits = {
     'namespace': this.namespace,
@@ -229,6 +229,6 @@ export class Data {
         'fileSizeBytes': 35
       }]
     }]
-  }
+  };
 
 }

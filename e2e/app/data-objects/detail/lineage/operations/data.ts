@@ -16,7 +16,7 @@
 /**
  * This file maintains all the data to be posted to HERD and validated against in tests.
  * Use this data in specs.
- * @type {{}}
+ * @types {{}}
  */
 
 export class Data {
@@ -33,7 +33,7 @@ export class Data {
     'businessObjectDefinitionName': 'DATA_LINEAGE_TEST',
     'description': 'Description of the bdef',
     'displayName': 'DATA FOR TESTING BDATA DETAIL'
-  }
+  };
   public formatWithSubpartitions = {
     'namespace': this.namespace,
     'businessObjectDefinitionName': this.bdef.businessObjectDefinitionName,
@@ -73,7 +73,7 @@ export class Data {
         }
       ]
     }
-  }
+  };
 
   public formatWithNoSubpartitions = {
     'namespace': this.namespace,
@@ -98,7 +98,7 @@ export class Data {
         }
       ]
     }
-  }
+  };
 
   public bdataParentWithoutSubpartitions = {
     'namespace': this.namespace,
@@ -116,7 +116,7 @@ export class Data {
         'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=Dog'
       }
     }]
-  }
+  };
 
   public bdataParentWithSubpartitions = {
     'namespace': this.namespace,
@@ -135,7 +135,7 @@ export class Data {
         'txt/data-lineage-test/schm-v0/data-v0/test-key=Bird/test1-key=TWO/employee-key=THREE/data-key=Four/firm-key=five'
       }
     }]
-  }
+  };
 
   public bdataChildWithSubpartitionsToHaveChildren = {
     'namespace': this.namespace,
@@ -173,7 +173,7 @@ export class Data {
         'subPartitionValues': this.bdataParentWithSubpartitions.subPartitionValues,
         'businessObjectDataVersion': 0
       }]
-  }
+  };
 
   public bdataChildWithoutSubpartitionsToHaveChildren = {
     'namespace': this.namespace,
@@ -209,7 +209,7 @@ export class Data {
         'subPartitionValues': this.bdataParentWithSubpartitions.subPartitionValues,
         'businessObjectDataVersion': 0
       }]
-  }
+  };
 
   public bdataLeafWithoutSubpartitions = {
     'namespace': this.namespace,
@@ -246,7 +246,7 @@ export class Data {
         'subPartitionValues': this.bdataChildWithSubpartitionsToHaveChildren.subPartitionValues,
         'businessObjectDataVersion': 0
       }]
-  }
+  };
 
   public bdataLeafWithSubpartitions = {
     'namespace': this.namespace,
@@ -284,7 +284,7 @@ export class Data {
         'subPartitionValues': this.bdataChildWithSubpartitionsToHaveChildren.subPartitionValues,
         'businessObjectDataVersion': 0
       }]
-  }
+  };
 
   public noLineageBdata = {
     'namespace': this.namespace,
@@ -301,7 +301,7 @@ export class Data {
         'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=Spider'
       }
     }]
-  }
+  };
 
   public statusChange = {
     'namespace': this.namespace,
@@ -318,5 +318,5 @@ export class Data {
         'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=CrazyEights'
       }
     }]
-  }
+  };
 }

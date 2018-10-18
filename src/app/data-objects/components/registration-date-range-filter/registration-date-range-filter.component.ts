@@ -13,9 +13,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormBuilder, FormGroup, ValidationErrors} from '@angular/forms';
-import {RegistrationDateRangeFilter} from '@herd/angular-client';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
+import { RegistrationDateRangeFilter } from '@herd/angular-client';
 
 @Component({
   selector: 'sd-registration-date-range-filter',
@@ -122,13 +122,13 @@ export class RegistrationDateRangeFilterComponent implements OnInit, OnChanges {
     let tempTitle = '';
     if (this.filter) {
       if (this.filter.startRegistrationDate != null) {
-        tempTitle += 'starts from ' + this.filter.startRegistrationDate
+        tempTitle += 'starts from ' + this.filter.startRegistrationDate;
       }
       if (this.filter.startRegistrationDate != null && this.filter.endRegistrationDate != null) {
-        tempTitle += ' and '
+        tempTitle += ' and ';
       }
       if (this.filter.endRegistrationDate != null) {
-        tempTitle += 'ends ' + this.filter.endRegistrationDate
+        tempTitle += 'ends ' + this.filter.endRegistrationDate;
       }
     }
     this.title = this.titlePrefix + (tempTitle ? ' ' + tempTitle : tempTitle);

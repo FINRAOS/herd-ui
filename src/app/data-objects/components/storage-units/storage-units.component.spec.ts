@@ -15,12 +15,12 @@
 */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StorageUnitsComponent } from './storage-units.component';
-import { StorageUnit, Attribute, CurrentUserService, UserAuthorizations } from '@herd/angular-client';
+import { Attribute, CurrentUserService, StorageUnit, UserAuthorizations } from '@herd/angular-client';
 import { By } from '@angular/platform-browser';
 import { AuthorizedDirective } from '../../../shared/directive/authorized/authorized.directive';
 import { UserService } from '../../../core/services/user.service';
-import { Observable } from 'rxjs/Observable';
 import { click } from '../../../shared/utils/click-helper';
+import { of } from 'rxjs/internal/observable/of';
 
 describe('StorageUnitsComponent', () => {
   let component: StorageUnitsComponent;
@@ -88,7 +88,7 @@ describe('StorageUnitsComponent', () => {
         {
           provide: UserService,
           useValue: {
-            user: Observable.of({
+            user: of({
               userId: 'test_user'
             } as UserAuthorizations)
           }

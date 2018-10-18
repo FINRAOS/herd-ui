@@ -14,8 +14,8 @@
 * limitations under the License.
 */
 import { GoogleAnalyticsService } from './shared/services/google-analytics.service';
-import { RouterStub, ActivatedRouteStub } from 'testing/router-stubs';
-import { async, inject, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { ActivatedRouteStub, RouterStub } from 'testing/router-stubs';
+import { async, ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
@@ -23,20 +23,18 @@ import { HeaderComponent } from './core/components/header/header.component';
 import { AlertsComponent } from './core/components/alerts/alerts.component';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Http, RequestOptions, Headers, URLSearchParams, BaseRequestOptions } from '@angular/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WINDOW } from 'app/core/core.module';
-import { AlertService, DangerAlert } from 'app/core/services/alert.service';
-import { HttpInterceptorService } from 'ng-http-interceptor';
-import { Observable } from 'rxjs/Observable';
+import { AlertService } from 'app/core/services/alert.service';
+import * as rxjs from 'rxjs';
+import { of, ReplaySubject } from 'rxjs';
 import { EllipsisOverflowComponent } from 'app/shared/components/ellipsis-overflow/ellipsis-overflow.component';
-import { MockBackend } from '@angular/http/testing';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Utils } from 'app/utils/utils';
 import { Component } from '@angular/core';
 import { UserService } from 'app/core/services/user.service';
 import { SpinnerComponent } from 'app/shared/components/spinner/spinner.component';
+
 let ui: any = null;
 // support needed here for phantomJS until we switdch to headless chrome
 // TODO: take out this and simply using new UIEvent() when we switch to headless chrome
@@ -78,7 +76,7 @@ describe('AppComponent', () => {
         {
           provide: UserService, useValue: {}
         },
-        {
+        /*{
         provide: HttpInterceptorService, useFactory: () => {
           const int = jasmine.createSpy('addInterceptor');
           return {
@@ -95,11 +93,11 @@ describe('AppComponent', () => {
           }
 
         }
-      }, {
+      },*/ {
         provide: AlertService,
         useValue: {
           alert: jasmine.createSpy('alert'),
-          alerts: Observable.of()
+          alerts: of()
         }
       }, {
         provide: Router,
@@ -126,151 +124,17 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
-  })
+  });
 
   it('should create the app', async(() => {
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
 
-  it('should initialize http interception properly', async(inject([AlertService, HttpInterceptorService],
-    (a: AlertService, i: HttpInterceptorService) => {
-      const app = fixture.componentInstance;
-      expect(i.request().addInterceptor).toHaveBeenCalledWith(app.reqInterceptable);
-      expect(i.response().addInterceptor).toHaveBeenCalledWith(app.respInterceptable);
-    })));
-
-  it('should create alert for error responses', fakeAsync(inject([AlertService],
+  it('should initialize http interception properly', async(inject([AlertService],
     (a: AlertService) => {
       const app = fixture.componentInstance;
-      app.respInterceptable(Observable.throw({}), 'GET').subscribe(null, e => {
-        expect(e).toBeDefined();
-        // let jasmine know that it was a handled exception
-        return 'passed test';
-      });
-      tick();
-      // not called because no url
-      expect(a.alert).not.toHaveBeenCalled();
-
-      // not called because the url exists in skip url storage;
-      app.skipDictionary['notthere.com'] = 1;
-      app.respInterceptable(Observable.throw({ url: 'notthere.com' }), 'GET').subscribe(null, e => {
-        expect(e.url).toBeDefined();
-        // let jasmine know that it was a handled exception
-        return 'passed test';
-      });
-      tick();
-      expect(a.alert).not.toHaveBeenCalled();
-      // should decrement existing urls
-      expect(app.skipDictionary['notthere.com']).toBe(0);
-
-      // will call alerter
-      app.respInterceptable(Observable.throw({
-        url: 'notthere.com',
-        status: 404, statusText: 'Not Found',
-        json: () => { return { message: 'Test Info' } }
-      } as any), 'GET').subscribe(null, e => {
-        expect(e.url).toBeDefined();
-        // let jasmine know that it was a handled exception
-        return 'passed test';
-      });
-      tick();
-      expect(a.alert).toHaveBeenCalledWith(new DangerAlert('HTTP Error: 404 Not Found',
-        'URL: notthere.com', 'Info: Test Info'));
     })));
-
-  it('should preprocess requests properly', async(() => {
-    const app = fixture.componentInstance;
-    // headers don't exist so skipDictionary should not be appended to
-    expect(app.reqInterceptable(['myurl.com'], 'GET')).toEqual(['myurl.com']);
-
-    // headers exist but theres no skip alert
-    expect(app.reqInterceptable(['myurl.com', new RequestOptions({
-      method: 'GET',
-      headers: new Headers()
-    })], 'GET')).toEqual(['myurl.com', new RequestOptions({
-      method: 'GET',
-      headers: new Headers()
-    })]);
-
-
-    const req = app.reqInterceptable(['myurl.com', new RequestOptions({
-      method: 'GET',
-      headers: new Headers({ skipAlert: true }),
-      search: new URLSearchParams('')
-    })], 'GET');
-    // appends url in the dictionary
-    expect(app.skipDictionary).toEqual({ 'myurl.com': 1 });
-    // return req should not have skip alert in it
-
-    expect(req).toEqual(['myurl.com', new RequestOptions({
-      method: 'GET',
-      headers: new Headers(),
-      search: new URLSearchParams('')
-    })]);
-
-    // should not have skipAlert in the request
-    expect(app.reqInterceptable(['myurl.com', new RequestOptions({
-      method: 'GET',
-      headers: new Headers({ 'skipAlert': true }),
-      search: new URLSearchParams('')
-    })], 'GET')).toEqual(['myurl.com', new RequestOptions({
-      method: 'GET',
-      headers: new Headers(),
-      search: new URLSearchParams('')
-    })]);
-
-    // adds to existing value in the dictionary
-    expect(app.skipDictionary).toEqual({ 'myurl.com': 2 });
-
-    // rest for next test;
-    app.skipDictionary = {};
-
-    // works with included search params
-
-    // should no longer have skipAlert in the request
-    expect(app.reqInterceptable(['myurl.com', new RequestOptions({
-      method: 'GET',
-      headers: new Headers({ skipAlert: true }),
-      search: new URLSearchParams('test=45')
-    })], 'GET')).toEqual(['myurl.com', new RequestOptions({
-      method: 'GET',
-      headers: new Headers(),
-      search: new URLSearchParams('test=45')
-    })]);
-
-    // adds to existing value in the dictionary
-    expect(app.skipDictionary).toEqual({ 'myurl.com?test=45': 1 });
-
-    // rest for next tests;
-    app.skipDictionary = {};
-
-    const req2 = app.reqInterceptable(['http://myurl.com', new RequestOptions({
-      method: 'GET',
-      headers: new Headers()
-    })], 'GET');
-    // no appended
-    expect(app.skipDictionary).toEqual({});
-
-    // return req should not have skip alert in it
-    expect(req2).toEqual(['http://myurl.com', new RequestOptions({
-      method: 'GET',
-      headers: new Headers()
-    })]);
-
-    const req3 = app.reqInterceptable(['myurl.com', new RequestOptions({
-      method: 'GET',
-      headers: new Headers()
-    })], 'GET');
-    // no appended
-    expect(app.skipDictionary).toEqual({});
-
-    // return req should not have skip alert in it
-    expect(req3).toEqual(['myurl.com', new RequestOptions({
-      method: 'GET',
-      headers: new Headers()
-    })]);
-  }));
 
   it('should send data to Google analytics on navigation end', inject([GoogleAnalyticsService, Router],
     (ga: GoogleAnalyticsService, router: RouterStub) => {
@@ -336,7 +200,8 @@ describe('AppComponent', () => {
     })
   ));
 
-  it('should have autoscroll feature when browser does not support scrollRestoration', fakeAsync(inject([WINDOW, Router],
+  // include this one issue fixed here https://github.com/ReactiveX/rxjs/issues/3848
+  xit('should have autoscroll feature when browser does not support scrollRestoration', fakeAsync(inject([WINDOW, Router],
     (win: any, router: RouterStub) => {
       const app = fixture.componentInstance;
       win.history.scrollRestoration = undefined;
@@ -345,7 +210,7 @@ describe('AppComponent', () => {
 
       // should capture pageYOffset on scroll after 100 ms and when the last event
       // is not a popstate event
-      spyOn(Observable, 'fromEvent').and.callFake((objMakingEvents, eventType) => {
+      spyOn(rxjs, 'fromEvent').and.callFake((objMakingEvents, eventType) => {
         if (eventType === 'scroll') {
           return scrollObs.asObservable();
         } else {

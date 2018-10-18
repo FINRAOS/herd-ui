@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {by, element, ElementArrayFinder, ElementFinder, promise} from 'protractor';
-import {BasePo} from '../../base/base.po';
+import { by, element, ElementArrayFinder, ElementFinder, promise } from 'protractor';
+import { BasePo } from '../../base/base.po';
 
 export class OverviewPage extends BasePo {
 
@@ -170,22 +170,22 @@ export class OverviewPage extends BasePo {
       // that don't support isDisplayedProperly
       if (await this.isDisplayedShim(readAuthWrapper)) {
         const whiteFrames = readAuthWrapper.all(by.className('format-whiteframe'))
-          .filter((element, i) => {
-            return this.isDisplayedShim(element) as any; // converted to allow the promise from protractor to be treat as a native promise
+          .filter((elemt, i) => {
+            return this.isDisplayedShim(elemt) as any; // converted to allow the promise from protractor to be treat as a native promise
           });
 
         const usages = whiteFrames.all(
           by.cssContainingText('div:nth-child(1) > div:nth-child(2) > div:nth-child(1)', usage)
         );
 
-        const fileTypes = usages.all(by.xpath('following-sibling::span')).filter((element) => {
-          return element.getText().then((text) => {
+        const fileTypes = usages.all(by.xpath('following-sibling::span')).filter((elmt) => {
+          return elmt.getText().then((text) => {
             return text.includes(fileType);
           });
         });
 
-        const versionField = await fileTypes.all(by.xpath('following-sibling::span')).filter((element) => {
-          return element.getText().then((text) => {
+        const versionField = await fileTypes.all(by.xpath('following-sibling::span')).filter((elemt) => {
+          return elemt.getText().then((text) => {
             return text.includes(version);
           });
         });
@@ -213,11 +213,11 @@ export class OverviewPage extends BasePo {
       usageData: (await frame.all(by.css('.col-6 > sd-ellipsis-overflow')).get(0).getText()).trim(),
       fileTypeFormatProperty: (await frame.all(by.className('descriptive-format-property')).get(1).getText()).trim(),
       fileTypeData: (await frame.all(by.css('.col-6 > sd-ellipsis-overflow')).get(1).getText()).trim()
-    }
+    };
   }
 
   async canEditDisplayName() {
-    const editDisplayNameElement = this._bdefTitleEl.element(by.css('div:nth-child(2)'))
+    const editDisplayNameElement = this._bdefTitleEl.element(by.css('div:nth-child(2)'));
     // some browsers properly see this is not there others grab all (including non displaying but present) elements
     // if it grabs it make sure that it isn't currently shown.
     return this.isDisplayedShim(editDisplayNameElement);
@@ -242,9 +242,9 @@ export class OverviewPage extends BasePo {
 }
 
 export interface NoAuthFrameData {
-  headerText: string,
-  UsageFormatProperty: string,
-  usageData: string,
-  fileTypeFormatProperty: string,
-  fileTypeData: string
+  headerText: string;
+  UsageFormatProperty: string;
+  usageData: string;
+  fileTypeFormatProperty: string;
+  fileTypeData: string;
 }

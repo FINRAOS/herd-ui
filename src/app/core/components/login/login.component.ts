@@ -17,8 +17,8 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { AlertService, DangerAlert } from '../../services/alert.service';
-import { Title } from '@angular/platform-browser';
+import { AlertService } from '../../services/alert.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'sd-login',
@@ -55,9 +55,9 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.loading = true;
       this.currentUserService.getCurrentUser(this.loginForm.value.username, this.loginForm.value.password)
-        .finally(() => {
+        .pipe(finalize(() => {
           this.loading = false;
-        }).subscribe((response) => {
+        })).subscribe((response) => {
           // navigate by url is used due to the fact that the returnUrl may have optional params which need to be parsed.
           // same is true for query params
           this.router.navigateByUrl(this.returnUrl, { replaceUrl: true });

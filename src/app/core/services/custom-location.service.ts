@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Injectable, Inject } from '@angular/core';
-import { LocationStrategy, Location } from '@angular/common';
+import { Inject, Injectable } from '@angular/core';
+import { Location, LocationStrategy } from '@angular/common';
 import { WINDOW } from 'app/core/core.module';
 
 export interface HistoryState {

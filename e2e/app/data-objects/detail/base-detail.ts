@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {browser} from 'protractor';
+import { browser } from 'protractor';
 
 export class BaseDetail {
   private constants = require('../../../config/conf.e2e.json');
@@ -22,7 +22,7 @@ export class BaseDetail {
     // await browser.get(this.dataObjectListUrl(bdata));
     // await this.page.dataObjectPage(dataObjectrow).click();
     await browser.get(this.replaceUrlParams(bdata, delimiter, version));
-  };
+  }
 
   public dataObjectListUrl(bdata) {
     return this.constants.bdataListPath
@@ -30,7 +30,7 @@ export class BaseDetail {
       .replace('{definitionName}', bdata.businessObjectDefinitionName)
       .replace('{usage}', bdata.businessObjectFormatUsage)
       .replace('{fileType}', bdata.businessObjectFormatFileType)
-      .replace('{formatVersion}', bdata.businessObjectFormatVersion)
+      .replace('{formatVersion}', bdata.businessObjectFormatVersion);
   }
 
   // http://localhost:4200/data-objects/PERFDATASEARCH/PERFDATA/DDLDATA/TXT/0/PERKEY10002/0;subPartitionValues=test1%7Cthing2

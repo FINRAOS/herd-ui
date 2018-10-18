@@ -13,11 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Tag, TagService, TagType, TagTypeService, TagSearchRequest} from '@herd/angular-client';
-import {Observable} from 'rxjs/Observable';
-import {environment} from '../../../../environments/environment';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { TagSearchRequest, TagService, TagType, TagTypeService } from '@herd/angular-client';
+import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'sd-home',
@@ -43,8 +44,8 @@ export class HomeComponent implements OnInit {
     this.brandMotto = environment.brandMotto;
     this.brandHeader = environment.brandHeader;
     this.tagTypes = this.tagTypeApi
-      .tagTypeSearchTagTypes({}, 'displayName,tagTypeOrder,description')
-      .map((data) => {
+      .tagTypeSearchTagTypes({}, 'displayName,tagTypeOrder,description').pipe(
+      map((data) => {
         data.tagTypes = data.tagTypes.slice(0, 6);
         data.tagTypes.forEach((tagType) => {
           const body: TagSearchRequest = {
@@ -57,14 +58,14 @@ export class HomeComponent implements OnInit {
           };
 
           this.tagApi
-            .tagSearchTags(body, 'displayName', tagType.tagTypeKey.tagTypeCode)
-            .subscribe((value) => {
+            .tagSearchTags(body, 'displayName')
+            .subscribe((value: any) => {
               (tagType as any).tags = value.tags;
             });
         });
 
         return data.tagTypes;
-      });
+      }));
   }
 
   search(event) {
