@@ -25,7 +25,7 @@ const shardTestFiles = false;
 const maxInstances = 1;
 const seleniumVersion = '3.4.0';
 const tunnelIdentifier = process.env.SCP_TUNNEL;
-const screenResolution = '1400x1050';
+const screenResolution = '1024x768';
 const idleTimeout = 180;
 
 let browsers = [
@@ -74,11 +74,11 @@ const otherBrowsers = [
     idleTimeout,
     seleniumVersion,
     screenResolution,
-    "name": "Mac 10.12 safari 11.0",
+    "name": "macOS 10.12 safari 10.1",
     tunnelIdentifier,
     "platform": "macOS 10.12",
     "browserName": "safari",
-    "version": "11.0",
+    "version": "10.1",
     maxInstances,
     shardTestFiles
   },
