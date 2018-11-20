@@ -21,7 +21,7 @@ import { DataManager } from './../../util/DataManager';
 const operations = require('./operations/operations');
 const data = new Data();
 
-describe('Format page:', () => {
+fdescribe('Format page:', () => {
   const conf = require('../../config/conf.e2e.json');
   const dataManager = new DataManager();
   const formatPageUrl = conf.formatPage;
@@ -37,7 +37,8 @@ describe('Format page:', () => {
     noUserDefAttr: 'No user-defined attributes registered',
     schemaColsHeader: ['Name', 'Type', 'Size', 'Required?', 'Default Value Description'].join('\n'),
     partitionColsHeader: ['Name', 'Type', 'Size', 'Required?', 'Default Value', 'Description'].join('\n'),
-    noColsRegistered: 'No Columns Registered'
+    noColsRegistered: 'No Columns Registered',
+    externalInterfacesSubHeader: 'External Interfaces List'
   };
 
   beforeEach(() => {
@@ -55,7 +56,7 @@ describe('Format page:', () => {
     dataManager.tearDown(requests.options);
   });
 
-  it('format with no optional data and version 0', async () => {
+  fit('format with no optional data and version 0', async () => {
     version = 0;
     const format = data.bformat2();
     const urlParams = [format.namespace,
@@ -82,6 +83,9 @@ describe('Format page:', () => {
     await expect(page.schemaColumnsHeader.getText()).toEqual(expectedValues.schemaColsHeader);
     await expect(page.schemaColumnsEmptyMessage.getText()).toEqual(expectedValues.noColsRegistered);
 
+    // validate external interfaces list
+    await page.externalInterfacesTab.click();
+    await expect(page.externalInterfacesSubHeader.getText()).toEqual(expectedValues.externalInterfacesSubHeader);
 });
 
   it('format with all data except partitions and version 1', async () => {
