@@ -21,7 +21,7 @@ import { DataManager } from './../../util/DataManager';
 const operations = require('./operations/operations');
 const data = new Data();
 
-fdescribe('Format page:', () => {
+describe('Format page:', () => {
   const conf = require('../../config/conf.e2e.json');
   const dataManager = new DataManager();
   const formatPageUrl = conf.formatPage;
@@ -56,7 +56,7 @@ fdescribe('Format page:', () => {
     dataManager.tearDown(requests.options);
   });
 
-  fit('format with no optional data and version 0', async () => {
+  it('format with no optional data and version 0', async () => {
     version = 0;
     const format = data.bformat2();
     const urlParams = [format.namespace,
