@@ -18,9 +18,9 @@
  * we will not check the edit securityFunction in the functional test as it covered in unit test
  * The test pyramid is to maku most covered in i=unit test and what ever is really required for e2e are here.
  */
-import {SmePage} from './sme.po';
-import {Data} from './operations/data';
-import {DataManager} from './../../../util/DataManager';
+import { SmePage } from './sme.po';
+import { Data } from './operations/data';
+import { DataManager } from './../../../util/DataManager';
 
 const conf = require('./../../../config/conf.e2e.json');
 const operations = require('./operations/operations');
@@ -34,7 +34,7 @@ describe('displaying sme details and edit', () => {
   const expectedValues = {
     heading: 'Contacts',
     unavailable_message: 'No contacts listed for this Data Entity',
-  }
+  };
 
   beforeAll(function () {
     // set up initial data

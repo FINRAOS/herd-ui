@@ -14,15 +14,18 @@
 * limitations under the License.
 */
 
-import {DataManager} from '../../../../util/DataManager';
-import {DataObjectDetailPage} from '../data-object-detail.po';
-import {S3Manager} from '../../../../util/S3Manager';
-import {BaseDetail} from '../base-detail';
-import {Data} from './operations/data';
-import {Operations} from './operations/operations';
+import { DataManager } from '../../../../util/DataManager';
+import { DataObjectDetailPage } from '../data-object-detail.po';
+import { S3Manager } from '../../../../util/S3Manager';
+import { BaseDetail } from '../base-detail';
+import { Data } from './operations/data';
+import { Operations } from './operations/operations';
+import { browser } from 'protractor';
 
 describe('data-objects storage units', function () {
 
+  const fs = require('fs');
+  const fileInS3 = 'C:/Temp/test1.csv';
   const constants = require('./../../../../config/conf.e2e.json');
   const baseDetail = new BaseDetail();
   const dataManager = new DataManager();
@@ -116,10 +119,31 @@ describe('data-objects storage units', function () {
         expect(await f2.fileSize).toBe((expectedUnit.storageFiles[1].fileSizeBytes / 1024).toPrecision(1) + ' kB');
         expect(await f2.rowCount).toBe('1'); //  didn't put a row count in for the auto generated file
 
+        if (fs.existsSync(fileInS3)) {
+          // Make sure the browser doesn't have to rename the download.
+          fs.unlinkSync(fileInS3);
+        }
+        await unit.getFileDownloadIcon(0).click();
+        // await download and validate no file
+        browser.sleep(2000);
+        expect(fs.existsSync(fileInS3)).toBeTruthy();
         /*const f3 = unit.getSingleFile(2);
         expect(await f3.filePath).toBe(expectedUnit.storageFiles[2].filePath);
         expect(await f3.fileSize).toBe((expectedUnit.storageFiles[2].fileSizeBytes / 1024).toPrecision(1) + ' kB');
         expect(await f3.rowCount).toBe('');*/ //  didn't put a row count in for the auto generated file
+      });
+
+    it('File download icon is not available if user is not permitted',
+      async () => {
+        await page.navigateTo(baseDetail
+          .replaceUrlParams(data.versionTestV2, null, null), constants.noAccessUser, constants.noAccessPassword);
+        // await baseDetail.initiateBrowser(data.versionTestV2, null, 0, 3);
+        const unit = page.getSingleStorageUnit(0);
+        expect(await unit.filesRepeater.count()).toBe(2);
+
+        const expectedUnit = data.versionTestV2.storageUnits[0];
+        const f1 = unit.getSingleFile(0);
+        await expect(f1.fileDownloadIcon.isDisplayed()).toBeFalsy();
       });
 
   });

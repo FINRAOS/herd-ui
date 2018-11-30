@@ -22,7 +22,7 @@ export class S3Manager {
 
   private key;
   private body;
-  private constants = require('../config/conf.e2e.json')
+  private constants = require('../config/conf.e2e.json');
 
 // Uncomment the following line to enable logging
 // winston.level = 'debug';
@@ -64,7 +64,6 @@ export class S3Manager {
 
     });
   }
-  ;
 
   /**
    * Utility function to list objects on S3. This could be used to find out if a certain object already exists.
@@ -78,7 +77,7 @@ export class S3Manager {
         Bucket: this.bucketName, Delimiter: '/', Prefix: options.prefix
       };
 
-      s3.listObjects(params, function (err, data) {
+      s3.listObjects(params, function (err, data: any) {
         if (err) {
           winston.log('error', err.message);
           throw err.message;
@@ -88,7 +87,7 @@ export class S3Manager {
         }
       });
     });
-  };
+  }
 
   public deleteObject(options) {
     return Q.Promise(function (resolve, reject) {

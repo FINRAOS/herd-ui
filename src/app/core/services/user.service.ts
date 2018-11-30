@@ -15,11 +15,10 @@
 */
 import { EncryptionService } from './../../shared/services/encryption.service';
 import { Injectable } from '@angular/core';
-import { CurrentUserService, UserAuthorizations, Configuration } from '@herd/angular-client'
-import { Observable } from 'rxjs/Observable';
-import { ConfigService } from 'app/core/services/config.service';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { Response, URLSearchParams } from '@angular/http'
+import { Configuration, CurrentUserService, UserAuthorizations } from '@herd/angular-client';
+import { Observable, ReplaySubject } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
@@ -27,34 +26,38 @@ export class UserService {
   get user(): Observable<UserAuthorizations> {
     return this._user.asObservable();
   }
+
   get isAuthenticated() {
-    return this.userAuthorizations && this.userAuthorizations.userId
+    return this.userAuthorizations && this.userAuthorizations.userId;
   }
+
   // User info returned from Herd
   userAuthorizations: UserAuthorizations;
   // encrypted user id
   encryptedUserIdentifier: string;
 
   constructor(private currentUserApi: CurrentUserService,
-    private encryptionService: EncryptionService,
-    private conf: ConfigService,
-    private apiConf: Configuration) {
+              private encryptionService: EncryptionService,
+              private apiConf: Configuration) {
   }
 
   getCurrentUser(username?: string, password?: string): Observable<UserAuthorizations> {
-    if (this.conf.config.useBasicAuth && username && password) {
+    if (environment.useBasicAuth && username && password) {
       this.apiConf.username = username;
       this.apiConf.password = password;
     }
     // the added timestamp of the query string forces legacy browsers to not cache the http response
     // for current user.  this fixes current user differentiated tests.
-    const search = new URLSearchParams(`v=${Date.now()}`.toString());
-    return this.currentUserApi.currentUserGetCurrentUserWithHttpInfo({search}).map((res) => {
-      this.userAuthorizations = res.json();
-      this._user.next(res.json());
-      this.encryptedUserIdentifier = this.encryptionService.encryptAndGet((res.json() as UserAuthorizations).userId);
-      return res.json();
-    });
+    // const search = new URLSearchParams(`v=${Date.now()}`.toString());
+    // this.currentUserApi.defaultHeaders.append('Cache-Control', 'no-cache');
+    // console.log(this.currentUserApi.defaultHeaders.keys());
+    return this.currentUserApi.currentUserGetCurrentUser().pipe(
+      map((res: any) => {
+        this.userAuthorizations = res;
+        this._user.next(res);
+        this.encryptedUserIdentifier = this.encryptionService.encryptAndGet((res as UserAuthorizations).userId);
+        return res;
+      }));
   }
 
 }

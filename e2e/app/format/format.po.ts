@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {by, element, ElementFinder} from 'protractor';
-import {BasePo} from '../base/base.po';
+import { by, element, ElementFinder } from 'protractor';
+import { BasePo } from '../base/base.po';
 
 export class FormatPage extends BasePo {
 
@@ -28,8 +28,10 @@ export class FormatPage extends BasePo {
 
   // tabs
   public _tabs = element.all(by.tagName('ngb-tabset'));
+  public documentSchemaTab = this._tabs.get(0).all(by.tagName('a')).get(2);
   public columnsTab = this._tabs.get(0).all(by.tagName('a')).get(1);
   public overviewTab = this._tabs.get(0).all(by.tagName('a')).get(0);
+  public externalInterfacesTab = this._tabs.get(2).all(by.tagName('a')).get(0);
 
   public attrDefinitionTab = this._tabs.get(1).all(by.tagName('a')).get(0);
   public userDefinedAttrTab = this._tabs.get(1).all(by.tagName('a')).get(1);
@@ -64,6 +66,13 @@ export class FormatPage extends BasePo {
   private schemaColumnsContainer = element(by.className('schema-columns'));
   public schemaColumnsHeader = this.schemaColumnsContainer.element(by.className('ui-datatable-thead'));
   public schemaColumnsEmptyMessage = this.schemaColumnsContainer.element(by.className('ui-datatable-emptymessage'));
+
+  // external interfaces
+  public externalInterfacesSubHeader = element(by.id('externalInterfacesSubHeader'));
+
+  // schema columns
+  public documentSchemaContainer = element(by.className('document-schema'));
+
 
   get schemaColData1(): ElementFinder {
          return this.schemaColumnsContainer.all(by.className('ui-datatable-even')).get(0);

@@ -13,12 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { TestBed, inject, async } from '@angular/core/testing';
+import { async, inject, TestBed } from '@angular/core/testing';
 
 import { SearchResolveData, SearchResolverService } from './search-resolver.service';
 import { SearchService } from '../../shared/services/search.service';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 import { RouterStub } from '../../../testing/router-stubs';
 import { CategoryDetailResolverData } from '../../categories/services/categories-detail-resolver';
 
@@ -61,7 +61,7 @@ describe('SearchResolverService', () => {
       };
 
       const searchServiceSearchSpy = (<jasmine.Spy>searchService.search);
-      searchServiceSearchSpy.and.returnValue(Observable.of(searchResolveData));
+      searchServiceSearchSpy.and.returnValue(of(searchResolveData));
 
       (service.resolve(({params: {searchText: 'this is not me'}, queryParams: {match: 'test'}} as any) as ActivatedRouteSnapshot,
         {} as RouterStateSnapshot)as Observable<SearchResolveData>)
@@ -86,7 +86,7 @@ describe('SearchResolverService', () => {
       };
 
       const searchServiceSearchSpy = (<jasmine.Spy>searchService.search);
-      searchServiceSearchSpy.and.returnValue(Observable.of(searchResolveData));
+      searchServiceSearchSpy.and.returnValue(of(searchResolveData));
 
       const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach).and.returnValue(true);
       const retrieveSpy = (<jasmine.Spy>r.routeReuseStrategy.retrieve).and.returnValue({

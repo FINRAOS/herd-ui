@@ -13,10 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {SearchComponent} from 'app/search/components/search/search.component';
-import {SearchResolverService} from './services/search-resolver.service';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { SearchComponent } from 'app/search/components/search/search.component';
+import { SearchResolverService } from './services/search-resolver.service';
 
 const routes: Routes = [{
   path: ':searchText',

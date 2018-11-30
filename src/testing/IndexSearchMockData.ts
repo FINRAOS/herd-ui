@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Facet, IndexSearchResponse} from '@herd/angular-client';
+import { Facet, IndexSearchResponse } from '@herd/angular-client';
 
 export class IndexSearchMockData {
 

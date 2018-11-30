@@ -45,7 +45,7 @@
           <div container="body" [ngbTooltip]="(isInvalidDDLRequest() && tooltipWarnings) || ''">
             <button class="btn btn-primary" (click)="open(extractDdl, '')" [disabled]="isInvalidDDLRequest()">Generate Data DDL</button> &nbsp;
           </div>
-          <button type="button" pButton icon="fa-download" iconPos="left" label="Download CSV" (click)="export(dt)"></button>
+          <button type="button" pButton icon="fa fa-download" iconPos="left" label="Download CSV" (click)="export(dt)"></button>
         </div>
       </p-header>
       <p-column *ngFor="let col of cols" [style]="{'width': '100px'}" [hidden]="col.hide" [sortable]="col.sortable" [field]="col.field"

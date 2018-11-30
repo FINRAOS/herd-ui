@@ -13,37 +13,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {TestBed, inject} from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
-import {EncryptionService} from './encryption.service';
-import {ConfigService} from '../../core/services/config.service';
-import {HttpModule} from '@angular/http';
+import { EncryptionService } from './encryption.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('EncryptionService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpModule
+        HttpClientModule
       ],
       providers: [
         EncryptionService,
-        {
-        provide: ConfigService,
-        useValue: {
-          config: {
-            ga: {
-            key : 'tempPwd',
-            iv : '0120'
-            }
-          }
-        }
-      }
       ]
     });
   });
 
-  it('should encrypt the user id', inject([EncryptionService, ConfigService], (service: EncryptionService,
-  config: ConfigService) => {
+  it('should encrypt the user id', inject([EncryptionService], (service: EncryptionService) => {
     const encryptedValue = service.encryptAndGet('userid');
     expect(encryptedValue).not.toEqual('');
   }));

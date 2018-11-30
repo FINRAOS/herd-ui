@@ -13,15 +13,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { ActivatedRouteStub, RouterStub } from '../../../../testing/router-stubs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
 import { UserService } from '../../services/user.service';
-import { Observable } from 'rxjs/Observable';
+import { of, throwError } from 'rxjs';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
-import { inject } from '@angular/core/testing';
 
 describe('Logincomponent', () => {
   let component: LoginComponent;
@@ -43,7 +42,7 @@ describe('Logincomponent', () => {
         {
           provide: UserService,
           useValue: {
-            getCurrentUser: jasmine.createSpy('getCurrentUser').and.returnValue(Observable.of({}))
+            getCurrentUser: jasmine.createSpy('getCurrentUser').and.returnValue(of({}))
           }
         },
         {
@@ -99,7 +98,7 @@ describe('Logincomponent', () => {
 
   it('should show error on unsucessful login', inject([Router, AlertService, UserService],
     (r: RouterStub, a: AlertService, c: UserService) => {
-      (c.getCurrentUser as jasmine.Spy).and.returnValue(Observable.throw('login http error'));
+      (c.getCurrentUser as jasmine.Spy).and.returnValue(throwError('login http error'));
       fixture.detectChanges();
       component.loginForm.controls['username'].setValue('testusername');
       component.loginForm.controls['password'].setValue('testpassword');

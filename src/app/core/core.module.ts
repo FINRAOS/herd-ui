@@ -16,11 +16,9 @@
 import { EncryptionService } from './../shared/services/encryption.service';
 import { GoogleAnalyticsService } from './../shared/services/google-analytics.service';
 import { UserService } from './services/user.service';
-import { NgModule, ModuleWithProviders, SkipSelf, Optional, InjectionToken } from '@angular/core';
+import { InjectionToken, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { HomeComponent } from 'app/core/components/home/home.component';
 import { HeaderComponent } from 'app/core/components/header/header.component';
-import { AppInitService } from 'app/core/services/app-init.service';
-import { ConfigService } from 'app/core/services/config.service';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'app/shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -29,7 +27,6 @@ import { BackTrackComponent } from './components/back-track/back-track.component
 import { AuthGuardService } from 'app/core/services/auth-guard.service';
 import { CookieService } from 'ng2-cookies';
 import { AlertService } from 'app/core/services/alert.service';
-import { Http } from '@angular/http';
 import { NoAuthGuardService } from 'app/core/services/no-auth-guard.service';
 import { LoginComponent } from 'app/core/components/login/login.component';
 
@@ -54,8 +51,6 @@ export class CoreModule {
     return {
       ngModule: CoreModule,
       providers: [
-        ConfigService,
-        AppInitService,
         NoAuthGuardService,
         AuthGuardService,
         CookieService,

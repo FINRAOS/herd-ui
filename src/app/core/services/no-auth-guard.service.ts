@@ -14,20 +14,20 @@
 * limitations under the License.
 */
 import { Injectable } from '@angular/core';
-import { CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { ConfigService } from './config.service';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
 import { UserService } from './user.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class NoAuthGuardService implements CanActivate {
-  constructor(private configService: ConfigService,
+  constructor(
     private currentUserService: UserService,
     private router: Router) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
-    if (this.configService.config.useBasicAuth) {
+    if (environment.useBasicAuth) {
       return true;
     } else {
       this.router.navigate(['/'], {

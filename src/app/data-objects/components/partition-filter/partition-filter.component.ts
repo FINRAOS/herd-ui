@@ -13,15 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {
-    Component, OnInit, ChangeDetectionStrategy, Output, EventEmitter,
-    Input, OnChanges, SimpleChanges, ViewChild
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
 import { PartitionValueFilter } from '@herd/angular-client';
-import { FilterTemplateComponent } from 'app/data-objects/components/filter-template/filter-template.component';
-import { Observable } from 'rxjs/Observable';
-import { merge } from 'rxjs/observable/merge';
+import { merge } from 'rxjs';
 import { pairwise } from 'rxjs/operators';
 
 @Component({
@@ -145,7 +140,7 @@ export class PartitionFilterComponent implements OnInit, OnChanges {
         } else {
             Object.keys(this.partitionFilterForm.controls).forEach((key) => {
                 this.partitionFilterForm.controls[key].markAsTouched();
-            })
+            });
         }
     }
 
@@ -169,14 +164,14 @@ export class PartitionFilterComponent implements OnInit, OnChanges {
             if (minCtrl.value && maxCtrl.value) {
                 // if we have min and max values set check to make sure that the min value is less than the max
                 if (minCtrl.value > maxCtrl.value) {
-                    retval = { ...retval, rangeStartTooLarge: 'Min value must be smaller than max value.' }
+                    retval = { ...retval, rangeStartTooLarge: 'Min value must be smaller than max value.' };
                 }
                 // if we only have 1 value for min or max let them know that you have to send both
             } else if (minCtrl.value || maxCtrl.value) {
-                retval = { ...retval, fullRangeRequired: 'Min and Max values are required' }
+                retval = { ...retval, fullRangeRequired: 'Min and Max values are required' };
             } else {
                 // this is the case that we have no values at all.
-                retval = { ...retval, valueRequired: 'Must enter a partition value set or min value max value set.' }
+                retval = { ...retval, valueRequired: 'Must enter a partition value set or min value max value set.' };
             }
         }
 
@@ -187,10 +182,10 @@ export class PartitionFilterComponent implements OnInit, OnChanges {
         let tempTitle = '';
         if (this.filter) {
             if (this.filter.partitionValues) {
-                tempTitle = `${this.filter.partitionKey}: ${this.filter.partitionValues.join(',')}`
+                tempTitle = `${this.filter.partitionKey}: ${this.filter.partitionValues.join(',')}`;
             } else if (this.filter.partitionValueRange) {
                 tempTitle = `${this.filter.partitionKey}: ` +
-                    `${this.filter.partitionValueRange.startPartitionValue} - ${this.filter.partitionValueRange.endPartitionValue}`
+                    `${this.filter.partitionValueRange.startPartitionValue} - ${this.filter.partitionValueRange.endPartitionValue}`;
             }
         }
 

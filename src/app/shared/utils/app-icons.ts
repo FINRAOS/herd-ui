@@ -19,4 +19,4 @@ export default {
     watchIcon: '<i class=\'fa fa-eye\'></i>',
     gridOnIcon: '<i class=\'fa fa-th\'></i>',
     flowChartIcon: '<i class=\'fa fa-sitemap\'></i>'
-}
+};

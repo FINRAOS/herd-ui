@@ -14,37 +14,34 @@
 * limitations under the License.
 */
 import { BrowserModule } from '@angular/platform-browser';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import 'codemirror/mode/go/go'; // styles for codemirror
-import {
-  BASE_PATH, ApiModule, Configuration
-} from '@herd/angular-client';
-import { ConfigService } from 'app/core/services/config.service';
-import { AppInitService, appInitFactory } from 'app/core/services/app-init.service';
+import { ApiModule, BASE_PATH, Configuration } from '@herd/angular-client';
 import { CoreModule } from 'app/core/core.module';
 import { RouteReuseStrategy } from '@angular/router';
 import { CustomRouteReuseStrategy } from 'app/core/services/custom-route-reuse-strategy.service';
 import { CustomLocation } from 'app/core/services/custom-location.service';
 import { Location } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { HttpInterceptorModule } from 'ng-http-interceptor';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { environment } from '../environments/environment';
+import { HttpInterceptService } from './core/services/http-intercept.service';
+import { InlineSVGService } from '../../node_modules/ng-inline-svg/lib/inline-svg.service';
 
 export function appApiConfigFactory(): Configuration {
   return new Configuration();
 }
 
-export function restBasePathFactory(appConfig: ConfigService, apiConfig: Configuration): string {
-  if (appConfig.config.useBasicAuth && appConfig.config.basicAuthRestBaseUri) {
-    apiConfig.withCredentials = true;
-    return appConfig.config.basicAuthRestBaseUri;
+export function restBasePathFactory(apiConfig: Configuration): string {
+  apiConfig.withCredentials = !environment.useBasicAuth;
+  if (environment.useBasicAuth && environment.basicAuthRestBaseUri) {
+    return environment.basicAuthRestBaseUri;
+  } else {
+    return environment.restBaseUri;
   }
-
-  apiConfig.withCredentials = true;
-  return appConfig.config.restBaseUri;
 }
 
 @NgModule({
@@ -52,7 +49,6 @@ export function restBasePathFactory(appConfig: ConfigService, apiConfig: Configu
     AppComponent
   ],
   imports: [
-    HttpInterceptorModule,
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
@@ -62,12 +58,7 @@ export function restBasePathFactory(appConfig: ConfigService, apiConfig: Configu
     ApiModule.forRoot(appApiConfigFactory)
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitFactory,
-      deps: [AppInitService],
-      multi: true
-    },
+    HttpInterceptService,
     {
       provide: Configuration,
       useFactory: appApiConfigFactory,
@@ -76,7 +67,7 @@ export function restBasePathFactory(appConfig: ConfigService, apiConfig: Configu
     {
       provide: BASE_PATH,
       useFactory: restBasePathFactory,
-      deps: [ConfigService, Configuration]
+      deps: [Configuration]
     },
     {
       provide: RouteReuseStrategy,
@@ -84,8 +75,15 @@ export function restBasePathFactory(appConfig: ConfigService, apiConfig: Configu
     }, {
       provide: Location,
       useClass: CustomLocation
-    }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptService,
+      multi: true
+    },
+    InlineSVGService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

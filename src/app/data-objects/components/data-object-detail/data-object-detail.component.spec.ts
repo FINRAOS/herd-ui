@@ -16,24 +16,29 @@
 import { Action } from './../../../shared/components/side-action/side-action.component';
 import { StorageUnitsComponent } from './../storage-units/storage-units.component';
 import { LineageComponent } from './../lineage/lineage.component';
-import { RouterStub, ActivatedRouteStub } from './../../../../testing/router-stubs';
+import { ActivatedRouteStub, RouterStub } from './../../../../testing/router-stubs';
 import {
-  BusinessObjectFormatService, BusinessObjectDataService, BusinessObjectData, BusinessObjectFormat,
-  BusinessObjectDataVersions
+  BusinessObjectData,
+  BusinessObjectDataService,
+  BusinessObjectDataVersions,
+  BusinessObjectFormat,
+  BusinessObjectFormatService,
+  StorageUnitService
 } from '@herd/angular-client';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '../../../shared/shared.module';
 import { DataObjectDetailComponent, DataObjectDetailRequest } from './data-object-detail.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
+import { throwError } from 'rxjs/internal/observable/throwError';
 
 describe('DataObjectDetailComponent', () => {
   let component: DataObjectDetailComponent;
   let fixture: ComponentFixture<DataObjectDetailComponent>;
-  let spyBdefFormatApi, spydataApi;
+  let spyBdefFormatApi, spydataApi, spyStorageUnitService;
 
   const bdataRequest: DataObjectDetailRequest = {
     namespace: 'ns',
@@ -106,14 +111,14 @@ describe('DataObjectDetailComponent', () => {
         defaultValue: 'string',
         description: 'string'
       },
-      {
-        name: 'col',
-        type: 'string',
-        size: 'varchar',
-        required: true,
-        defaultValue: 'string',
-        description: 'string'
-      }]
+        {
+          name: 'col',
+          type: 'string',
+          size: 'varchar',
+          required: true,
+          defaultValue: 'string',
+          description: 'string'
+        }]
     }
   };
 
@@ -136,20 +141,31 @@ describe('DataObjectDetailComponent', () => {
           provide: BusinessObjectFormatService,
           useValue: {
             businessObjectFormatGetBusinessObjectFormat:
-            jasmine.createSpy(
-              'businessObjectFormatGetBusinessObjectFormat'),
+              jasmine.createSpy(
+                'businessObjectFormatGetBusinessObjectFormat'),
             configuration: {}
           }
-        }, {
+        },
+        {
           provide: BusinessObjectDataService,
           useValue: {
             businessObjectDataGetBusinessObjectDataVersions:
-            jasmine.createSpy(
-              'businessObjectDataGetBusinessObjectDataVersions'),
+              jasmine.createSpy(
+                'businessObjectDataGetBusinessObjectDataVersions'),
             configuration: {}
           }
-        }, { provide: ActivatedRoute, useClass: ActivatedRouteStub },
-        { provide: Router, useClass: RouterStub }]
+        },
+        {
+          provide: StorageUnitService,
+          useValue: {
+            storageUnitGetStorageUnitDownloadCredential:
+              jasmine.createSpy(
+                'storageUnitGetStorageUnitDownloadCredential'),
+            configuration: {}
+          }
+        },
+        {provide: ActivatedRoute, useClass: ActivatedRouteStub},
+        {provide: Router, useClass: RouterStub}]
     })
       .compileComponents();
   }));
@@ -161,8 +177,8 @@ describe('DataObjectDetailComponent', () => {
 
 
   it('should populate versions and side actions on Init', async(inject([
-    BusinessObjectFormatService,
-    BusinessObjectDataService, ActivatedRoute],
+      BusinessObjectFormatService,
+      BusinessObjectDataService, ActivatedRoute],
     (
       bformatApi: BusinessObjectFormatService,
       dataApi: BusinessObjectDataService, activeRoute: ActivatedRouteStub) => {
@@ -189,10 +205,10 @@ describe('DataObjectDetailComponent', () => {
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
-        Observable.of(expectedFormat));
+        of(expectedFormat));
 
       spydataApi = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectDataVersions).and.returnValue(
-        Observable.of(expectedVersionsResult));
+        of(expectedVersionsResult));
 
       fixture.detectChanges();
       expect(component).toBeTruthy();
@@ -204,8 +220,8 @@ describe('DataObjectDetailComponent', () => {
     })));
 
   it('should populate versions, get previously stored data on Init', async(inject([
-    BusinessObjectFormatService,
-    BusinessObjectDataService, ActivatedRoute],
+      BusinessObjectFormatService,
+      BusinessObjectDataService, ActivatedRoute],
     (
       bformatApi: BusinessObjectFormatService,
       dataApi: BusinessObjectDataService, activeRoute: ActivatedRouteStub) => {
@@ -232,10 +248,10 @@ describe('DataObjectDetailComponent', () => {
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
-        Observable.of(expectedFormat));
+        of(expectedFormat));
 
       spydataApi = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectDataVersions).and.returnValue(
-        Observable.of(expectedVersionsResult));
+        of(expectedVersionsResult));
 
       fixture.detectChanges();
       expect(spyBdefFormatApi.calls.count()).toEqual(0);
@@ -244,8 +260,8 @@ describe('DataObjectDetailComponent', () => {
     })));
 
   it('should populate versions, get previously stored data with subpartitions and storage units', async(inject([
-    BusinessObjectFormatService,
-    BusinessObjectDataService, ActivatedRoute],
+      BusinessObjectFormatService,
+      BusinessObjectDataService, ActivatedRoute],
     (
       bformatApi: BusinessObjectFormatService,
       dataApi: BusinessObjectDataService, activeRoute: ActivatedRouteStub) => {
@@ -267,7 +283,7 @@ describe('DataObjectDetailComponent', () => {
           storage: {
             name: 'S3',
             storagePlatformName: 'PN',
-            attributes: [{ name: 'bucket.name', value: 'bucket.value' }]
+            attributes: [{name: 'bucket.name', value: 'bucket.value'}]
           },
           storageDirectory: {
             directoryPath: '/path'
@@ -292,10 +308,10 @@ describe('DataObjectDetailComponent', () => {
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
-        Observable.of(expectedFrmt));
+        of(expectedFrmt));
 
       spydataApi = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectDataVersions).and.returnValue(
-        Observable.of(expectedVersionsResult));
+        of(expectedVersionsResult));
 
       fixture.detectChanges();
       expect(spyBdefFormatApi.calls.count()).toEqual(1);
@@ -304,8 +320,8 @@ describe('DataObjectDetailComponent', () => {
     })));
 
   it('should populate versions, get previously stored data with subpartitions and no storage attributes', async(inject([
-    BusinessObjectFormatService,
-    BusinessObjectDataService, ActivatedRoute, Router],
+      BusinessObjectFormatService,
+      BusinessObjectDataService, ActivatedRoute, Router],
     (
       bformatApi: BusinessObjectFormatService,
       dataApi: BusinessObjectDataService, activeRoute: ActivatedRouteStub, router: RouterStub) => {
@@ -349,14 +365,14 @@ describe('DataObjectDetailComponent', () => {
             defaultValue: 'string',
             description: 'string'
           },
-          {
-            name: 'col',
-            type: 'string',
-            size: 'varchar',
-            required: true,
-            defaultValue: 'string',
-            description: 'string'
-          }],
+            {
+              name: 'col',
+              type: 'string',
+              size: 'varchar',
+              required: true,
+              defaultValue: 'string',
+              description: 'string'
+            }],
           partitions: [
             {
               name: 'testing-partition',
@@ -378,10 +394,10 @@ describe('DataObjectDetailComponent', () => {
 
       // Spy on the services
       spyBdefFormatApi = (<jasmine.Spy>bformatApi.businessObjectFormatGetBusinessObjectFormat).and.returnValue(
-        Observable.of(expectedFrmt));
+        of(expectedFrmt));
 
       spydataApi = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectDataVersions).and.returnValue(
-        Observable.of(expectedVersionsResult));
+        of(expectedVersionsResult));
 
       fixture.detectChanges();
       // for the ng init
@@ -395,6 +411,95 @@ describe('DataObjectDetailComponent', () => {
         expectedResult.namespace, expectedResult.businessObjectDefinitionName,
         expectedResult.businessObjectFormatUsage, expectedResult.businessObjectFormatFileType,
         expectedResult.businessObjectFormatVersion, expectedResult.partitionValue, 3,
-        { subPartitionValues: expectedResult.subPartitionValues.join(',') }]);
+        {subPartitionValues: expectedResult.subPartitionValues.join(',')}]);
     })));
+
+  it('should download file on click of the download link', async(inject([
+    StorageUnitService], (storageUnitService: StorageUnitService) => {
+    const businessObjectData: BusinessObjectData = {
+      namespace: 'ns',
+      businessObjectDefinitionName: 'dn',
+      businessObjectFormatUsage: 'PRC',
+      businessObjectFormatFileType: 'TXT',
+      businessObjectFormatVersion: 0,
+      partitionKey: 'TEST_KEY',
+      partitionValue: '09-01-2018',
+      version: 0
+    };
+
+    const storageEvent = {
+      directoryPath: 'test-file-directory/file-path',
+      filePath: 'test-file-directory/file-path/filename.txt',
+      storage: {
+        name: 'test name',
+        attributes: [
+          {
+            value: 'test-bucket-name'
+          }
+        ]
+      }
+    };
+    const awsCredential = {
+      awsCredential: {
+        awsAccessKey: 'awsAccessKey',
+        awsSecretKey: 'awsSecretKey',
+        awsSessionToken: 'awsSessionToken'
+      }
+    };
+
+    // Spy on the services
+    spyStorageUnitService = (<jasmine.Spy>storageUnitService.storageUnitGetStorageUnitDownloadCredential)
+      .and.returnValue(of(awsCredential));
+
+    component.businessObjectData = businessObjectData;
+    component.downloadAFile(storageEvent);
+    expect(component.presignedURL).toContain('https://test-bucket-name.s3.amazonaws.com/test-file-directory/file-path/filename.txt');
+    expect(spyStorageUnitService).toHaveBeenCalledTimes(1);
+
+  })));
+
+  it('should not download file if did not able get credential from herd', async(inject([
+    StorageUnitService], (storageUnitService: StorageUnitService) => {
+    const businessObjectData: BusinessObjectData = {
+      namespace: 'ns',
+      businessObjectDefinitionName: 'dn',
+      businessObjectFormatUsage: 'PRC',
+      businessObjectFormatFileType: 'TXT',
+      businessObjectFormatVersion: 0,
+      partitionKey: 'TEST_KEY',
+      partitionValue: '09-01-2018',
+      version: 0
+    };
+
+    const storageEvent = {
+      directoryPath: 'test-file-directory/file-path',
+      filePath: 'test-file-directory/file-path/filename.txt',
+      storage: {
+        name: 'test name',
+        attributes: [
+          {
+            value: 'test-bucket-name'
+          }
+        ]
+      }
+    };
+    const awsCredential = {
+      awsCredential: {
+        awsAccessKey: 'awsAccessKey',
+        awsSecretKey: 'awsSecretKey',
+        awsSessionToken: 'awsSessionToken'
+      }
+    };
+
+    // Spy on the services
+    spyStorageUnitService = (<jasmine.Spy>storageUnitService.storageUnitGetStorageUnitDownloadCredential)
+      .and.returnValue(throwError({status: 404}));
+
+    component.businessObjectData = businessObjectData;
+    component.downloadAFile(storageEvent);
+    expect(component.presignedURL).toBe(undefined);
+    expect(spyStorageUnitService).toHaveBeenCalledTimes(1);
+
+  })));
+
 });

@@ -13,11 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { TestBed, inject, async } from '@angular/core/testing';
-import {FormatResolverService, FormatResolverServiceData} from './format-resolver.service';
-import {Observable} from 'rxjs/Observable';
-import {ActivatedRouteSnapshot, Router, RouterStateSnapshot} from '@angular/router';
-import {RouterStub} from '../../testing/router-stubs';
+import { async, inject, TestBed } from '@angular/core/testing';
+import { FormatResolverService, FormatResolverServiceData } from './format-resolver.service';
+import { Observable } from 'rxjs';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+import { RouterStub } from '../../testing/router-stubs';
 
 describe('FormatResolverService', () => {
   beforeEach(() => {

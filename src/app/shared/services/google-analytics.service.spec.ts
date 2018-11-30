@@ -15,8 +15,9 @@
 */
 import { UserService } from 'app/core/services/user.service';
 import { GoogleAnalyticsService } from './google-analytics.service';
-import { TestBed, inject } from '@angular/core/testing';
-import { ConfigService } from 'app/core/services/config.service';
+import { inject, TestBed } from '@angular/core/testing';
+import { environment } from '../../../environments/environment';
+
 declare var window: any;
 let ga: jasmine.Spy;
 let warn: jasmine.Spy | Function;
@@ -32,17 +33,6 @@ describe('Google Analytics Service', () => {
           provide: UserService,
           useValue: {
             encryptedUserIdentifier: 'encryptedUserIdentifier'
-          }
-        },
-        {
-          provide: ConfigService,
-          useValue: {
-            config: {
-              trackAnalytics: true,
-              ga: {
-                trackingId: 'testId'
-              }
-            }
           }
         }
       ]
@@ -60,8 +50,9 @@ describe('Google Analytics Service', () => {
 
   describe('with trackAnalytics turned on', () => {
 
-    it('should initialize google analytics if trackAnalytics is set to true and trackingId exists', inject([GoogleAnalyticsService], () => {
-      expect(ga).toHaveBeenCalledWith('create', 'testId', 'auto');
+    it('should initialize google analytics if trackAnalytics is set to true and trackingId exists',
+      inject([GoogleAnalyticsService], (googleAnalyticsService: GoogleAnalyticsService) => {
+      expect(ga).toHaveBeenCalledWith('create', '{{TRACKING_ID}}', 'auto');
     }));
 
     it('should send data to google analytics', inject([GoogleAnalyticsService, UserService], (
@@ -80,12 +71,12 @@ describe('Google Analytics Service', () => {
         { 'dimension1': cu.encryptedUserIdentifier });
     }));
 
-  })
+  });
 
 
   describe('with trackAnalytics turned off', () => {
-    beforeEach( inject([ConfigService], (conf: ConfigService) => {
-      conf.config.trackAnalytics = false;
+    beforeEach( inject([], () => {
+      environment.trackAnalytics = false;
     }));
 
     it('should not initialize google analytics if trackAnalytics is not set or false', inject([GoogleAnalyticsService], () => {
@@ -109,6 +100,6 @@ describe('Google Analytics Service', () => {
       expect(warn).toHaveBeenCalledWith(`Google Analytics has not been configured for this deployment.
       Either trackAnalytics has not been set in the configuration.json or ga.trackingId has not been provided in the configuration.`);
     }));
-  })
+  });
 
 });

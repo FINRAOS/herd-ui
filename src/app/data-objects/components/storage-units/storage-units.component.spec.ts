@@ -15,8 +15,12 @@
 */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StorageUnitsComponent } from './storage-units.component';
-import { StorageUnit, Attribute } from '@herd/angular-client';
+import { Attribute, CurrentUserService, StorageUnit, UserAuthorizations } from '@herd/angular-client';
 import { By } from '@angular/platform-browser';
+import { AuthorizedDirective } from '../../../shared/directive/authorized/authorized.directive';
+import { UserService } from '../../../core/services/user.service';
+import { click } from '../../../shared/utils/click-helper';
+import { of } from 'rxjs/internal/observable/of';
 
 describe('StorageUnitsComponent', () => {
   let component: StorageUnitsComponent;
@@ -25,47 +29,71 @@ describe('StorageUnitsComponent', () => {
   const bucketAttr: Attribute = {
     name: 'bucket.name',
     value: 'test-bucket-name'
-  }
+  };
   const jdbcUrlAttr: Attribute = {
     name: 'jdbc.url',
     value: 'jdbc://testurl'
-  }
+  };
   const jdbcUserCredNameAttr: Attribute = {
     name: 'jdbc.user.credential.name',
     value: 'jdbcUserCredentialName'
-  }
-  const jdbcUserNameAttr: Attribute =         {
+  };
+  const jdbcUserNameAttr: Attribute = {
     name: 'jdbc.username',
     value: ''
-  }
+  };
   const randomAttr: Attribute = {
     name: 'random.attr.should.not.show',
     value: 'show not show'
-  }
+  };
 
 
-  const storageUnits: StorageUnit[] = [{
-    restoreExpirationOn: new Date(),
-    storageUnitStatus: 'ENABLED',
-    storage: {
-      name: 'Super Storage',
-      storagePlatformName: 'RDS3_Hybrid',
-      attributes: [
-        bucketAttr,
-        jdbcUrlAttr,
-        jdbcUserCredNameAttr,
-        jdbcUserNameAttr,
-        randomAttr
+  const storageUnits: StorageUnit[] = [
+    {
+      restoreExpirationOn: new Date(),
+      storageUnitStatus: 'ENABLED',
+      storage: {
+        name: 'Super Storage',
+        storagePlatformName: 'RDS3_Hybrid',
+        attributes: [
+          bucketAttr,
+          jdbcUrlAttr,
+          jdbcUserCredNameAttr,
+          jdbcUserNameAttr,
+          randomAttr
+        ]
+      },
+      storageDirectory: {
+        directoryPath: 'the/test/path'
+      },
+      storageFiles: [
+        {
+          filePath: 'protractorTest/randomfilepath/somefile.txt',
+          fileSizeBytes: 524,
+          rowCount: 1
+        }
       ]
-    },
-    storageDirectory: {
-      directoryPath: 'the/test/path'
     }
-  }];
+  ];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [StorageUnitsComponent]
+      declarations: [
+        StorageUnitsComponent,
+        AuthorizedDirective
+      ],
+      providers: [
+        UserService,
+        CurrentUserService,
+        {
+          provide: UserService,
+          useValue: {
+            user: of({
+              userId: 'test_user'
+            } as UserAuthorizations)
+          }
+        }
+      ]
     })
       .compileComponents();
   }));
@@ -73,10 +101,12 @@ describe('StorageUnitsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StorageUnitsComponent);
     component = fixture.componentInstance;
+    component.namespace = 'testnamesoace';
     component.storageUnits = storageUnits;
     fixture.detectChanges();
     expect(component).toBeDefined();
   });
+
   // TODO: Add checking for storageUnitStatus / Files sections
   it('should show proper storage unit details', () => {
     // Note: the way data is registered generally they won't all be showing at once
@@ -97,6 +127,15 @@ describe('StorageUnitsComponent', () => {
     // this should not be showing as it is not a defined attribute to show
     expect(storageUnitAttributesRoot.textContent).not.toContain(randomAttr.name);
     expect(storageUnitAttributesRoot.textContent).not.toContain(randomAttr.value);
+
+    // Verifying file is present and on click
+    const fileSection = fixture.debugElement.query(By.css('.files-loop')).nativeElement;
+    expect(fileSection.textContent).toContain(storageUnits[0].storageFiles[0].filePath);
+    expect(fileSection.textContent).toContain('0.51 kB');  // 524 converted to kb
+
+    // click the download files button to test its exist and clickable
+    click(fixture.debugElement.query(By.css('.btn-link')));
+
   });
 
   it('should show message when no storage units exist', () => {

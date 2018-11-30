@@ -1,26 +1,70 @@
 {
-    "baseUrlLocal": "http://localhost:4200",
-    "baseUrlNoPassword": "baseUrlNoPassword",
-    "baseUrl8443": "baseUrlNoPassword:8443",
-    "herdHost": "herdHost",
-    "herdHostSaucelab": "herdHostSaucelab",
-    "docTitlePrefix": "Herd-UI",
-    "homePage": "/",
-    "searchUrl": "/search",
-    "dataEntityDetailPath": "/data-entities",
-    "dataEntityBdefPath":"/data-entities/{namespace}/{businessObjectDefinitionName}",
-    "categoryDetailPath": "/categories/",
-    "formatPage": "/formats/",
-    "bdataListPath": "/data-objects/{namespace}/{definitionName}/{usage}/{fileType}/{version}",
-    "bdataDetailPath": "/data-objects/{namespace}/{definitionName}/{usage}/{fileType}/{formatVersion}/{partitionValue}/{dataVersion};{subPartitions}",
-    "sauceUser": "sauceUser",
-    "sauceKey": "sauceKey",
-    "loginUser": "loginUser",
-    "loginPwd": "loginPwd",
-    "noAccessUser": "noAccessUser",
-    "noAccessPassword": "noAccessPassword",
-    "sauceSeleniumAddress": "http://localhost:4445/wd/hub",
-    "authorization": {
-        "basicKey": "basicKey"
+  "baseUrlLocal": "http://localhost:4200",
+  "baseUrlNoPassword": "{{baseUrlNoPassword}}",
+  "baseUrl8443": "{{baseUrl8443}}",
+  "herdHost": "{{herdHost}}",
+  "herdHostSaucelab": "{{herdHostSaucelab}}",
+  "docTitlePrefix": "UDC",
+  "homePage": "/",
+  "searchUrl": "/search",
+  "dataEntityDetailPath": "/data-entities",
+  "dataEntityBdefPath":"/data-entities/{namespace}/{businessObjectDefinitionName}",
+  "categoryDetailPath": "/categories/",
+  "formatPage": "/formats/",
+  "bdataListPath": "/data-objects/{namespace}/{definitionName}/{usage}/{fileType}/{version}",
+  "bdataDetailPath": "/data-objects/{namespace}/{definitionName}/{usage}/{fileType}/{formatVersion}/{partitionValue}/{dataVersion};{subPartitions}",
+  "datamgtBucket": "{{datamgtBucket}}",
+  "datamgtTestBucket": "{{datamgtTestBucket}}",
+  "defaultPrefix": "",
+  "sauceUser": "{{sauceUser}}",
+  "sauceKey": "{{sauceKey}}",
+  "loginUser": "{{loginUser}}",
+  "loginPwd": "{{loginPwd}}",
+  "noAccessUser": "{{noAccessUser}}",
+  "noAccessPassword": "{{noAccessPassword}}",
+  "sauceSeleniumAddress": "{{sauceSeleniumAddress}}",
+  "authorization": {
+    "basicKey": "{{basicKey}}"
+  },
+  "dev": {
+    "host": "{{host}}",
+    "port": 5432,
+    "database": "{{database}}",
+    "user": "{{user}}",
+    "password": "{{password}}",
+    "ssl": true,
+    "poolSize": 5
+  },
+  "smes": [
+    {
+      "userId": "{{userId}}",
+      "fullName": "{{fullName}}",
+      "jobTitle": "{{jobTitle}}",
+      "phoneNumber": "{{phoneNumber}}",
+      "email": "{{email}}"
+    },
+    {
+      "userId": "{{userId}}",
+      "fullName": "{{fullName}}",
+      "jobTitle": "{{jobTitle}}",
+      "phoneNumber": "{{phoneNumber}}",
+      "email": "{{email}}"
     }
+  ],
+  "userRoles": {
+    "authorizedUserRoles": {
+      "securityRoles": [
+        "{{securityRoles}}"
+      ]
+    },
+    "UnAuthorizedUserRoles": {
+      "securityRoles": [
+        "{{securityRoles}}"
+      ]
+    }
+  },
+  "data_objects": {
+    "{{securityRolesAdmin}}": true,
+    "{{securityRolesTagOwner}}": true
+  }
 }

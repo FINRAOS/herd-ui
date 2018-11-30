@@ -13,13 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-const appConf = require('../../../../src/configuration.json');
 
 export default {
   description: 'Sample description text for testing purpose. Used for all description fields',
   searchBoxDescription: 'I can help you to find anything you want!',
-  searchHeading: appConf.brandHeader,
-  searchSubHeading: appConf.brandMotto,
   tagTypeCode1: function () {
       const tagTypeCode1 = {
         'code': 'Aa_Test1_CTGRY',
@@ -48,7 +45,7 @@ export default {
             'parentCode': ''
           }
         ]
-      }
+      };
       return tagTypeCode1;
     }
 
@@ -70,7 +67,7 @@ export default {
             'code': 'TYTA', 'displayName': 'Toyota', 'parentCode': ''
           }
         ]
-      }
+      };
       return tagTypeCode2;
     }
 
@@ -97,7 +94,7 @@ export default {
             'parentCode': 'SEDAN'
           }
         ]
-      }
+      };
       return tagTypeCode3;
     }
 
@@ -131,7 +128,7 @@ export default {
             'parentCode': ''
           }
         ]
-      }
+      };
       return tagTypeCode4;
     }
 
@@ -180,7 +177,7 @@ export default {
             'parentCode': ''
           }
         ]
-      }
+      };
       return tagTypeCode5;
     }
   ,
@@ -213,7 +210,7 @@ export default {
             'parentCode': ''
           }
         ]
-      }
+      };
       return tagTypeCode6;
     }
-}
+};

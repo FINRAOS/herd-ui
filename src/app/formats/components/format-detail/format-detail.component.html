@@ -54,7 +54,8 @@
             <div class="col">
               <div class="row sub-header-label">Description</div>
               <div class="row description-body" [innerHTML]="businessObjectFormatDetail && businessObjectFormatDetail.description">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua
               </div>
               <div class="row sub-header-label">Details</div>
               <div class="row">
@@ -96,26 +97,30 @@
                       <div class="row">
                         <div class="col-8"><b>Null Value:</b></div>
                         <div class="col-4">
-                          {{businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.nullValue || ' '}}
+                          {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
+                          businessObjectFormatDetail.schema.nullValue || ' '}}
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-8"><b>Delimiter:</b></div>
                         <div class="col-4">
-                          {{businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.delimiter || ' '}}
+                          {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
+                          businessObjectFormatDetail.schema.delimiter || ' '}}
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-8"><b>Escape Character:</b></div>
                         <div class="col-4">
-                          {{ businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.escapeCharacter ||
+                          {{ businessObjectFormatDetail && businessObjectFormatDetail.schema &&
+                          businessObjectFormatDetail.schema.escapeCharacter ||
                           ' '}}
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-8"><b>Partition Key Group:</b></div>
                         <div class="col-4">
-                          {{businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.partitionKeyGroup
+                          {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
+                          businessObjectFormatDetail.schema.partitionKeyGroup
                           || ' '}}
                         </div>
                       </div>
@@ -124,7 +129,8 @@
                     <div class="col-4 min-max-value">
                       <div class="row">
                         <div class="col-6"><b>Partition:</b></div>
-                        <div class="col-6">{{ businessObjectFormatDetail && businessObjectFormatDetail.partitionKey || ' '}}
+                        <div class="col-6">{{ businessObjectFormatDetail && businessObjectFormatDetail.partitionKey ||
+                          ' '}}
                         </div>
                       </div>
                       <div class="row">
@@ -151,11 +157,13 @@
                       <b>Retention type: </b>{{businessObjectFormatDetail && businessObjectFormatDetail.retentionType}}
                     </div>
                     <div class="col-4">
-                      <b>Retention period: </b> {{businessObjectFormatDetail && businessObjectFormatDetail.retentionPeriodInDays}}
+                      <b>Retention period: </b> {{businessObjectFormatDetail &&
+                      businessObjectFormatDetail.retentionPeriodInDays}}
                       days
                     </div>
                     <div class="col-4">
-                      <b>Record: </b> {{(businessObjectFormatDetail && businessObjectFormatDetail.recordFlag) ? 'Yes': 'No'}}
+                      <b>Record: </b> {{(businessObjectFormatDetail && businessObjectFormatDetail.recordFlag) ? 'Yes':
+                      'No'}}
                     </div>
                   </div>
                 </div>
@@ -228,10 +236,54 @@
           </span>
         </ng-template>
         <ng-template ngbTabContent>
-          <sd-schema-columns
-            [bdef]="businessObjectFormatDetail"
-            [content]="businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns">
+          <sd-schema-columns [bdef]="businessObjectFormatDetail" [content]="businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns">
           </sd-schema-columns>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle>
+          EXTERNAL INTERFACES
+          <span *ngIf="businessObjectFormatDetail && businessObjectFormatDetail.businessObjectFormatExternalInterfaces">
+            ({{businessObjectFormatDetail.businessObjectFormatExternalInterfaces &&
+            businessObjectFormatDetail.businessObjectFormatExternalInterfaces.length}})
+          </span>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <div class="row sub-header-label" id="externalInterfacesSubHeader">External Interfaces List
+            <ng-template #noExternalInterfaces class="unavailable-label">
+              <div>
+                <p>No external interfaces are associated with this format.</p>
+              </div>
+            </ng-template>
+          </div>
+          <div class="row external-interfaces-data" *ngIf="businessObjectFormatDetail && businessObjectFormatDetail.businessObjectFormatExternalInterfaces &&
+            businessObjectFormatDetail.businessObjectFormatExternalInterfaces.length;else noExternalInterfaces">
+            <div class="container columns-content" *ngIf="businessObjectFormatDetail.businessObjectFormatExternalInterfaces.length > 0">
+              <div class="list-group columns-detail" *ngFor="let ei of businessObjectFormatDetail.businessObjectFormatExternalInterfaces">
+                <div class="row list-group-item">
+                  <div class="col-3">
+                    <sd-ellipsis-overflow ellipsisContent="{{ei.externalInterfaceName}}"></sd-ellipsis-overflow>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab *ngIf="businessObjectFormatDetail && businessObjectFormatDetail.documentSchema">
+        <ng-template ngbTabTitle>
+          DOCUMENT SCHEMA
+        </ng-template>
+        <ng-template ngbTabContent>
+          <div class="card container document-schema">
+            <div class="card-block">
+              <div class="row">
+                <codemirror class="ace-editor" [(ngModel)]="businessObjectFormatDetail && businessObjectFormatDetail.documentSchema"
+                  [config]="documentSchemaConfig">
+                </codemirror>
+              </div>
+            </div>
+          </div>
         </ng-template>
       </ngb-tab>
     </ngb-tabset>

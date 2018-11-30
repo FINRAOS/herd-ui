@@ -13,10 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {browser, by} from 'protractor';
-import {Data} from './operations/data';
-import {DataObjectDetailPage} from './data-object-detail.po';
-import {BaseDetail} from './base-detail';
+import { browser, by } from 'protractor';
+import { Data } from './operations/data';
+import { DataObjectDetailPage } from './data-object-detail.po';
+import { BaseDetail } from './base-detail';
 
 const conf = require('./../../../config/conf.e2e.json');
 describe('data-objects detail', () => {

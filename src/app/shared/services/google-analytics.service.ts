@@ -15,7 +15,7 @@
 */
 import { UserService } from 'app/core/services/user.service';
 import { Injectable } from '@angular/core';
-import { ConfigService } from 'app/core/services/config.service';
+import { environment } from '../../../environments/environment';
 
 declare let ga: Function;
 
@@ -26,9 +26,9 @@ export class GoogleAnalyticsService {
    * This is first initialized in the app shell (app component)
    * therefore it is fine to put the ga('create') in its constructor.
    */
-  constructor(private cu: UserService, private conf: ConfigService) {
-    if ( this.conf.config.trackAnalytics && this.conf.config.ga.trackingId) {
-      ga('create', conf.config.ga.trackingId, 'auto');
+  constructor(private cu: UserService) {
+    if ( environment.trackAnalytics && environment.ga.trackingId) {
+      ga('create', environment.ga.trackingId, 'auto');
     } else {
       console.warn(`Google Analytics has not been configured for this deployment.
       Either trackAnalytics has not been set in the configuration.json or ga.trackingId has not been provided in the configuration.`);
@@ -36,7 +36,7 @@ export class GoogleAnalyticsService {
   }
 
   public sendPageViewData(url: string) {
-    if ( this.conf.config.trackAnalytics) {
+    if ( environment.trackAnalytics) {
         ga('set', 'page', url);
         ga('set', 'dimension1', this.cu.encryptedUserIdentifier );
         ga('set', 'userId', this.cu.encryptedUserIdentifier);
@@ -45,7 +45,7 @@ export class GoogleAnalyticsService {
   }
 
   public sendEventData(eventCategory: string, eventAction: string, eventLabel: string) {
-    if ( this.conf.config.trackAnalytics) {
+    if ( environment.trackAnalytics) {
      // ga send event with encrypted  user id. GA generated the term 'dimension1'. This cannot be modified.
       ga('send', 'event', eventCategory, eventAction , eventLabel,
        {'dimension1': this.cu.encryptedUserIdentifier});

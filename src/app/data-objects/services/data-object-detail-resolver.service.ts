@@ -15,12 +15,10 @@
 */
 import { DataObjectDetailRequest } from './../components/data-object-detail/data-object-detail.component';
 import { Injectable } from '@angular/core';
-import {
-  Router, Resolve, RouterStateSnapshot,
-  ActivatedRouteSnapshot, DetachedRouteHandle
-} from '@angular/router'
+import { ActivatedRouteSnapshot, DetachedRouteHandle, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { BusinessObjectData, BusinessObjectDataService } from '@herd/angular-client';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 export interface TitleResolverData {
@@ -80,12 +78,12 @@ export class DataObjectDetailResolverService implements Resolve<any> {
         this.request.dataObjectStatus,
         this.request.includeDataObjectStatusHistory,
         this.request.includeStorageUnitStatusHistory
-      ).map((response) => {
+      ).pipe(map((response) => {
         retval.businessObjectData = response;
         retval.title = 'Data Object - ' + [retval.businessObjectData.partitionKey,
         route.params.partitionValue, this.request.dataObjectVersion].join(' : ');
         return retval;
-      });
+      }));
 
     } else {
       // TODO: change to only return title as we already have the data if we are coming back to it.

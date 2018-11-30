@@ -88,8 +88,39 @@
                   </sd-ellipsis-overflow>
                 </div>
               </div>
+              <div
+                sdAuthorized
+                [securityFunction]="authMap.getBData"
+                [namespace]="bdef.namespace"
+                [namespacePermissions]="'READ'"
+                *ngIf="bdef.attributes && bdef.attributes.length > 0"
+                class="attributes">
+                <div class="inner-header">User-defined Attributes</div>
+                <div class="card container">
+                  <div class="card-block">
+                    <div class="row">
+                      <div class="col">Name</div>
+                      <div class="col">Value</div>
+                    </div>
+                    <div class="row" *ngFor="let attribute of bdef.attributes;">
+                      <div class="col-6">
+                        <sd-ellipsis-overflow tooltipDirection="bottom" [ellipsisContent]="attribute.name">
+                        </sd-ellipsis-overflow>
+                      </div>
+                      <div class="col-6">
+                        <sd-ellipsis-overflow tooltipDirection="bottom" [ellipsisContent]="attribute.value">
+                        </sd-ellipsis-overflow>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="bdef-formats">
-                <div sdAuthorized [securityFunction]="authMap.getBData" [namespace]="bdef.namespace" [namespacePermissions]="'READ'" [displayUnAuthorized]="'show'">
+                <div
+                  sdAuthorized
+                  [securityFunction]="authMap.getBData"
+                  [namespace]="bdef.namespace" [namespacePermissions]="'READ'"
+                  [displayUnAuthorized]="'show'">
                   <div class="inner-header">Recommended Format</div>
                   <div *ngIf="bdef.descriptiveBusinessObjectFormat; else noFormats">
                     <div class="row">
@@ -277,7 +308,7 @@
 
         <ng-template #nodeTemplate let-node>
           <svg:g *ngIf="node.type !== 'center'" id="center" class="node parent-child" ngx-tooltip [tooltipPlacement]="'top'" [tooltipType]="'tooltip'"
-            [tooltipTitle]="node.tooltip" [ngbPopover]="nodePopOver" placement="bottom" container="body">
+            [tooltipTitle]="node.tooltip" [ngbPopover]="nodePopOver" placement="bottom" container="body" triggers="manual" #p="ngbPopover" (click)="popupOpen(p)">
             <svg:rect [attr.width]="node.width" [attr.height]="node.height" [attr.fill]="node.color" />
             <svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="node.height / 2">{{node.label}}
             </svg:text>

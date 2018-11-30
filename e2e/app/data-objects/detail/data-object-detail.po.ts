@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {by, element} from 'protractor';
-import {BasePo} from '../../base/base.po';
+import { by, element } from 'protractor';
+import { BasePo } from '../../base/base.po';
 
 export class DataObjectDetailPage extends BasePo {
 
@@ -94,7 +94,7 @@ export class DataObjectDetailPage extends BasePo {
       dataVersion: cell.get(5),
       link: row.element(by.tagName('a'))
     };
-  };
+  }
 
   public getSingleStorageUnit(index) {
     const storageUnit = this.storageUnitsRepeater.get(index);
@@ -123,15 +123,19 @@ export class DataObjectDetailPage extends BasePo {
       filesSectionLabel: storageUnit.element(by.cssContainingText('left-blue-border h2', 'Files')),
       filesSectionColumnsLabel: storageUnit.all(by.className('list-group-item')).get(2),
       filesRepeater: storageUnit.all(by.css('.files-loop > .list-group-item')),
+      getFileDownloadIcon: (findx) => {
+        return storageUnit.all(by.css('.files-loop > .list-group-item')).get(findx).element('fa-cloud-download');
+      },
       getSingleFile: (fIndex) => {
         const file = storageUnit.all(by.css('.files-loop > .list-group-item')).get(fIndex);
         return {
           filePath: file.all(by.tagName('div')).get(0).getText(),
           fileSize: file.all(by.tagName('div')).get(1).getText(),
-          rowCount: file.all(by.tagName('div')).get(2).getText()
-        }
+          rowCount: file.all(by.tagName('div')).get(2).getText(),
+          fileDownloadIcon: file.all(by.tagName('div')).get(3)
+        };
       }
-    }
+    };
   }
 
   public dataObjectPage(dataObjectrow = 0) {

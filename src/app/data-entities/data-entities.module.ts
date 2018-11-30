@@ -18,8 +18,6 @@ import { DataEntitiesRoutingModule } from './data-entities-routing.module';
 import { DataEntityListComponent } from 'app/data-entities/components/data-entity-list/data-entity-list.component';
 import { DataEntityDetailComponent } from 'app/data-entities/components/data-entity-detail/data-entity-detail.component';
 import { SharedModule } from '../shared/shared.module';
-import { CodemirrorModule } from 'ng2-codemirror';
-import { ClipboardModule } from 'ngx-clipboard';
 import { TagsComponent } from './components/tags/tags.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';

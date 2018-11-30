@@ -18,10 +18,10 @@
  * Utilizes the data specified in jsonSchema.js and this.data.js
  */
 
-import {Data} from './data';
+import { Data } from './data';
 import * as schema from './../../../../../util/JsonSchema';
-import {DataManager} from './../../../../../util/DataManager';
-import {S3Manager} from '../../../../../util/S3Manager';
+import { DataManager } from './../../../../../util/DataManager';
+import { S3Manager } from '../../../../../util/S3Manager';
 
 export class Operations {
   public dataManager: DataManager;
@@ -37,7 +37,7 @@ export class Operations {
   /**
    * Generate the post requests for required data:
    * namespace / data provider / bdef / data-objects
-   * @returns {{options: *[]}}
+   * @return options: *[]
    */
 
   public postRequests () {
@@ -52,7 +52,7 @@ export class Operations {
       this.dataManager.DMOption(5, new schema.BusinessObjectDefinitionData().postUrl(), this.data.multipleStorageFiles),
       this.dataManager.DMOption(5, new schema.BusinessObjectDefinitionData().postUrl(), this.data.multipleStorageUnits),
     ]
-  }
+  };
 }
 
   public deleteRequests () {
@@ -98,13 +98,13 @@ export class Operations {
       this.dataManager.DMOption(4, new schema.DataProvider().deleteUrl(this.data.defaultDataProvider)),
       this.dataManager.DMOption(5, new schema.Namespace().deleteUrl(this.data.defaultNamespace))
     ]
-  }
+  };
 }
 
   public AWSRequests () {
   const retval = {
     options: []
-  }
+  };
 
   retval.options.push(this.aws.S3MOption(this.data.singleStorageFile.storageUnits[0].storageFiles[0].filePath, null));
 

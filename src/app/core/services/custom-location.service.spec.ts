@@ -14,9 +14,9 @@
 * limitations under the License.
 */
 import { CustomLocation } from './custom-location.service';
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { WINDOW } from 'app/core/core.module';
-import { LocationStrategy, Location } from '@angular/common';
+import { Location, LocationStrategy } from '@angular/common';
 
 describe('CustomLocationService', () => {
     beforeEach(() => {
@@ -44,7 +44,7 @@ describe('CustomLocationService', () => {
     });
 
     it('should return current history state', inject([WINDOW, Location], (w: { history: { state: any } }, loc: CustomLocation) => {
-        w.history.state = { test: 'testState' }
+        w.history.state = { test: 'testState' };
         expect(loc.getHistoryState()).toBe(w.history.state);
     }));
 
@@ -64,7 +64,7 @@ describe('CustomLocationService', () => {
             expect(locStrat.replaceState).toHaveBeenCalledWith(null, '', '/testPath', '?testQuery=true');
 
             // predefined state is not null so the replaceState will be done with that state to maintain it.
-            w.history.state = { test: 'testState' }
+            w.history.state = { test: 'testState' };
             loc.replaceState('/testPath');
             expect(locStrat.replaceState).toHaveBeenCalledWith({ test: 'testState' }, '', '/testPath', '');
         }));

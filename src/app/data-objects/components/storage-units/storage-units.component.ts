@@ -13,8 +13,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, Input, OnInit, ViewEncapsulation, OnChanges, SimpleChanges } from '@angular/core';
-import { StorageUnit } from '@herd/angular-client';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { NamespaceAuthorization, StorageUnit } from '@herd/angular-client';
+import { AuthMap } from '../../../shared/directive/authorized/authorized.directive';
 
 @Component({
   selector: 'sd-storage-units',
@@ -24,12 +25,22 @@ import { StorageUnit } from '@herd/angular-client';
 })
 export class StorageUnitsComponent implements OnInit {
 
+  @Input() namespace: string;
   @Input() storageUnits: StorageUnit[];
+  @Output() downloadAFile = new EventEmitter<object | any>();
   attributesToShow = ['bucket.name', 'jdbc.url', 'jdbc.username', 'jdbc.user.credential.name'];
+  authMap = AuthMap;
+  editDescriptiveContentPermissions = [
+    NamespaceAuthorization.NamespacePermissionsEnum.READ
+  ];
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  downloadFile(storageFile, storage, directoryPath) {
+    this.downloadAFile.emit({...storageFile, storage, directoryPath});
   }
 }
 

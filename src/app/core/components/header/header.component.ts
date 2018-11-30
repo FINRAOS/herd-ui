@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {Component, OnInit} from '@angular/core';
-import { ConfigService } from '../../services/config.service';
+import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'sd-header',
@@ -24,11 +24,11 @@ import { ConfigService } from '../../services/config.service';
 export class HeaderComponent implements OnInit {
   public helpUrl: string;
 
-  constructor(private config: ConfigService) {
+  constructor() {
   }
 
   ngOnInit() {
-    this.helpUrl = this.config.config.helpUrl;
+    this.helpUrl = environment.helpUrl;
   }
 
 }

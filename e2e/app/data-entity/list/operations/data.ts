@@ -25,6 +25,6 @@ export class Data {
       'namespace': this.defaultNamespace,
       'dataProviderName': this.defaultDataProvider,
       'businessObjectDefinitionName': this.defaultBdefName
-    }
+    };
   }
 }

@@ -13,11 +13,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {NoAuthFrameData, OverviewPage} from './overview.po';
-import {protractor} from 'protractor';
-import {Data} from './operations/data';
-import * as operations from './operations/operations'
-import {DataManager} from './../../../util/DataManager';
+import { NoAuthFrameData, OverviewPage } from './overview.po';
+import { protractor } from 'protractor';
+import { Data } from './operations/data';
+import * as operations from './operations/operations';
+import { DataManager } from './../../../util/DataManager';
 
 const conf = require('./../../../config/conf.e2e.json');
 
@@ -76,6 +76,10 @@ describe('Data Entity Overview Page', () => {
 
     await page.mouseEnterShim(await page.getRecommendedFormatIconTooltipText());
     await expect(page.format_tooltip.getText()).toEqual(expectedValues.recommendedFormat);
+
+    // There is attribute card present in the page
+    await expect(page.attributes.getText()).toContain('User-defined Attributes');
+
   });
 
   it('static header and data populated correctly for optional data', async () => {
@@ -86,6 +90,9 @@ describe('Data Entity Overview Page', () => {
     // validate no tags and no formats exist
     await expect((await page.noFormatsMessage).trim()).toEqual(expectedValues.noSchemaMessage);
     await expect((await page.noTagsMessage).trim()).toEqual(expectedValues.noTagsMessage);
+
+    // There are no atrubutes present, so it will not find nay
+    await expect(page.attributes.isPresent()).toBeFalsy();
   });
 
   describe('Lineage Display', () => {
@@ -168,7 +175,7 @@ describe('Data Entity Overview Page', () => {
 
       it('should edit the displayName', async () => {
         const expectedName = data.editBdefTestData().displayName
-          || data.editBdefTestData().businessObjectDefinitionName
+          || data.editBdefTestData().businessObjectDefinitionName;
         await expect((await page.getBdefTitle()).trim()).toEqual(expectedName);
         await page.editDisplayName(newDisplayName);
         await expect((await page.getBdefTitle()).trim()).toEqual(newDisplayName);
@@ -257,18 +264,16 @@ describe('Data Entity Overview Page', () => {
             .replace('{businessObjectDefinitionName}', data.bdefNoTagsNoSchema().businessObjectDefinitionName),
           conf.noAccessUser, conf.noAccessPassword);
 
-        // validate no tags and no formats exist
-        await expect(page.suggestionButton.isPresent()).toBeFalsy();
+        // Notice we are using isDisplayed here as the element will present but not displayed due to permission
+        await expect(page.suggestionButton.isDisplayed()).toBeFalsy();
       });
 
       it(' should not show suggestion button if there are no pending suggestion', async () => {
-        // without permissions to edit
         await page.navigateTo(_url
             .replace('{namespace}', namespace)
-            .replace('{businessObjectDefinitionName}', data.bdefTest().businessObjectDefinitionName),
-          conf.noAccessUser, conf.noAccessPassword);
+            .replace('{businessObjectDefinitionName}', data.bdefTest().businessObjectDefinitionName));
 
-        // validate no tags and no formats exist
+        // Notice we are using isPresent here as the element will not present at all
         await expect(page.suggestionButton.isPresent()).toBeFalsy();
       });
 
@@ -277,7 +282,6 @@ describe('Data Entity Overview Page', () => {
           .replace('{namespace}', namespace)
           .replace('{businessObjectDefinitionName}', data.bdefNoTagsNoSchema().businessObjectDefinitionName));
 
-        // validate no tags and no formats exist
         await expect((page.isDisplayedShim(page.suggestionButton))).toBeTruthy();
         await expect((page.suggestionButton.getText())).toEqual('review suggestion');
 
@@ -318,6 +322,3 @@ describe('Data Entity Overview Page', () => {
     await expect(page.getDescription()).not.toEqual('');
   }
 });
-
-
-

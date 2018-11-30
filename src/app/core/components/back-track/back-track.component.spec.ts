@@ -13,15 +13,15 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 
 import { BackTrackComponent } from './back-track.component';
 import { Injectable } from '@angular/core';
-import { ConfigService } from 'app/core/services/config.service';
-import { Router, PRIMARY_OUTLET } from '@angular/router';
+import { PRIMARY_OUTLET, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { Title, By } from '@angular/platform-browser';
-import { RouterStub, ActivatedRouteStub } from 'testing/router-stubs';
+import { By, Title } from '@angular/platform-browser';
+import { ActivatedRouteStub, RouterStub } from 'testing/router-stubs';
+import { environment } from '../../../../environments/environment';
 
 @Injectable()
 export class MockCustomLocation {
@@ -46,23 +46,21 @@ describe('BackTrackComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [],
-      providers: [{
-        provide: ConfigService,
-        useValue: { config: { docTitlePrefix: 'TST' } }
-      }, {
-        provide: Location, useClass: MockCustomLocation
-      }, {
-        provide: Title, useFactory: () => {
-          let fTitle = 'Initial';
-          return {
-            getTitle: jasmine.createSpy('getTitle').and.returnValue(fTitle),
-            setTitle: jasmine.createSpy('setTitle').and.callFake((t) => fTitle = t)
-          };
-        }
-      }, {
-        provide: Router,
-        useClass: RouterStub
-      }],
+      providers: [
+        {
+          provide: Location, useClass: MockCustomLocation
+        }, {
+          provide: Title, useFactory: () => {
+            let fTitle = 'Initial';
+            return {
+              getTitle: jasmine.createSpy('getTitle').and.returnValue(fTitle),
+              setTitle: jasmine.createSpy('setTitle').and.callFake((t) => fTitle = t)
+            };
+          }
+        }, {
+          provide: Router,
+          useClass: RouterStub
+        }],
       declarations: [BackTrackComponent]
     })
       .compileComponents();
@@ -86,7 +84,7 @@ describe('BackTrackComponent', () => {
 
   // happy path
   it('should set current title to data of current route and save previous route title',
-    inject([Router, Location, Title, ConfigService], (router: RouterStub, loc: Location, title: Title, app: ConfigService) => {
+    inject([Router, Location, Title], (router: RouterStub, loc: Location, title: Title) => {
 
       router.emitStart();
       // previous title with prefix
@@ -96,7 +94,7 @@ describe('BackTrackComponent', () => {
         resolvedData: {
           title: 'Test 1'
         }
-      }
+      };
       router.routerState.root.setChildren([]);
 
       router.emitEnd();
@@ -104,13 +102,13 @@ describe('BackTrackComponent', () => {
       expect(component.tempPreviousTitle).toBe('Initial');
       expect(component.currentTitle).toBe('Test 1');
       expect(component.previousTitle).toBe('Initial');
-      expect(title.setTitle).toHaveBeenCalledWith(app.config.docTitlePrefix + ' - Test 1');
+      expect(title.setTitle).toHaveBeenCalledWith(environment.docTitlePrefix + ' - Test 1');
       expect(((loc as any) as MockCustomLocation).mergeState)
-        .toHaveBeenCalledWith({ title: 'Test 1', previousTitle: 'Initial' });
+        .toHaveBeenCalledWith({title: 'Test 1', previousTitle: 'Initial'});
     }));
 
   it('should not show data or set previous title if ignorePreviousTitle is true',
-    inject([Router, Location, Title, ConfigService], (router: RouterStub, loc: Location, title: Title, app: ConfigService) => {
+    inject([Router, Location, Title], (router: RouterStub, loc: Location, title: Title) => {
       router.emitStart();
       // previous title with prefix
       expect(component.tempPreviousTitle).toBe('Initial');
@@ -126,13 +124,13 @@ describe('BackTrackComponent', () => {
       expect(component.tempPreviousTitle).toBe('Initial');
       expect(component.currentTitle).toBe('Test 1');
       expect(component.previousTitle).not.toBeDefined();
-      expect(title.setTitle).toHaveBeenCalledWith(app.config.docTitlePrefix + ' - Test 1');
+      expect(title.setTitle).toHaveBeenCalledWith(environment.docTitlePrefix + ' - Test 1');
       expect(((loc as any) as MockCustomLocation).mergeState)
-        .toHaveBeenCalledWith({ title: 'Test 1', previousTitle: undefined });
+        .toHaveBeenCalledWith({title: 'Test 1', previousTitle: undefined});
     }));
 
   it('should use history state for title data if it exists',
-    inject([Router, Location, Title, ConfigService], (router: RouterStub, loc: Location, title: Title, app: ConfigService) => {
+    inject([Router, Location, Title], (router: RouterStub, loc: Location, title: Title) => {
       router.emitStart();
       // previous title with prefix
       expect(component.tempPreviousTitle).toBe('Initial');
@@ -147,18 +145,18 @@ describe('BackTrackComponent', () => {
       mockLoc.state = {
         title: 'Previously Stored Title',
         previousTitle: 'Previously Stored Previous Title'
-      }
+      };
 
       router.emitEnd();
       // previous title without prefix
       expect(component.tempPreviousTitle).toBe('Initial');
       expect(component.currentTitle).toBe(mockLoc.state.title);
       expect(component.previousTitle).toBe(mockLoc.state.previousTitle);
-      expect(title.setTitle).toHaveBeenCalledWith(app.config.docTitlePrefix + ' - ' + mockLoc.state.title);
+      expect(title.setTitle).toHaveBeenCalledWith(environment.docTitlePrefix + ' - ' + mockLoc.state.title);
     }));
 
   it('should set current title to empty string when resovled data deson\'t exist',
-    inject([Router, Location, Title, ConfigService], (router: RouterStub, loc: Location, title: Title, app: ConfigService) => {
+    inject([Router, Location, Title], (router: RouterStub, loc: Location, title: Title) => {
       router.emitStart();
       // previous title with prefix
       expect(component.tempPreviousTitle).toBe('Initial');
@@ -168,13 +166,13 @@ describe('BackTrackComponent', () => {
       expect(component.tempPreviousTitle).toBe('Initial');
       expect(component.currentTitle).toBe('');
       expect(component.previousTitle).toBe('Initial');
-      expect(title.setTitle).toHaveBeenCalledWith(app.config.docTitlePrefix);
+      expect(title.setTitle).toHaveBeenCalledWith(environment.docTitlePrefix);
       expect(((loc as any) as MockCustomLocation).mergeState)
-        .toHaveBeenCalledWith({ title: '', previousTitle: 'Initial' });
+        .toHaveBeenCalledWith({title: '', previousTitle: 'Initial'});
     }));
 
   it('should process properly when excludeFromCaching is set',
-    inject([Router, Location, Title, ConfigService], (r: RouterStub, loc: MockCustomLocation, title: Title, app: ConfigService) => {
+    inject([Router, Location, Title], (r: RouterStub, loc: MockCustomLocation, title: Title) => {
 
       r.routerState.root.outlet = PRIMARY_OUTLET;
       r.routerState.root.testData = {
@@ -193,7 +191,7 @@ describe('BackTrackComponent', () => {
       // has historyState but doesn't have previousTitle defined;
       expect(component.tempPreviousTitle).toBe('');
 
-      loc.state = { previousTitle: 'someTitle' };
+      loc.state = {previousTitle: 'someTitle'};
       r.emitStart();
       // has historyState and previousTitle defined
       expect(component.tempPreviousTitle).toBe('someTitle');
@@ -206,14 +204,13 @@ describe('BackTrackComponent', () => {
       // uses history title
       expect(component.previousTitle).toBe('someTitle');
       // still properly sets title
-      expect(title.setTitle).toHaveBeenCalledWith(app.config.docTitlePrefix + ' - testExclude');
+      expect(title.setTitle).toHaveBeenCalledWith(environment.docTitlePrefix + ' - testExclude');
       // does not merge state
       expect(((loc as any) as MockCustomLocation).mergeState).not.toHaveBeenCalled();
 
       // make sure if no title exists it is set to empty string.
       r.routerState.root.testData = {
-        resolvedData: {
-        },
+        resolvedData: {},
         excludeFromCaching: true
       };
 
@@ -225,13 +222,13 @@ describe('BackTrackComponent', () => {
       // uses history title
       expect(component.previousTitle).toBe('someTitle');
       // still properly sets title
-      expect(title.setTitle).toHaveBeenCalledWith(app.config.docTitlePrefix);
+      expect(title.setTitle).toHaveBeenCalledWith(environment.docTitlePrefix);
       // does not merge state
       expect(((loc as any) as MockCustomLocation).mergeState).not.toHaveBeenCalled();
-    }))
+    }));
 
   it('should find primary route through a tree of snapshots',
-    inject([Router, Location, Title, ConfigService], (router: RouterStub, loc: Location, title: Title, app: ConfigService) => {
+    inject([Router, Location, Title], (router: RouterStub, loc: Location, title: Title) => {
       router.emitStart();
       // previous title with prefix
       expect(component.tempPreviousTitle).toBe('Initial');
@@ -242,7 +239,7 @@ describe('BackTrackComponent', () => {
         resolvedData: {
           title: 'notPrimary'
         }
-      }
+      };
       const fc = new ActivatedRouteStub();
       fc.outlet = PRIMARY_OUTLET;
       const l1 = new ActivatedRouteStub();
@@ -254,7 +251,7 @@ describe('BackTrackComponent', () => {
         resolvedData: {
           title: 'successfully found!'
         }
-      }
+      };
       const l3 = new ActivatedRouteStub();
       l3.outlet = 'notPrimary';
       l3.testData = nonPrimaryData;
@@ -266,8 +263,8 @@ describe('BackTrackComponent', () => {
       expect(component.tempPreviousTitle).toBe('Initial');
       expect(component.currentTitle).toBe('successfully found!');
       expect(component.previousTitle).toBe('Initial');
-      expect(title.setTitle).toHaveBeenCalledWith(app.config.docTitlePrefix + ' - successfully found!');
+      expect(title.setTitle).toHaveBeenCalledWith(environment.docTitlePrefix + ' - successfully found!');
       expect(((loc as any) as MockCustomLocation).mergeState)
-        .toHaveBeenCalledWith({ title: 'successfully found!', previousTitle: 'Initial' });
+        .toHaveBeenCalledWith({title: 'successfully found!', previousTitle: 'Initial'});
     }));
 });

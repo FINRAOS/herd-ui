@@ -13,10 +13,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import {FormatPage} from './format.po';
-import {browser} from 'protractor';
-import {Data} from './operations/data';
-import {DataManager} from './../../util/DataManager';
+import { FormatPage } from './format.po';
+import { browser } from 'protractor';
+import { Data } from './operations/data';
+import { DataManager } from './../../util/DataManager';
 
 const operations = require('./operations/operations');
 const data = new Data();
@@ -37,8 +37,9 @@ describe('Format page:', () => {
     noUserDefAttr: 'No user-defined attributes registered',
     schemaColsHeader: ['Name', 'Type', 'Size', 'Required?', 'Default Value Description'].join('\n'),
     partitionColsHeader: ['Name', 'Type', 'Size', 'Required?', 'Default Value', 'Description'].join('\n'),
-    noColsRegistered: 'No Columns Registered'
-  }
+    noColsRegistered: 'No Columns Registered',
+    externalInterfacesSubHeader: 'External Interfaces List'
+  };
 
   beforeEach(() => {
 
@@ -63,6 +64,12 @@ describe('Format page:', () => {
     format.businessObjectFormatUsage,
     format.businessObjectFormatFileType, version].join('/');
     await page.navigateTo(formatPageUrl + urlParams);
+
+    // validate document schema tab
+    await expect(page.documentSchemaTab.isDisplayed()).toBeTruthy();
+    await page.documentSchemaTab.click();
+    await expect(page.documentSchemaContainer.getText()).toEqual('1\n' + data.bformat2().documentSchema);
+
     await validate(format, 'TEST_1', 'TEST_2');
 
     // Partitions and other attributes message
@@ -76,6 +83,9 @@ describe('Format page:', () => {
     await expect(page.schemaColumnsHeader.getText()).toEqual(expectedValues.schemaColsHeader);
     await expect(page.schemaColumnsEmptyMessage.getText()).toEqual(expectedValues.noColsRegistered);
 
+    // validate external interfaces list
+    await page.externalInterfacesTab.click();
+    await expect(page.externalInterfacesSubHeader.getText()).toEqual(expectedValues.externalInterfacesSubHeader);
 });
 
   it('format with all data except partitions and version 1', async () => {
@@ -121,6 +131,7 @@ describe('Format page:', () => {
     format.businessObjectFormatUsage,
     format.businessObjectFormatFileType, version].join('/');
     await page.navigateTo(formatPageUrl + urlParams);
+    await expect(page.documentSchemaTab.isDisplayed()).toBeFalsy();
     await validate(format, 'TEST_1', '');
 
     // partition columns
@@ -166,7 +177,7 @@ describe('Format page:', () => {
       ['Partition:', format.partitionKey,
         'Min Value:', minValue,
         'Max Value:', maxValue].join('\n'));
-   }else {
+   } else {
        await expect(page.getDetailsGroup(2).getText()).toContain(
       ['Partition:', format.partitionKey,
         'Min Value:', minValue,
