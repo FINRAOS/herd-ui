@@ -37,7 +37,8 @@ describe('Format page:', () => {
     noUserDefAttr: 'No user-defined attributes registered',
     schemaColsHeader: ['Name', 'Type', 'Size', 'Required?', 'Default Value Description'].join('\n'),
     partitionColsHeader: ['Name', 'Type', 'Size', 'Required?', 'Default Value', 'Description'].join('\n'),
-    noColsRegistered: 'No Columns Registered'
+    noColsRegistered: 'No Columns Registered',
+    externalInterfacesSubHeader: 'External Interfaces List'
   };
 
   beforeEach(() => {
@@ -82,6 +83,9 @@ describe('Format page:', () => {
     await expect(page.schemaColumnsHeader.getText()).toEqual(expectedValues.schemaColsHeader);
     await expect(page.schemaColumnsEmptyMessage.getText()).toEqual(expectedValues.noColsRegistered);
 
+    // validate external interfaces list
+    await page.externalInterfacesTab.click();
+    await expect(page.externalInterfacesSubHeader.getText()).toEqual(expectedValues.externalInterfacesSubHeader);
 });
 
   it('format with all data except partitions and version 1', async () => {
