@@ -668,7 +668,7 @@ export class DataEntityDetailComponent implements OnInit {
         this.ddl = response.ddl;
       }, (error) => {
         this.ddlError = new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
-          'URL: ' + error.url, 'Info: ' + error.json().message);
+          'URL: ' + error.url, 'Info: ' + error.message);
       });
   }
 
