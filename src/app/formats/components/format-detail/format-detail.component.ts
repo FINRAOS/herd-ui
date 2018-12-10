@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { Action } from '../../../shared/components/side-action/side-action.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,11 +22,13 @@ import {
   BusinessObjectDataService,
   BusinessObjectDefinitionColumnService,
   BusinessObjectFormatService,
+  BusinessObjectFormatExternalInterfaceDescriptiveInformationService,
   StorageService
 } from '@herd/angular-client';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { AlertService, DangerAlert } from 'app/core/services/alert.service';
-import { finalize, flatMap, map, startWith } from 'rxjs/operators';
+import { AlertService, DangerAlert, SuccessAlert } from 'app/core/services/alert.service';
+import { catchError, finalize, flatMap, map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'sd-format-detail',
@@ -47,6 +49,11 @@ export class FormatDetailComponent implements OnInit {
   minPrimaryPartitionValue: any;
   maxPrimaryPartitionValue: any;
   formatVersions: Observable<number[]>;
+  externalInterfaceName = '';
+  externalInterfaceDisplayName = '';
+  externalInterfaceDescription = '';
+  externalInterfaceError: DangerAlert;
+  modalReference: NgbModalRef;
   private errorMessageNotFound = 'No data registered';
   private errorMessageAuthorization = 'Access Denied';
 
@@ -61,9 +68,12 @@ export class FormatDetailComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private alertService: AlertService,
+    private modalService: NgbModal,
     private businessObjectFormatApi: BusinessObjectFormatService,
     private businessObjectDefinitionColumnApi: BusinessObjectDefinitionColumnService,
     private businessObjectDataApi: BusinessObjectDataService,
+    private businessObjectFormatExternalInterfaceDescriptiveInformationApi: BusinessObjectFormatExternalInterfaceDescriptiveInformationService,
     private storageApi: StorageService,
     private alerter: AlertService,
     private router: Router
@@ -144,6 +154,47 @@ export class FormatDetailComponent implements OnInit {
       this.businessObjectDefinitionName,
       this.businessObjectFormatUsage,
       this.businessObjectFormatFileType, version]);
+  }
+
+  getExternalInterface(externalInterfaceName: string) {
+    this.businessObjectFormatExternalInterfaceDescriptiveInformationApi.defaultHeaders.append('skipAlert', 'true');
+    this.businessObjectFormatExternalInterfaceDescriptiveInformationApi
+      .businessObjectFormatExternalInterfaceDescriptiveInformationGetBusinessObjectFormatExternalInterface(
+        this.namespace,
+        this.businessObjectDefinitionName,
+        this.businessObjectFormatUsage,
+        this.businessObjectFormatFileType,
+        externalInterfaceName)
+      .pipe(
+        finalize(() => {
+          this.businessObjectFormatExternalInterfaceDescriptiveInformationApi.defaultHeaders.delete('skipAlert');
+        }),
+        catchError((error) => {
+          this.externalInterfaceError = new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
+            'URL: ' + error.url, 'Info: ' + error.message);
+          return error;
+        })
+      ).subscribe((response: any) => {
+      this.externalInterfaceDisplayName = response.externalInterfaceDisplayName;
+      this.externalInterfaceDescription = response.externalInterfaceDescription;
+    }, (error) => {
+      this.externalInterfaceError = new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
+        'URL: ' + error.url, 'Info: ' + error.message);
+    });
+  }
+
+  open(content: TemplateRef<any> | String, externalInterfaceName: string, windowClass?: string) {
+    this.externalInterfaceName = externalInterfaceName;
+    this.externalInterfaceDisplayName = '';
+    this.externalInterfaceDescription = 'Loading...';
+    this.getExternalInterface(externalInterfaceName);
+    // append the modal to the data-entity-detail container so when views are switched it goes away with that view.
+    this.modalReference = this.modalService.open(content, {windowClass: windowClass, size: 'lg', container: '.format-detail'});
+    return this.modalReference;
+  }
+
+  close() {
+    this.modalReference.close();
   }
 
   private getMinAndMaxPartitionValues() {

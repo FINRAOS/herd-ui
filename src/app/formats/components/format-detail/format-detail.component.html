@@ -261,8 +261,11 @@
             <div class="container columns-content" *ngIf="businessObjectFormatDetail.businessObjectFormatExternalInterfaces.length > 0">
               <div class="list-group columns-detail" *ngFor="let ei of businessObjectFormatDetail.businessObjectFormatExternalInterfaces">
                 <div class="row list-group-item">
-                  <div class="col-3">
+                  <div class="col-10">
                     <sd-ellipsis-overflow ellipsisContent="{{ei.externalInterfaceName}}"></sd-ellipsis-overflow>
+                  </div>
+                  <div class="col-2">
+                    <button class="btn btn-primary" (click)="open(extractExternalInterface, ei.externalInterfaceName, '')">View</button>
                   </div>
                 </div>
               </div>
@@ -306,4 +309,25 @@
       </ng-template>
     </ngb-tab>
   </ngb-tabset>
+</ng-template>
+
+<ng-template #extractExternalInterface let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title"> {{ externalInterfaceDisplayName }} </h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="externalInterfaceError" class="alert-danger">
+      <h4> {{ externalInterfaceError.title }} </h4>
+      <h6> {{ externalInterfaceError.subTitle }} </h6>
+      <p> {{ externalInterfaceError.text }} </p>
+    </div>
+    <div [hidden]="externalInterfaceError" class="physical-name"> Physical Name: {{ externalInterfaceName }} </div>
+    <div [hidden]="externalInterfaceError" class="description-body" [innerHTML]="externalInterfaceDescription"></div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="close()">Close</button>
+  </div>
 </ng-template>
