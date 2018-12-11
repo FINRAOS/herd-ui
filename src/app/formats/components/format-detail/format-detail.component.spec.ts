@@ -24,10 +24,11 @@ import {
   BusinessObjectDataService,
   BusinessObjectDefinitionColumnService,
   BusinessObjectFormatService,
+  BusinessObjectFormatExternalInterfaceDescriptiveInformationService,
   StorageService
 } from '@herd/angular-client';
 import { of, throwError } from 'rxjs';
-import { AlertService } from '../../../core/services/alert.service';
+import { AlertService, DangerAlert } from '../../../core/services/alert.service';
 import { SchemaColumnsComponent } from 'app/formats/components/schema-columns/schema-columns.component';
 import { AttributeDefinitionsComponent } from 'app/formats/components/attribute-definitions/attribute-definitions.component';
 import { ActivatedRouteStub } from 'testing/router-stubs';
@@ -39,6 +40,18 @@ describe('FormatDetailComponent', () => {
   let component: FormatDetailComponent;
   let fixture: ComponentFixture<FormatDetailComponent>;
   const activeRoute: ActivatedRouteStub = new ActivatedRouteStub();
+
+  const businessObjectFormatExternalInterfaceDescriptiveInformation = {
+    "businessObjectFormatExternalInterfaceKey": {
+      "namespace": "ns",
+      "businessObjectDefinitionName": "name",
+      "businessObjectFormatUsage": "SRC",
+      "businessObjectFormatFileType": "TXT",
+      "externalInterfaceName": "EXTERNAL_INTERFACE"
+    },
+    "externalInterfaceDisplayName": "External Interface Display Name",
+    "externalInterfaceDescription": "Description of the external interface."
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -125,7 +138,18 @@ describe('FormatDetailComponent', () => {
               jasmine.createSpy('businessObjectDefinitionColumnGetBusinessObjectDefinitionColumns')
           }
         },
-        {provide: ActivatedRoute, useValue: activeRoute}
+        {provide: ActivatedRoute, useValue: activeRoute},
+        {
+          provide: BusinessObjectFormatExternalInterfaceDescriptiveInformationService,
+          useValue: {
+            configuration: {},
+            defaultHeaders: new Headers(),
+            businessObjectFormatExternalInterfaceDescriptiveInformationGetBusinessObjectFormatExternalInterface: jasmine
+              .createSpy('businessObjectFormatExternalInterfaceDescriptiveInformationGetBusinessObjectFormatExternalInterface')
+              .and
+              .returnValue(of(businessObjectFormatExternalInterfaceDescriptiveInformation))
+          }
+        }
       ]
     })
       .compileComponents();
@@ -187,4 +211,40 @@ describe('FormatDetailComponent', () => {
 
         fixture.detectChanges();
       }));
+
+  it('should set external interface descriptive information when get external interface descriptive information is called', inject([BusinessObjectFormatExternalInterfaceDescriptiveInformationService],
+    (businessObjectFormatExternalInterfaceDescriptiveInformationApi: BusinessObjectFormatExternalInterfaceDescriptiveInformationService) => {
+      const businessObjectFormatExternalInterfaceDescriptiveInformationSpy = (businessObjectFormatExternalInterfaceDescriptiveInformationApi.businessObjectFormatExternalInterfaceDescriptiveInformationGetBusinessObjectFormatExternalInterface as jasmine.Spy);
+      businessObjectFormatExternalInterfaceDescriptiveInformationSpy.and.returnValue(of(businessObjectFormatExternalInterfaceDescriptiveInformation));
+      component.ngOnInit();
+      component.getExternalInterface('EXTERNAL_INTERFACE');
+      expect(component.externalInterfaceDisplayName).toEqual('External Interface Display Name');
+      expect(component.externalInterfaceDescription).toEqual('Description of the external interface.');
+      expect(component.externalInterfaceError).toEqual(undefined);
+      expect(businessObjectFormatExternalInterfaceDescriptiveInformationApi.defaultHeaders.get('skipAlert')).toBe(null);
+    }));
+
+  it('should set error details when get external interface descriptive information returns error', inject([BusinessObjectFormatExternalInterfaceDescriptiveInformationService],
+    (businessObjectFormatExternalInterfaceDescriptiveInformationApi: BusinessObjectFormatExternalInterfaceDescriptiveInformationService) => {
+      const businessObjectFormatExternalInterfaceDescriptiveInformationSpy = (businessObjectFormatExternalInterfaceDescriptiveInformationApi.businessObjectFormatExternalInterfaceDescriptiveInformationGetBusinessObjectFormatExternalInterface as jasmine.Spy);
+      businessObjectFormatExternalInterfaceDescriptiveInformationSpy.and.returnValue(throwError({
+        status: '500',
+        statusText: 'Internal Server Error',
+        url: 'theURL',
+        error: {
+          message: 'Stuff blew up'
+        }
+      }));
+      component.getExternalInterface('EXTERNAL_INTERFACE');
+      expect(component.externalInterfaceError).toEqual(new DangerAlert('HTTP Error: 500 Internal Server Error', 'URL: theURL', 'Info: Stuff blew up'));
+      expect(businessObjectFormatExternalInterfaceDescriptiveInformationApi.defaultHeaders.get('skipAlert')).toBe(null);
+    }));
+
+  it('should close current modal on close()', () => {
+    const modal = component.open('test modal close', 'EXTERNAL_INTERFACE');
+    spyOn(modal, 'close').and.callThrough();
+    component.close();
+    expect(modal.close).toHaveBeenCalled();
+  });
+
 });

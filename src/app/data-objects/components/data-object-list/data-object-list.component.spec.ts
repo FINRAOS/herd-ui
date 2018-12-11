@@ -252,7 +252,9 @@ describe('DataObjectListComponent', () => {
       status: '500',
       statusText: 'Internal Server Error',
       url: 'theDDLURL',
-      message: 'Stuff blew up'
+      error: {
+        message: 'Stuff blew up'
+      }
     }));
     const alertSpy = spyOn(a, 'alert');
     fixture.detectChanges();

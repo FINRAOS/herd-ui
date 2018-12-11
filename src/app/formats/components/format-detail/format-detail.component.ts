@@ -165,22 +165,16 @@ export class FormatDetailComponent implements OnInit {
         this.businessObjectFormatUsage,
         this.businessObjectFormatFileType,
         externalInterfaceName)
-      .pipe(
-        finalize(() => {
+      .pipe(finalize(() => {
           this.businessObjectFormatExternalInterfaceDescriptiveInformationApi.defaultHeaders.delete('skipAlert');
-        }),
-        catchError((error) => {
-          this.externalInterfaceError = new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
-            'URL: ' + error.url, 'Info: ' + error.message);
-          return error;
-        })
-      ).subscribe((response: any) => {
-      this.externalInterfaceDisplayName = response.externalInterfaceDisplayName;
-      this.externalInterfaceDescription = response.externalInterfaceDescription;
-    }, (error) => {
-      this.externalInterfaceError = new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
-        'URL: ' + error.url, 'Info: ' + error.message);
-    });
+      }))
+      .subscribe((response: any) => {
+        this.externalInterfaceDisplayName = response.externalInterfaceDisplayName;
+        this.externalInterfaceDescription = response.externalInterfaceDescription;
+      }, (error) => {
+        this.externalInterfaceError = new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
+          'URL: ' + error.url, 'Info: ' + error.error.message);
+      });
   }
 
   open(content: TemplateRef<any> | String, externalInterfaceName: string, windowClass?: string) {
@@ -248,7 +242,7 @@ export class FormatDetailComponent implements OnInit {
         } else if (error.url) {
           // be sure to show other errors if they occur.
           this.alerter.alert(new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
-                        'URL: ' + error.url, 'Info: ' + error.json().message));
+                        'URL: ' + error.url, 'Info: ' + error.error.message));
         }
       });
   }

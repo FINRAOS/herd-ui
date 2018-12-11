@@ -917,7 +917,7 @@ describe('DataEntityDetailComponent', () => {
     }));
 
 
-  it('should close current modal on cloes()', () => {
+  it('should close current modal on close()', () => {
     const modal = component.open('test modal close');
     spyOn(modal, 'close').and.callThrough();
     component.close();
@@ -1681,8 +1681,8 @@ describe('DataEntityDetailComponent', () => {
       status: '500',
       statusText: 'Internal Server Error',
       url: 'theDDLURL',
-      json: () => {
-        return {message: 'Stuff blew up'};
+      error: {
+        message: 'Stuff blew up'
       }
     }));
     component.getDDL();

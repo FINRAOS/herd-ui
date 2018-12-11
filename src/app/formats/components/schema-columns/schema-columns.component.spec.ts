@@ -115,7 +115,9 @@ describe('SchemaColumnsComponent', () => {
         status: '500',
         statusText: 'Internal Server Error',
         url: 'theDDLURL',
-        message: 'Stuff blew up'
+        error: {
+          message: 'Stuff blew up'
+        }
       }));
       // fixture.detectChanges() does not work as one of the 3rd party component try to read read only property
       component.getDDL(component.bdef);
@@ -130,7 +132,7 @@ describe('SchemaColumnsComponent', () => {
     expect(alertSpy).toHaveBeenCalledWith(new SuccessAlert('Success!', '', 'DDL Successfully copied to clipboard'));
   }));
 
-  it('should close current modal on cloes()', () => {
+  it('should close current modal on close()', () => {
     const modal = component.open('test modal close');
     spyOn(modal, 'close').and.callThrough();
     component.close();
