@@ -44,31 +44,31 @@ export const postRequests = function () {
             }, {
                 'order': 3,
                 'url': new schema.BusinessObjectDefinitions().postUrl(),
-                'body': data.bdefTest()
+                'body': data.bdefTest
             }, {
                 'order': 4,
                 'url': new schema.BusinessObjectFormats().postUrl(),
-                'body': data.businessObjectFormatTest()
+                'body': data.businessObjectFormatTest
             },
             {
                 'order': 5,
                 'url': new schema.ExternalInterfaces().postUrl(),
-                'body': data.externalInterfaceTest()
+                'body': data.externalInterfaceTest
             },
             {
               'order': 5,
               'url': new schema.ExternalInterfaces().postUrl(),
-              'body': data.externalInterfaceBadDescriptionTest()
+              'body': data.externalInterfaceBadDescriptionTest
             },
             {
                 'order': 6,
                 'url': new schema.BusinessObjectFormatExternalInterfaces().postUrl(),
-                'body': data.businessObjectFormatExternalInterfaceTest()
+                'body': data.businessObjectFormatExternalInterfaceTest
             },
             {
               'order': 6,
               'url': new schema.BusinessObjectFormatExternalInterfaces().postUrl(),
-              'body': data.businessObjectFormatInvalidExternalInterfaceTest()
+              'body': data.businessObjectFormatInvalidExternalInterfaceTest
             }
     ]
 
@@ -89,16 +89,19 @@ export const deleteRequests = function () {
                 'url': new schema.BusinessObjectFormats()
                     .deleteUrl(data.defaultNamespace, data.defaultBdef, data.defaultFormatUsage,
                       data.defaultFormatFileType, 0)
-            },{
+            },
+            {
                 'order': 2,
                 'url': new schema.ExternalInterfaces().deleteUrl(data.defaultExternalInterface)
-            },{
+            },
+            {
                 'order': 2,
                 'url': new schema.ExternalInterfaces().deleteUrl(data.invalidExternalInterface)
             },{
                 'order': 3,
                 'url': new schema.BusinessObjectDefinitions().deleteUrl(data.defaultNamespace, data.defaultBdef)
-            },{
+            },
+            {
                 'order': 4,
                 'url': new schema.Namespace().deleteUrl(data.defaultNamespace)
             },

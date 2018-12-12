@@ -26,52 +26,41 @@ export class Data {
     invalidExternalInterfaceDescription = 'Bad description #elseif';
     displayName = 'display name of ';
 
-    bdefTest() {
-        return {
-            'namespace': this.defaultNamespace,
-            'dataProviderName': this.defaultDataProvider,
-            'businessObjectDefinitionName': this.defaultBdef,
-            'description': this.description,
-            'displayName': this.displayName + this.defaultBdef
-        };
-    }
+    bdefTest = {
+        'namespace': this.defaultNamespace,
+        'dataProviderName': this.defaultDataProvider,
+        'businessObjectDefinitionName': this.defaultBdef,
+        'description': this.description,
+        'displayName': this.displayName + this.defaultBdef
+    };
 
-    businessObjectFormatTest() {
-        const befTestFormat = {
-            'namespace': this.defaultNamespace,
-            'businessObjectDefinitionName': this.defaultBdef,
-            'businessObjectFormatUsage': this.defaultFormatUsage,
-            'businessObjectFormatFileType': this.defaultFormatFileType,
-            'partitionKey': 'TEST_KEY',
-            'description': 'Nam et interdum quam, hendrerit varius magna.'
-        };
-        return befTestFormat;
-    }
+    businessObjectFormatTest = {
+        'namespace': this.defaultNamespace,
+        'businessObjectDefinitionName': this.defaultBdef,
+        'businessObjectFormatUsage': this.defaultFormatUsage,
+        'businessObjectFormatFileType': this.defaultFormatFileType,
+        'partitionKey': 'TEST_KEY',
+        'description': 'Nam et interdum quam, hendrerit varius magna.'
+    };
 
-    externalInterfaceTest() {
-      const externalInterface = {
+    externalInterfaceTest = {
         "externalInterfaceKey": {
           "externalInterfaceName": this.defaultExternalInterface
         },
         "displayName": this.displayName + this.defaultExternalInterface,
         "description": this.description
       };
-      return externalInterface;
-    }
 
-    externalInterfaceBadDescriptionTest() {
-      const externalInterface = {
+
+    externalInterfaceBadDescriptionTest = {
         "externalInterfaceKey": {
           "externalInterfaceName": this.invalidExternalInterface
       },
         "displayName": this.displayName + this.invalidExternalInterface,
         "description": this.invalidExternalInterfaceDescription
     };
-    return externalInterface;
-  }
 
-    businessObjectFormatExternalInterfaceTest() {
-      const businessObjectFormatExternalInterface = {
+    businessObjectFormatExternalInterfaceTest = {
         "businessObjectFormatExternalInterfaceKey": {
           "namespace": this.defaultNamespace,
           "businessObjectDefinitionName": this.defaultBdef,
@@ -79,12 +68,10 @@ export class Data {
           "businessObjectFormatFileType": this.defaultFormatFileType,
           "externalInterfaceName": this.defaultExternalInterface
         }
-      }
-    return businessObjectFormatExternalInterface;
-  }
+    };
 
-  businessObjectFormatInvalidExternalInterfaceTest() {
-    const businessObjectFormatExternalInterface = {
+
+  businessObjectFormatInvalidExternalInterfaceTest = {
       "businessObjectFormatExternalInterfaceKey": {
         "namespace": this.defaultNamespace,
         "businessObjectDefinitionName": this.defaultBdef,
@@ -92,8 +79,5 @@ export class Data {
         "businessObjectFormatFileType": this.defaultFormatFileType,
         "externalInterfaceName": this.invalidExternalInterface
       }
-    }
-    return businessObjectFormatExternalInterface;
-  }
-
+    };
 }
