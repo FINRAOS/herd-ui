@@ -212,6 +212,61 @@ export class BusinessObjectFormats {
   }
 }
 
+export class ExternalInterfaces {
+  public postUrl() {
+    return '/externalInterfaces';
+  }
+
+  public postBody(externalInterfaceName, displayName, discription) {
+    return {
+        'externalInterfaceKey': {
+          'externalInterfaceName': externalInterfaceName
+        },
+        'displayName': displayName,
+        'description': discription
+    };
+  }
+
+  public putUrl(externalInterfaceName) {
+    return '/externalInterfaces/' + externalInterfaceName;
+  }
+
+  public putBody(displayName, discription) {
+    return {
+        'displayName': displayName,
+        'description': discription
+    };
+  }
+
+  public deleteUrl(externalInterfaceName) {
+    return '/externalInterfaces/' + externalInterfaceName;
+  }
+}
+
+export class BusinessObjectFormatExternalInterfaces {
+  public postUrl() {
+    return '/businessObjectFormatExternalInterfaces';
+  }
+
+  public postBody(namespace, bdefName, formatUsage, fileType, externalInterfaceName) {
+    return {
+        'businessObjectFormatExternalInterfaceKey': {
+          'namespace': namespace,
+          'businessObjectDefinitionName': bdefName,
+          'businessObjectFormatUsage': formatUsage,
+          'businessObjectFormatFileType': fileType,
+          'externalInterfaceName': externalInterfaceName
+        }
+    };
+  }
+
+  public deleteUrl(namespace, bdefName, formatUsage, fileType, externalInterfaceName) {
+    return '/businessObjectFormatExternalInterfaces/namespaces/' + namespace + '/businessObjectDefinitionNames/' + bdefName
+      + "/businessObjectFormatUsage/" + formatUsage + "/businessObjectFormatFileType/" + fileType + "/externalInterfaceName/" + externalInterfaceName;
+  }
+}
+
+
 export class BusinessObjectDefinitionColumns {
   public postUrl() {
     return '/businessObjectDefinitionColumns';

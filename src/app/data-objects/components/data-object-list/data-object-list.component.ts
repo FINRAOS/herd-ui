@@ -209,7 +209,7 @@ export class DataObjectListComponent implements OnInit {
         this.ddl = response.ddl;
       }, (error) => {
         this.alertService.alert(new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
-          'URL: ' + error.url, 'Info: ' + error.message));
+          'URL: ' + error.url, 'Info: ' + error.error.message));
         modalReference.close();
       });
     return modalReference;
@@ -298,7 +298,7 @@ export class DataObjectListComponent implements OnInit {
             this.dt.emptyMessage = e.message;
           } else if (e.url) {
             this.alerter.alert(new DangerAlert('HTTP Error: ' + e.status + ' ' + e.statusText,
-              'URL: ' + e.url, 'Info: ' + e.message));
+              'URL: ' + e.url, 'Info: ' + e.error.message));
           }
           return of(([] as DataObjectRowData[]) as any);
         }),
@@ -315,7 +315,7 @@ export class DataObjectListComponent implements OnInit {
             return of(([] as DataObjectRowData[]) as any);
           } else if (e.url) {
             this.alerter.alert(new DangerAlert('HTTP Error: ' + e.status + ' ' + e.statusText,
-              'URL: ' + e.url, 'Info: ' + e.message));
+              'URL: ' + e.url, 'Info: ' + e.error.message));
           }
         }
       );
