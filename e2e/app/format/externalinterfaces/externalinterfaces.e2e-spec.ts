@@ -31,9 +31,9 @@ describe('External Interface Page', () => {
     externalInterfacesSubHeader: 'External Interfaces List',
     viewExternalInterfaceString: 'View',
     viewExternalInterfaceWindowTitle: data.displayName + data.defaultExternalInterface,
-    viewExternalInterfaceWindowPhysicalName: 'Physical Name: EI_PROTRACTOR_TEST_EI',
+    viewExternalInterfaceWindowPhysicalName: 'Physical Name: ' + data.defaultExternalInterface,
     viewExternalInterfaceWindowDescriptionBody: 'Sample description text for testing purpose. Used for all description fields',
-    viewExternalInterfaceErrorMessage: 'Info: Failed to evaluate velocity template in the external interface with name "EI_PROTRACTOR_TEST_EI_INVALID"'
+    viewExternalInterfaceErrorMessage: 'Info: Failed to evaluate velocity template in the external interface'
   };
 
   const namespace = data.defaultNamespace;

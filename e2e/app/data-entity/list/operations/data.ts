@@ -13,12 +13,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
+import utils from '../../../../util/utils';
+
+const uniqueId = utils.uniqueId();
 export class Data {
 
   description = 'Sample description text for testing purpose. Used for all description fields';
-  defaultDataProvider = 'BDEF_LIST_TEST_PROV';
-  defaultNamespace = 'BDEF_LIST_TEST_NS';
-  defaultBdefName = 'BDEF_LIST_TEST';
+  defaultDataProvider = 'BDEF_LIST_TEST_PROV' + uniqueId;
+  defaultNamespace = 'BDEF_LIST_TEST_NS' + uniqueId;
+  defaultBdefName = 'BDEF_LIST_TEST' + uniqueId;
 
   defaultBdef() {
       return {

@@ -13,12 +13,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
+import utils from '../../../../util/utils';
+
+const uniqueId = utils.uniqueId();
+
 export class Data {
   conf = require('./../../../../config/conf.e2e.json');
 
   description = 'Sample description text for testing purpose. Used for all description fields';
-  defaultDataProvider = 'HERD_UI_SME_PROV';
-  defaultNamespace = 'HERD_UI_SME_NS';
+  defaultDataProvider = 'HERD_UI_SME_PROV' + uniqueId;
+  defaultNamespace = 'HERD_UI_SME_NS' + uniqueId;
   userId1 = this.conf.smes[0].userId;
   userId2 = this.conf.smes[1].userId;
 
@@ -32,7 +37,7 @@ export class Data {
   badBdef () {
     return {
       'namespace': this.defaultNamespace,
-      'dataProviderName': 'HERD_UI_SME_PROV',
+      'dataProviderName': this.defaultDataProvider,
       'businessObjectDefinitionName': 'HERD_UI_SME_BAD'
     };
   }

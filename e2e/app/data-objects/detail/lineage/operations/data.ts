@@ -18,10 +18,12 @@
  * Use this data in specs.
  * @types {{}}
  */
+import utils from '../../../../../util/utils';
 
+const uniqueId = utils.uniqueId();
 export class Data {
-  public dataProviderName = 'DP_PROTRACTOR_TEST_DL42';
-  public namespace = 'NS_PROTRACTOR_TEST_DL42';
+  public dataProviderName = 'DP_PROTRACTOR_TEST_DL42' + uniqueId;
+  public namespace = 'NS_PROTRACTOR_TEST_DL42' + uniqueId;
   public defaultNamespace = this.namespace;
   public description = 'Sample description text for testing purpose. ' +
   'Used for data-objects detail screen to test lineage functionality';

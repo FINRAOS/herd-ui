@@ -18,8 +18,12 @@
  * Use this data in specs.
  * @types {{}}
  */
-const dataProviderName = 'DP_PROTRACTOR_TEST_DL_GLOBAL';
-const namespace = 'NS_PROTRACTOR_TEST_DL_GLOBAL';
+import utils from '../../../util/utils';
+
+const uniqueId = utils.uniqueId();
+
+const dataProviderName = 'DP_PROTRACTOR_TEST_DL_GLOBAL' + uniqueId;
+const namespace = 'NS_PROTRACTOR_TEST_DL_GLOBAL' + uniqueId;
 const description = 'This is sample desc text';
 
 // Add whitespace to the search term to avoid this

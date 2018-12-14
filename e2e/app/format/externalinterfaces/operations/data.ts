@@ -13,16 +13,19 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+import utils from '../../../../util/utils';
+
+const uniqueId = utils.uniqueId();
 
 export class Data {
     description = 'Sample description text for testing purpose. Used for all description fields';
-    defaultDataProvider = 'DP_PROTRACTOR_TEST_EI';
-    defaultNamespace = 'NS_PROTRACTOR_TEST_EI';
+    defaultDataProvider = 'DP_PROTRACTOR_TEST_EI' + uniqueId;
+    defaultNamespace = 'NS_PROTRACTOR_TEST_EI' + uniqueId;
     defaultBdef = 'BDEF_PROTRACTOR_TEST_EI';
     defaultFormatUsage = 'FMT_PROTRACTOR_TEST_EI';
     defaultFormatFileType = "TXT";
-    defaultExternalInterface = "EI_PROTRACTOR_TEST_EI";
-    invalidExternalInterface = "EI_PROTRACTOR_TEST_EI_INVALID";
+    defaultExternalInterface = "EI_PROTRACTOR_TEST_EI" + uniqueId;
+    invalidExternalInterface = "EI_PROTRACTOR_TEST_EI_INVALID" + uniqueId;
     invalidExternalInterfaceDescription = 'Bad description #elseif';
     displayName = 'display name of ';
 
