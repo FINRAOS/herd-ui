@@ -181,8 +181,8 @@ export class DataObjectDetailComponent implements OnInit {
           params: {
             Bucket: event.storage.attributes[0].value,
             SSEAlgorithm: 'AWSS3V4SignerType',
-          }
-
+          },
+          signatureVersion: 'v4'
         });
 
         // Get the pre signed url to download file

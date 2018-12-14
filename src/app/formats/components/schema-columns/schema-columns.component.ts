@@ -111,21 +111,15 @@ export class SchemaColumnsComponent implements OnInit {
     this.businessObjectFormatService.defaultHeaders.append('skipAlert', 'true');
 
     this.businessObjectFormatService.businessObjectFormatGenerateBusinessObjectFormatDdl(businessObjectFormatDdlRequest)
-      .pipe(
-        finalize(() => {
+      .pipe(finalize(() => {
           this.businessObjectFormatService.defaultHeaders.delete('skipAlert');
-        }),
-        catchError((error) => {
-          this.ddlError = new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
-            'URL: ' + error.url, 'Info: ' + error.message);
-          return error;
-        })
-      ).subscribe((response: any) => {
-      this.ddl = response.ddl;
-    }, (error) => {
-      this.ddlError = new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
-        'URL: ' + error.url, 'Info: ' + error.message);
-    });
+      }))
+      .subscribe((response: any) => {
+        this.ddl = response.ddl;
+      }, (error) => {
+        this.ddlError = new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
+          'URL: ' + error.url, 'Info: ' + error.error.message);
+      });
   }
 
   open(content: TemplateRef<any> | String, windowClass?: string) {

@@ -85,7 +85,7 @@ $description-body-color: #3c3c3c;
   }
   sd-external-interfaces-list {
     width: 100%;
-  } 
+  }
   sd-attributes {
     margin-left: 10px;
   }
@@ -109,6 +109,10 @@ $description-body-color: #3c3c3c;
 
   .min-max-value  {
         padding: 0px;
+  }
+
+  .btn {
+    font-size: .8125rem;
   }
 
 }
