@@ -25,14 +25,16 @@
  */
 import utils from '../../../../util/utils';
 
+const uniqueId = utils.uniqueId();
+
 export class Data {
   description = 'Sample description text for testing purpose. Used for all description fields';
-  defaultDataProvider = 'DP_PROTRACTOR_TEST_OV';
-  defaultNamespace = 'NS_PROTRACTOR_TEST_OV';
+  defaultDataProvider = 'DP_PROTRACTOR_TEST_OV' + uniqueId;
+  defaultNamespace = 'NS_PROTRACTOR_TEST_OV' + uniqueId;
 
   tagTypeCode() {
     const tagTypeCode = {
-      'code': 'Overview_TAG_CTGRY',
+      'code': 'Overview_TCclear' + uniqueId,
       'displayName': 'Overview Category',
       'order': '1',
       'tags': [

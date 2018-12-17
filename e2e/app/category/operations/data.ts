@@ -23,12 +23,14 @@
  * bdefShortDescription: exports.data.bdefShortDescription, bdefNoDescription: exports.data.bdefNoDescription,
  * bdefNoDisplayName: exports.data.bdefNoDisplayName}}
  */
+import utils from '../../../util/utils';
 
+const uniqueId = utils.uniqueId();
 export class Data {
 
   description = 'Sample description text for testing purpose. Used for all description fields';
-  defaultDataProvider = 'DP_PROTRACTOR_TEST_TAG';
-  defaultNamespace = 'NS_PROTRACTOR_TEST_TAG';
+  defaultDataProvider = 'DP_PROTRACTOR_TEST_TAG' + uniqueId;
+  defaultNamespace = 'NS_PROTRACTOR_TEST_TAG' + uniqueId;
 
   tagTypeCode() {
     const tagTypeCode = {

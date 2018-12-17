@@ -27,6 +27,7 @@ exports.config = {
     search: './e2e/**/search/**/*.e2e-spec.ts',
     category: './e2e/**/category/**/*.e2e-spec.ts',
     format: './e2e/**/format/**/*.e2e-spec.ts',
+    formatExternalInterfaces:'./e2e/**/format/externalInterfaces/*.e2e-spec.ts',
     dataEntityOverview: './e2e/**/data-entity/overview/**/*.e2e-spec.ts',
     dataEntitySme: './e2e/**/data-entity/sme/**/*.e2e-spec.ts',
     dataEntitySampleData: './e2e/**/data-entity/sampledata/**/*.e2e-spec.ts',
