@@ -72,7 +72,6 @@
     "@types/jasminewd2": "2.0.3",
     "@types/node": "10.10.1",
     "@types/selenium-webdriver": "3.0.10",
-    "aws-sdk": "2.322.0",
     "chalk": "2.4.1",
     "codelyzer": "4.4.4",
     "glob-fs": "0.1.7",
