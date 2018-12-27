@@ -35,7 +35,7 @@ export class Data {
   tagTypeCode() {
     const tagTypeCode = {
       'code': 'Overview_TCclear' + uniqueId,
-      'displayName': 'Overview Category',
+      'displayName': 'OC' + uniqueId,
       'order': '1',
       'tags': [
         {
