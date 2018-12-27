@@ -19,9 +19,13 @@
  * @types {{}}
  */
 
+import utils from '../../../../util/utils';
+
+const uniqueId = utils.uniqueId();
+
 export class Data {
-  public namespace = 'NS_PROTRACTOR_TEST_DL42';
-  public dataProviderName = 'DP_PROTRACTOR_TEST_DL42';
+  public namespace = 'NS_PROTRACTOR_TEST_DL42' + uniqueId;
+  public dataProviderName = 'DP_PROTRACTOR_TEST_DL42' + uniqueId;
   public description = 'Sample description text for testing purpose. Used for data-objects detail screen';
   public defaultDataProvider = this.dataProviderName;
   public defaultNamespace = this.namespace;
@@ -110,7 +114,8 @@ export class Data {
     'storageUnits': [{
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
-        'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=Dog'
+        'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g,'-') + "/" + this.defaultDataProvider.toLowerCase().replace(/_/g,'-') +
+        '/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=Dog'
       }
     }]
   };
@@ -127,8 +132,8 @@ export class Data {
     'storageUnits': [{
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
-        'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/src/txt/' +
-        'data-lineage-test/schm-v0/data-v0/test-key=Bird/market-key=TWO/employee-key=THREE/data-key=Four/firm-key=five'
+        'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g,'-') + "/" + this.defaultDataProvider.toLowerCase().replace(/_/g,'-') +
+        '/src/txt/data-lineage-test/schm-v0/data-v0/test-key=Bird/market-key=TWO/employee-key=THREE/data-key=Four/firm-key=five'
       }
     }]
   };
@@ -144,7 +149,8 @@ export class Data {
     'storageUnits': [{
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
-        'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=versionTest'
+        'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g,'-') + "/" + this.defaultDataProvider.toLowerCase().replace(/_/g,'-') +
+        '/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=versionTest'
       }
     }]
   };
@@ -161,7 +167,8 @@ export class Data {
     'storageUnits': [{
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
-        'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v1/test-key=versionTest'
+        'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g,'-') + "/" + this.defaultDataProvider.toLowerCase().replace(/_/g,'-')
+        +'/prc/orc/data-lineage-test/schm-v0/data-v1/test-key=versionTest'
       }
     }]
   };
@@ -177,7 +184,8 @@ export class Data {
     'storageUnits': [{
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
-        'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v2/test-key=versionTest'
+        'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g,'-') + "/" + this.defaultDataProvider.toLowerCase().replace(/_/g,'-') +
+        '/prc/orc/data-lineage-test/schm-v0/data-v2/test-key=versionTest'
       }
     }],
     'attributes': [{

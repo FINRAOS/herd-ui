@@ -13,13 +13,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+import utils from '../../../util/utils';
+
+const uniqueId = utils.uniqueId();
 
 export default {
   description: 'Sample description text for testing purpose. Used for all description fields',
   searchBoxDescription: 'I can help you to find anything you want!',
   tagTypeCode1: function () {
       const tagTypeCode1 = {
-        'code': 'Aa_Test1_CTGRY',
+        'code': 'Aa_Test1_CTGRY' + uniqueId,
         'displayName': 'Aa Test1 Category',
         'description': 'Test description 1',
         'order': '-50',
@@ -53,7 +56,7 @@ export default {
 
   tagTypeCode2: function () {
       const tagTypeCode2 = {
-        'code': 'Aa_Test2_CTGRY',
+        'code': 'Aa_Test2_CTGRY' + uniqueId,
         'displayName': 'Aa Test2 Category',
         'description': 'Test description 2',
         'order': '-49',
@@ -75,7 +78,7 @@ export default {
 
   tagTypeCode3: function () {
       const tagTypeCode3 = {
-        'code': 'Aa_Test3_CTGRY',
+        'code': 'Aa_Test3_CTGRY' + uniqueId,
         'displayName': 'Aa Test3 Category',
         'description': 'Test description 3',
         'order': '-48',
@@ -102,7 +105,7 @@ export default {
 
    tagTypeCode4: function () {
       const tagTypeCode4 = {
-        'code': 'Bb_Test4_CTGRY',
+        'code': 'Bb_Test4_CTGRY' + uniqueId,
         'displayName': 'Bb Test4 Category',
         'description': 'Test description 4',
         'order': '-47',
@@ -136,7 +139,7 @@ export default {
 
    tagTypeCode5: function () {
       const tagTypeCode5 = {
-        'code': 'bb_Test5_CTGRY',
+        'code': 'bb_Test5_CTGRY' + uniqueId,
         'displayName': 'Bb Test5 Category',
         'description': 'Test description 5',
         'order': '-46',
@@ -184,7 +187,7 @@ export default {
 
    tagTypeCode6: function () {
       const tagTypeCode6 = {
-        'code': 'Bb_Test6_CTGRY',
+        'code': 'Bb_Test6_CTGRY' + uniqueId,
         'displayName': 'Bb Test6 Category',
         'description': 'Test description 6',
         'order': '-45',

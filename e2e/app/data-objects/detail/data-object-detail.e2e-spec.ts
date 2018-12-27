@@ -25,7 +25,7 @@ describe('data-objects detail', () => {
   const data = new Data();
   const page = new DataObjectDetailPage();
 
-  describe('data-objects detail - heading / partition info / details', async () => {
+  describe('data-objects detail - heading / partition info / details', () => {
 
     beforeEach(async () => {
       await page.navigateTo(baseDetail.replaceUrlParams(data.versionTestV2, null, 0));

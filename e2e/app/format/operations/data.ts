@@ -18,12 +18,15 @@
  * Use this data in specs. DO NOT HARD-CODE DATA IN SPECS
  * **/
 const conf = require('./../../../config/conf.e2e.json');
+import utils from '../../../util/utils';
+
+const uniqueId = utils.uniqueId();
 
 export class Data {
   description = 'Sample description text for testing purpose. Used for all description fields';
   documentSchema = 'Sample document schema';
-  defaultDataProvider = 'DP_PROTRACTOR_TEST';
-  defaultNamespace = 'NS_PROTRACTOR_TEST';
+  defaultDataProvider = 'DP_PROTRACTOR_TEST' + uniqueId;
+  defaultNamespace = 'NS_PROTRACTOR_TEST' + uniqueId;
 
   bdef1() {
     return {

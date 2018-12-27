@@ -22,9 +22,10 @@ import {
 } from '@herd/angular-client';
 import utils from '../../../../util/utils';
 
+const uniqueId = utils.uniqueId();
 const conf = require('./../../../../config/conf.e2e.json');
-const defaultNamespace = utils.dataPrefix + 'NS_PROTRACTOR_TEST_DL';
-const defaultDataProvider = 'DP_PROTRACTOR_TEST_DL';
+const defaultNamespace = utils.dataPrefix + 'NS_PROTRACTOR_TEST_DL' + uniqueId;
+const defaultDataProvider = 'DP_PROTRACTOR_TEST_DL' + uniqueId;
 
 const bdef1: BusinessObjectDefinition = {
     'namespace': defaultNamespace,
@@ -123,8 +124,8 @@ const bdataWithSubPartitions: BusinessObjectDataCreateRequest = {
         'storageName': 'S3_MANAGED', 'storageDirectory': {
             // used this due to such a long string. should not be used otherwise
             // tslint:disable-next-line:max-line-length
-            'directoryPath': utils.dataPrefix +
-            'ns-protractor-test-dl/dp-protractor-test-dl/test-1/txt/data-object-list-test/schm-v0/data-v0/test-key=WithSubPartitions/'
+            'directoryPath': defaultNamespace.toLowerCase().replace(/_/g,'-') + "/" + defaultDataProvider.toLowerCase().replace(/_/g,'-') +
+            '/test-1/txt/data-object-list-test/schm-v0/data-v0/test-key=WithSubPartitions/'
               + conf.mmodule + '=BIRD/employee-key=CAT/data-key=ELEPHANT/firm-key=HIPPOPOTAMUS'
         }
     }]
@@ -143,8 +144,8 @@ const bdata1: BusinessObjectDataCreateRequest = {
     'storageUnits': [{
         'storageName': 'S3_MANAGED',
         'storageDirectory': {
-            'directoryPath': utils.dataPrefix +
-            'ns-protractor-test-dl/dp-protractor-test-dl/test-1/txt/data-object-list-test/schm-v0/data-v0/test-key=TEST_1'
+            'directoryPath': defaultNamespace.toLowerCase().replace(/_/g,'-') + "/" + defaultDataProvider.toLowerCase().replace(/_/g,'-') +
+            '/test-1/txt/data-object-list-test/schm-v0/data-v0/test-key=TEST_1'
         }
     }]
 };
@@ -161,8 +162,8 @@ const bdata2: BusinessObjectDataCreateRequest = {
     'attributes': [attr1],
     'storageUnits': [{
         'storageName': 'S3_MANAGED', 'storageDirectory': {
-            'directoryPath': utils.dataPrefix +
-            'ns-protractor-test-dl/dp-protractor-test-dl/test-1/txt/data-object-list-test/schm-v0/data-v0/test-key=TEST_2'
+            'directoryPath': defaultNamespace.toLowerCase().replace(/_/g,'-') + "/" + defaultDataProvider.toLowerCase().replace(/_/g,'-') +
+            '/test-1/txt/data-object-list-test/schm-v0/data-v0/test-key=TEST_2'
         }
     }]
 };
@@ -179,8 +180,8 @@ const bdata3: BusinessObjectDataCreateRequest = {
     'attributes': [attr2, attr3],
     'storageUnits': [{
         'storageName': 'S3_MANAGED', 'storageDirectory': {
-            'directoryPath': utils.dataPrefix +
-            'ns-protractor-test-dl/dp-protractor-test-dl/test-1/txt/data-object-list-test/schm-v0/data-v0/test-key=TEST_3'
+            'directoryPath': defaultNamespace.toLowerCase().replace(/_/g,'-') + "/" + defaultDataProvider.toLowerCase().replace(/_/g,'-') +
+            '/test-1/txt/data-object-list-test/schm-v0/data-v0/test-key=TEST_3'
         }
     }]
 };
