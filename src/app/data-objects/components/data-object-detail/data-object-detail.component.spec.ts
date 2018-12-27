@@ -23,7 +23,7 @@ import {
   BusinessObjectDataVersions,
   BusinessObjectFormat,
   BusinessObjectFormatService,
-  StorageUnitService
+  UploadAndDownloadService
 } from '@herd/angular-client';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -38,7 +38,7 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 describe('DataObjectDetailComponent', () => {
   let component: DataObjectDetailComponent;
   let fixture: ComponentFixture<DataObjectDetailComponent>;
-  let spyBdefFormatApi, spydataApi, spyStorageUnitService;
+  let spyBdefFormatApi, spydataApi, spyUploadAndDownloadService;
 
   const bdataRequest: DataObjectDetailRequest = {
     namespace: 'ns',
@@ -156,11 +156,11 @@ describe('DataObjectDetailComponent', () => {
           }
         },
         {
-          provide: StorageUnitService,
+          provide: UploadAndDownloadService,
           useValue: {
-            storageUnitGetStorageUnitDownloadCredential:
+            uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile:
               jasmine.createSpy(
-                'storageUnitGetStorageUnitDownloadCredential'),
+                'uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile'),
             configuration: {}
           }
         },
@@ -415,7 +415,7 @@ describe('DataObjectDetailComponent', () => {
     })));
 
   it('should download file on click of the download link', async(inject([
-    StorageUnitService], (storageUnitService: StorageUnitService) => {
+    UploadAndDownloadService], (uploadAndDownloadService: UploadAndDownloadService) => {
     const businessObjectData: BusinessObjectData = {
       namespace: 'ns',
       businessObjectDefinitionName: 'dn',
@@ -439,27 +439,29 @@ describe('DataObjectDetailComponent', () => {
         ]
       }
     };
-    const awsCredential = {
-      awsCredential: {
-        awsAccessKey: 'awsAccessKey',
-        awsSecretKey: 'awsSecretKey',
-        awsSessionToken: 'awsSessionToken'
-      }
+    const downloadBusinessObjectDataStorageFileSingleInitiationResponse = {
+      businessObjectDataStorageFileKey: null,
+      awsS3BucketName: 'ns',
+      awsAccessKey: 'awsAccessKey',
+      awsSecretKey: 'awsSecretKey',
+      awsSessionToken: 'awsSessionToken',
+      awsSessionExpirationTime: null,
+      preSignedUrl: 'https://test-bucket-name.s3.amazonaws.com/test-file-directory/file-path/filename.txt'
     };
 
     // Spy on the services
-    spyStorageUnitService = (<jasmine.Spy>storageUnitService.storageUnitGetStorageUnitDownloadCredential)
-      .and.returnValue(of(awsCredential));
+    spyUploadAndDownloadService = (<jasmine.Spy>uploadAndDownloadService.uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile)
+      .and.returnValue(of(downloadBusinessObjectDataStorageFileSingleInitiationResponse));
 
     component.businessObjectData = businessObjectData;
-    component.downloadAFile(storageEvent);
+    component.getPreSignedUrl(storageEvent);
     expect(component.presignedURL).toContain('https://test-bucket-name.s3.amazonaws.com/test-file-directory/file-path/filename.txt');
-    expect(spyStorageUnitService).toHaveBeenCalledTimes(1);
+    expect(spyUploadAndDownloadService).toHaveBeenCalledTimes(1);
 
   })));
 
-  it('should not download file if did not able get credential from herd', async(inject([
-    StorageUnitService], (storageUnitService: StorageUnitService) => {
+  it('should not download file if did not able get preSigned url from herd', async(inject([
+    UploadAndDownloadService], (uploadAndDownloadService: UploadAndDownloadService) => {
     const businessObjectData: BusinessObjectData = {
       namespace: 'ns',
       businessObjectDefinitionName: 'dn',
@@ -483,22 +485,15 @@ describe('DataObjectDetailComponent', () => {
         ]
       }
     };
-    const awsCredential = {
-      awsCredential: {
-        awsAccessKey: 'awsAccessKey',
-        awsSecretKey: 'awsSecretKey',
-        awsSessionToken: 'awsSessionToken'
-      }
-    };
 
     // Spy on the services
-    spyStorageUnitService = (<jasmine.Spy>storageUnitService.storageUnitGetStorageUnitDownloadCredential)
+    spyUploadAndDownloadService = (<jasmine.Spy>uploadAndDownloadService.uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile)
       .and.returnValue(throwError({status: 404}));
 
     component.businessObjectData = businessObjectData;
-    component.downloadAFile(storageEvent);
+    component.getPreSignedUrl(storageEvent);
     expect(component.presignedURL).toBe(undefined);
-    expect(spyStorageUnitService).toHaveBeenCalledTimes(1);
+    expect(spyUploadAndDownloadService).toHaveBeenCalledTimes(1);
 
   })));
 

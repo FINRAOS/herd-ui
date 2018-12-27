@@ -20,7 +20,6 @@
 
 import { Data } from './data';
 import * as schema from '../../../../util/JsonSchema';
-import { DataManager } from '../../../../util/DataManager';
 
 const data = new Data();
 

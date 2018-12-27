@@ -18,15 +18,18 @@
  * Use this data in specs.
  * @types {{}}
  */
+import utils from '../../../../../util/utils';
+
+const uniqueId = utils.uniqueId();
 export class Data {
   public description = 'Sample description text for testing purpose. Used for data-objects detail screen';
-  public defaultDataProvider = 'DP_PROTRACTOR_TEST_DL42';
-  public dataProviderName = 'DP_PROTRACTOR_TEST_DL42';
-  public namespace = 'NS_PROTRACTOR_TEST_DL42';
+  public defaultDataProvider = 'DP_PROTRACTOR_TEST_DL42' + uniqueId;
+  public dataProviderName = this.defaultDataProvider;
+  public namespace = 'NS_PROTRACTOR_TEST_DL42' + uniqueId;
   public defaultNamespace = this.namespace;
   public bdef = {
     'namespace': this.namespace,
-    'dataProviderName': 'DP_PROTRACTOR_TEST_DL42',
+    'dataProviderName': this.defaultDataProvider,
     'businessObjectDefinitionName': 'DATA_LINEAGE_TEST',
     'description': 'Description of the bdef',
     'displayName': 'DATA FOR TESTING BDATA DETAIL'

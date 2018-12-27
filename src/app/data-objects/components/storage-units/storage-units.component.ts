@@ -39,8 +39,8 @@ export class StorageUnitsComponent implements OnInit {
   ngOnInit() {
   }
 
-  downloadFile(storageFile, storage, directoryPath) {
-    this.downloadAFile.emit({...storageFile, storage, directoryPath});
+  downloadFile(storageFile, storage) {
+    this.downloadAFile.emit({...storageFile, storage});
   }
 }
 

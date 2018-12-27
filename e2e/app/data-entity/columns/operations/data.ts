@@ -24,10 +24,11 @@
  */
 import utils from '../../../../util/utils';
 
+const uniqueId = utils.uniqueId();
 export class Data {
     description = 'Sample description text for testing purpose. Used for all description fields';
-    defaultDataProvider = 'DP_PROTRACTOR_TEST_COL';
-    defaultNamespace = 'NS_PROTRACTOR_TEST_COL';
+    defaultDataProvider = 'DP_PROTRACTOR_TEST_COL' + uniqueId;
+    defaultNamespace = 'NS_PROTRACTOR_TEST_COL'+ uniqueId;
     bdefTestNoDFName = 'BDEF_TEST_NO_DF';
     bdefTestDFName = 'BDEF_TEST_DF_SCHEMA';
     bdefTestDFNoSchemaName = 'BDEF_TEST_DF_NO_SCHEMA';
