@@ -68,7 +68,7 @@
     "@angular/cli": "7.0.0-beta.4",
     "@angular/compiler-cli": "7.0.0-beta.7",
     "@angular/language-service": "7.0.0-beta.7",
-    "@types/jasmine": "2.8.8",
+    "@types/jasmine": "3.3.5",
     "@types/jasminewd2": "2.0.3",
     "@types/node": "10.10.1",
     "@types/selenium-webdriver": "3.0.10",
