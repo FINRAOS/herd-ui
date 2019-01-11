@@ -105,6 +105,7 @@ export class SchemaColumnsComponent implements OnInit {
       businessObjectDefinitionName: bdef.businessObjectDefinitionName,
       businessObjectFormatUsage: bdef.businessObjectFormatUsage,
       businessObjectFormatFileType: bdef.businessObjectFormatFileType,
+      businessObjectFormatVersion: bdef.businessObjectFormatVersion,
       outputFormat: BusinessObjectFormatDdlRequest.OutputFormatEnum.HIVE13DDL,
       tableName: bdef.businessObjectDefinitionName
     };
