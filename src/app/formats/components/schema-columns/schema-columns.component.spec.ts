@@ -18,7 +18,7 @@ import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing'
 import { SchemaColumnsComponent } from './schema-columns.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Headers } from '@angular/http';
-import { BusinessObjectFormatService } from '@herd/angular-client';
+import { BusinessObjectFormatDdlRequest, BusinessObjectFormatService } from '@herd/angular-client';
 import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/alert.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
@@ -85,13 +85,23 @@ describe('SchemaColumnsComponent', () => {
     (formatApi: BusinessObjectFormatService) => {
       const ddlSpy = (formatApi.businessObjectFormatGenerateBusinessObjectFormatDdl as jasmine.Spy);
       component.bdef = {
-        namespace: 'testNS',
-        businessObjectDefinitionName: 'testName',
-        businessObjectFormatUsage: 'testUSG',
-        businessObjectFormatFileType: 'testFileType',
-        partitionKey: 'testKey'
+        namespace: 'testNamespace1',
+        businessObjectDefinitionName: 'testBusinessObjectDefinitionName1',
+        businessObjectFormatUsage: 'testBusinessObjectFormatUsage1',
+        businessObjectFormatFileType: 'testBusinessObjectFormatFileType1',
+        businessObjectFormatVersion: 1,
+        partitionKey: 'testPartitionKey1'
       };
-      ddlSpy.and.returnValue(of({ddl: ddl}));
+      const businessObjectFormatDdlRequest = {
+        namespace: 'testNamespace1',
+        businessObjectDefinitionName: 'testBusinessObjectDefinitionName1',
+        businessObjectFormatUsage: 'testBusinessObjectFormatUsage1',
+        businessObjectFormatFileType: 'testBusinessObjectFormatFileType1',
+        businessObjectFormatVersion: 1,
+        outputFormat: BusinessObjectFormatDdlRequest.OutputFormatEnum.HIVE13DDL,
+        tableName: 'testBusinessObjectDefinitionName1'
+      };
+      ddlSpy.withArgs(businessObjectFormatDdlRequest).and.returnValue(of({ddl: ddl}));
       // fixture.detectChanges() does not work as one of the 3rd party component try to read read only property
       component.ngOnInit();
       component.getDDL(component.bdef);
@@ -103,15 +113,24 @@ describe('SchemaColumnsComponent', () => {
     (formatApi: BusinessObjectFormatService) => {
       const ddlSpy = (formatApi.businessObjectFormatGenerateBusinessObjectFormatDdl as jasmine.Spy);
       component.bdef = {
-        namespace: 'testNS',
-        businessObjectDefinitionName: 'testName',
-        businessObjectFormatUsage: 'testUSG',
-        businessObjectFormatFileType: 'testFileType',
-        partitionKey: 'testKey'
+        namespace: 'testNamespace2',
+        businessObjectDefinitionName: 'testBusinessObjectDefinitionName2',
+        businessObjectFormatUsage: 'testBusinessObjectFormatUsage2',
+        businessObjectFormatFileType: 'testBusinessObjectFormatFileType2',
+        businessObjectFormatVersion: 2,
+        partitionKey: 'testPartitionKey2'
       };
-
+      const businessObjectFormatDdlRequest = {
+        namespace: 'testNamespace2',
+        businessObjectDefinitionName: 'testBusinessObjectDefinitionName2',
+        businessObjectFormatUsage: 'testBusinessObjectFormatUsage2',
+        businessObjectFormatFileType: 'testBusinessObjectFormatFileType2',
+        businessObjectFormatVersion: 2,
+        outputFormat: BusinessObjectFormatDdlRequest.OutputFormatEnum.HIVE13DDL,
+        tableName: 'testBusinessObjectDefinitionName2'
+      };
       // Test error condition of ddl
-      ddlSpy.and.returnValue(throwError({
+      ddlSpy.withArgs(businessObjectFormatDdlRequest).and.returnValue(throwError({
         status: '500',
         statusText: 'Internal Server Error',
         url: 'theDDLURL',
@@ -121,7 +140,6 @@ describe('SchemaColumnsComponent', () => {
       }));
       // fixture.detectChanges() does not work as one of the 3rd party component try to read read only property
       component.getDDL(component.bdef);
-
       expect(component.ddlError).toEqual(new DangerAlert('HTTP Error: 500 Internal Server Error', 'URL: theDDLURL', 'Info: Stuff blew up'));
       expect(formatApi.defaultHeaders.get('skipAlert')).toBe(null);
     }));
