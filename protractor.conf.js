@@ -39,7 +39,7 @@ exports.config = {
     dataObjectDetailLineage: './e2e/**/data-objects/detail/lineage/**/*.e2e-spec.ts',
     dataObjectDetailStorageUnits: './e2e/**/data-objects/detail/storage-units/**/*.e2e-spec.ts'
   },
-  baseUrl: 'http://udc.dev.finra.org',
+  baseUrl: 'http://localhost:4200/',
   // suite: 'dataObjectDetailStorageUnits',
   capabilities: {
     'browserName': 'chrome',
