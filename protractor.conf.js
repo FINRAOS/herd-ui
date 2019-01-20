@@ -29,6 +29,7 @@ exports.config = {
     format: './e2e/**/format/**/*.e2e-spec.ts',
     formatExternalInterfaces:'./e2e/**/format/externalinterfaces/*.e2e-spec.ts',
     dataEntityOverview: './e2e/**/data-entity/overview/**/*.e2e-spec.ts',
+    dataEntityDocumentSchema: './e2e/**/data-entity/documentschema/**/*.e2e-spec.ts',
     dataEntitySme: './e2e/**/data-entity/sme/**/*.e2e-spec.ts',
     dataEntitySampleData: './e2e/**/data-entity/sampledata/**/*.e2e-spec.ts',
     dataEntityList: './e2e/**/data-entity/list/**/*.e2e-spec.ts',
