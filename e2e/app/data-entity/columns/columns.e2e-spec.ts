@@ -141,6 +141,7 @@ describe('Bdef Columns Page', () => {
         definition: ''
       };
 
+      await page.columnsTab.click();
       await expect(page.getRowData(0)).toEqual(expectedRow);
 
       await expect(page.canEditColumns()).toBe(false);
