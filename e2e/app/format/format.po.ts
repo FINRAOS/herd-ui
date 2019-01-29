@@ -70,7 +70,7 @@ export class FormatPage extends BasePo {
   // external interfaces
   public externalInterfacesSubHeader = element(by.id('externalInterfacesSubHeader'));
 
-  // schema columns
+  // document schema
   public documentSchemaContainer = element(by.className('document-schema'));
 
 
@@ -91,8 +91,4 @@ export class FormatPage extends BasePo {
   getDetailsGroup(index: number) {
     return this.overviewContainer.all(by.css('.details-sub > div')).get(index);
   }
-
-
-
-
 }

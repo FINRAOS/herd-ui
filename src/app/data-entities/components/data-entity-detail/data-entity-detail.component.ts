@@ -100,8 +100,8 @@ export interface DataEntityWithFormatColumn {
 })
 export class DataEntityDetailComponent implements OnInit {
   authMap = AuthMap;
-  editDescriptiveContentPermissions = [ NamespaceAuthorization.NamespacePermissionsEnum.WRITE,
-  NamespaceAuthorization.NamespacePermissionsEnum.WRITEDESCRIPTIVECONTENT ];
+  editDescriptiveContentPermissions = [NamespaceAuthorization.NamespacePermissionsEnum.WRITE,
+  NamespaceAuthorization.NamespacePermissionsEnum.WRITEDESCRIPTIVECONTENT];
   emptyColumnsMessage = '';
   sideActions: Action[];
   sampleDataFileUrl: string;
@@ -114,8 +114,18 @@ export class DataEntityDetailComponent implements OnInit {
   formats: BusinessObjectFormatKey[] = [];
   disableSampleData = true;
   descriptiveFormat: BusinessObjectFormat;
+  documentSchema: string;
   bdefColumns: DataEntityWithFormatColumn[] = [];
   smes: SubjectMatterExpert[];
+
+  documentSchemaConfig = {
+    lineNumbers: true,
+    lineWrapping: true,
+    mode: 'text/x-go',
+    readOnly: true,
+    scrollbarStyle: null,
+    fixedGutter: true
+  };
 
   // variables for lineage visualization
   @ViewChild('viewLineage') viewLineage: TemplateRef<any>;
@@ -224,7 +234,7 @@ export class DataEntityDetailComponent implements OnInit {
       if (event.text !== col.businessObjectDefinitionColumnName) {
         obs = this.businessObjectDefinitionColumnApi
           .businessObjectDefinitionColumnDeleteBusinessObjectDefinitionColumn(this.bdef.namespace,
-          this.bdef.businessObjectDefinitionName, col.businessObjectDefinitionColumnName).pipe(flatMap(createColumn));
+            this.bdef.businessObjectDefinitionName, col.businessObjectDefinitionColumnName).pipe(flatMap(createColumn));
       } else {
         // don't do anything at all if the names are the same.
         return;
@@ -257,7 +267,7 @@ export class DataEntityDetailComponent implements OnInit {
     if (col.description !== event.text) {
       this.businessObjectDefinitionColumnApi
         .businessObjectDefinitionColumnUpdateBusinessObjectDefinitionColumn(this.bdef.namespace,
-        this.bdef.businessObjectDefinitionName, col.businessObjectDefinitionColumnName, request)
+          this.bdef.businessObjectDefinitionName, col.businessObjectDefinitionColumnName, request)
         .pipe(finalize(() => { this.businessObjectDefinitionColumnApi.defaultHeaders.delete('skipAlert'); })).subscribe((resp) => {
           col.description = resp.description;
           this.alertService.alert(new SuccessAlert('Success!', '', 'Your column edit was saved.'));
@@ -277,15 +287,15 @@ export class DataEntityDetailComponent implements OnInit {
 
     this.businessObjectDefinitionApi
       .businessObjectDefinitionUpdateBusinessObjectDefinitionDescriptiveInformation(this.bdef.namespace,
-      this.bdef.businessObjectDefinitionName, bdefUpdateRequest)
+        this.bdef.businessObjectDefinitionName, bdefUpdateRequest)
       .subscribe(
-      (success) => {
-        this.bdef.displayName = event.text;
-        this.alertService.alert(new SuccessAlert('Success!', 'Your edit saved successfully.', ''));
-      },
-      (error) => {
-        this.alertService.alert(new DangerAlert('Failure!', 'Unable to save your edit. Try again or contact support team.', ''));
-      });
+        (success) => {
+          this.bdef.displayName = event.text;
+          this.alertService.alert(new SuccessAlert('Success!', 'Your edit saved successfully.', ''));
+        },
+        (error) => {
+          this.alertService.alert(new DangerAlert('Failure!', 'Unable to save your edit. Try again or contact support team.', ''));
+        });
   }
 
   saveDataEntityDescription(event: EditEvent) {
@@ -297,20 +307,20 @@ export class DataEntityDetailComponent implements OnInit {
 
     this.businessObjectDefinitionApi
       .businessObjectDefinitionUpdateBusinessObjectDefinitionDescriptiveInformation(this.bdef.namespace,
-      this.bdef.businessObjectDefinitionName, bdefUpdateRequest)
+        this.bdef.businessObjectDefinitionName, bdefUpdateRequest)
       .subscribe(
-      (success) => {
-        this.bdef.description = event.text;
-        this.alertService.alert(new SuccessAlert('Success!', 'Your edit saved successfully.', ''));
-      },
-      (error) => {
-        this.alertService.alert(new DangerAlert('Failure!', 'Unable to save your edit. Try again or contact support team.', ''));
-      });
+        (success) => {
+          this.bdef.description = event.text;
+          this.alertService.alert(new SuccessAlert('Success!', 'Your edit saved successfully.', ''));
+        },
+        (error) => {
+          this.alertService.alert(new DangerAlert('Failure!', 'Unable to save your edit. Try again or contact support team.', ''));
+        });
   }
 
-  suggestionApproved( event) {
+  suggestionApproved(event) {
     this.bdef.description = event.text;
-    if (this.businessObjectDefinitionDescriptionSuggestions.length <= 0 ) {
+    if (this.businessObjectDefinitionDescriptionSuggestions.length <= 0) {
       this.close();
     }
   }
@@ -343,6 +353,9 @@ export class DataEntityDetailComponent implements OnInit {
         this.bdef.descriptiveBusinessObjectFormat.businessObjectFormatVersion)
         .subscribe((response) => {
           this.descriptiveFormat = response;
+          if (this.descriptiveFormat && this.descriptiveFormat.documentSchema) {
+            this.documentSchema = this.descriptiveFormat.documentSchema;
+          }
           // Fetch the columns
           this.businessObjectDefinitionColumnApi.businessObjectDefinitionColumnSearchBusinessObjectDefinitionColumns(
             body, params.fields).subscribe((columns) => {
@@ -405,11 +418,11 @@ export class DataEntityDetailComponent implements OnInit {
       recommended ? { description: this.bdef.description, displayName: this.bdef.displayName } : {
         description: this.bdef.description,
         displayName: this.bdef.displayName,
-        descriptiveBusinessObjectFormat : {
+        descriptiveBusinessObjectFormat: {
           businessObjectFormatUsage: format.businessObjectFormatUsage,
           businessObjectFormatFileType: format.businessObjectFormatFileType
         }
-    };
+      };
 
     this.businessObjectDefinitionApi.businessObjectDefinitionUpdateBusinessObjectDefinitionDescriptiveInformation(
       format.namespace, format.businessObjectDefinitionName,
@@ -423,7 +436,7 @@ export class DataEntityDetailComponent implements OnInit {
         this.hierarchialGraph.nodes = [];
         this.hierarchialGraph.links = [];
         this.hierarchialGraph.loaded = false;
-        this.descriptiveFormat =  undefined;
+        this.descriptiveFormat = undefined;
         this.getBdefDetails();
         this.alertService.alert(new SuccessAlert('', 'Recommended Format changed successfully', '', 5
         ));
@@ -704,12 +717,12 @@ export class DataEntityDetailComponent implements OnInit {
             `Problem: ${error} : Try again later.`, 5));
           return of(error);
         })
-    ).subscribe((response: any) => {
-      this.businessObjectDefinitionDescriptionSuggestions = response && response.businessObjectDefinitionDescriptionSuggestions;
-    }, (error) => {
-      this.alertService.alert(new DangerAlert('Unable to get data entity description suggestions', '',
-        `Problem: ${error} : Try again later.`, 5));
-    });
+      ).subscribe((response: any) => {
+        this.businessObjectDefinitionDescriptionSuggestions = response && response.businessObjectDefinitionDescriptionSuggestions;
+      }, (error) => {
+        this.alertService.alert(new DangerAlert('Unable to get data entity description suggestions', '',
+          `Problem: ${error} : Try again later.`, 5));
+      });
 
   }
 
