@@ -47,7 +47,7 @@
     </div>
   </div>
   <div main-content>
-    <ngb-tabset [destroyOnHide]="false">
+    <ngb-tabset>
       <ngb-tab title="OVERVIEW" id="overview">
         <ng-template ngbTabContent>
           <div class="row tab-contents">
@@ -260,6 +260,22 @@
               </ng-template>
             </p-column>
           </p-dataTable>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab *ngIf="descriptiveFormat && descriptiveFormat.documentSchema">
+        <ng-template ngbTabTitle>
+          DOCUMENT SCHEMA
+        </ng-template>
+        <ng-template ngbTabContent>
+          <div class="card container document-schema">
+            <div class="card-block">
+              <div class="row">
+                <codemirror class="ace-editor" [(ngModel)]="documentSchema"
+                  [config]="documentSchemaConfig">
+                </codemirror>
+              </div>
+            </div>
+          </div>
         </ng-template>
       </ngb-tab>
     </ngb-tabset>
