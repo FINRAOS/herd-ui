@@ -115,6 +115,7 @@ export class DataEntityDetailComponent implements OnInit {
   disableSampleData = true;
   descriptiveFormat: BusinessObjectFormat;
   documentSchema: string;
+  documentSchemaUrl: string;
   bdefColumns: DataEntityWithFormatColumn[] = [];
   smes: SubjectMatterExpert[];
 
@@ -353,8 +354,9 @@ export class DataEntityDetailComponent implements OnInit {
         this.bdef.descriptiveBusinessObjectFormat.businessObjectFormatVersion)
         .subscribe((response) => {
           this.descriptiveFormat = response;
-          if (this.descriptiveFormat && this.descriptiveFormat.documentSchema) {
+          if (this.descriptiveFormat && (this.descriptiveFormat.documentSchema || this.descriptiveFormat.documentSchemaUrl)) {
             this.documentSchema = this.descriptiveFormat.documentSchema;
+            this.documentSchemaUrl = this.descriptiveFormat.documentSchemaUrl;
           }
           // Fetch the columns
           this.businessObjectDefinitionColumnApi.businessObjectDefinitionColumnSearchBusinessObjectDefinitionColumns(

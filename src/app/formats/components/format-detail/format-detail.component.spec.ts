@@ -91,6 +91,7 @@ describe('FormatDetailComponent', () => {
                 retentionPeriodInDays: 14,
                 recordFlag: 'no',
                 documentSchema: 'test document schema',
+                documentSchemaUrl: 'test document schema url',
                 schema: {
                   columns: [
                     {
@@ -197,6 +198,7 @@ describe('FormatDetailComponent', () => {
         expect(component.businessObjectFormatDetail.retentionPeriodInDays).toBe(14);
         expect(component.businessObjectFormatDetail.recordFlag).toBe('no');
         expect(component.businessObjectFormatDetail.documentSchema).toBe('test document schema');
+        expect(component.businessObjectFormatDetail.documentSchemaUrl).toBe('test document schema url');
       }));
 
   it('Min and Max primary partition function should handle partition values',

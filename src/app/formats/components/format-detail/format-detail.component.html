@@ -273,11 +273,24 @@
           </div>
         </ng-template>
       </ngb-tab>
-      <ngb-tab *ngIf="businessObjectFormatDetail && businessObjectFormatDetail.documentSchema">
+      <ngb-tab *ngIf="businessObjectFormatDetail && (businessObjectFormatDetail.documentSchema ||businessObjectFormatDetail.documentSchemaUrl)">
         <ng-template ngbTabTitle>
           DOCUMENT SCHEMA
         </ng-template>
         <ng-template ngbTabContent>
+          <div class="row tab-contents" *ngIf="businessObjectFormatDetail.documentSchemaUrl && businessObjectFormatDetail.documentSchemaUrl.length >0">
+            <div class="col-9">
+              <div class="sub-header-label">
+                Document Schema Url
+              </div>
+              <div>
+                <p>
+                  <sd-ellipsis-overflow [ellipsisContent]="businessObjectFormatDetail.documentSchemaUrl">
+                  </sd-ellipsis-overflow>
+                </p>
+              </div>
+            </div>
+          </div>
           <div class="card container document-schema">
             <div class="card-block">
               <div class="row">
