@@ -31,8 +31,20 @@ export class Data {
   defaultNamespace = 'NS_PROTRACTOR_TEST_SCHM' + uniqueId;
   bdefWithDocumentSchema = 'BDEF_TEST_WITH_DOC_SCHM';
   bdefNoDocumentSchema = 'BDEF_TEST_NO_DOC_SCHM';
+  bdefWithDocumentSchemaUrl = 'BDEF_TEST_WITH_DOC_SCHM_URL';
   documentSchema = 'Sample document schema';
+  documentSchemaUrl = 'Sample document schema url';
   displayName = 'display name of ';
+
+ bdefTestWithDocumentSchemaUrl() {
+    return {
+      'namespace': this.defaultNamespace,
+      'dataProviderName': this.defaultDataProvider,
+      'businessObjectDefinitionName': this.bdefWithDocumentSchemaUrl,
+      'description': this.description,
+      'displayName': this.displayName + this.bdefWithDocumentSchemaUrl
+    };
+  }
 
   bdefTestWithDocumentSchema() {
     return {
@@ -63,9 +75,25 @@ export class Data {
       'businessObjectFormatFileType': 'TXT',
       'partitionKey': 'TEST_KEY',
       'description': 'Nam et interdum quam, hendrerit varius magna.',
-      'documentSchema': this.documentSchema
+      'documentSchema': this.documentSchema,
+      'documentSchemaUrl': this.documentSchemaUrl,
     };
     return befTestDocumentSchemaFormat;
+  }
+
+  // put DF, contains document schema
+  bdefTestWithDocumentSchemaUrl_FORMAT() {
+    const befTestDocumentSchemaFormat = {
+        'namespace': this.defaultNamespace,
+        'businessObjectDefinitionName': this.bdefWithDocumentSchemaUrl,
+        'businessObjectFormatUsage': 'USG1',
+        'businessObjectFormatFileType': 'TXT',
+        'partitionKey': 'TEST_KEY',
+        'description': 'Nam et interdum quam, hendrerit varius magna.',
+        'documentSchema': this.documentSchema,
+        'documentSchemaUrl': this.documentSchemaUrl,
+    };
+      return befTestDocumentSchemaFormat;
   }
 
   // put DF, no schema columns or bdef columns

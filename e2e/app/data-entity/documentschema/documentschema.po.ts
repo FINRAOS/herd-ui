@@ -22,6 +22,12 @@ export class DocumentSchemaPage extends OverviewPage {
   // document schema
   public documentSchemaContainer = element(by.className('document-schema'));
 
+  public documentSchemaUrlContainer = element(by.css('.tab-contents > .col-9 > .sub-header-label'));
+  public documentSchemaUrlTxtContainer = element(by.css('.tab-contents > .col-9 p'));
+
+  get documentSchemaFormatTab(): ElementFinder {
+    return this._tabs.all(by.tagName('li')).get(3).element(by.tagName('a'));
+  }
   get documentSchemaTab(): ElementFinder {
     return this._tabs.all(by.tagName('li')).get(2).element(by.tagName('a'));
   }
