@@ -66,7 +66,7 @@ export class Data {
     };
   }
 
-  // put DF, contains document schemabformat2
+  // put DF, contains document schema
   bdefTestWithDocumentSchema_FORMAT() {
     const befTestDocumentSchemaFormat = {
       'namespace': this.defaultNamespace,

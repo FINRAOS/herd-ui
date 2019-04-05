@@ -50,8 +50,8 @@ describe('Bdef Document Schema Page', () => {
       await page.navigateTo(_url + '/' + namespace + '/' + data.bdefTestWithDocumentSchemaUrl().businessObjectDefinitionName);
       await page.documentSchemaTab.click();
       await expect((await page.documentSchemaTab.getText()).trim()).toBe(expectedValues.heading);
-     await expect(page.documentSchemaUrlContainer.getText()).toBe(expectedValues.documentSchemaUrl);
-    await expect(page.documentSchemaUrlTxtContainer.getText()).toBe(data.documentSchemaUrl);
+      await expect(page.documentSchemaUrlContainer.getText()).toBe(expectedValues.documentSchemaUrl);
+      await expect(page.documentSchemaUrlTxtContainer.getText()).toBe(data.documentSchemaUrl);
     });
 
    it('data entity detail with document schema url in format', async () => {
@@ -66,8 +66,8 @@ describe('Bdef Document Schema Page', () => {
              await expect(page.documentSchemaFormatTab.isDisplayed()).toBeTruthy();
              await page.documentSchemaFormatTab.click();
              await expect(page.documentSchemaContainer.getText()).toEqual('1\n' + data.bdefTestWithDocumentSchema_FORMAT().documentSchema);
-              await expect(page.documentSchemaUrlContainer.getText()).toBe(expectedValues.documentSchemaUrl);
-                 await expect(page.documentSchemaUrlTxtContainer.getText()).toBe(data.documentSchemaUrl);
+             await expect(page.documentSchemaUrlContainer.getText()).toBe(expectedValues.documentSchemaUrl);
+             await expect(page.documentSchemaUrlTxtContainer.getText()).toBe(data.documentSchemaUrl);
       });
 
 

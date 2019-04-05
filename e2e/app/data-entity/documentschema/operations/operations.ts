@@ -1,4 +1,4 @@
-0/*
+/*
  * Copyright 2018 herd-ui contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -61,7 +61,7 @@ export const postRequests = function () {
               'order': 4,
               'url': new schema.BusinessObjectFormats().postUrl(),
               'body': data.bdefTestWithDocumentSchemaUrl_FORMAT()
-            },
+      },
       {
         'order': 4,
         'url': new schema.BusinessObjectFormats().postUrl(),
@@ -95,7 +95,7 @@ export const putDescriptiveFormatRequests = function () {
               'body': new schema.BusinessObjectDefinitions().putDescriptiveInformation(data.bdefTestWithDocumentSchemaUrl_FORMAT().description,
                 data.bdefTestWithDocumentSchemaUrl().displayName, data.bdefTestWithDocumentSchemaUrl_FORMAT().businessObjectFormatUsage,
                 data.bdefTestWithDocumentSchemaUrl_FORMAT().businessObjectFormatFileType)
-            }
+       }
     ]
   };
   return setupOptions;
@@ -121,7 +121,7 @@ export const clearDescriptiveFormatRequests = function () {
               'url': new schema.BusinessObjectDefinitions().updateDescriptiveInformationUrl(data.defaultNamespace,
                 data.bdefWithDocumentSchemaUrl),
               'body': {}
-            }
+       }
     ]
   };
   return teardownOptions;
@@ -153,7 +153,7 @@ export const deleteRequests = function () {
               'url': new schema.BusinessObjectFormats()
                 .deleteUrl(data.bdefTestWithDocumentSchemaUrl().namespace, data.bdefTestWithDocumentSchemaUrl().businessObjectDefinitionName,
                   data.bdefTestWithDocumentSchema_FORMAT().businessObjectFormatUsage, data.bdefTestWithDocumentSchema_FORMAT().businessObjectFormatFileType, 0)
-            },
+       },
       {
         'order': 2,
         'url': new schema.BusinessObjectDefinitions().deleteUrl(data.defaultNamespace,
@@ -168,7 +168,7 @@ export const deleteRequests = function () {
               'order': 2,
               'url': new schema.BusinessObjectDefinitions().deleteUrl(data.defaultNamespace,
                 data.bdefTestWithDocumentSchemaUrl().businessObjectDefinitionName)
-            },
+      },
       {
         'order': 3,
         'url': new schema.Namespace().deleteUrl(data.defaultNamespace)
