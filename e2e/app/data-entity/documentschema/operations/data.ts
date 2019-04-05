@@ -82,8 +82,8 @@ export class Data {
   }
 
   // put DF, contains document schema
-    bdefTestWithDocumentSchemaUrl_FORMAT() {
-      const befTestDocumentSchemaFormat = {
+  bdefTestWithDocumentSchemaUrl_FORMAT() {
+    const befTestDocumentSchemaFormat = {
         'namespace': this.defaultNamespace,
         'businessObjectDefinitionName': this.bdefWithDocumentSchemaUrl,
         'businessObjectFormatUsage': 'USG1',
@@ -92,9 +92,9 @@ export class Data {
         'description': 'Nam et interdum quam, hendrerit varius magna.',
         'documentSchema': this.documentSchema,
         'documentSchemaUrl': this.documentSchemaUrl,
-      };
+    };
       return befTestDocumentSchemaFormat;
-    }
+  }
 
   // put DF, no schema columns or bdef columns
   bdefTestDFNoSchema_FORMAT() {

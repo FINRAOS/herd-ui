@@ -148,12 +148,12 @@ export const deleteRequests = function () {
           data.bdefTestDFNoSchema_FORMAT()
             .businessObjectFormatUsage, data.bdefTestDFNoSchema_FORMAT().businessObjectFormatFileType, 0)
       },
-       {
+      {
               'order': 1,
               'url': new schema.BusinessObjectFormats()
                 .deleteUrl(data.bdefTestWithDocumentSchemaUrl().namespace, data.bdefTestWithDocumentSchemaUrl().businessObjectDefinitionName,
                   data.bdefTestWithDocumentSchema_FORMAT().businessObjectFormatUsage, data.bdefTestWithDocumentSchema_FORMAT().businessObjectFormatFileType, 0)
-       },
+      },
       {
         'order': 2,
         'url': new schema.BusinessObjectDefinitions().deleteUrl(data.defaultNamespace,
