@@ -262,11 +262,25 @@
           </p-dataTable>
         </ng-template>
       </ngb-tab>
-      <ngb-tab *ngIf="descriptiveFormat && descriptiveFormat.documentSchema">
+      <ngb-tab *ngIf="descriptiveFormat && (descriptiveFormat.documentSchema || descriptiveFormat.documentSchemaUrl)">
         <ng-template ngbTabTitle>
           DOCUMENT SCHEMA
         </ng-template>
         <ng-template ngbTabContent>
+          <div class="row tab-contents" *ngIf="descriptiveFormat.documentSchemaUrl && descriptiveFormat.documentSchemaUrl.length > 0">
+            <div class="col-9">
+              <div class="schema-url-label sub-header-label">
+                Document Schema Url
+              </div>
+              <div>
+                <p class="schema-url-txt">
+                  <sd-ellipsis-overflow [ellipsisContent]="descriptiveFormat.documentSchemaUrl">
+                  </sd-ellipsis-overflow>
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div class="card container document-schema">
             <div class="card-block">
               <div class="row">

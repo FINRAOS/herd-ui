@@ -49,6 +49,12 @@ $button-hover-color: $table-header-color;
       margin-left: 6px;
     }
   }
+  .schema-url-label {
+        @include sub-header-label;
+        div:nth-child(2) {
+          margin-left: 6px;
+        }
+  }
   .description-body {
     margin-top: 20px;
     line-height: 1.25rem;

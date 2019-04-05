@@ -189,6 +189,7 @@ describe('DataEntityDetailComponent', () => {
     businessObjectFormatVersion: 1,
     partitionKey: 'TEST_KEY',
     documentSchema: 'test document schema',
+    documentSchemaUrl: 'test document schema url',
     schema: {
       columns: [{
         name: 'col',
@@ -544,6 +545,7 @@ describe('DataEntityDetailComponent', () => {
     expect(component.formats).toEqual(expectedFormats.businessObjectFormatKeys);
     expect(component.descriptiveFormat).toEqual(descriptiveFormat);
     expect(component.documentSchema).toEqual(descriptiveFormat.documentSchema);
+    expect(component.documentSchemaUrl).toEqual(descriptiveFormat.documentSchemaUrl);
     expect(component.bdefColumns).toEqual(expectedCols);
     // expect(component.bdefTags).toEqual(expectedBdefTags.businessObjectDefinitionTagKeys);
     // expect(component.hasTag).toEqual(true);
