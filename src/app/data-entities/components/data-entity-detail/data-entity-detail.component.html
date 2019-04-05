@@ -269,11 +269,11 @@
         <ng-template ngbTabContent>
           <div class="row tab-contents" *ngIf="descriptiveFormat.documentSchemaUrl && descriptiveFormat.documentSchemaUrl.length > 0">
             <div class="col-9">
-              <div class="sub-header-label">
+              <div class="schema-url-label sub-header-label">
                 Document Schema Url
               </div>
               <div>
-                <p>
+                <p class="schema-url-txt">
                   <sd-ellipsis-overflow [ellipsisContent]="descriptiveFormat.documentSchemaUrl">
                   </sd-ellipsis-overflow>
                 </p>
