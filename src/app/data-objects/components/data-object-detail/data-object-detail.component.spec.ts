@@ -35,7 +35,7 @@ import { of } from 'rxjs';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { throwError } from 'rxjs/internal/observable/throwError';
 
-describe('DataObjectDetailComponent', () => {
+fdescribe('DataObjectDetailComponent', () => {
   let component: DataObjectDetailComponent;
   let fixture: ComponentFixture<DataObjectDetailComponent>;
   let spyBdefFormatApi, spydataApi, spyUploadAndDownloadService;
@@ -176,7 +176,7 @@ describe('DataObjectDetailComponent', () => {
   });
 
 
-  it('should populate versions and side actions on Init', async(inject([
+  fit('should populate versions and side actions on Init', async(inject([
       BusinessObjectFormatService,
       BusinessObjectDataService, ActivatedRoute],
     (
@@ -185,7 +185,7 @@ describe('DataObjectDetailComponent', () => {
 
       // Set active route params
       activeRoute.testParams = routeParams;
-
+      const date=new Date();
       const expectedResult: BusinessObjectData = {
         namespace: 'ns',
         businessObjectDefinitionName: 'dn',
@@ -194,7 +194,8 @@ describe('DataObjectDetailComponent', () => {
         businessObjectFormatVersion: 0,
         partitionKey: 'TEST_KEY',
         partitionValue: '01-01-2017',
-        version: 0
+        version: 0,
+        retentionExpirationDate: date
       };
 
       activeRoute.testData = {
@@ -216,7 +217,7 @@ describe('DataObjectDetailComponent', () => {
       expect(spyBdefFormatApi.calls.count()).toEqual(0);
       expect(spydataApi.calls.count()).toEqual(1);
       expect(component.businessObjectDataVersions).toEqual([1, 0]);
-
+      expect(component.businessObjectData.retentionExpirationDate).toEqual(date);
     })));
 
   it('should populate versions, get previously stored data on Init', async(inject([

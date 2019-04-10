@@ -101,13 +101,12 @@
             <div class="row justify-content-around details-content">
               <div class="col">
                 <div class="row details-label">
-                  <span class="col-4">Status</span>
-                  <span class="col-4">Version</span>
-                  <span class="col-4">ID</span>
+                  <span class="col-5">Status</span>
+                  <span class="col-5">Version</span>
                 </div>
                 <div class="row">
-                  <span class="col-4 status">{{ businessObjectData.status }}</span>
-                  <div class="col-4">
+                  <span class="col-5 status">{{ businessObjectData.status }}</span>
+                  <div class="col-5">
                     <select *ngIf="businessObjectDataVersions.length > 1" class="version-select" [(ngModel)]="businessObjectDataVersionSelected"
                       (change)="go(businessObjectDataVersionSelected)" title="selector">
                       <option *ngFor="let businessObjectDataVersion of businessObjectDataVersions" [ngValue]="businessObjectDataVersion" [selected]="businessObjectDataVersionSelected">
@@ -120,7 +119,18 @@
                       </span>
                     </span>
                   </div>
-                  <div class="col-4 id">{{ businessObjectData.id }}</div>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-around details-content">
+              <div class="col">
+                <div class="row details-label">
+                  <span class="col-5">ID</span>
+                  <span class="col-5">Retention Expiration Date</span>
+                </div>
+                <div class="row">
+                  <div class="col-5 id">{{ businessObjectData.id }}</div>
+                  <div class="col-5 expiry-date">{{ businessObjectData.retentionExpirationDate|date:'yyyy-MM-dd HH:mm:ss'}}</div>
                 </div>
               </div>
             </div>
