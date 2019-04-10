@@ -35,7 +35,7 @@ import { of } from 'rxjs';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { throwError } from 'rxjs/internal/observable/throwError';
 
-fdescribe('DataObjectDetailComponent', () => {
+describe('DataObjectDetailComponent', () => {
   let component: DataObjectDetailComponent;
   let fixture: ComponentFixture<DataObjectDetailComponent>;
   let spyBdefFormatApi, spydataApi, spyUploadAndDownloadService;
@@ -176,7 +176,7 @@ fdescribe('DataObjectDetailComponent', () => {
   });
 
 
-  fit('should populate versions and side actions on Init', async(inject([
+  it('should populate versions and side actions on Init', async(inject([
       BusinessObjectFormatService,
       BusinessObjectDataService, ActivatedRoute],
     (
