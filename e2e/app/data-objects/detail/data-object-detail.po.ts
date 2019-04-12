@@ -45,8 +45,8 @@ export class DataObjectDetailPage extends BasePo {
   // detail selectors
   public detailsContainer = this.partitionInfoContainer.element(by.css('.offset-1'));
   public detailsHeaderLabel = this.detailsContainer.element(by.className('sub-header-label'));
-  public detailsLabels = this.detailsContainer.element(by.className('details-label'));
-  public retentionDetailsLabels = element.all(by.className('details-content')).get(1);
+  public detailsLabelsRow1 = this.detailsContainer.element(by.className('details-label'));
+  public detailsLabelsRow2 = element.all(by.className('details-content')).get(1);
   public status = this.detailsContainer.element(by.className('status'));
   public id = this.detailsContainer.element(by.className('id'));
   public retentionexpirationDate = this.detailsContainer.element(by.className('expiry-date'));

@@ -207,7 +207,7 @@ export class Data {
     'partitionKey': this.formatWithNoSubpartitions.partitionKey,
     'partitionValue': 'Retention',
     'status': 'VALID',
-    'retentionExpirationDate':'2019-04-09',
+'retentionExpirationDate':'2019-04-12T18:03:03.399Z',
     'retentionType':'BDATA_RETENTION_DATE',
     'storageUnits': [{
           'storageName': 'S3_MANAGED',

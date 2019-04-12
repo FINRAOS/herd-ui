@@ -17,7 +17,7 @@ import { Action } from './../../../shared/components/side-action/side-action.com
 import { StorageUnitsComponent } from './../storage-units/storage-units.component';
 import { LineageComponent } from './../lineage/lineage.component';
 import { ActivatedRouteStub, RouterStub } from './../../../../testing/router-stubs';
-import {By} from "@angular/platform-browser";
+import { By } from "@angular/platform-browser";
 import {
   BusinessObjectData,
   BusinessObjectDataService,

@@ -326,16 +326,19 @@ export class BusinessObjectDefinitionData {
         + '/businessObjectFormatVersions/' + formatVersion
         + '/partitionValues/' + partitionValue + '/businessObjectDataVersions/' + dataVersion;
   }
+
  public putRentionTypeBody(retentionType) {
     return {
       'recordFlag':true,'retentionType': retentionType
    };
  }
+
  public putRentionExpirationDateBody(retentionExpirationDate) {
      return {
         'retentionExpirationDate': retentionExpirationDate
      };
   }
+
   public postUrl() {
     return '/businessObjectData';
   }
