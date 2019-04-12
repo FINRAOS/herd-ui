@@ -198,5 +198,23 @@ export class Data {
       }],
     'createNewVersion': 'true'
   };
-
+ public bdataWithRetentionExpirationDate = {
+    'namespace': this.namespace,
+    'businessObjectDefinitionName': this.bdef.businessObjectDefinitionName,
+    'businessObjectFormatUsage': this.formatWithNoSubpartitions.businessObjectFormatUsage,
+    'businessObjectFormatFileType': this.formatWithNoSubpartitions.businessObjectFormatFileType,
+    'businessObjectFormatVersion': 0,
+    'partitionKey': this.formatWithNoSubpartitions.partitionKey,
+    'partitionValue': 'Retention',
+    'status': 'VALID',
+    'retentionExpirationDate':'2019-04-09',
+    'retentionType':'BDATA_RETENTION_DATE',
+    'storageUnits': [{
+          'storageName': 'S3_MANAGED',
+          'storageDirectory': {
+            'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g,'-') + "/" + this.defaultDataProvider.toLowerCase().replace(/_/g,'-') +
+            '/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=Retention'
+          }
+        }],
+  };
 }
