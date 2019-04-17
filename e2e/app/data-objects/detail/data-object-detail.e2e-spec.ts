@@ -100,11 +100,15 @@ describe('data-objects detail', () => {
 
     it('Details info: BData details page with Retention Expiration Date', async () => {
         await page.navigateTo(baseDetail.replaceUrlParams(data.bdataWithRetentionExpirationDate, null, 0));
+        var dateFormat = require('dateformat');
+        var retentionExpirationDate = new Date('2019-04-12T18:03:03.399z');
+        var expectedExpirationDate = dateFormat (retentionExpirationDate,"yyyy-mm-dd HH:MM:ss");
+        console.log(expectedExpirationDate);
         const pageTitle = browser.getTitle();
         expect(await pageTitle).toContain(conf.docTitlePrefix + ' - Data Object');
         expect(await page.detailsHeaderLabel.getText()).toBe('Details');
         expect(await page.detailsLabelsRow2.getText()).toContain('Retention Expiration Date');
-        expect(await page.retentionexpirationDate.getText()).toContain('2019-04-12 14:03:03');
+        expect(await page.retentionexpirationDate.getText()).toContain(expectedExpirationDate);
     });
   });
 
