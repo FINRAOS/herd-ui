@@ -102,7 +102,7 @@ describe('data-objects detail', () => {
         await page.navigateTo(baseDetail.replaceUrlParams(data.bdataWithRetentionExpirationDate, null, 0));
         var dateFormat = require('dateformat');
         var retentionExpirationDate = new Date('2019-04-12T18:03:03.399z');
-        var expectedExpirationDate = dateFormat (retentionExpirationDate,"yyyy-mm-dd HH:MM:ss");
+        var expectedExpirationDate = dateFormat (retentionExpirationDate,"UTC:yyyy-mm-dd HH:MM:ss");
         console.log(expectedExpirationDate);
         const pageTitle = browser.getTitle();
         expect(await pageTitle).toContain(conf.docTitlePrefix + ' - Data Object');
