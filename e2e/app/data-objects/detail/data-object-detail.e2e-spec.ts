@@ -98,6 +98,7 @@ describe('data-objects detail', () => {
         expect(await page.retentionexpirationDate.getText()).toBe('');
      });
 
+    // TODO:This test passes in jenkins but fails locally
     it('Details info: BData details page with Retention Expiration Date', async () => {
         await page.navigateTo(baseDetail.replaceUrlParams(data.bdataWithRetentionExpirationDate, null, 0));
         var dateFormat = require('dateformat');
