@@ -48,9 +48,10 @@ describe('data-objects detail', () => {
       expect(await page.keyLabel.getText()).toContain('Key');
       expect(await page.valueLabel.getText()).toContain('Value');
 
-      expect(await page.detailsLabels.getText()).toContain('Status');
-      expect(await page.detailsLabels.getText()).toContain('Version');
-      expect(await page.detailsLabels.getText()).toContain('ID');
+      expect(await page.detailsLabelsRow1.getText()).toContain('Status');
+      expect(await page.detailsLabelsRow1.getText()).toContain('Version');
+      expect(await page.detailsLabelsRow2.getText()).toContain('ID');
+      expect(await page.detailsLabelsRow2.getText()).toContain('Retention Expiration Date');
     });
 
     it('partition info: BData details page', async () => {
@@ -89,6 +90,27 @@ describe('data-objects detail', () => {
       }
     });
 
+    it('Details info: BData details page with Retention Expiration Date empty', async () => {
+        const pageTitle = browser.getTitle();
+        expect(await pageTitle).toContain(conf.docTitlePrefix + ' - Data Object');
+        expect(await page.detailsHeaderLabel.getText()).toBe('Details');
+        expect(await page.detailsLabelsRow2.getText()).toContain('Retention Expiration Date');
+        expect(await page.retentionexpirationDate.getText()).toBe('');
+     });
+
+    // TODO:This test passes in jenkins but fails locally
+    it('Details info: BData details page with Retention Expiration Date', async () => {
+        await page.navigateTo(baseDetail.replaceUrlParams(data.bdataWithRetentionExpirationDate, null, 0));
+        var dateFormat = require('dateformat');
+        var retentionExpirationDate = new Date('2019-04-12T18:03:03.399z');
+        var expectedExpirationDate = dateFormat (retentionExpirationDate,"UTC:yyyy-mm-dd HH:MM:ss");
+        console.log(expectedExpirationDate);
+        const pageTitle = browser.getTitle();
+        expect(await pageTitle).toContain(conf.docTitlePrefix + ' - Data Object');
+        expect(await page.detailsHeaderLabel.getText()).toBe('Details');
+        expect(await page.detailsLabelsRow2.getText()).toContain('Retention Expiration Date');
+        expect(await page.retentionexpirationDate.getText()).toContain(expectedExpirationDate);
+    });
   });
 
   describe('attributes info: BData details page', () => {
