@@ -315,6 +315,29 @@ export class BusinessObjectDefinitionData {
       + '/businessObjectFormatVersions/' + formatVersion
       + '/partitionValues/' + partitionValue + '/businessObjectDataVersions/' + dataVersion;
   }
+  public putFormatRentionTypeUrl(namespace, bdefName, formatUsage, formatFileType, formatVersion, partitionValue, dataVersion) {
+    return '/businessObjectFormatRetentionInformation/namespaces/' + namespace + '/businessObjectDefinitionNames/' + bdefName
+      + '/businessObjectFormatUsages/' + formatUsage + '/businessObjectFormatFileTypes/' + formatFileType;
+  }
+
+  public putDataObjectRentionExpirationDateUrl(namespace, bdefName, formatUsage, formatFileType, formatVersion, partitionValue, dataVersion) {
+    return '/businessObjectDataRetentionInformation/namespaces/' + namespace + '/businessObjectDefinitionNames/' + bdefName
+        + '/businessObjectFormatUsages/' + formatUsage + '/businessObjectFormatFileTypes/' + formatFileType
+        + '/businessObjectFormatVersions/' + formatVersion
+        + '/partitionValues/' + partitionValue + '/businessObjectDataVersions/' + dataVersion;
+  }
+
+ public putRentionTypeBody(retentionType) {
+    return {
+      'recordFlag':true,'retentionType': retentionType
+   };
+ }
+
+ public putRentionExpirationDateBody(retentionExpirationDate) {
+     return {
+        'retentionExpirationDate': retentionExpirationDate
+     };
+  }
 
   public postUrl() {
     return '/businessObjectData';

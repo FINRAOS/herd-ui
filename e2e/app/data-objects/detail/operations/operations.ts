@@ -48,9 +48,40 @@ export class Operations {
         this.dataManager.DMOption(6, new schema.BusinessObjectDefinitionData().postUrl(), this.data.versionTestV0),
         this.dataManager.DMOption(7, new schema.BusinessObjectDefinitionData().postUrl(), this.data.versionTestV1),
         this.dataManager.DMOption(8, new schema.BusinessObjectDefinitionData().postUrl(), this.data.versionTestV2),
+        this.dataManager.DMOption(9, new schema.BusinessObjectDefinitionData().postUrl(), this.data.bdataWithRetentionExpirationDate)
       ]
     };
   }
+
+public updateRequests(){
+  return{
+    options:[
+    {
+       'order': 1,
+       'url': new schema.BusinessObjectDefinitionData().putFormatRentionTypeUrl(
+                      this.data.defaultNamespace,
+                      this.data.bdef.businessObjectDefinitionName,
+                      this.data.bdataWithRetentionExpirationDate.businessObjectFormatUsage,
+                      this.data.bdataWithRetentionExpirationDate.businessObjectFormatFileType,
+                      this.data.bdataWithRetentionExpirationDate.businessObjectFormatVersion,
+                      this.data.bdataWithRetentionExpirationDate.partitionValue, 0),
+       'body': new schema.BusinessObjectDefinitionData().putRentionTypeBody(this.data.bdataWithRetentionExpirationDate.retentionType)
+    },
+    {
+      'order': 1,
+      'url': new schema.BusinessObjectDefinitionData().putDataObjectRentionExpirationDateUrl(
+                     this.data.defaultNamespace,
+                     this.data.bdef.businessObjectDefinitionName,
+                     this.data.bdataWithRetentionExpirationDate.businessObjectFormatUsage,
+                     this.data.bdataWithRetentionExpirationDate.businessObjectFormatFileType,
+                     this.data.bdataWithRetentionExpirationDate.businessObjectFormatVersion,
+                     this.data.bdataWithRetentionExpirationDate.partitionValue, 0),
+      'body': new schema.BusinessObjectDefinitionData().putRentionExpirationDateBody(this.data.bdataWithRetentionExpirationDate.retentionExpirationDate)
+    }
+  ]
+}
+}
+
 
   public deleteRequests() {
     return {
@@ -118,7 +149,15 @@ export class Operations {
           this.data.bdef.businessObjectDefinitionName
         )),
         this.dataManager.DMOption(6, new schema.DataProvider().deleteUrl(this.data.defaultDataProvider)),
-        this.dataManager.DMOption(7, new schema.Namespace().deleteUrl(this.data.defaultNamespace))]
+        this.dataManager.DMOption(7, new schema.Namespace().deleteUrl(this.data.defaultNamespace)),
+        this.dataManager.DMOption(9, new schema.BusinessObjectDefinitionData().deleteWithoutSubPartitionsUrl(
+            this.data.defaultNamespace,
+            this.data.bdef.businessObjectDefinitionName,
+            this.data.bdataWithRetentionExpirationDate.businessObjectFormatUsage,
+            this.data.bdataWithRetentionExpirationDate.businessObjectFormatFileType,
+            this.data.bdataWithRetentionExpirationDate.businessObjectFormatVersion,
+            this.data.bdataWithRetentionExpirationDate.partitionValue, 0, true
+         ))]
     };
   }
 }
@@ -126,8 +165,11 @@ export class Operations {
 const operation = new Operations();
 export const initRequests = {
   posts: {
-    options: operation.postRequests().options
-  }
+       options: operation.postRequests().options
+     },
+      updates: {
+            options: operation.updateRequests().options
+          }
 };
 
 export const tearDownRequests = {
