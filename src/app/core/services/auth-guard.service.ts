@@ -42,6 +42,7 @@ export class AuthGuardService implements CanActivate {
           }
         }),
         catchError((e) => {
+          environment.useBasicAuth = true;
           this.router.navigate(['/login'], {
             replaceUrl: true,
             queryParams: {
