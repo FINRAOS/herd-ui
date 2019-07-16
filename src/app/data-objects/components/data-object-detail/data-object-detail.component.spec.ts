@@ -32,14 +32,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '../../../shared/shared.module';
 import { DataObjectDetailComponent, DataObjectDetailRequest } from './data-object-detail.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { of } from 'rxjs';
+import {Observable, of} from 'rxjs';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { throwError } from 'rxjs/internal/observable/throwError';
+import {AlertService} from "../../../core/services/alert.service";
 
 describe('DataObjectDetailComponent', () => {
   let component: DataObjectDetailComponent;
   let fixture: ComponentFixture<DataObjectDetailComponent>;
   let spyBdefFormatApi, spydataApi, spyUploadAndDownloadService;
+  let spyAlertService;
 
   const bdataRequest: DataObjectDetailRequest = {
     namespace: 'ns',
@@ -166,7 +168,13 @@ describe('DataObjectDetailComponent', () => {
           }
         },
         {provide: ActivatedRoute, useClass: ActivatedRouteStub},
-        {provide: Router, useClass: RouterStub}]
+        {provide: Router, useClass: RouterStub},
+        {
+          provide: AlertService,
+          useValue: {
+            alert: jasmine.createSpy('alert')
+          }
+        }]
     })
       .compileComponents();
   }));
@@ -496,8 +504,59 @@ describe('DataObjectDetailComponent', () => {
 
     component.businessObjectData = businessObjectData;
     component.getPreSignedUrl(storageEvent);
+
     expect(component.presignedURL).toBe(undefined);
     expect(spyUploadAndDownloadService).toHaveBeenCalledTimes(1);
+
+  })));
+
+  it('should show alert with error message when download failed', async(inject([
+      UploadAndDownloadService, AlertService],
+    (uploadAndDownloadService: UploadAndDownloadService, alertService: AlertService) => {
+    const businessObjectData: BusinessObjectData = {
+      namespace: 'ns',
+      businessObjectDefinitionName: 'dn',
+      businessObjectFormatUsage: 'PRC',
+      businessObjectFormatFileType: 'TXT',
+      businessObjectFormatVersion: 0,
+      partitionKey: 'TEST_KEY',
+      partitionValue: '09-01-2018',
+      version: 0
+    };
+
+    const storageEvent = {
+      directoryPath: 'test-file-directory/file-path',
+      filePath: 'test-file-directory/file-path/filename.txt',
+      storage: {
+        name: 'test name',
+        attributes: [
+          {
+            value: 'test-bucket-name'
+          }
+        ]
+      }
+    };
+
+    const downloadError = {
+      status: 500,
+      error: {
+        message: "Test error message"
+      }
+    };
+
+    // Spy on the services
+    spyUploadAndDownloadService = (<jasmine.Spy>uploadAndDownloadService.uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile)
+      .and.returnValue(throwError(downloadError));
+      //throwError("Test failure");
+
+    spyAlertService = (<jasmine.Spy>alertService.alert);
+
+    component.businessObjectData = businessObjectData;
+    component.getPreSignedUrl(storageEvent);
+
+    expect(component.presignedURL).toBeUndefined();
+    expect(spyUploadAndDownloadService).toHaveBeenCalledTimes(1);
+    expect(spyAlertService).toHaveBeenCalledTimes(1);
 
   })));
 
