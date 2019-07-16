@@ -19,6 +19,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { Action } from '../../../shared/components/side-action/side-action.component';
+import {AlertService, DangerAlert} from "../../../core/services/alert.service";
 
 export interface DataObjectDetailRequest {
   namespace: string;
@@ -55,7 +56,8 @@ export class DataObjectDetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private businessObjectFormatApi: BusinessObjectFormatService,
     private uploadAndDownloadService: UploadAndDownloadService,
-    private businessObjectDataApi: BusinessObjectDataService
+    private businessObjectDataApi: BusinessObjectDataService,
+    private alertService: AlertService
   ) {
   }
 
@@ -171,11 +173,15 @@ export class DataObjectDetailComponent implements OnInit {
         };
 
     this.uploadAndDownloadService.uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile(
-      downloadBusinessObjectDataStorageFileSingleInitiationRequest).subscribe((response) => {
-        this.presignedURL = response.preSignedUrl;
-    }, (error) => {
-      console.log(error);
-    });
+      downloadBusinessObjectDataStorageFileSingleInitiationRequest).subscribe(
+        (response) => {
+          this.presignedURL = response.preSignedUrl;
+        }, (error) => {
+          var errorMessage = error && error.error && error.error.message ? error.error.message : error.toString();
+          this.alertService.alert(new DangerAlert('Unable to initiate download', '', errorMessage, 10));
+          console.log(error);
+        }
+    );
   }
 
 }
