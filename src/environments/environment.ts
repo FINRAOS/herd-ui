@@ -23,6 +23,8 @@ export const environment = {
   brandMotto: '{{BRAND_MOTO}}',
   docTitlePrefix: 'UDC',
   useBasicAuth: false,
+  fipAuthCookieName: '{{FIP_AUTH_COOKIE_NAME}}',
+  fipAuthEndpoint: '{{FIP_AUTH_ENDPOINT}}',
   alertDelayInSeconds: 10,
   trackAnalytics: true,
   ga: {
