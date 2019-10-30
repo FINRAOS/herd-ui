@@ -147,23 +147,33 @@ export class BasePo {
         }
   }
 
-  async navigateTo(url?: string) {
+  async navigateTo(url?: string, user: string = conf.loginUser, pass: string = conf.loginPwd) {
 
-    console.log(BasePo.fipAuth);
+      if(conf.ags == "DATA-MGT")
+      {
+        console.log(BasePo.fipAuth);
 
-    if(BasePo.fipAuth == true)
-    {
-      await this.setFipCookieToBrowser();
-      BasePo.fipAuth = false;
+        if(BasePo.fipAuth === true)
+        {
+          await this.setFipCookieToBrowser();
+          BasePo.fipAuth = false;
+        }
+
+        return browser.get(url || conf.baseUrlNoPassword);
+      }
+      else
+      {
+        await browser.get(url || '/');
+        if ((await this.loginPage.loginForm.isPresent()) === true && (await this.isDisplayedShim(this.loginPage.loginForm)) === true) {
+        return this.loginPage.login(user, pass);
+        }
+      }
+
+      // immediately return if the login scren isn't there.
+      return new Promise((resolve, reject) => {
+        resolve();
+      });
     }
-
-    return browser.get(url || conf.baseUrlNoPassword);
-
-    // immediately return if the login screen isn't there.
-    return new Promise((resolve, reject) => {
-      resolve();
-    });
   }
-}
 
 
