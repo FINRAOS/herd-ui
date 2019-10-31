@@ -15,6 +15,8 @@
 */
 import { browser, by, element, ElementArrayFinder, ElementFinder, promise } from 'protractor';
 import { LoginPage } from '../login/login.po';
+import { environment } from '../../../src/environments/environment';
+import request from 'sync-request';
 
 const conf = require('./../../config/conf.e2e.json');
 
@@ -26,6 +28,7 @@ export class BasePo {
   loginPage = new LoginPage();
   baseTitle = conf.docTitlePrefix + this.delimiterHypen;
   dataEntityTitle = 'Data Entity' + this.delimiterHypen;
+  static fipAuth = true;
 
   get currentAlerts(): ElementArrayFinder {
     return element.all(by.tagName('ngb-alert'));
@@ -115,16 +118,62 @@ export class BasePo {
     }
   }
 
-  async navigateTo(url?: string, user: string = conf.loginUser, pass: string = conf.loginPwd) {
-    await browser.get(url || '/');
-    if ((await this.loginPage.loginForm.isPresent()) === true && (await this.isDisplayedShim(this.loginPage.loginForm)) === true) {
-      return this.loginPage.login(user, pass);
-    }
-    // immediately return if the login scren isn't there.
-    return new Promise((resolve, reject) => {
-      resolve();
-    });
+  async setFipCookieToBrowser()
+  {
+    // navigate to a finra page prior to setting FIP cookie.
+    await browser.driver.get("https://www.finra.org/robots.txt");
+    await browser.sleep(2000);
+
+    // make a rest call to FIP Api.
+    const response = request('POST', environment.fipAuthEndpoint, {
+               headers: {
+                'Content-Type': 'application/json',
+                'X-OpenAM-Username': conf.loginUser,
+                'X-OpenAM-Password': conf.loginPwd,
+                'Authorization': conf.authorization.basicKey
+              }
+            });
+
+    // get the response and set cookie.
+    try {
+         const body = JSON.parse(response.getBody('utf8'));
+
+         // set the FIP cookie to the browser.
+         await browser.manage().addCookie({ name: environment.fipAuthCookieName, value: body.tokenId, domain: ".finra.org", secure: true, httpOnly: true });
+        }
+        catch (e)
+        {
+         console.log("Exception while setting fip cookie to the browser: " + e.message);
+        }
   }
-}
+
+  async navigateTo(url?: string, user: string = conf.loginUser, pass: string = conf.loginPwd) {
+
+      if(conf.ags == "DATA-MGT")
+      {
+        console.log(BasePo.fipAuth);
+
+        if(BasePo.fipAuth === true)
+        {
+          await this.setFipCookieToBrowser();
+          BasePo.fipAuth = false;
+        }
+
+        return browser.get(url || conf.baseUrlNoPassword);
+      }
+      else
+      {
+        await browser.get(url || '/');
+        if ((await this.loginPage.loginForm.isPresent()) === true && (await this.isDisplayedShim(this.loginPage.loginForm)) === true) {
+        return this.loginPage.login(user, pass);
+        }
+      }
+
+      // immediately return if the login scren isn't there.
+      return new Promise((resolve, reject) => {
+        resolve();
+      });
+    }
+  }
 
 
