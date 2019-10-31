@@ -43,7 +43,7 @@
     "@swimlane/ngx-charts": "9.0.0",
     "@swimlane/ngx-graph": "5.1.1",
     "bootstrap": "4.0.0-alpha.6",
-    "ckeditor": "4.10.1",
+    "ckeditor": "4.12.1",
     "classlist.js": "1.1.20150312",
     "core-js": "2.5.7",
     "crypto-js": "3.1.9-1",
