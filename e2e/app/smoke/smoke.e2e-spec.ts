@@ -44,6 +44,8 @@ describe('Smoke Tests', () => {
 
 
   it('should should display proper headings and category data', async () => {
+    jasmine.getEnv().defaultTimeoutInterval = 300000;// e.g. 15000 milliseconds
+
     await homePage.navigateTo();
 
     // validate Home Search Heading
