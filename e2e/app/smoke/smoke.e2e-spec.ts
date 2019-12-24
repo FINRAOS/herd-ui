@@ -41,10 +41,10 @@ describe('Smoke Tests', () => {
   const categoryPage = new CategoryPage();
   const dataObjectList = new DataObjectListPage();
   const dataObjectDetailPage = new DataObjectDetailPage();
-
+  // increase jasmine timeout to 3 minutes
+  jasmine.DEFAULT_TIMEOUT_INTERVAL  = 180000;
 
   it('should should display proper headings and category data', async () => {
-    jasmine.getEnv().defaultTimeoutInterval = 300000;// e.g. 15000 milliseconds
 
     await homePage.navigateTo();
 
