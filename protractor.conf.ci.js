@@ -70,18 +70,19 @@ const otherBrowsers = [
     shardTestFiles,
     version: 'latest-1'
   },
+  /*
   {
     idleTimeout,
     seleniumVersion,
     screenResolution,
     "name": "macOS 10.12 safari 10.1",
-    tunnelIdentifier,
+  tunnelIdentifier,
     "platform": "macOS 10.12",
     "browserName": "safari",
     "version": "10.1",
     maxInstances,
     shardTestFiles
-  },
+  }, */
   {
     idleTimeout,
     screenResolution,
