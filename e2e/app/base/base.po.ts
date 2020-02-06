@@ -118,10 +118,14 @@ export class BasePo {
     }
   }
 
-  async setFipCookieToBrowser()
+  async setFipCookieToBrowser(domainValue:string)
   {
     // navigate to a finra page prior to setting FIP cookie.
-    await browser.driver.get("https://www.finra.org/robots.txt");
+    var initialUrl = "https://www.finra.org/robots.txt";
+     if(conf.ags != "DATA-MGT"){
+          initialUrl = conf.baseUrlNoPassword;
+    }
+    await browser.driver.get(initialUrl);
     await browser.sleep(2000);
 
     // make a rest call to FIP Api.
@@ -139,7 +143,7 @@ export class BasePo {
          const body = JSON.parse(response.getBody('utf8'));
 
          // set the FIP cookie to the browser.
-         await browser.manage().addCookie({ name: environment.fipAuthCookieName, value: body.tokenId, domain: ".finra.org", secure: true, httpOnly: true });
+         await browser.manage().addCookie({ name: environment.fipAuthCookieName, value: body.tokenId, domain: domainValue, secure: true, httpOnly: true });
         }
         catch (e)
         {
@@ -148,26 +152,17 @@ export class BasePo {
   }
 
   async navigateTo(url?: string, user: string = conf.loginUser, pass: string = conf.loginPwd) {
-
-      if(conf.ags == "DATA-MGT")
+      console.log(BasePo.fipAuth)
+      if(BasePo.fipAuth === true)
       {
-        console.log(BasePo.fipAuth);
-
-        if(BasePo.fipAuth === true)
-        {
-          await this.setFipCookieToBrowser();
-          BasePo.fipAuth = false;
+        var domainValue = ".finra.org";
+        if(conf.ags != "DATA-MGT"){
+          domainValue = ".catnms.com";
         }
-
+        await this.setFipCookieToBrowser(domainValue);
+        BasePo.fipAuth = false;
+      }
         return browser.get(url || conf.baseUrlNoPassword);
-      }
-      else
-      {
-        await browser.get(url || '/');
-        if ((await this.loginPage.loginForm.isPresent()) === true && (await this.isDisplayedShim(this.loginPage.loginForm)) === true) {
-        return this.loginPage.login(user, pass);
-        }
-      }
 
       // immediately return if the login scren isn't there.
       return new Promise((resolve, reject) => {
