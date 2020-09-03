@@ -96,7 +96,7 @@
     "pre-commit": "1.2.2",
     "protractor": "5.4.1",
     "proxy-agent": "3.0.1",
-    "puppeteer": "1.8.0",
+    "puppeteer": "5.2.1",
     "q": "1.5.1",
     "sync-request": "6.0.0",
     "then-request": "6.0.0",
