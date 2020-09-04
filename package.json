@@ -90,7 +90,7 @@
     "karma-phantomjs-launcher": "1.0.4",
     "karma-scss-preprocessor": "3.0.0",
     "lighthouse": "3.1.1",
-    "node-sass": "4.9.3",
+    "node-sass": "4.14.1",
     "pg-promise": "8.4.6",
     "phantomjs-prebuilt": "2.1.16",
     "pre-commit": "1.2.2",
