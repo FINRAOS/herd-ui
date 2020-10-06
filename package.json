@@ -92,7 +92,6 @@
     "lighthouse": "3.1.1",
     "node-sass": "4.9.3",
     "pg-promise": "8.4.6",
-    "phantomjs-prebuilt": "2.1.16",
     "pre-commit": "1.2.2",
     "protractor": "5.4.1",
     "proxy-agent": "3.0.1",
