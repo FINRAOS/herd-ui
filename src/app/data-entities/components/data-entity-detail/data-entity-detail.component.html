@@ -249,8 +249,7 @@
                 </div>
               </ng-template>
               <ng-template let-bdefCol="rowData" *ngIf="col.field === 'schemaColumnName'" pTemplate="body">
-                <sd-ellipsis-overflow>
-                  {{schemaColumnName}}
+                <sd-ellipsis-overflow [ellipsisContent]="bdefCol.schemaColumnName">
                 </sd-ellipsis-overflow>
               </ng-template>
               <ng-template let-bdefCol="rowData" *ngIf="col.field === 'businessObjectDefinitionColumnName'" pTemplate="body">
