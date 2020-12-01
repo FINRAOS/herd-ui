@@ -141,6 +141,18 @@
                         <div class="col-6"><b>Max Value:</b></div>
                         <div class="col-6">{{ maxPrimaryPartitionValue || ' '}}</div>
                       </div>
+                      <div class="row">
+                        <div class="col-6"><b>Relational Schema Name:</b></div>
+                        <div class="col-6">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName ||
+                          ' '}}
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-6"><b>Relational Table Name:</b></div>
+                        <div class="col-6">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalTableName ||
+                          ' '}}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
