@@ -190,13 +190,11 @@
               <div class="row" *ngIf="(businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName ||
                 businessObjectFormatDetail.relationalTableName); else noRelationalInformation">
                 <div class="col align-self-start left-blue-border">
-                  <div class="row justify-content-around details-sub">
-                    <div class="col-4">
-                      <b>Relational schema name: </b>{{businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName}}
-                    </div>
-                    <div class="col-4">
-                      <b>Relational table name: </b> {{businessObjectFormatDetail && businessObjectFormatDetail.relationalTableName}}
-                    </div>
+                  <div class="col-4">
+                    <b>Relational schema name: </b>{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName || ' ' }}
+                  </div>
+                  <div class="col-4">
+                    <b>Relational table name: </b> {{ businessObjectFormatDetail && businessObjectFormatDetail.relationalTableName || ' ' }}
                   </div>
                 </div>
               </div>
