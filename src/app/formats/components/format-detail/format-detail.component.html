@@ -186,6 +186,26 @@
                 </ng-template>
               </div>
 
+              <div class="row sub-header-label">Relational table information</div>
+              <div class="row" *ngIf="(businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName ||
+                businessObjectFormatDetail.relationalTableName); else noRelationalInformation">
+                <div class="col align-self-start left-blue-border">
+                  <div class="row justify-content-around details-sub">
+                    <div class="col-4">
+                      <b>Relational schema name: </b>{{businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName}}
+                    </div>
+                    <div class="col-4">
+                      <b>Relational table name: </b> {{businessObjectFormatDetail && businessObjectFormatDetail.relationalTableName}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <ng-template #noRelationalInformation class="unavailable-label">
+                  <p>Not a relational table.</p>
+                </ng-template>
+              </div>
+
               <!--Partitions-->
               <div class="row sub-header-label">Partitions</div>
               <div>
