@@ -94,7 +94,7 @@
                       </div>
                     </div>
 
-                    <div *ngIf="businessObjectFormatDetail.usage != 'RELATIONAL_TABLE'; else relationalInfo"></div>
+                    <div *ngIf="businessObjectFormatFileType != 'RELATIONAL_TABLE'; else relationalInfo"></div>
                       <div class="col-4">
                         <div class="row">
                           <div class="col-8"><b>Null Value:</b></div>
@@ -145,14 +145,14 @@
                       <div>
                         <ng-template #relationalInfo>
                           <div class="row">
-                            <div class="col-6"><b>Relational Schema Name:</b></div>
-                            <div class="col-6">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName ||
+                            <div class="col-12"><b>Relational Schema Name:</b></div>
+                            <div class="col-12">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName ||
                               ' '}}
                             </div>
                           </div>
                           <div class="row">
-                            <div class="col-6"><b>Relational Table Name:</b></div>
-                            <div class="col-6">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalTableName ||
+                            <div class="col-12"><b>Relational Table Name:</b></div>
+                            <div class="col-12">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalTableName ||
                               ' '}}
                             </div>
                           </div>
@@ -188,26 +188,6 @@
               <div>
                 <ng-template #noRetention class="unavailable-label">
                   <p>No retention information available.</p>
-                </ng-template>
-              </div>
-
-              <div class="row sub-header-label">Relational table information</div>
-              <div class="row" *ngIf="(businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName ||
-                businessObjectFormatDetail.relationalTableName); else noRelationalInformation">
-                <div class="col align-self-start left-blue-border">
-                  <div class="col-6">
-                    <div class="row">
-                      <b>Relational schema name: </b> {{ businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName || ' ' }}
-                    </div>
-                    <div class="row">
-                      <b>Relational table name: </b> {{ businessObjectFormatDetail && businessObjectFormatDetail.relationalTableName || ' ' }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <ng-template #noRelationalInformation class="unavailable-label">
-                  <p>Not a relational table.</p>
                 </ng-template>
               </div>
 
