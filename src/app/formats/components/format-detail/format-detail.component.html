@@ -94,7 +94,7 @@
                       </div>
                     </div>
 
-                    <div *ngIf="businessObjectFormatFileType != 'RELATIONAL_TABLE'; else relationalInfo"></div>
+                    <div *ngIf="businessObjectFormatFileType != 'RELATIONAL_TABLE'; else relationalInfo">
                       <div class="col-4">
                         <div class="row">
                           <div class="col-8"><b>Null Value:</b></div>
@@ -144,16 +144,18 @@
                       </div>
                       <div>
                         <ng-template #relationalInfo>
-                          <div class="row">
-                            <div class="col-12"><b>Relational Schema Name:</b></div>
-                            <div class="col-12">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName ||
-                              ' '}}
+                          <div class="col-4">
+                            <div class="row">
+                              <div class="col-12"><b>Relational Schema Name:</b></div>
+                              <div class="col-12">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName ||
+                                ' '}}
+                              </div>
                             </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-12"><b>Relational Table Name:</b></div>
-                            <div class="col-12">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalTableName ||
-                              ' '}}
+                            <div class="row">
+                              <div class="col-12"><b>Relational Table Name:</b></div>
+                              <div class="col-12">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalTableName ||
+                                ' '}}
+                              </div>
                             </div>
                           </div>
                         </ng-template>
