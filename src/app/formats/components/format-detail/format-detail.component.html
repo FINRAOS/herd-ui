@@ -93,39 +93,40 @@
 
                       </div>
                     </div>
-                    <div class="col-4">
-                      <div class="row">
-                        <div class="col-8"><b>Null Value:</b></div>
-                        <div class="col-4">
-                          {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
-                          businessObjectFormatDetail.schema.nullValue || ' '}}
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-8"><b>Delimiter:</b></div>
-                        <div class="col-4">
-                          {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
-                          businessObjectFormatDetail.schema.delimiter || ' '}}
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-8"><b>Escape Character:</b></div>
-                        <div class="col-4">
-                          {{ businessObjectFormatDetail && businessObjectFormatDetail.schema &&
-                          businessObjectFormatDetail.schema.escapeCharacter ||
-                          ' '}}
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-8"><b>Partition Key Group:</b></div>
-                        <div class="col-4">
-                          {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
-                          businessObjectFormatDetail.schema.partitionKeyGroup
-                          || ' '}}
-                        </div>
-                      </div>
-                    </div>
 
+                    <div *ngIf="businessObjectFormatDetail.usage != 'RELATIONAL_TABLE'; else relationalInfo"></div>
+                      <div class="col-4">
+                        <div class="row">
+                          <div class="col-8"><b>Null Value:</b></div>
+                          <div class="col-4">
+                            {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
+                            businessObjectFormatDetail.schema.nullValue || ' '}}
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-8"><b>Delimiter:</b></div>
+                          <div class="col-4">
+                            {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
+                            businessObjectFormatDetail.schema.delimiter || ' '}}
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-8"><b>Escape Character:</b></div>
+                          <div class="col-4">
+                            {{ businessObjectFormatDetail && businessObjectFormatDetail.schema &&
+                            businessObjectFormatDetail.schema.escapeCharacter ||
+                            ' '}}
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-8"><b>Partition Key Group:</b></div>
+                          <div class="col-4">
+                            {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
+                            businessObjectFormatDetail.schema.partitionKeyGroup
+                            || ' '}}
+                          </div>
+                        </div>
+                      </div>
                     <div class="col-4 min-max-value">
                       <div class="row">
                         <div class="col-6"><b>Partition:</b></div>
@@ -141,17 +142,21 @@
                         <div class="col-6"><b>Max Value:</b></div>
                         <div class="col-6">{{ maxPrimaryPartitionValue || ' '}}</div>
                       </div>
-                      <div class="row">
-                        <div class="col-6"><b>Relational Schema Name:</b></div>
-                        <div class="col-6">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName ||
-                          ' '}}
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-6"><b>Relational Table Name:</b></div>
-                        <div class="col-6">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalTableName ||
-                          ' '}}
-                        </div>
+                      <div>
+                        <ng-template #relationalInfo>
+                          <div class="row">
+                            <div class="col-6"><b>Relational Schema Name:</b></div>
+                            <div class="col-6">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName ||
+                              ' '}}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-6"><b>Relational Table Name:</b></div>
+                            <div class="col-6">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalTableName ||
+                              ' '}}
+                            </div>
+                          </div>
+                        </ng-template>
                       </div>
                     </div>
                   </div>
@@ -190,11 +195,13 @@
               <div class="row" *ngIf="(businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName ||
                 businessObjectFormatDetail.relationalTableName); else noRelationalInformation">
                 <div class="col align-self-start left-blue-border">
-                  <div class="row">
-                    <b>Relational schema name: </b>{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName || ' ' }}
-                  </div>
-                  <div class="row">
-                    <b>Relational table name: </b> {{ businessObjectFormatDetail && businessObjectFormatDetail.relationalTableName || ' ' }}
+                  <div class="col-6">
+                    <div class="row">
+                      <b>Relational schema name: </b> {{ businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName || ' ' }}
+                    </div>
+                    <div class="row">
+                      <b>Relational table name: </b> {{ businessObjectFormatDetail && businessObjectFormatDetail.relationalTableName || ' ' }}
+                    </div>
                   </div>
                 </div>
               </div>
