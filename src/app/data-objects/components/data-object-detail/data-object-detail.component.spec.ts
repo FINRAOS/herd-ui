@@ -35,7 +35,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import {AlertService} from "../../../core/services/alert.service";
-import { of } from "rxjs";
 
 describe('DataObjectDetailComponent', () => {
   let component: DataObjectDetailComponent;
