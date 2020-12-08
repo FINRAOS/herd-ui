@@ -225,7 +225,7 @@
         <ng-template ngbTabContent>
           <!--TODO: use csvSeparator to allow commas in html data when primeNG updates-->
           <p-dataTable #dt [responsive]="true" [emptyMessage]="emptyColumnsMessage" [value]="bdefColumns" [rows]="10" reorderableColumns="true"
-            resizableColumns="true" exportFilename="data-entity-columns" [loading]="loading">
+            resizableColumns="true" exportFilename="data-entity-columns" [loading]="loading" >
             <p-header *ngIf="bdefColumns && bdefColumns.length">
               <div class="table-header row justify-content-end">
                 <button class="btn btn-primary" (click)="open(extractDdl, '')">Generate Format DDL</button> &nbsp;
@@ -247,6 +247,10 @@
                   [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions" [displayUnAuthorized]="'show'">
 
                 </div>
+              </ng-template>
+              <ng-template let-bdefCol="rowData" *ngIf="col.field === 'schemaColumnName'" pTemplate="body">
+                <sd-ellipsis-overflow [ellipsisContent]="bdefCol.schemaColumnName">
+                </sd-ellipsis-overflow>
               </ng-template>
               <ng-template let-bdefCol="rowData" *ngIf="col.field === 'businessObjectDefinitionColumnName'" pTemplate="body">
                 <sd-edit [text]="bdefCol.businessObjectDefinitionColumnName" [simpleEdit]="true" (editDone)="saveDataEntityColumnNameChange($event, bdefCol)"
