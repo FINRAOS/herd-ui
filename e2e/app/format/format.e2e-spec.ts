@@ -143,6 +143,30 @@ describe('Format page:', () => {
     'this is another test partition'].join('\n'));
  });
 
+ it('format of type relational table', async () => {
+     version = 0;
+     const format = data.bFormatRelationalTable();
+     const urlParams = [format.namespace,
+     format.businessObjectDefinitionName,
+     format.businessObjectFormatUsage,
+     format.businessObjectFormatFileType, version].join('/');
+     await page.navigateTo(formatPageUrl + urlParams);
+
+     await expect(page.getDetailsGroup(0).getText()).toContain(
+         [
+             'Namespace:', format.namespace,
+             'Usage:', format.businessObjectFormatUsage,
+             'Format:', format.businessObjectFormatFileType,
+             'Version:'
+         ].join('\n'));
+     await expect(page.getDetailsGroup(1).getText()).toEqual(
+         [
+             'Relational Schema Name', format.relationalSchemaName,
+             'Relational Table Name', format.relationalTableName
+         ]
+     )
+ })
+
   async function validate(format, minValue, maxValue) {
 
     // validate required data
