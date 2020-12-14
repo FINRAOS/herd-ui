@@ -57,6 +57,9 @@ export const postRequests = function () {
             'order': 4, 'url': new schema.BusinessObjectFormats().postUrl(), 'body': data.formatNoData()
         },
         {
+            'order': 4, 'url': new schema.BusinessObjectFormats().postUrl(), 'body': data.bFormatRelationalTable()
+        },
+        {
             'order': 5,
             'url': new schema.BusinessObjectDefinitionData().postUrl(),
             'body': data.bdata1()
