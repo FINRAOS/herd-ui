@@ -365,6 +365,17 @@ export class Data {
     };
   }
 
+  bFormatRelationalTable() {
+    return {
+      'namespace': this.defaultNamespace,
+      'businessObjectDefinitionName': 'FORMAT_DETAILS',
+      'businessObjectFormatUsage': 'FORMAT_DETAILS_F',
+      'businessObjectFormatFileType': 'RELATIONAL_TABLE',
+      'relationalSchemaName': 'rel_schema_name',
+      'relationalTableName': 'rel_table_name'
+    }
+  }
+
   bdata1() {
     return {
       'namespace': this.defaultNamespace,
