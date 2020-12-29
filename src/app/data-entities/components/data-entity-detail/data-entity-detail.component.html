@@ -146,56 +146,6 @@
                 <div sdAuthorized [securityFunction]="authMap.getBData" [namespace]="bdef.namespace" [namespacePermissions]="'READ'">
                   <div class="inner-header">Schema</div>
                   <div *ngIf="formats && formats.length; else noFormats">
-                    <div sdAuthorized [securityFunction]="authMap.editRecommendedFormat" [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions"
-                      [displayUnAuthorized]="'show'" class="col card format-whiteframe" ngbTooltip="Click to view format"
-                         placement="left" *ngFor="let frmt of formats" [ngClass]="isRecommendedFormat(frmt)? 'recommended' : ''"
-                         (click)="$event.stopPropagation()" [routerLink]="['/formats',
-                             frmt.namespace,
-                             frmt.businessObjectDefinitionName,
-                             frmt.businessObjectFormatUsage,
-                             frmt.businessObjectFormatFileType,
-                             frmt.businessObjectFormatVersion]">
-                      <div class="row">
-                        <div class="col-4 format-header">
-                          <div class="row">Usage:</div>
-                          <div class="row">Filetype:</div>
-                          <div *ngIf="isRelationalTable(frmt)">
-                            <div class="row">Schema:</div>
-                            <div class="row">Table:</div>
-                          </div>
-                          <div class="row" ngbTooltip="Latest Version">Version:</div>
-                        </div>
-                        <div class="col-6">
-                          <div class="span">
-                            <sd-ellipsis-overflow [ellipsisContent]="frmt.businessObjectFormatUsage">
-                            </sd-ellipsis-overflow>
-                          </div>
-                          <div class="span">
-                            <sd-ellipsis-overflow [ellipsisContent]="frmt.businessObjectFormatFileType">
-                            </sd-ellipsis-overflow>
-                          </div>
-                          <div *ngIf="isRelationalTable(frmt)">
-                            <div class="span">
-                              <sd-ellipsis-overflow [ellipsisContent]="frmt.relationalSchemaName">
-                              </sd-ellipsis-overflow>
-                            </div>
-                            <div class="span">
-                              <sd-ellipsis-overflow [ellipsisContent]="frmt.relationalTableName">
-                              </sd-ellipsis-overflow>
-                            </div>
-                          </div>
-                          <div class="span">{{ frmt.businessObjectFormatVersion }}</div>
-                        </div>
-                        <div class="col-2" sdAuthorized [securityFunction]="authMap.editRecommendedFormat" [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions">
-                          <div *ngIf="isRecommendedFormat(frmt); else otherFormat">
-                            <i class="fa fa-dot-circle-o" style="color: black" (click)="$event.stopPropagation(); updateDescriptiveFormat(frmt, isRecommendedFormat(frmt))" ngbTooltip="Recommended Format (click to unset)" aria-hidden="true"></i>
-                          </div>
-                          <ng-template #otherFormat>
-                            <i class="fa fa-circle-o" (click)="$event.stopPropagation(); updateDescriptiveFormat(frmt, isRecommendedFormat(frmt))" ngbTooltip="Click to set as Recommended Format" aria-hidden="true"></i>
-                          </ng-template>
-                        </div>
-                      </div>
-                    </div>
                     <div class="col card format-whiteframe pointer" *ngFor="let frmt of formats" ngbTooltip="Click to view format" placement="left"
                          [ngClass]="isRecommendedFormat(frmt)? 'recommended' : ''" (click)="$event.stopPropagation()" [routerLink]="['/formats',
                              frmt.namespace,
