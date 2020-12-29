@@ -209,20 +209,24 @@ describe('DataEntityDetailComponent', () => {
     }
   };
 
-  const formatKeys: BusinessObjectFormatKey[] = [
+  const formatKeys: ExtendedFormatKey[] = [
     {
       namespace: 'ns',
       businessObjectDefinitionName: 'name',
       businessObjectFormatUsage: 'SRC',
       businessObjectFormatFileType: 'TXT',
-      businessObjectFormatVersion: 1
+      businessObjectFormatVersion: 1,
+      relationalSchemaName: undefined,
+      relationalTableName: undefined
     },
     {
       namespace: 'ns',
       businessObjectDefinitionName: 'name',
       businessObjectFormatUsage: 'SRC',
       businessObjectFormatFileType: 'CSV',
-      businessObjectFormatVersion: 1
+      businessObjectFormatVersion: 1,
+      relationalSchemaName: undefined,
+      relationalTableName: undefined
     }
   ];
 
@@ -307,6 +311,11 @@ describe('DataEntityDetailComponent', () => {
       }
     ]
   };
+
+  type ExtendedFormatKey = BusinessObjectFormatKey & {
+    relationalSchemaName: string,
+    relationalTableName: string
+  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

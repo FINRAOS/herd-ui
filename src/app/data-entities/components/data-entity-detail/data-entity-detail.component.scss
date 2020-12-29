@@ -119,6 +119,14 @@ $button-hover-color: $table-header-color;
       margin-top: 10px;
       padding: 20px 10px;
     }
+    .format-whiteframe:focus {
+      outline: none !important;
+    }
+    .format-whiteframe:hover {
+      transform: scale(1.07);
+      transition-timing-function: linear;
+      transition-duration: 300ms;
+    }
     .recommended.format-whiteframe {
       background: $recommended-format-color;
       color: #fff;

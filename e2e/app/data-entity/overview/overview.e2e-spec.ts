@@ -150,8 +150,8 @@ describe('Data Entity Overview Page', () => {
       it('should change format to on when format whiteframe is clicked ', async () => {
 
         // TODO: also add case for switching to check to make sure columns changes / lineage information is updated
-        // verify tooltip, make recommended, make not recommended
-        await expect(page.getFormatTooltipText(usg, ftp, ver)).toEqual('Click to set/unset recommended format');
+        // verify tooltip, drill-down to format
+        await expect(page.getFormatTooltipText(usg, ftp, ver)).toEqual('Click to view format');
 
         await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(false);
         await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(false);
