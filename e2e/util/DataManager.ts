@@ -23,6 +23,7 @@ import request from 'sync-request';
 
 const constants = require('../config/conf.e2e.json');
 const herdHost = process.env.HERD_HOST || constants.herdHost;
+const basicAuthorization = 'Basic ' + btoa(constants.loginUser + ':' + constants.loginPwd);
 
 export interface DMOption {
   order: number;
@@ -163,7 +164,7 @@ export class DataManager {
 
       const response = request('POST', option.url, {
         json: option.body, headers: {
-          'Authorization': constants.authorization.basicKey
+          'Authorization': basicAuthorization
         }
       });
 
@@ -200,7 +201,7 @@ export class DataManager {
 
       const response = request('DELETE', option.url, {
         headers: {
-          'Authorization': constants.authorization.basicKey
+          'Authorization': basicAuthorization
         }
       });
 
@@ -236,7 +237,7 @@ export class DataManager {
 
       const response = request('PUT', option.url, {
         json: option.body, headers: {
-          'Authorization': constants.authorization.basicKey
+          'Authorization': basicAuthorization
         }
       });
 
@@ -260,7 +261,7 @@ export class DataManager {
       DataManager.logger.log('info', '------- Start Validate Indexes Outer Block ------ ');
       const response = request('GET', herdHost + '/searchIndexes', {
         headers: {
-          'Authorization': constants.authorization.basicKey,
+          'Authorization': basicAuthorization,
           'Accept': 'application/json'
         }
       });
@@ -278,7 +279,7 @@ export class DataManager {
               'performFullSearchIndexValidation': true
             },
             headers: {
-              'Authorization': constants.authorization.basicKey,
+              'Authorization': basicAuthorization,
               'Accept': 'application/json'
             }
           });
