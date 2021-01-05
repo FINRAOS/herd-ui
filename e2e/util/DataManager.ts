@@ -23,7 +23,7 @@ import request from 'sync-request';
 
 const constants = require('../config/conf.e2e.json');
 const herdHost = process.env.HERD_HOST || constants.herdHost;
-const basicAuthorization = 'Basic ' + btoa(constants.loginUser + ':' + constants.loginPwd);
+const basicAuthorization = 'Basic ' + Buffer.from(constants.loginUser + ':' + constants.loginPwd).toString('base64');
 
 export interface DMOption {
   order: number;
