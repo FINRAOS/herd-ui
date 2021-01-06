@@ -49,6 +49,9 @@ describe('Google Analytics Service', () => {
   });
 
   describe('with trackAnalytics turned on', () => {
+    beforeEach( inject([], () => {
+      environment.trackAnalytics = true;
+    }));
 
     it('should initialize google analytics if trackAnalytics is set to true and trackingId exists',
       inject([GoogleAnalyticsService], (googleAnalyticsService: GoogleAnalyticsService) => {
