@@ -146,69 +146,52 @@
                 <div sdAuthorized [securityFunction]="authMap.getBData" [namespace]="bdef.namespace" [namespacePermissions]="'READ'">
                   <div class="inner-header">Schema</div>
                   <div *ngIf="formats && formats.length; else noFormats">
-                    <div sdAuthorized [securityFunction]="authMap.editRecommendedFormat" [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions"
-                      [displayUnAuthorized]="'show'" class="col card format-whiteframe" *ngFor="let frmt of formats" [ngClass]="isRecommendedFormat(frmt)? 'recommended' : ''">
-                      <div class="row">
-                        <div class="col-5 format-header">
-                          <div class="row">Usage:</div>
-                          <div class="row">Filetype:</div>
-                          <div class="row">Latest Version:</div>
-                        </div>
-                        <div [ngClass]="isRecommendedFormat(frmt)? 'col-4': 'col-7'">
-                          <div class="row">
-                            <sd-ellipsis-overflow [ellipsisContent]="frmt.businessObjectFormatUsage">
-                            </sd-ellipsis-overflow>
-                          </div>
-
-                          <span class="row">{{frmt.businessObjectFormatFileType}}</span>
-                          <span class="row">{{frmt.businessObjectFormatVersion}}</span>
-                        </div>
-                        <div class="col-2" *ngIf="isRecommendedFormat(frmt)">
-                          <i class="fa fa-info-circle" ngbTooltip="Recommended Format" aria-hidden="true"></i>
-                        </div>
-                      </div>
-                      <div class="row view-schema-container">
-                        <a class="schema-link" (click)="$event.stopPropagation()" [routerLink]="['/formats',
+                    <div class="col card format-whiteframe pointer" *ngFor="let frmt of formats" ngbTooltip="Click to view format" placement="left"
+                         [ngClass]="isRecommendedFormat(frmt)? 'recommended' : ''" (click)="$event.stopPropagation()" [routerLink]="['/formats',
                              frmt.namespace,
                              frmt.businessObjectDefinitionName,
                              frmt.businessObjectFormatUsage,
                              frmt.businessObjectFormatFileType,
                              frmt.businessObjectFormatVersion]">
-                            View Schema
-                          </a>
-                      </div>
-                    </div>
-                    <div sdAuthorized [securityFunction]="authMap.editRecommendedFormat" [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions"
-                      class="col card format-whiteframe pointer" *ngFor="let frmt of formats" ngbTooltip="Click to set/unset recommended format"
-                      placement="left" (click)="updateDescriptiveFormat(frmt, isRecommendedFormat(frmt))" [ngClass]="isRecommendedFormat(frmt)? 'recommended' : ''">
                       <div class="row">
-                        <div class="col-5 format-header">
+                        <div class="col-4 format-header">
                           <div class="row">Usage:</div>
                           <div class="row">Filetype:</div>
-                          <div class="row">Latest Version:</div>
+                          <div *ngIf="isRelationalTable(frmt)">
+                            <div class="row">Schema:</div>
+                            <div class="row">Table:</div>
+                          </div>
+                          <div class="row" ngbTooltip="Latest Version">Version:</div>
                         </div>
-                        <div [ngClass]="isRecommendedFormat(frmt)? 'col-4': 'col-7'">
-                          <div class="row">
+                        <div class="col-6">
+                          <div class="span">
                             <sd-ellipsis-overflow [ellipsisContent]="frmt.businessObjectFormatUsage">
                             </sd-ellipsis-overflow>
                           </div>
-
-                          <span class="row">{{frmt.businessObjectFormatFileType}}</span>
-                          <span class="row">{{frmt.businessObjectFormatVersion}}</span>
+                          <div class="span">
+                            <sd-ellipsis-overflow [ellipsisContent]="frmt.businessObjectFormatFileType">
+                            </sd-ellipsis-overflow>
+                          </div>
+                          <div *ngIf="isRelationalTable(frmt)">
+                            <div class="span">
+                              <sd-ellipsis-overflow [ellipsisContent]="frmt.relationalSchemaName">
+                              </sd-ellipsis-overflow>
+                            </div>
+                            <div class="span">
+                              <sd-ellipsis-overflow [ellipsisContent]="frmt.relationalTableName">
+                              </sd-ellipsis-overflow>
+                            </div>
+                          </div>
+                          <div class="span">{{ frmt.businessObjectFormatVersion }}</div>
                         </div>
-                        <div class="col-2" *ngIf="isRecommendedFormat(frmt)">
-                          <i class="fa fa-info-circle" ngbTooltip="Recommended Format" aria-hidden="true"></i>
+                        <div class="col-2" sdAuthorized [securityFunction]="authMap.editRecommendedFormat" [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions">
+                          <div *ngIf="isRecommendedFormat(frmt); else otherFormat">
+                            <i class="fa fa-dot-circle-o" style="color: black" (click)="$event.stopPropagation(); updateDescriptiveFormat(frmt, isRecommendedFormat(frmt))" ngbTooltip="Recommended Format (click to unset)" aria-hidden="true"></i>
+                          </div>
+                          <ng-template #otherFormat>
+                            <i class="fa fa-circle-o" (click)="$event.stopPropagation(); updateDescriptiveFormat(frmt, isRecommendedFormat(frmt))" ngbTooltip="Click to set as Recommended Format" aria-hidden="true"></i>
+                          </ng-template>
                         </div>
-                      </div>
-                      <div class="row view-schema-container">
-                        <a class="schema-link" (click)="$event.stopPropagation()" [routerLink]="['/formats',
-                               frmt.namespace,
-                               frmt.businessObjectDefinitionName,
-                               frmt.businessObjectFormatUsage,
-                               frmt.businessObjectFormatFileType,
-                               frmt.businessObjectFormatVersion]">
-                              View Schema
-                            </a>
                       </div>
                     </div>
                   </div>

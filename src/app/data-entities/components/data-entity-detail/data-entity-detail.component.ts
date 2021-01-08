@@ -91,6 +91,10 @@ export interface DataEntityWithFormatColumn {
   exists: boolean;
 }
 
+export type ExtendedFormatKey = BusinessObjectFormatKey & {
+  relationalSchemaName: string,
+  relationalTableName: string
+}
 
 @Component({
   selector: 'sd-data-entity-detail',
@@ -111,7 +115,8 @@ export class DataEntityDetailComponent implements OnInit {
   businessObjectDefinitionDescriptionSuggestions: Array<any>;
 
   bdef: BusinessObjectDefinition = {} as BusinessObjectDefinition;
-  formats: BusinessObjectFormatKey[] = [];
+  formats: ExtendedFormatKey[] = [];
+  relationalTableFileType = 'RELATIONAL_TABLE'
   disableSampleData = true;
   descriptiveFormat: BusinessObjectFormat;
   documentSchema: string;
@@ -409,7 +414,46 @@ export class DataEntityDetailComponent implements OnInit {
     ).pipe(finalize(() => {
       this.businessObjectFormatApi.defaultHeaders.delete('skipAlert');
     })).subscribe((response) => {
-      this.formats = response.businessObjectFormatKeys;
+      for(const formatKey of response.businessObjectFormatKeys)
+      {
+        const extendedFormatKey: ExtendedFormatKey = {
+          namespace : formatKey.namespace,
+          businessObjectDefinitionName: formatKey.businessObjectDefinitionName,
+          businessObjectFormatUsage: formatKey.businessObjectFormatUsage,
+          businessObjectFormatFileType: formatKey.businessObjectFormatFileType,
+          businessObjectFormatVersion: formatKey.businessObjectFormatVersion,
+          relationalSchemaName: undefined,
+          relationalTableName: undefined
+        };
+        this.formats.push(extendedFormatKey);
+      }
+      // iterate thru format keys of type relational table, fetch the format and augment with relational
+      // table information
+      for (const extendableFormatKey of this.formats.filter(formatKey => this.isRelationalTable(formatKey))) {
+        this.businessObjectFormatApi.businessObjectFormatGetBusinessObjectFormat(
+            extendableFormatKey.namespace,
+            extendableFormatKey.businessObjectDefinitionName,
+            extendableFormatKey.businessObjectFormatUsage,
+            extendableFormatKey.businessObjectFormatFileType,
+            extendableFormatKey.businessObjectFormatVersion
+        ).subscribe(response => {
+          let index: number = this.formats.findIndex(formatKey => (
+              formatKey.businessObjectFormatUsage === extendableFormatKey.businessObjectFormatUsage
+              && formatKey.businessObjectFormatFileType === extendableFormatKey.businessObjectFormatFileType
+              && formatKey.businessObjectFormatVersion === extendableFormatKey.businessObjectFormatVersion ));
+
+          // replace format key element in-place with a new object containing relational table information
+          this.formats[index] = {
+            namespace : extendableFormatKey.namespace,
+            businessObjectDefinitionName: extendableFormatKey.businessObjectDefinitionName,
+            businessObjectFormatUsage: extendableFormatKey.businessObjectFormatUsage,
+            businessObjectFormatFileType: extendableFormatKey.businessObjectFormatFileType,
+            relationalSchemaName: response.relationalSchemaName,
+            relationalTableName: response.relationalTableName,
+            businessObjectFormatVersion: response.businessObjectFormatVersion
+          }
+        });
+      }
     }, (error) => {
       this.formats = [];
     });
@@ -643,6 +687,10 @@ export class DataEntityDetailComponent implements OnInit {
       this.descriptiveFormat.businessObjectFormatUsage)
       && (format.businessObjectFormatFileType ===
         this.descriptiveFormat.businessObjectFormatFileType)));
+  }
+
+  isRelationalTable(formatKey: ExtendedFormatKey) {
+    return formatKey.businessObjectFormatFileType === this.relationalTableFileType;
   }
 
   getSMEContactDetails() {

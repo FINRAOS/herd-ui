@@ -140,7 +140,7 @@ export class OverviewPage extends BasePo {
   async toggleRecommendedFormat(usage: string, fileType: string, version: string, hasAccess: boolean = true) {
     const formatFrame = await this.findFormatFrame(usage, fileType, version, hasAccess);
     if (formatFrame) {
-      return formatFrame.click();
+      return formatFrame.element(by.className('fa')).click();
     } else {
       return Promise.resolve(null);
     }
