@@ -21,9 +21,10 @@ export default {
   description: 'Sample description text for testing purpose. Used for all description fields',
   searchBoxDescription: 'I can help you to find anything you want!',
   tagTypeCode1: function () {
-      const tagTypeCode1 = {
+    const randomNumber = Math.floor(Math.random()*9000) + 1000;
+    const tagTypeCode1 = {
         'code': 'Aa_Test1_CTGRY' + uniqueId,
-        'displayName': 'Aa Test1 Category',
+        'displayName': 'Aa Test1 Category' + randomNumber,
         'description': 'Test description 1',
         'order': '-50',
         'tags': [
@@ -55,9 +56,10 @@ export default {
   ,
 
   tagTypeCode2: function () {
+      const randomNumber = Math.floor(Math.random()*9000) + 1000;
       const tagTypeCode2 = {
         'code': 'Aa_Test2_CTGRY' + uniqueId,
-        'displayName': 'Aa Test2 Category',
+        'displayName': 'Aa Test2 Category' + randomNumber,
         'description': 'Test description 2',
         'order': '-49',
         'tags': [
@@ -77,9 +79,10 @@ export default {
   ,
 
   tagTypeCode3: function () {
+      const randomNumber = Math.floor(Math.random()*9000) + 1000;
       const tagTypeCode3 = {
         'code': 'Aa_Test3_CTGRY' + uniqueId,
-        'displayName': 'Aa Test3 Category',
+        'displayName': 'Aa Test3 Category' + randomNumber,
         'description': 'Test description 3',
         'order': '-48',
         'tags': [
@@ -104,9 +107,10 @@ export default {
   ,
 
    tagTypeCode4: function () {
+      const randomNumber = Math.floor(Math.random()*9000) + 1000;
       const tagTypeCode4 = {
         'code': 'Bb_Test4_CTGRY' + uniqueId,
-        'displayName': 'Bb Test4 Category',
+        'displayName': 'Bb Test4 Category' + randomNumber,
         'description': 'Test description 4',
         'order': '-47',
         'tags': [
@@ -138,9 +142,10 @@ export default {
   ,
 
    tagTypeCode5: function () {
+      const randomNumber = Math.floor(Math.random()*9000) + 1000;
       const tagTypeCode5 = {
         'code': 'bb_Test5_CTGRY' + uniqueId,
-        'displayName': 'Bb Test5 Category',
+        'displayName': 'Bb Test5 Category' + randomNumber,
         'description': 'Test description 5',
         'order': '-46',
         'tags': [
@@ -186,9 +191,10 @@ export default {
   ,
 
    tagTypeCode6: function () {
+      const randomNumber = Math.floor(Math.random()*9000) + 1000;
       const tagTypeCode6 = {
         'code': 'Bb_Test6_CTGRY' + uniqueId,
-        'displayName': 'Bb Test6 Category',
+        'displayName': 'Bb Test6 Category' + randomNumber,
         'description': 'Test description 6',
         'order': '-45',
         'tags': [
