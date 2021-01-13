@@ -46,6 +46,8 @@ describe('Smoke Tests', () => {
 
   it('should should display proper headings and category data', async () => {
 
+    console.log(" *** SMOKE *** " + homePage);
+
     await homePage.navigateTo();
 
     // validate Home Search Heading
