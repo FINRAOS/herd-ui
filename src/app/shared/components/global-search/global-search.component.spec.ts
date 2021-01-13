@@ -29,6 +29,7 @@ describe('GlobalSearchComponent', () => {
   let searchTextBox: DebugElement;
   let allCheckBox: DebugElement;
   let columnCheckBox: DebugElement;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -50,6 +51,10 @@ describe('GlobalSearchComponent', () => {
     searchTextBox = fixture.debugElement.query(By.css('input[type="text"]'));
     allCheckBox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[0];
     columnCheckBox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[1];
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should be created', () => {

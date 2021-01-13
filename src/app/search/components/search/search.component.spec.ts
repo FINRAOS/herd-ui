@@ -114,6 +114,10 @@ describe('SearchComponent', () => {
     searchService = fixture.debugElement.injector.get(SearchService);
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should create the search component', async(() => {
     fixture.detectChanges();
     expect(component).toBeTruthy();

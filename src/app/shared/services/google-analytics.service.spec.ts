@@ -49,6 +49,7 @@ describe('Google Analytics Service', () => {
   });
 
   describe('with trackAnalytics turned on', () => {
+
     beforeEach( inject([], () => {
       environment.trackAnalytics = true;
     }));
