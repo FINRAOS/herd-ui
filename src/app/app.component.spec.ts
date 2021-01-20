@@ -126,6 +126,10 @@ describe('AppComponent', () => {
     fixture = TestBed.createComponent(AppComponent);
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should create the app', async(() => {
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();

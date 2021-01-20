@@ -56,7 +56,11 @@ describe('DataEntityListComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should set data on data change', async(inject([ActivatedRoute, Router], (route: ActivatedRoute, router: Router) => {
+  afterEach(() => {
+    fixture.destroy();
+  });
+
+    it('should set data on data change', async(inject([ActivatedRoute, Router], (route: ActivatedRoute, router: Router) => {
     spyOn(component.searchInput, 'focus');
 
     (route as any).testData = {
