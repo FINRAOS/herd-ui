@@ -70,7 +70,8 @@ describe('Feature:HomePage', function () {
     for (let i = 0; i < 6; i++) {
       // validate all the test tagtypes
       // Remove the 4 random digits from the tag type name before using the to contain test.
-      await expect(allTagTypes[i].getText()).toContain(page.expectedData[i].tagTypeName.slice(0, page.expectedData[i].tagTypeName.length - 14));
+      const tagTypeName = page.expectedData[i].tagTypeName;
+      await expect(allTagTypes[i].getText()).toContain(tagTypeName.slice(0, tagTypeName.length - 4));
       await page.mouseEnterShim(allTagTypes[i]);
       // validate all the test tagtypes description
       await expect((await page.getTagTypeTooltip(i).getText()).trim()).toContain(data['tagTypeCode' + (i + 1)]().description);
