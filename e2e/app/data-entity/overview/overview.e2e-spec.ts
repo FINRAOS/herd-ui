@@ -254,6 +254,7 @@ it('static header and data populated correctly', async () => {
       const formatFrame = await page.findFormatFrame(usg2, ftp2, ver, true);
       await expect(formatFrame).toEqual(null);
     });
+       */
 
     it('should not be able to edit the displayName', async () => {
       await expect(page.canEditDisplayName()).toBe(false);
@@ -265,7 +266,7 @@ it('static header and data populated correctly', async () => {
     });
 
     });
-       */
+
 
     describe(' description suggestion', () => {
 
