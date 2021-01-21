@@ -40,49 +40,50 @@ describe('Data Entity Overview Page', () => {
   const namespace = data.defaultNamespace;
   const dataProvider = data.defaultDataProvider;
 
-  it('static header and data populated correctly', async () => {
-    // TODO: Fix test
-    /*
-    await page.navigateTo(_url.replace('{namespace}', namespace)
-      .replace('{businessObjectDefinitionName}', data.bdefTest().businessObjectDefinitionName));
-    await validate(data.bdefTest());
+  // TODO: Fix test
+  /*
+it('static header and data populated correctly', async () => {
 
-    // validate tags exist
-    await expect((await page.totalEditorTags.get(0).getText()).trim()).toEqual(data.tagTypeCode().tags[0].displayName);
-    await expect((await page.totalEditorTags.get(1).getText()).trim()).toEqual(data.tagTypeCode().tags[1].displayName);
+  await page.navigateTo(_url.replace('{namespace}', namespace)
+    .replace('{businessObjectDefinitionName}', data.bdefTest().businessObjectDefinitionName));
+  await validate(data.bdefTest());
 
-    // mouse over to see the tooltop over button
-    // await page.mouseEnterShim(await page._tagsEditorEl);
-    await page.mouseEnterShim(await page.tags_button.get(0));
-    await expect(page.tag_tooltip.isDisplayed()).toBeTruthy();
-    await expect(page.tag_tooltip.getText()).toEqual(data.tagTypeCode().displayName);
-    await page.mouseEnterShim(await page.tags_button.get(1));
-    await expect(page.tag_tooltip.getText()).toEqual(data.tagTypeCode().displayName);
+  // validate tags exist
+  await expect((await page.totalEditorTags.get(0).getText()).trim()).toEqual(data.tagTypeCode().tags[0].displayName);
+  await expect((await page.totalEditorTags.get(1).getText()).trim()).toEqual(data.tagTypeCode().tags[1].displayName);
 
-    // elevated priv whiteFrames should be there
-    const frame1 = await page.findFormatFrame(data.bdefTestMultipleFormatVersions().businessObjectFormatUsage,
-      data.bdefTestMultipleFormatVersions().businessObjectFormatFileType, '1', true);
-    await expect(frame1).not.toBe(null);
-    let headerText = await page.getFormatFrameHeaderText(frame1);
-    await expect(headerText).toContain('Usage:');
-    await expect(headerText).toContain('Filetype:');
-    await expect(headerText).toContain('Version:');
+  // mouse over to see the tooltop over button
+  // await page.mouseEnterShim(await page._tagsEditorEl);
+  await page.mouseEnterShim(await page.tags_button.get(0));
+  await expect(page.tag_tooltip.isDisplayed()).toBeTruthy();
+  await expect(page.tag_tooltip.getText()).toEqual(data.tagTypeCode().displayName);
+  await page.mouseEnterShim(await page.tags_button.get(1));
+  await expect(page.tag_tooltip.getText()).toEqual(data.tagTypeCode().displayName);
 
-    const frame2 = await page.findFormatFrame(data.bdefTestSingleFormatVersion().businessObjectFormatUsage,
-      data.bdefTestSingleFormatVersion().businessObjectFormatFileType, '0', true);
-    await expect(frame2).not.toBe(null);
-    headerText = await page.getFormatFrameHeaderText(frame2);
-    await expect(headerText).toContain('Usage:');
-    await expect(headerText).toContain('Filetype:');
-    await expect(headerText).toContain('Version:');
+  // elevated priv whiteFrames should be there
+  const frame1 = await page.findFormatFrame(data.bdefTestMultipleFormatVersions().businessObjectFormatUsage,
+    data.bdefTestMultipleFormatVersions().businessObjectFormatFileType, '1', true);
+  await expect(frame1).not.toBe(null);
+  let headerText = await page.getFormatFrameHeaderText(frame1);
+  await expect(headerText).toContain('Usage:');
+  await expect(headerText).toContain('Filetype:');
+  await expect(headerText).toContain('Version:');
 
-    await page.mouseEnterShim(await page.getRecommendedFormatIconTooltipText());
-    await expect(page.format_tooltip.getText()).toEqual(expectedValues.recommendedFormat);
+  const frame2 = await page.findFormatFrame(data.bdefTestSingleFormatVersion().businessObjectFormatUsage,
+    data.bdefTestSingleFormatVersion().businessObjectFormatFileType, '0', true);
+  await expect(frame2).not.toBe(null);
+  headerText = await page.getFormatFrameHeaderText(frame2);
+  await expect(headerText).toContain('Usage:');
+  await expect(headerText).toContain('Filetype:');
+  await expect(headerText).toContain('Version:');
 
-    // There is attribute card present in the page
-    await expect(page.attributes.getText()).toContain('User-defined Attributes');
-    */
+  await page.mouseEnterShim(await page.getRecommendedFormatIconTooltipText());
+  await expect(page.format_tooltip.getText()).toEqual(expectedValues.recommendedFormat);
+
+  // There is attribute card present in the page
+  await expect(page.attributes.getText()).toContain('User-defined Attributes');
   });
+   */
 
   it('static header and data populated correctly for optional data', async () => {
     await page.navigateTo(_url.replace('{namespace}', namespace)
@@ -149,33 +150,35 @@ describe('Data Entity Overview Page', () => {
       });
 
       // precursor test
-      it('should change format to on when format whiteframe is clicked ', async () => {
-        // TODO: fix test
-        /*
-          // TODO: also add case for switching to check to make sure columns changes / lineage information is updated
-          // verify tooltip, drill-down to format
-          await expect(page.getFormatTooltipText(usg, ftp, ver)).toEqual('Click to view format');
+      // TODO: fix test
+      /*
+    it('should change format to on when format whiteframe is clicked ', async () => {
 
-          await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(false);
-          await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(false);
+        // TODO: also add case for switching to check to make sure columns changes / lineage information is updated
+        // verify tooltip, drill-down to format
+        await expect(page.getFormatTooltipText(usg, ftp, ver)).toEqual('Click to view format');
 
-          // toggle first on
-          await page.toggleRecommendedFormat(usg, ftp, ver);
-          await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(true);
-          await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(false);
+        await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(false);
+        await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(false);
 
-          // toggle first off
-          await page.toggleRecommendedFormat(usg, ftp, ver);
-          await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(false);
-          await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(false);
+        // toggle first on
+        await page.toggleRecommendedFormat(usg, ftp, ver);
+        await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(true);
+        await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(false);
 
-          // toggle first on then toggle second to show a switch between 2 different formats
-          await page.toggleRecommendedFormat(usg, ftp, ver);
-          await page.toggleRecommendedFormat(usg2, ftp2, ver);
-          await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(false);
-          await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(true);
-          */
+        // toggle first off
+        await page.toggleRecommendedFormat(usg, ftp, ver);
+        await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(false);
+        await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(false);
+
+        // toggle first on then toggle second to show a switch between 2 different formats
+        await page.toggleRecommendedFormat(usg, ftp, ver);
+        await page.toggleRecommendedFormat(usg2, ftp2, ver);
+        await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(false);
+        await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(true);
         });
+
+       */
 
       it('should edit the displayName', async () => {
         const expectedName = data.editBdefTestData().displayName
@@ -233,34 +236,36 @@ describe('Data Entity Overview Page', () => {
           conf.noAccessUser, conf.noAccessPassword);
       });
 
-      // NOTE: this test assumes the previous test (precursor test) has fully passed and leaves the second format as descriptive
-      it('should not be able to select format for recommendation with out proper credentials', async () => {
-        // TODO: Fix test
-        /*
-        const expectedData: NoAuthFrameData = {
-          headerText: 'Recommended Format',
-          usageData: usg2,
-          fileTypeData: ftp2,
-          fileTypeFormatProperty: 'File Type',
-          UsageFormatProperty: 'Usage'
-        };
+      // TODO: Fix test
+      /*
+    // NOTE: this test assumes the previous test (precursor test) has fully passed and leaves the second format as descriptive
+    it('should not be able to select format for recommendation with out proper credentials', async () => {
 
-        await expect(page.getNoAuthFormatsFrameData(usg2, ftp2)).toEqual(expectedData);
-        // elevated priv whiteFrames shouldn't be there
-        const formatFrame = await page.findFormatFrame(usg2, ftp2, ver, true);
-        await expect(formatFrame).toEqual(null);
-      });
+      const expectedData: NoAuthFrameData = {
+        headerText: 'Recommended Format',
+        usageData: usg2,
+        fileTypeData: ftp2,
+        fileTypeFormatProperty: 'File Type',
+        UsageFormatProperty: 'Usage'
+      };
 
-      it('should not be able to edit the displayName', async () => {
-        await expect(page.canEditDisplayName()).toBe(false);
-        await expect(page.getBdefTitle()).toBe(newDisplayName);
-      });
-
-      it('should not be able to edit Categories', async () => {
-        await expect(page.canEditCategories()).toBe(false);
-      });
-      */
+      await expect(page.getNoAuthFormatsFrameData(usg2, ftp2)).toEqual(expectedData);
+      // elevated priv whiteFrames shouldn't be there
+      const formatFrame = await page.findFormatFrame(usg2, ftp2, ver, true);
+      await expect(formatFrame).toEqual(null);
     });
+
+    it('should not be able to edit the displayName', async () => {
+      await expect(page.canEditDisplayName()).toBe(false);
+      await expect(page.getBdefTitle()).toBe(newDisplayName);
+    });
+
+    it('should not be able to edit Categories', async () => {
+      await expect(page.canEditCategories()).toBe(false);
+    });
+
+    });
+       */
 
     describe(' description suggestion', () => {
 

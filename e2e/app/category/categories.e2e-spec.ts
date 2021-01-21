@@ -141,9 +141,9 @@ describe('Categories Page', () => {
 
   });
 
+  // TODO: fix test
+  /*
   it('Hit highlight is showing and working as expected', async () => {
-    // TODO: fix test
-    /*
     await page.navigateTo(_url + data.tagTypeCode().code + '/' + data.tagTypeCode().tags[3].code + '/');
     await page.search(searchTerm);
     const searchResultUrl = browser.baseUrl + '/categories/'
@@ -156,7 +156,8 @@ describe('Categories Page', () => {
 
     // verify expected results
     await expect(page.highlightFound.getText()).toContain('Found in');
-    */
-  });
+   });
+   */
+
 });
 
