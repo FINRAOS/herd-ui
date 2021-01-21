@@ -152,7 +152,6 @@ export class BasePo {
   }
 
   async navigateTo(url?: string, user: string = conf.loginUser, pass: string = conf.loginPwd) {
-      console.log("*** navigateTo *** url: " + url + "user: " + user + "pass: " + pass);
       console.log(BasePo.fipAuth)
       if(BasePo.fipAuth === true)
       {

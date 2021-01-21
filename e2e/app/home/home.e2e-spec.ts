@@ -25,18 +25,13 @@ describe('Feature:HomePage', function () {
   const brandMotto = 'Locate and understand data available at FINRA';
   let page: HomePage;
 
-  console.log(" ***** HOME ***** " + page);
-
   beforeEach(async () => {
     page = new HomePage();
-    console.log(" *** HOME *** " + page);
   });
 
 
+
   it(' should display proper headings and category data', async () => {
-
-
-
     await page.navigateTo();
 
     // validate Home Search Heading

@@ -158,6 +158,5 @@ describe('Categories Page', () => {
     await expect(page.highlightFound.getText()).toContain('Found in');
     */
   });
-
 });
 

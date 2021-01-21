@@ -44,8 +44,6 @@ describe('Smoke Tests', () => {
   // increase jasmine timeout to 5 minutes
   jasmine.DEFAULT_TIMEOUT_INTERVAL  = 300000;
 
-  console.log(" *** SMOKE *** " + homePage);
-
   it('should should display proper headings and category data', async () => {
 
     await homePage.navigateTo();
