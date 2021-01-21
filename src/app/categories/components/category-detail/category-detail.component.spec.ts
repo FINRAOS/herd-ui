@@ -126,6 +126,11 @@ describe('CategoryDetailComponent', () => {
       spySearchServiceApi = (<jasmine.Spy>indexSearchService.indexSearchIndexSearch)
         .and.returnValue(of(indexSearchMockData.indexSearchResponse));
     })));
+
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should create', async(() => {
     expect(component).toBeTruthy();
   }));

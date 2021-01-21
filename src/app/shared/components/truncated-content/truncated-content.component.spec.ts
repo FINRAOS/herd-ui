@@ -36,6 +36,10 @@ describe('TruncatedContentComponent', () => {
 
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
