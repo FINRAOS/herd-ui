@@ -150,34 +150,33 @@ describe('Data Entity Overview Page', () => {
       });
 
       // precursor test
-      // TODO: fix test
-      /*
       it('should change format to on when format whiteframe is clicked ', async () => {
+        // TODO: fix test
+        /*
+          // TODO: also add case for switching to check to make sure columns changes / lineage information is updated
+          // verify tooltip, drill-down to format
+          await expect(page.getFormatTooltipText(usg, ftp, ver)).toEqual('Click to view format');
 
-        // TODO: also add case for switching to check to make sure columns changes / lineage information is updated
-        // verify tooltip, drill-down to format
-        await expect(page.getFormatTooltipText(usg, ftp, ver)).toEqual('Click to view format');
+          await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(false);
+          await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(false);
 
-        await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(false);
-        await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(false);
+          // toggle first on
+          await page.toggleRecommendedFormat(usg, ftp, ver);
+          await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(true);
+          await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(false);
 
-        // toggle first on
-        await page.toggleRecommendedFormat(usg, ftp, ver);
-        await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(true);
-        await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(false);
+          // toggle first off
+          await page.toggleRecommendedFormat(usg, ftp, ver);
+          await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(false);
+          await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(false);
 
-        // toggle first off
-        await page.toggleRecommendedFormat(usg, ftp, ver);
-        await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(false);
-        await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(false);
-
-        // toggle first on then toggle second to show a switch between 2 different formats
-        await page.toggleRecommendedFormat(usg, ftp, ver);
-        await page.toggleRecommendedFormat(usg2, ftp2, ver);
-        await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(false);
-        await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(true);
-      });
-       */
+          // toggle first on then toggle second to show a switch between 2 different formats
+          await page.toggleRecommendedFormat(usg, ftp, ver);
+          await page.toggleRecommendedFormat(usg2, ftp2, ver);
+          await expect(page.isDescriptiveFormat(usg, ftp, ver)).toBe(false);
+          await expect(page.isDescriptiveFormat(usg2, ftp2, ver)).toBe(true);
+          */
+        });
 
       it('should edit the displayName', async () => {
         const expectedName = data.editBdefTestData().displayName
@@ -227,8 +226,6 @@ describe('Data Entity Overview Page', () => {
       });
     });
 
-    // TODO: fix test
-    /*
     describe('without proper credentials', () => {
       beforeAll(async () => {
         // without permissions to edit
@@ -236,7 +233,6 @@ describe('Data Entity Overview Page', () => {
           data.editBdefTestData().businessObjectDefinitionName),
           conf.noAccessUser, conf.noAccessPassword);
       });
-     */
 
       // NOTE: this test assumes the previous test (precursor test) has fully passed and leaves the second format as descriptive
       it('should not be able to select format for recommendation with out proper credentials', async () => {
