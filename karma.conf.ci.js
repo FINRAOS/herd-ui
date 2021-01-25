@@ -67,7 +67,7 @@ module.exports = function (config) {
     reporters: ['progress', 'coverage-istanbul', 'junit'],
     port: 9876,
     colors: true,
-    logLevel: config.LOG_DEBUG,
+    logLevel: config.LOG_INFO,
     browserNoActivityTimeout: 60000,
     autoWatch: false,
     browsers: ['PhantomJS'],

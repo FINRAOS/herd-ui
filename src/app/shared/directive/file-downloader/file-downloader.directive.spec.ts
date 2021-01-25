@@ -17,6 +17,7 @@ import { SimpleChanges } from '@angular/core';
 import { FileDownloaderDirective } from './file-downloader.directive';
 
 describe('FileDownloaderDirective', () => {
+
   it('should create an instance', () => {
     const directive = new FileDownloaderDirective();
     expect(directive).toBeTruthy();

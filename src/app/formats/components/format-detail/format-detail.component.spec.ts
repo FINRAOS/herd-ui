@@ -42,15 +42,15 @@ describe('FormatDetailComponent', () => {
   const activeRoute: ActivatedRouteStub = new ActivatedRouteStub();
 
   const businessObjectFormatExternalInterfaceDescriptiveInformation = {
-    "businessObjectFormatExternalInterfaceKey": {
-      "namespace": "ns",
-      "businessObjectDefinitionName": "name",
-      "businessObjectFormatUsage": "SRC",
-      "businessObjectFormatFileType": "TXT",
-      "externalInterfaceName": "EXTERNAL_INTERFACE"
+    'businessObjectFormatExternalInterfaceKey': {
+      'namespace': 'ns',
+      'businessObjectDefinitionName': 'name',
+      'businessObjectFormatUsage': 'SRC',
+      'businessObjectFormatFileType': 'TXT',
+      'externalInterfaceName': 'EXTERNAL_INTERFACE'
     },
-    "externalInterfaceDisplayName": "External Interface Display Name",
-    "externalInterfaceDescription": "Description of the external interface."
+    'externalInterfaceDisplayName': 'External Interface Display Name',
+    'externalInterfaceDescription': 'Description of the external interface.'
   };
 
   beforeEach(async(() => {
@@ -165,7 +165,11 @@ describe('FormatDetailComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should create', () => {
+  afterEach(() => {
+    fixture.destroy();
+  });
+
+    it('should create', () => {
     expect(component).toBeTruthy();
   });
 
