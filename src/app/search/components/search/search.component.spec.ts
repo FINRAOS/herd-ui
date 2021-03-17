@@ -119,6 +119,8 @@ describe('SearchComponent', () => {
     expect(component).toBeTruthy();
   }));
 
+  // todo: add test to verify dataentity type search results
+  // todo: add test to verify continued search: "add search term and click search"
   it('Search is returning index search result', async(() => {
     const searchCalled = spyOn(searchService, 'search')
       .and.returnValue(of({indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
@@ -156,6 +158,7 @@ describe('SearchComponent', () => {
     expect(searchCalled.calls.count()).toEqual(1);
   }));
 
+  // todo: improve this test for facet selections and verify changing results
   it('Facet change function is changing facets and effecting search result', async () => {
     const searchCalled = spyOn(searchService, 'search')
       .and.returnValue(of({indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
@@ -182,5 +185,11 @@ describe('SearchComponent', () => {
     expect(highlightResult).toBe(testHtml);
     expect(joinHighlightCalled).toHaveBeenCalled();
   }));
+
+  // todo: check if already covered in e2e
+  // todo: add test for 'found in' display
+  // todo: add test for tagtype facets 'panel': info and collapsible elements
+  // todo: add test for "showing # of results for 'search-term'"
+  // todo: add test for search result 'type' element
 
 });

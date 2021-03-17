@@ -80,6 +80,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { ContactsComponent } from '../contacts/contacts.component';
 import { SuggestionsComponent } from '../suggestions/suggestions.component';
 import { DiffMatchPatchModule } from 'ng-diff-match-patch/dist';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 describe('DataEntityDetailComponent', () => {
   let component: DataEntityDetailComponent;
@@ -315,12 +316,12 @@ describe('DataEntityDetailComponent', () => {
   type ExtendedFormatKey = BusinessObjectFormatKey & {
     relationalSchemaName: string,
     relationalTableName: string
-  }
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         BrowserModule,
         RouterTestingModule,
         HttpClientModule,
@@ -470,8 +471,13 @@ describe('DataEntityDetailComponent', () => {
         , { provide: ActivatedRoute, useClass: ActivatedRouteStub },
         { provide: Router, useClass: RouterStub }
       ]
-    })
-      .compileComponents();
+    }).overrideComponent(
+        DataEntityDetailComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default
+          }
+        }
+    ).compileComponents();
   }));
 
   beforeEach(() => {
@@ -540,6 +546,10 @@ describe('DataEntityDetailComponent', () => {
         .businessObjectDefinitionDescriptionSuggestionSearchBusinessObjectDefinitionDescriptionSuggestions)
         .and.returnValue(of(bdefSuggestion));
     })));
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
 
   it('should set all data onInit', async(inject([ActivatedRoute], (activeRoute: ActivatedRouteStub) => {
 
@@ -927,7 +937,6 @@ describe('DataEntityDetailComponent', () => {
       expect(alertSpy).toHaveBeenCalledWith(new SuccessAlert('Success!', '', 'DDL Successfully copied to clipboard'));
     }));
 
-
   it('should close current modal on close()', () => {
     const modal = component.open('test modal close');
     spyOn(modal, 'close').and.callThrough();
@@ -940,38 +949,111 @@ describe('DataEntityDetailComponent', () => {
     component.descriptiveFormat = undefined;
     expect(component.hasDescriptiveLineage()).toBe(false);
 
-    component.descriptiveFormat = {} as BusinessObjectFormat;
+    resetDescriptiveFormat();
+
     // no children or parents
     expect(component.hasDescriptiveLineage()).toBe(false);
 
-    component.descriptiveFormat.businessObjectFormatChildren = [];
-    component.descriptiveFormat.businessObjectFormatParents = [];
-    // no children or parents (in the list);
-    expect(component.hasDescriptiveLineage()).toBe(false);
+    const childOne: BusinessObjectFormatKey = {
+      namespace: 'test',
+      businessObjectFormatUsage: 'child1',
+      businessObjectDefinitionName: 'testName',
+      businessObjectFormatFileType: 'fTp'
+    };
 
+    const childTwo: BusinessObjectFormatKey = {
+      namespace: 'test',
+      businessObjectFormatUsage: 'child2',
+      businessObjectDefinitionName: 'testName',
+      businessObjectFormatFileType: 'fTp'
+    };
+
+    const bFormatChildren: Array<BusinessObjectFormatKey> = new Array<BusinessObjectFormatKey>();
+    bFormatChildren.push(childOne, childTwo);
+
+    const parentOne = {
+      namespace: 'test',
+      businessObjectFormatUsage: 'parent1',
+      businessObjectDefinitionName: 'testName',
+      businessObjectFormatFileType: 'fTp'
+    };
+
+    const parentTwo = {
+      namespace: 'test',
+      businessObjectFormatUsage: 'parent2',
+      businessObjectDefinitionName: 'testName',
+      businessObjectFormatFileType: 'fTp'
+    };
+
+    const bFormatParents: Array<BusinessObjectFormatKey> = new Array<BusinessObjectFormatKey>();
+    bFormatParents.push(parentOne, parentTwo);
+
+    // add 1 parent
     component.descriptiveFormat.businessObjectFormatParents
-      .push({
-        namespace: 'test',
-        businessObjectFormatUsage: 'usg',
-        businessObjectDefinitionName: 'testName',
-        businessObjectFormatFileType: 'fTp'
-      });
-    // has just parents
+        .push(bFormatParents[0]);
+    // verify
     expect(component.hasDescriptiveLineage()).toBe(true);
+    expect(component.descriptiveFormat.businessObjectFormatParents.length).toEqual(1);
+    expect(component.descriptiveFormat.businessObjectFormatParents[0]).toBe(bFormatParents[0]);
+    expect(component.descriptiveFormat.businessObjectFormatChildren).toEqual([]);
 
+    // add another parent
+    component.descriptiveFormat.businessObjectFormatParents
+        .push(bFormatParents[1]);
+    // verify
+    expect(component.hasDescriptiveLineage()).toBe(true);
+    expect(component.descriptiveFormat.businessObjectFormatParents.length).toEqual(2);
+    expect(component.descriptiveFormat.businessObjectFormatParents[0]).toBe(bFormatParents[0]);
+    expect(component.descriptiveFormat.businessObjectFormatParents[1]).toBe(bFormatParents[1]);
+    expect(component.descriptiveFormat.businessObjectFormatChildren).toEqual([]);
+
+    // reset
+    resetDescriptiveFormat();
+
+    // add 1 child
     component.descriptiveFormat.businessObjectFormatChildren
-      .push({
-        namespace: 'test',
-        businessObjectFormatUsage: 'usg',
-        businessObjectDefinitionName: 'testname2',
-        businessObjectFormatFileType: 'ftp2'
-      });
-    // has parents and children
+        .push(bFormatChildren[0]);
+    // verify
     expect(component.hasDescriptiveLineage()).toBe(true);
+    expect(component.descriptiveFormat.businessObjectFormatChildren.length).toEqual(1);
+    expect(component.descriptiveFormat.businessObjectFormatChildren[0]).toBe(bFormatChildren[0]);
+    expect(component.descriptiveFormat.businessObjectFormatParents).toEqual([]);
 
-    component.descriptiveFormat.businessObjectFormatParents = [];
-    // just children
+    // add another child
+    component.descriptiveFormat.businessObjectFormatChildren
+        .push(bFormatChildren[1]);
+    // verify
     expect(component.hasDescriptiveLineage()).toBe(true);
+    expect(component.descriptiveFormat.businessObjectFormatChildren.length).toEqual(2);
+    expect(component.descriptiveFormat.businessObjectFormatChildren[0]).toBe(bFormatChildren[0]);
+    expect(component.descriptiveFormat.businessObjectFormatChildren[1]).toBe(bFormatChildren[1]);
+    expect(component.descriptiveFormat.businessObjectFormatParents).toEqual([]);
+
+    // reset
+    resetDescriptiveFormat();
+
+    // add children and parents
+    bFormatParents.forEach(parentFormat => {
+      component.descriptiveFormat.businessObjectFormatParents.push(parentFormat);
+    });
+    bFormatChildren.forEach(childFormat => {
+      component.descriptiveFormat.businessObjectFormatChildren.push(childFormat);
+    });
+    // verify
+    expect(component.hasDescriptiveLineage()).toBe(true);
+    expect(component.descriptiveFormat.businessObjectFormatChildren.length).toEqual(2);
+    expect(component.descriptiveFormat.businessObjectFormatParents.length).toEqual(2);
+
+    // helper function to reset state
+    function resetDescriptiveFormat() {
+      component.descriptiveFormat = undefined;
+      expect(component.hasDescriptiveLineage()).toBe(false);
+
+      component.descriptiveFormat = {} as BusinessObjectFormat;
+      component.descriptiveFormat.businessObjectFormatChildren = [];
+      component.descriptiveFormat.businessObjectFormatParents = [];
+    }
+
   });
 
   it('should update format to recommended format or show error in case of fail',
@@ -1188,7 +1270,6 @@ describe('DataEntityDetailComponent', () => {
 
     }));
 
-
   it('should alert when no more child or parent lineage can be shown', inject([BusinessObjectFormatService, AlertService],
     (formatApi: BusinessObjectFormatService, alerter: AlertService) => {
 
@@ -1273,7 +1354,6 @@ describe('DataEntityDetailComponent', () => {
         expect(component.processChildren).not.toHaveBeenCalled();
       })));
 
-
   it('should have groupResultsBy that accepts a node and returns the node type', () => {
     expect(component.groupResultsBy({
       id: 'test__center',
@@ -1307,7 +1387,6 @@ describe('DataEntityDetailComponent', () => {
     expect(component.createNode).not.toHaveBeenCalled();
     expect(component.hierarchialGraph.loaded).toBe(true);
   });
-
 
   it('should create new lineage data on getLineage', () => {
 
@@ -1416,7 +1495,6 @@ describe('DataEntityDetailComponent', () => {
     expect(component.createNode(testBdef, testFormatKey, DAGNodeType.parent)).toEqual(expectedParentNode);
     expect(component.createNode(testNoDisplayName, testFormatKey, DAGNodeType.child)).toEqual(expectedChildNode);
   });
-
 
   it('should use fetchBdefs and constructGraph to processParents', () => {
 
@@ -1614,7 +1692,6 @@ describe('DataEntityDetailComponent', () => {
       expect(parentsGraph.links).toEqual(expectedGraph.links);
     });
   });
-
 
   it('should construct a graph for children of a given node', () => {
     const testBdefs: BusinessObjectDefinition[] = [{ namespace: 'testNS', businessObjectDefinitionName: 'testName' },
@@ -1954,7 +2031,7 @@ describe('DataEntityDetailComponent', () => {
         // no namespace or roles set
         userSubject.next(testAuthorizations);
         fixture.detectChanges();
-        validateColumnsNotAuthorizaed();
+        validateColumnsNotAuthorized();
 
         // namespace but no write
         testAuthorizations.namespaceAuthorizations = [{
@@ -1963,22 +2040,105 @@ describe('DataEntityDetailComponent', () => {
         }];
         userSubject.next(testAuthorizations);
         fixture.detectChanges();
-        validateColumnsNotAuthorizaed();
+        validateColumnsNotAuthorized();
 
         // namespace with write but no role
-        testAuthorizations.namespaceAuthorizations[0].namespacePermissions.push(NamespaceAuthorization.NamespacePermissionsEnum.WRITE);
+        testAuthorizations.namespaceAuthorizations[0]
+            .namespacePermissions.push(NamespaceAuthorization.NamespacePermissionsEnum.WRITE);
         userSubject.next(testAuthorizations);
         fixture.detectChanges();
-        validateColumnsNotAuthorizaed();
+        validateColumnsNotAuthorized();
 
         // role but no namespace rights
         testAuthorizations.securityFunctions = ['FN_BUSINESS_OBJECT_DEFINITION_COLUMNS_POST'];
         userSubject.next(testAuthorizations);
         fixture.detectChanges();
-        validateColumnsAuthorizaed();
-      }));
+        validateColumnsAuthorized();
+      })
+  );
 
-  function validateColumnsNotAuthorizaed() {
+  it('should appropriately show \'radio buttons\' to change recommended format',
+      inject([UserService, ActivatedRoute],
+          (us: UserService, activeRoute: ActivatedRouteStub) => {
+
+            const testAuthorizations: UserAuthorizations = {
+              userId: 'test_user',
+              namespaceAuthorizations: [],
+              securityFunctions: [],
+              securityRoles: []
+            };
+
+            spyOn(component, 'getBdefDetails').and.callFake(() => {
+              component.descriptiveFormat = descriptiveFormat;
+            });
+
+            spyOn(component, 'getFormats').and.callFake(() => {
+              component.formats = expectedFormats.businessObjectFormatKeys;
+            });
+
+            activeRoute.testData = {
+              resolvedData: {
+                bdef: expectedBdef,
+                formats: expectedFormats.businessObjectFormatKeys,
+                descriptiveFormat: descriptiveFormat
+              }
+            };
+
+            const userSubject = new ReplaySubject<UserAuthorizations>();
+            // using a mocked UserService
+            (us as any).user = userSubject.asObservable();
+
+            // no namespace or roles set
+            testAuthorizations.namespaceAuthorizations = [];
+            testAuthorizations.securityFunctions = [];
+            userSubject.next(testAuthorizations);
+            fixture.detectChanges();
+            validateEditRecommendedFormatIconVisibility(false);
+
+            // only read permissions
+            testAuthorizations.namespaceAuthorizations = [{
+              namespace: expectedBdef.namespace,
+              namespacePermissions: [
+                  NamespaceAuthorization.NamespacePermissionsEnum.READ
+              ]
+            }];
+            testAuthorizations.securityFunctions = ['FN_BUSINESS_OBJECT_DATA_BY_BUSINESS_OBJECT_DEFINITION_GET'];
+            userSubject.next(testAuthorizations);
+            fixture.detectChanges();
+            validateEditRecommendedFormatIconVisibility(false);
+
+            // valid permissions
+            testAuthorizations.namespaceAuthorizations = [{
+              namespace: expectedBdef.namespace,
+              namespacePermissions: [
+                  NamespaceAuthorization.NamespacePermissionsEnum.WRITE,
+                  NamespaceAuthorization.NamespacePermissionsEnum.WRITEDESCRIPTIVECONTENT]
+            }];
+            testAuthorizations.securityFunctions = [
+              'FN_BUSINESS_OBJECT_DEFINITIONS_DESCRIPTIVE_INFO_PUT',
+              'FN_BUSINESS_OBJECT_DATA_BY_BUSINESS_OBJECT_DEFINITION_GET'
+            ];
+
+            userSubject.next(testAuthorizations);
+            fixture.detectChanges();
+            validateEditRecommendedFormatIconVisibility(true);
+
+          })
+  );
+
+  function validateEditRecommendedFormatIconVisibility(isVisible: boolean) {
+    // css selector which selects parent of the radio-button icon since that is controlled by the sd-authorize directive
+    const radioIconParent = fixture.debugElement.query(By.css('.col.card.format-whiteframe.pointer .row .col-2'));
+
+    const displayStyle = radioIconParent.nativeElement.style.display;
+    if (isVisible) {
+      expect(displayStyle).toEqual('');
+    } else {
+      expect(displayStyle).toEqual('none');
+    }
+  }
+
+  function validateColumnsNotAuthorized() {
     // make sure we are on the columns tab
     fixture.debugElement.query(By.css('ngb-tabset .nav-item:nth-child(2) .nav-link')).nativeElement.click();
     fixture.detectChanges();
@@ -1993,7 +2153,7 @@ describe('DataEntityDetailComponent', () => {
     });
   }
 
-  function validateColumnsAuthorizaed() {
+  function validateColumnsAuthorized() {
     // make sure we are on the columns tab
     fixture.debugElement.query(By.css('ngb-tabset .nav-item:nth-child(2) .nav-link')).nativeElement.click();
     fixture.detectChanges();

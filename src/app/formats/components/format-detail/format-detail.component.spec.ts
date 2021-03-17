@@ -56,7 +56,7 @@ describe('FormatDetailComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         SharedModule,
         RouterTestingModule,
         HttpClientModule
@@ -182,7 +182,7 @@ describe('FormatDetailComponent', () => {
         fixture.detectChanges();
       }));
 
-
+  // todo: add test for verification of format fields
   it('ngOnInit should set data for the component',
     inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService],
       (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService) => {
@@ -201,6 +201,7 @@ describe('FormatDetailComponent', () => {
         expect(component.businessObjectFormatDetail.documentSchemaUrl).toBe('test document schema url');
       }));
 
+  // todo: add test for sub-partitioned data, also see schema column fields verification
   it('Min and Max primary partition function should handle partition values',
     inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService],
       (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService) => {

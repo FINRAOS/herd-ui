@@ -74,6 +74,11 @@ describe('SchemaColumnsComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  // todo: add tests for schema columns verification, no data, some data, no schema etc, data positioning under columns
+
+
+
+
   it('Should open ddl model on click of Generate Format DDL', () => {
     const modal = component.open('test ddl code');
     // this ddl will be blank as we did not passed any ddl
