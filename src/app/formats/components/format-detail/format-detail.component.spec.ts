@@ -42,15 +42,15 @@ describe('FormatDetailComponent', () => {
   const activeRoute: ActivatedRouteStub = new ActivatedRouteStub();
 
   const businessObjectFormatExternalInterfaceDescriptiveInformation = {
-    "businessObjectFormatExternalInterfaceKey": {
-      "namespace": "ns",
-      "businessObjectDefinitionName": "name",
-      "businessObjectFormatUsage": "SRC",
-      "businessObjectFormatFileType": "TXT",
-      "externalInterfaceName": "EXTERNAL_INTERFACE"
+    'businessObjectFormatExternalInterfaceKey': {
+      'namespace': 'ns',
+      'businessObjectDefinitionName': 'name',
+      'businessObjectFormatUsage': 'SRC',
+      'businessObjectFormatFileType': 'TXT',
+      'externalInterfaceName': 'EXTERNAL_INTERFACE'
     },
-    "externalInterfaceDisplayName": "External Interface Display Name",
-    "externalInterfaceDescription": "Description of the external interface."
+    'externalInterfaceDisplayName': 'External Interface Display Name',
+    'externalInterfaceDescription': 'Description of the external interface.'
   };
 
   beforeEach(async(() => {
@@ -165,6 +165,10 @@ describe('FormatDetailComponent', () => {
     component = fixture.componentInstance;
   });
 
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -182,33 +186,37 @@ describe('FormatDetailComponent', () => {
         fixture.detectChanges();
       }));
 
-  // todo: add test for verification of format fields
   it('ngOnInit should set data for the component',
-    inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService],
-      (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService) => {
+    inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService, StorageService],
+      (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService, storageApi: StorageService) => {
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumn as jasmine.Spy)
           .and.returnValue(of(mockData.formatDetail.schema.columns[2]));
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumns as jasmine.Spy)
-          .and.returnValue(of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinationColumnKeys}));
+          .and.returnValue(of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinitionColumnKeys}));
+        (storageApi.storageGetStorages as jasmine.Spy).and.returnValue(of({storageKeys: [{storageName: 'S3'}]}));
         (businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability as jasmine.Spy)
-          .and.returnValue(of({availableStatuses: [{partitionValue: 3}, {partitionValue: 4}]}));
+            .and.returnValue(of({availableStatuses: [{partitionValue: '3'}, {partitionValue: '4'}]}));
         fixture.detectChanges();
 
+        expect(component.namespace).toEqual('ns');
+        expect(component.businessObjectFormatUsage).toEqual('SRC');
+        expect(component.businessObjectFormatVersion).toEqual(1);
         expect(component.businessObjectFormatDetail.retentionType).toBe('xyz');
         expect(component.businessObjectFormatDetail.retentionPeriodInDays).toBe(14);
         expect(component.businessObjectFormatDetail.recordFlag).toBe('no');
         expect(component.businessObjectFormatDetail.documentSchema).toBe('test document schema');
         expect(component.businessObjectFormatDetail.documentSchemaUrl).toBe('test document schema url');
+        expect(component.minPrimaryPartitionValue).toEqual('3');
+        expect(component.maxPrimaryPartitionValue).toEqual('4');
       }));
 
-  // todo: add test for sub-partitioned data, also see schema column fields verification
   it('Min and Max primary partition function should handle partition values',
     inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService],
       (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService) => {
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumn as jasmine.Spy)
           .and.returnValue(of(mockData.formatDetail.schema.columns[2]));
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumns as jasmine.Spy)
-          .and.returnValue(of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinationColumnKeys}));
+          .and.returnValue(of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinitionColumnKeys}));
         (businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability as jasmine.Spy)
           .and.returnValue(throwError({status: 404}));
 
