@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Facet, IndexSearchResponse } from '@herd/angular-client';
+import {Facet, IndexSearchResponse, IndexSearchResult} from '@herd/angular-client';
 
 export class IndexSearchMockData {
 
@@ -80,6 +80,14 @@ export class IndexSearchMockData {
     ]
   };
 
+  private _noResults: IndexSearchResult[] = [];
+  private _noFacets: Facet[] = [];
+  private _indexSearchResponseNoResults: IndexSearchResponse = {
+    'totalIndexSearchResults': 0,
+    'indexSearchResults': this._noResults,
+    'facets': this._noFacets
+  };
+
   private _facets: Array<Facet> = [
     {
       'facetDisplayName': 'test 14',
@@ -138,6 +146,10 @@ export class IndexSearchMockData {
 
   get indexSearchResponse(): IndexSearchResponse {
     return this._indexSearchResponse;
+  }
+
+  get indexSearchResponseNoResponse(): IndexSearchResponse {
+    return this._indexSearchResponseNoResults;
   }
 
   get facets(): Array<Facet> {

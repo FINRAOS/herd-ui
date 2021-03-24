@@ -25,6 +25,7 @@ import { of, throwError } from 'rxjs';
 import { CodemirrorModule } from 'ng2-codemirror';
 import { ClipboardModule } from 'ngx-clipboard';
 
+// this component is not used anymore, marked for removal
 describe('SchemaColumnsComponent', () => {
   let component: SchemaColumnsComponent;
   let fixture: ComponentFixture<SchemaColumnsComponent>;
@@ -73,11 +74,6 @@ describe('SchemaColumnsComponent', () => {
     component.ngOnInit();
     expect(component).toBeTruthy();
   });
-
-  // todo: add tests for schema columns verification, no data, some data, no schema etc, data positioning under columns
-
-
-
 
   it('Should open ddl model on click of Generate Format DDL', () => {
     const modal = component.open('test ddl code');

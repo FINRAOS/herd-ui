@@ -119,8 +119,6 @@ describe('SearchComponent', () => {
     expect(component).toBeTruthy();
   }));
 
-  // todo: add test to verify dataentity type search results
-  // todo: add test to verify continued search: "add search term and click search"
   it('Search is returning index search result', async(() => {
     const searchCalled = spyOn(searchService, 'search')
       .and.returnValue(of({indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));
@@ -128,6 +126,15 @@ describe('SearchComponent', () => {
     expect(component.indexSearchResults).toEqual(mockData.indexSearchResponse['indexSearchResults']);
     expect(searchCalled).toHaveBeenCalled();
   }));
+
+  it('Verify no results', () => {
+    const searchCalled = spyOn(searchService, 'search')
+        .and.returnValue(of(mockData.indexSearchResponseNoResponse));
+    component.search();
+
+    expect(component.indexSearchResults).toEqual(mockData.indexSearchResponseNoResponse['indexSearchResults']);
+    expect(searchCalled).toHaveBeenCalled();
+  });
 
   it('should navigate ro search page on search', inject([Router], (mock: RouterStub) => {
     component.globalSearch({searchText: 'test search', match: []});
