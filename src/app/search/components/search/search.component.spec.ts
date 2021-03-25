@@ -193,10 +193,4 @@ describe('SearchComponent', () => {
     expect(joinHighlightCalled).toHaveBeenCalled();
   }));
 
-  // todo: check if already covered in e2e
-  // todo: add test for 'found in' display
-  // todo: add test for tagtype facets 'panel': info and collapsible elements
-  // todo: add test for "showing # of results for 'search-term'"
-  // todo: add test for search result 'type' element
-
 });
