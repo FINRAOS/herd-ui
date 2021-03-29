@@ -70,6 +70,10 @@ describe('SchemaColumnsComponent', () => {
     component = fixture.componentInstance;
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should be created', () => {
     component.ngOnInit();
     expect(component).toBeTruthy();

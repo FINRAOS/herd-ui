@@ -52,6 +52,7 @@ import {
   UserAuthorizations
 } from '@herd/angular-client';
 import { HttpClientModule } from '@angular/common/http';
+import { Headers } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, ReplaySubject, throwError } from 'rxjs';
 import { AlertService, DangerAlert, SuccessAlert, WarningAlert } from '../../../core/services/alert.service';

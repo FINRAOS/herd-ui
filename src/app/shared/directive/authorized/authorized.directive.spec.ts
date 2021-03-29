@@ -111,6 +111,10 @@ describe('AuthorizedDirective', () => {
     des = fixture.debugElement.queryAll(By.directive(AuthorizedDirective));
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should create an instance of test component', () => {
     expect(TestAuthorizedDirectiveComponent).toBeTruthy();
   });
