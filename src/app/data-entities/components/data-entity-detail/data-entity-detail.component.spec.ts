@@ -560,34 +560,36 @@ describe('DataEntityDetailComponent', () => {
     };
 
     fixture.detectChanges();
-    expect(component.bdef).toEqual(activeRoute.testData.resolvedData.bdef);
-    expect(component.formats).toEqual(expectedFormats.businessObjectFormatKeys);
-    expect(component.descriptiveFormat).toEqual(descriptiveFormat);
-    expect(component.documentSchema).toEqual(descriptiveFormat.documentSchema);
-    expect(component.documentSchemaUrl).toEqual(descriptiveFormat.documentSchemaUrl);
-    expect(component.bdefColumns).toEqual(expectedCols);
-    // expect(component.bdefTags).toEqual(expectedBdefTags.businessObjectDefinitionTagKeys);
-    // expect(component.hasTag).toEqual(true);
-    expect(component.smes).toEqual(expectedSmes);
-    expect(component.businessObjectDefinitionDescriptionSuggestions).toEqual(bdefSuggestion.businessObjectDefinitionDescriptionSuggestions);
+    fixture.whenStable().then(() => {
+      expect(component.bdef).toEqual(activeRoute.testData.resolvedData.bdef);
+      expect(component.formats).toEqual(expectedFormats.businessObjectFormatKeys);
+      expect(component.descriptiveFormat).toEqual(descriptiveFormat);
+      expect(component.documentSchema).toEqual(descriptiveFormat.documentSchema);
+      expect(component.documentSchemaUrl).toEqual(descriptiveFormat.documentSchemaUrl);
+      expect(component.bdefColumns).toEqual(expectedCols);
+      // expect(component.bdefTags).toEqual(expectedBdefTags.businessObjectDefinitionTagKeys);
+      // expect(component.hasTag).toEqual(true);
+      expect(component.smes).toEqual(expectedSmes);
+      expect(component.businessObjectDefinitionDescriptionSuggestions).toEqual(bdefSuggestion.businessObjectDefinitionDescriptionSuggestions);
 
-    component.onSampleDataClick();
-    expect(component.sampleDataFileUrl).toEqual(sampleDataResponse.preSignedUrl);
-    expect(spyDownloadApi.calls.count()).toEqual(1);
+      component.onSampleDataClick();
+      expect(component.sampleDataFileUrl).toEqual(sampleDataResponse.preSignedUrl);
+      expect(spyDownloadApi.calls.count()).toEqual(1);
 
-    expect(spyBdefColApi.calls.count()).toEqual(1);
-    expect(spyBdefFormatApi.calls.count()).toEqual(1);
-    expect(spyBdefFormatAllApi.calls.count()).toEqual(1);
+      expect(spyBdefColApi.calls.count()).toEqual(1);
+      expect(spyBdefFormatApi.calls.count()).toEqual(1);
+      expect(spyBdefFormatAllApi.calls.count()).toEqual(1);
 
-    expect(spyBdefSmeApi.calls.count()).toEqual(1);
-    expect(spySmeApi.calls.count()).toEqual(2);
-    expect(spyBusinessObjectDefinitionDescriptionSuggestionServiceApi.calls.count()).toEqual(1);
+      expect(spyBdefSmeApi.calls.count()).toEqual(1);
+      expect(spySmeApi.calls.count()).toEqual(2);
+      expect(spyBusinessObjectDefinitionDescriptionSuggestionServiceApi.calls.count()).toEqual(1);
 
-    expect(spyTagApi.calls.count()).toEqual(2);
-    expect(spyTagTypeApi.calls.count()).toEqual(2);
-    expect(spyBdefTagApi.calls.count()).toEqual(1);
+      expect(spyTagApi.calls.count()).toEqual(2);
+      expect(spyTagTypeApi.calls.count()).toEqual(2);
+      expect(spyBdefTagApi.calls.count()).toEqual(1);
 
-    component.sideActions[3].onAction();
+      component.sideActions[3].onAction();
+    });
   })));
 
   it('should show error when suggestions call fails and ',
