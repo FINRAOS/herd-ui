@@ -56,7 +56,7 @@ describe('FormatDetailComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         SharedModule,
         RouterTestingModule,
         HttpClientModule
@@ -166,10 +166,10 @@ describe('FormatDetailComponent', () => {
   });
 
   afterEach(() => {
-    fixture.destroy();
+    TestBed.resetTestingModule();
   });
 
-    it('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
@@ -186,23 +186,28 @@ describe('FormatDetailComponent', () => {
         fixture.detectChanges();
       }));
 
-
   it('ngOnInit should set data for the component',
-    inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService],
-      (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService) => {
+    inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService, StorageService],
+      (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService, storageApi: StorageService) => {
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumn as jasmine.Spy)
           .and.returnValue(of(mockData.formatDetail.schema.columns[2]));
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumns as jasmine.Spy)
-          .and.returnValue(of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinationColumnKeys}));
+          .and.returnValue(of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinitionColumnKeys}));
+        (storageApi.storageGetStorages as jasmine.Spy).and.returnValue(of({storageKeys: [{storageName: 'S3'}]}));
         (businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability as jasmine.Spy)
-          .and.returnValue(of({availableStatuses: [{partitionValue: 3}, {partitionValue: 4}]}));
+            .and.returnValue(of({availableStatuses: [{partitionValue: '3'}, {partitionValue: '4'}]}));
         fixture.detectChanges();
 
+        expect(component.namespace).toEqual('ns');
+        expect(component.businessObjectFormatUsage).toEqual('SRC');
+        expect(component.businessObjectFormatVersion).toEqual(1);
         expect(component.businessObjectFormatDetail.retentionType).toBe('xyz');
         expect(component.businessObjectFormatDetail.retentionPeriodInDays).toBe(14);
         expect(component.businessObjectFormatDetail.recordFlag).toBe('no');
         expect(component.businessObjectFormatDetail.documentSchema).toBe('test document schema');
         expect(component.businessObjectFormatDetail.documentSchemaUrl).toBe('test document schema url');
+        expect(component.minPrimaryPartitionValue).toEqual('3');
+        expect(component.maxPrimaryPartitionValue).toEqual('4');
       }));
 
   it('Min and Max primary partition function should handle partition values',
@@ -211,7 +216,7 @@ describe('FormatDetailComponent', () => {
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumn as jasmine.Spy)
           .and.returnValue(of(mockData.formatDetail.schema.columns[2]));
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumns as jasmine.Spy)
-          .and.returnValue(of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinationColumnKeys}));
+          .and.returnValue(of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinitionColumnKeys}));
         (businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability as jasmine.Spy)
           .and.returnValue(throwError({status: 404}));
 

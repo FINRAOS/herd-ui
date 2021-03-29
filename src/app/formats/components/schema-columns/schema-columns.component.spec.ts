@@ -25,6 +25,7 @@ import { of, throwError } from 'rxjs';
 import { CodemirrorModule } from 'ng2-codemirror';
 import { ClipboardModule } from 'ngx-clipboard';
 
+// this component is not used anymore, marked for removal
 describe('SchemaColumnsComponent', () => {
   let component: SchemaColumnsComponent;
   let fixture: ComponentFixture<SchemaColumnsComponent>;
