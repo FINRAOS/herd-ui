@@ -131,6 +131,15 @@ describe('SearchComponent', () => {
     expect(searchCalled).toHaveBeenCalled();
   }));
 
+  it('Verify no results', () => {
+    const searchCalled = spyOn(searchService, 'search')
+        .and.returnValue(of(mockData.indexSearchResponseNoResponse));
+    component.search();
+
+    expect(component.indexSearchResults).toEqual(mockData.indexSearchResponseNoResponse['indexSearchResults']);
+    expect(searchCalled).toHaveBeenCalled();
+  });
+
   it('should navigate ro search page on search', inject([Router], (mock: RouterStub) => {
     component.globalSearch({searchText: 'test search', match: []});
     expect(mock.navigate).toHaveBeenCalledWith(['search', 'test search'], {
@@ -160,6 +169,7 @@ describe('SearchComponent', () => {
     expect(searchCalled.calls.count()).toEqual(1);
   }));
 
+  // todo: improve this test for facet selections and verify changing results
   it('Facet change function is changing facets and effecting search result', async () => {
     const searchCalled = spyOn(searchService, 'search')
       .and.returnValue(of({indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));

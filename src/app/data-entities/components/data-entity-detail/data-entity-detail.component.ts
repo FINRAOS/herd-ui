@@ -94,7 +94,7 @@ export interface DataEntityWithFormatColumn {
 export type ExtendedFormatKey = BusinessObjectFormatKey & {
   relationalSchemaName: string,
   relationalTableName: string
-}
+};
 
 @Component({
   selector: 'sd-data-entity-detail',
@@ -116,7 +116,7 @@ export class DataEntityDetailComponent implements OnInit {
 
   bdef: BusinessObjectDefinition = {} as BusinessObjectDefinition;
   formats: ExtendedFormatKey[] = [];
-  relationalTableFileType = 'RELATIONAL_TABLE'
+  relationalTableFileType = 'RELATIONAL_TABLE';
   disableSampleData = true;
   descriptiveFormat: BusinessObjectFormat;
   documentSchema: string;
@@ -414,8 +414,7 @@ export class DataEntityDetailComponent implements OnInit {
     ).pipe(finalize(() => {
       this.businessObjectFormatApi.defaultHeaders.delete('skipAlert');
     })).subscribe((response) => {
-      for(const formatKey of response.businessObjectFormatKeys)
-      {
+      for (const formatKey of response.businessObjectFormatKeys) {
         const extendedFormatKey: ExtendedFormatKey = {
           namespace : formatKey.namespace,
           businessObjectDefinitionName: formatKey.businessObjectDefinitionName,
@@ -436,8 +435,8 @@ export class DataEntityDetailComponent implements OnInit {
             extendableFormatKey.businessObjectFormatUsage,
             extendableFormatKey.businessObjectFormatFileType,
             extendableFormatKey.businessObjectFormatVersion
-        ).subscribe(response => {
-          let index: number = this.formats.findIndex(formatKey => (
+        ).subscribe(getFormatResponse => {
+          const index: number = this.formats.findIndex(formatKey => (
               formatKey.businessObjectFormatUsage === extendableFormatKey.businessObjectFormatUsage
               && formatKey.businessObjectFormatFileType === extendableFormatKey.businessObjectFormatFileType
               && formatKey.businessObjectFormatVersion === extendableFormatKey.businessObjectFormatVersion ));
@@ -448,10 +447,10 @@ export class DataEntityDetailComponent implements OnInit {
             businessObjectDefinitionName: extendableFormatKey.businessObjectDefinitionName,
             businessObjectFormatUsage: extendableFormatKey.businessObjectFormatUsage,
             businessObjectFormatFileType: extendableFormatKey.businessObjectFormatFileType,
-            relationalSchemaName: response.relationalSchemaName,
-            relationalTableName: response.relationalTableName,
-            businessObjectFormatVersion: response.businessObjectFormatVersion
-          }
+            relationalSchemaName: getFormatResponse.relationalSchemaName,
+            relationalTableName: getFormatResponse.relationalTableName,
+            businessObjectFormatVersion: getFormatResponse.businessObjectFormatVersion
+          };
         });
       }
     }, (error) => {
