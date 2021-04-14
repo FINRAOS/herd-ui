@@ -44,7 +44,8 @@ export class Operations {
     return {
       'options': [
         this.dataManager.DMOption(1, new schema.Namespace().postUrl(), new schema.Namespace().postBody(this.data.defaultNamespace)),
-        this.dataManager.DMOption(2, new schema.DataProvider().postUrl(), new schema.DataProvider().postBody(this.data.defaultDataProvider)),
+        this.dataManager.DMOption(2, new schema.DataProvider().postUrl(),
+          new schema.DataProvider().postBody(this.data.defaultDataProvider)),
         this.dataManager.DMOption(3, new schema.BusinessObjectDefinitions().postUrl(), this.data.bdef),
         this.dataManager.DMOption(4, new schema.BusinessObjectFormats().postUrl(), this.data.formatWithNoSubpartitions),
         this.dataManager.DMOption(5, new schema.BusinessObjectDefinitionData().postUrl(), this.data.noStorageFiles),

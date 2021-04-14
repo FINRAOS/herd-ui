@@ -120,8 +120,8 @@ export class BasePo {
 
   async setFipCookieToBrowser(domainValue: string) {
     // navigate to a finra page prior to setting FIP cookie.
-    var initialUrl = 'https://www.finra.org/robots.txt';
-    if (conf.ags != 'DATA-MGT') {
+    let initialUrl = 'https://www.finra.org/robots.txt';
+    if (conf.ags !== 'DATA-MGT') {
       initialUrl = conf.baseUrlNoPassword;
     }
     await browser.driver.get(initialUrl);
@@ -157,8 +157,8 @@ export class BasePo {
   async navigateTo(url?: string, user: string = conf.loginUser, pass: string = conf.loginPwd) {
     console.log(BasePo.fipAuth);
     if (BasePo.fipAuth === true) {
-      var domainValue = '.finra.org';
-      if (conf.ags != 'DATA-MGT') {
+      let domainValue = '.finra.org';
+      if (conf.ags !== 'DATA-MGT') {
         domainValue = '.catnms.com';
       }
       await this.setFipCookieToBrowser(domainValue);

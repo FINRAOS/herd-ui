@@ -44,14 +44,16 @@ describe('External Interface Page', () => {
   });
 
   it('view external interface header', async () => {
-    await page.navigateTo(_url + namespace + '/' + data.defaultBdef + '/' + data.defaultFormatUsage + '/' + data.defaultFormatFileType + '/0');
+    await page.navigateTo(_url + namespace + '/' + data.defaultBdef + '/' + data.defaultFormatUsage + '/'
+      + data.defaultFormatFileType + '/0');
     await page.externalInterfacesTab.click();
     await expect((await page.externalInterfacesTab.getText()).trim()).toBe(expectedValues.heading + ' (2)');
     await expect(page.externalInterfacesSubHeader.getText()).toEqual(expectedValues.externalInterfacesSubHeader);
   });
 
   it('view external interface window', async () => {
-    await page.navigateTo(_url + namespace + '/' + data.defaultBdef + '/' + data.defaultFormatUsage + '/' + data.defaultFormatFileType + '/0');
+    await page.navigateTo(_url + namespace + '/' + data.defaultBdef + '/' + data.defaultFormatUsage + '/'
+      + data.defaultFormatFileType + '/0');
     await page.externalInterfacesTab.click();
     await expect(page.viewExternalInterface.isPresent()).toBe(true);
     await page.viewExternalInterface.click();
@@ -65,7 +67,8 @@ describe('External Interface Page', () => {
   });
 
   it('view external interface window invalid template', async () => {
-    await page.navigateTo(_url + namespace + '/' + data.defaultBdef + '/' + data.defaultFormatUsage + '/' + data.defaultFormatFileType + '/0');
+    await page.navigateTo(_url + namespace + '/' + data.defaultBdef + '/' + data.defaultFormatUsage + '/'
+      + data.defaultFormatFileType + '/0');
     await page.externalInterfacesTab.click();
 
     // Validate the error message to be present in the pop up window when view button is clicked

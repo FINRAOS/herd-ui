@@ -262,7 +262,8 @@ export class BusinessObjectFormatExternalInterfaces {
 
   public deleteUrl(namespace, bdefName, formatUsage, fileType, externalInterfaceName) {
     return '/businessObjectFormatExternalInterfaces/namespaces/' + namespace + '/businessObjectDefinitionNames/' + bdefName
-      + '/businessObjectFormatUsage/' + formatUsage + '/businessObjectFormatFileType/' + fileType + '/externalInterfaceName/' + externalInterfaceName;
+      + '/businessObjectFormatUsage/' + formatUsage + '/businessObjectFormatFileType/' + fileType + '/externalInterfaceName/'
+      + externalInterfaceName;
   }
 }
 
@@ -321,7 +322,8 @@ export class BusinessObjectDefinitionData {
       + '/businessObjectFormatUsages/' + formatUsage + '/businessObjectFormatFileTypes/' + formatFileType;
   }
 
-  public putDataObjectRentionExpirationDateUrl(namespace, bdefName, formatUsage, formatFileType, formatVersion, partitionValue, dataVersion) {
+  public putDataObjectRentionExpirationDateUrl(namespace, bdefName, formatUsage, formatFileType, formatVersion, partitionValue,
+                                               dataVersion) {
     return '/businessObjectDataRetentionInformation/namespaces/' + namespace + '/businessObjectDefinitionNames/' + bdefName
       + '/businessObjectFormatUsages/' + formatUsage + '/businessObjectFormatFileTypes/' + formatFileType
       + '/businessObjectFormatVersions/' + formatVersion

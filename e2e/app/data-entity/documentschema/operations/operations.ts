@@ -91,7 +91,8 @@ export const putDescriptiveFormatRequests = function () {
       },
       {
         'order': 1,
-        'url': new schema.BusinessObjectDefinitions().updateDescriptiveInformationUrl(data.defaultNamespace, data.bdefWithDocumentSchemaUrl),
+        'url': new schema.BusinessObjectDefinitions().updateDescriptiveInformationUrl(data.defaultNamespace,
+          data.bdefWithDocumentSchemaUrl),
         'body': new schema.BusinessObjectDefinitions().putDescriptiveInformation(data.bdefTestWithDocumentSchemaUrl_FORMAT().description,
           data.bdefTestWithDocumentSchemaUrl().displayName, data.bdefTestWithDocumentSchemaUrl_FORMAT().businessObjectFormatUsage,
           data.bdefTestWithDocumentSchemaUrl_FORMAT().businessObjectFormatFileType)
@@ -139,7 +140,8 @@ export const deleteRequests = function () {
         'order': 1,
         'url': new schema.BusinessObjectFormats()
           .deleteUrl(data.bdefTestWithDocumentSchema().namespace, data.bdefTestWithDocumentSchema().businessObjectDefinitionName,
-            data.bdefTestWithDocumentSchema_FORMAT().businessObjectFormatUsage, data.bdefTestWithDocumentSchema_FORMAT().businessObjectFormatFileType, 0)
+            data.bdefTestWithDocumentSchema_FORMAT().businessObjectFormatUsage, data.bdefTestWithDocumentSchema_FORMAT()
+              .businessObjectFormatFileType, 0)
       },
       {
         'order': 1,
@@ -152,7 +154,8 @@ export const deleteRequests = function () {
         'order': 1,
         'url': new schema.BusinessObjectFormats()
           .deleteUrl(data.bdefTestWithDocumentSchemaUrl().namespace, data.bdefTestWithDocumentSchemaUrl().businessObjectDefinitionName,
-            data.bdefTestWithDocumentSchema_FORMAT().businessObjectFormatUsage, data.bdefTestWithDocumentSchema_FORMAT().businessObjectFormatFileType, 0)
+            data.bdefTestWithDocumentSchema_FORMAT().businessObjectFormatUsage, data.bdefTestWithDocumentSchema_FORMAT()
+              .businessObjectFormatFileType, 0)
       },
       {
         'order': 2,

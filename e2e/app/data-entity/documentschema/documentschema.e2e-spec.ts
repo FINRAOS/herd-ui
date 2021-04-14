@@ -53,7 +53,7 @@ describe('Bdef Document Schema Page', () => {
   });
 
   it('data entity detail with document schema url in format', async () => {
-    let version = 0;
+    const version = 0;
     const format = data.bdefTestWithDocumentSchema_FORMAT();
     const urlParams = [format.namespace,
       format.businessObjectDefinitionName,
@@ -70,7 +70,7 @@ describe('Bdef Document Schema Page', () => {
 
   it('data entity detail without document schema', async () => {
     await page.navigateTo(_url + '/' + namespace + '/' + data.bdefTestNoDocumentSchema().businessObjectDefinitionName);
-    //The last tab should not be document schema
+    // The last tab should not be document schema
     await expect(page.allTabs.last().getText()).toEqual('COLUMNS');
   });
 

@@ -76,7 +76,8 @@ export class Operations {
             this.data.bdataWithRetentionExpirationDate.businessObjectFormatFileType,
             this.data.bdataWithRetentionExpirationDate.businessObjectFormatVersion,
             this.data.bdataWithRetentionExpirationDate.partitionValue, 0),
-          'body': new schema.BusinessObjectDefinitionData().putRentionExpirationDateBody(this.data.bdataWithRetentionExpirationDate.retentionExpirationDate)
+          'body': new schema.BusinessObjectDefinitionData()
+            .putRentionExpirationDateBody(this.data.bdataWithRetentionExpirationDate.retentionExpirationDate)
         }
       ]
     };

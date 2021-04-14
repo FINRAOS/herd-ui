@@ -19,9 +19,9 @@ export default {
   dataPrefix: process.env.CURRENT_BROWSER || '',
   uniqueId() {
     // Retrieve today's date in the format of YYYYMMDD (ex. 20181214)
-    var today = new Date().toJSON().slice(0, 10).replace(/-/g, '');
+    const today = new Date().toJSON().slice(0, 10).replace(/-/g, '');
     // Generate a 4-digit random in the range of [1000, 9999]
-    var randomNumber = Math.floor(Math.random() * 9000) + 1000;
+    const randomNumber = Math.floor(Math.random() * 9000) + 1000;
     // concatenate today and 4-digit number
     return '_' + today + '_' + randomNumber;
   }
