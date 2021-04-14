@@ -7,6 +7,7 @@
     "url": "https://github.com/finraos/herd-ui.git"
   },
   "scripts": {
+    "preinstall": "git config core.hooksPath .githooks",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -16,6 +17,7 @@
     "test-ci-ng5": "ng test -c karma.conf.ci.js --code-coverage true --single-run true",
     "test-ci": "ng test --configuration jenkins --code-coverage true",
     "lint": "ng lint",
+    "lint-fix": "ng lint --fix",
     "e2e": "ng e2e",
     "ptor": "protractor",
     "e2e-ci-ng5": "npm run ptor -- protractor.conf.ci.js --suite home,search,category,dataEntityList,dataEntityColumns,dataEntityOverview",
