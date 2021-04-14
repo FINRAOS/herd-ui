@@ -17,7 +17,7 @@ import { Action } from './../../../shared/components/side-action/side-action.com
 import { StorageUnitsComponent } from './../storage-units/storage-units.component';
 import { LineageComponent } from './../lineage/lineage.component';
 import { ActivatedRouteStub, RouterStub } from './../../../../testing/router-stubs';
-import { By } from "@angular/platform-browser";
+import { By } from '@angular/platform-browser';
 import {
   BusinessObjectData,
   BusinessObjectDataService,
@@ -34,8 +34,8 @@ import { DataObjectDetailComponent, DataObjectDetailRequest } from './data-objec
 import { ActivatedRoute, Router } from '@angular/router';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { throwError } from 'rxjs/internal/observable/throwError';
-import {AlertService} from "../../../core/services/alert.service";
-import {of} from "rxjs";
+import { AlertService } from '../../../core/services/alert.service';
+import { of } from 'rxjs';
 
 describe('DataObjectDetailComponent', () => {
   let component: DataObjectDetailComponent;
@@ -194,7 +194,7 @@ describe('DataObjectDetailComponent', () => {
 
       // Set active route params
       activeRoute.testParams = routeParams;
-      const date=new Date();
+      const date = new Date();
       const expectedResult: BusinessObjectData = {
         namespace: 'ns',
         businessObjectDefinitionName: 'dn',
@@ -267,7 +267,7 @@ describe('DataObjectDetailComponent', () => {
       expect(spyBdefFormatApi.calls.count()).toEqual(0);
       expect(spydataApi.calls.count()).toEqual(1);
       expect(component.businessObjectData.retentionExpirationDate).toBe(undefined);
-      let spanEl = fixture.debugElement.query(By.css('.expiry-date')).nativeElement;
+      const spanEl = fixture.debugElement.query(By.css('.expiry-date')).nativeElement;
       expect(spanEl.innerHTML).toBe('');
     })));
 
@@ -540,14 +540,14 @@ describe('DataObjectDetailComponent', () => {
     const downloadError = {
       status: 500,
       error: {
-        message: "Test error message"
+        message: 'Test error message'
       }
     };
 
     // Spy on the services
     spyUploadAndDownloadService = (<jasmine.Spy>uploadAndDownloadService.uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile)
       .and.returnValue(throwError(downloadError));
-      //throwError("Test failure");
+      // throwError("Test failure");
 
     spyAlertService = (<jasmine.Spy>alertService.alert);
 

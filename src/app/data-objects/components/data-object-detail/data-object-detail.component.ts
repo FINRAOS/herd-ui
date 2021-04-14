@@ -14,12 +14,12 @@
 * limitations under the License.
 */
 import { BusinessObjectDataService, BusinessObjectFormat, BusinessObjectFormatService, UploadAndDownloadService,
-  DownloadBusinessObjectDataStorageFileSingleInitiationRequest} from '@herd/angular-client';
+  DownloadBusinessObjectDataStorageFileSingleInitiationRequest } from '@herd/angular-client';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { Action } from '../../../shared/components/side-action/side-action.component';
-import {AlertService, DangerAlert} from "../../../core/services/alert.service";
+import { AlertService, DangerAlert } from '../../../core/services/alert.service';
 
 export interface DataObjectDetailRequest {
   namespace: string;
@@ -177,7 +177,7 @@ export class DataObjectDetailComponent implements OnInit {
         (response) => {
           this.presignedURL = response.preSignedUrl;
         }, (error) => {
-          var errorMessage = error && error.error && error.error.message ? error.error.message : error.toString();
+          const errorMessage = error && error.error && error.error.message ? error.error.message : error.toString();
           this.alertService.alert(new DangerAlert('Unable to initiate download', '', errorMessage, 10));
           console.log(error);
         }
