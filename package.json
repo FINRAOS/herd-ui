@@ -111,6 +111,7 @@
     "winston": "3.1.0"
   },
   "pre-commit": [
-    "license-check"
+    "license-check",
+    "ng lint"
   ]
 }

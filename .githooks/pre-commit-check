@@ -39,9 +39,3 @@ do
         exit 1
     fi
 done
-
-# Check for linting errors
-if ! ng lint; then
-    echo "!!! Lint failures reported, stopping now !!!"
-    exit 1
-fi
