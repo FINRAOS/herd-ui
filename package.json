@@ -112,6 +112,6 @@
   },
   "pre-commit": [
     "license-check",
-    "ng lint"
+    "lint"
   ]
 }
