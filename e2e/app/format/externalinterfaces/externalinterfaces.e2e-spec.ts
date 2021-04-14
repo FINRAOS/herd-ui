@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ExternalInterfacesPage} from "./externalinterfaces.po";
-import {Data} from "./operations/data";
-import {DataManager} from "../../../util/DataManager";
+import { ExternalInterfacesPage } from './externalinterfaces.po';
+import { Data } from './operations/data';
+import { DataManager } from '../../../util/DataManager';
 
 const conf = require('./../../../config/conf.e2e.json');
 const operations = require('./operations/operations');
@@ -57,9 +57,9 @@ describe('External Interface Page', () => {
     await page.viewExternalInterface.click();
     await expect(page.viewExternalInterface.getText()).toContain(expectedValues.viewExternalInterfaceString);
 
-    await expect (page.viewExternalInterfaceWindowTitle.getText()).toBe(expectedValues.viewExternalInterfaceWindowTitle);
-    await expect (page.viewExternalInterfaceWindowPhysicalName.getText()).toBe(expectedValues.viewExternalInterfaceWindowPhysicalName);
-    await expect (page.viewExternalInterfaceWindowDescriptionBody.getText()).toBe(expectedValues.viewExternalInterfaceWindowDescriptionBody);
+    await expect(page.viewExternalInterfaceWindowTitle.getText()).toBe(expectedValues.viewExternalInterfaceWindowTitle);
+    await expect(page.viewExternalInterfaceWindowPhysicalName.getText()).toBe(expectedValues.viewExternalInterfaceWindowPhysicalName);
+    await expect(page.viewExternalInterfaceWindowDescriptionBody.getText()).toBe(expectedValues.viewExternalInterfaceWindowDescriptionBody);
 
     await page.viewExternalInterfaceClose.click();
   });

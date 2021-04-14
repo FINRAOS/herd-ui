@@ -17,11 +17,11 @@ import { by, element, ElementArrayFinder, ElementFinder } from 'protractor';
 import { BasePo } from '../../base/base.po';
 
 export class SampleDataPage extends BasePo {
-    sideActions: ElementArrayFinder  = element.all(by.tagName('sd-side-action'));
-    activeIconColor = 'rgba(255, 255, 255, 1)';
-    inactiveIconColor = 'rgba(99, 181, 242, 1)';
-    sampleDataButton: ElementFinder = this.sideActions.get(3).element(by.tagName('div'));
-    sampleDataButtonColor: ElementFinder = this.sampleDataButton.element(by.tagName('i'));
-    watchButton: ElementFinder = this.sideActions.get(2).element(by.tagName('div'));
-    watchButtonColor: ElementFinder = this.watchButton.element(by.tagName('i'));
+  sideActions: ElementArrayFinder = element.all(by.tagName('sd-side-action'));
+  activeIconColor = 'rgba(255, 255, 255, 1)';
+  inactiveIconColor = 'rgba(99, 181, 242, 1)';
+  sampleDataButton: ElementFinder = this.sideActions.get(3).element(by.tagName('div'));
+  sampleDataButtonColor: ElementFinder = this.sampleDataButton.element(by.tagName('i'));
+  watchButton: ElementFinder = this.sideActions.get(2).element(by.tagName('div'));
+  watchButtonColor: ElementFinder = this.watchButton.element(by.tagName('i'));
 }

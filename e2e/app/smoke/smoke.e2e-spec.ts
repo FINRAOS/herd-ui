@@ -35,14 +35,14 @@ describe('Smoke Tests', () => {
   const searchResultUrl = browser.baseUrl + '/search/' + searchTerm + '?match=';
   const searchPage = new SearchPage();
   const homePage = new HomePage();
-  const dataEntityPage = new  OverviewPage();
-  const dataEntityListPage = new  DataEntityListPage();
+  const dataEntityPage = new OverviewPage();
+  const dataEntityListPage = new DataEntityListPage();
   const formatPage = new FormatPage();
   const categoryPage = new CategoryPage();
   const dataObjectList = new DataObjectListPage();
   const dataObjectDetailPage = new DataObjectDetailPage();
   // increase jasmine timeout to 5 minutes
-  jasmine.DEFAULT_TIMEOUT_INTERVAL  = 300000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 300000;
 
   it('should should display proper headings and category data', async () => {
 

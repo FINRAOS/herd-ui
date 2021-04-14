@@ -25,199 +25,200 @@
 import utils from '../../../../util/utils';
 
 const uniqueId = utils.uniqueId();
+
 export class Data {
-    description = 'Sample description text for testing purpose. Used for all description fields';
-    defaultDataProvider = 'DP_PROTRACTOR_TEST_COL' + uniqueId;
-    defaultNamespace = 'NS_PROTRACTOR_TEST_COL'+ uniqueId;
-    bdefTestNoDFName = 'BDEF_TEST_NO_DF';
-    bdefTestDFName = 'BDEF_TEST_DF_SCHEMA';
-    bdefTestDFNoSchemaName = 'BDEF_TEST_DF_NO_SCHEMA';
-    bdefTestDFSchemaWithPartitions = 'BDEF_TEST_DF_SCHEMA_PARTITIONS';
-    // different bdef name per browser so each browser can edit without affecting another
-    bdefTestEditColumns = utils.dataPrefix + '_BDEF_TEST_DF_EDIT_COLUMNS';
-    private displayName = 'display name of ';
-    bdefColumnName1 = 'column 100';
-    bdefColumnName2 = 'column 101';
+  description = 'Sample description text for testing purpose. Used for all description fields';
+  defaultDataProvider = 'DP_PROTRACTOR_TEST_COL' + uniqueId;
+  defaultNamespace = 'NS_PROTRACTOR_TEST_COL' + uniqueId;
+  bdefTestNoDFName = 'BDEF_TEST_NO_DF';
+  bdefTestDFName = 'BDEF_TEST_DF_SCHEMA';
+  bdefTestDFNoSchemaName = 'BDEF_TEST_DF_NO_SCHEMA';
+  bdefTestDFSchemaWithPartitions = 'BDEF_TEST_DF_SCHEMA_PARTITIONS';
+  // different bdef name per browser so each browser can edit without affecting another
+  bdefTestEditColumns = utils.dataPrefix + '_BDEF_TEST_DF_EDIT_COLUMNS';
+  bdefColumnName1 = 'column 100';
+  bdefColumnName2 = 'column 101';
+  private displayName = 'display name of ';
 
-    bdefTestNoDF() {
-        return {
-            'namespace': this.defaultNamespace,
-            'dataProviderName': this.defaultDataProvider,
-            'businessObjectDefinitionName': this.bdefTestNoDFName,
-            'description': this.description,
-            'displayName': this.displayName + this.bdefTestNoDFName
-        };
-    }
+  get editColumnBdef() {
+    return {
+      'namespace': this.defaultNamespace,
+      'dataProviderName': this.defaultDataProvider,
+      'businessObjectDefinitionName': this.bdefTestEditColumns,
+      'description': this.description,
+      'displayName': this.displayName + this.bdefTestEditColumns
+    };
+  }
 
-    bdefTestDF() {
-        return {
-            'namespace': this.defaultNamespace,
-            'dataProviderName': this.defaultDataProvider,
-            'businessObjectDefinitionName': this.bdefTestDFName,
-            'description': this.description,
-            'displayName': this.displayName + this.bdefTestDFName
-        };
-    }
+  get editableColumnsFormat() {
+    const bdefTestFormatWithPartitions = {
+      'namespace': this.defaultNamespace,
+      'businessObjectDefinitionName': this.bdefTestEditColumns,
+      'businessObjectFormatUsage': 'USG3',
+      'businessObjectFormatFileType': 'TXT',
+      'partitionKey': 'TEST_KEY',
+      'description': 'Nam et interdum quam, hendrerit varius magna.',
+      'schema': {
+        'nullValue': 'NULL', 'delimiter': '|', 'escapeCharacter': '\\',
+        'columns': [
+          {
+            'name': 'TEST_KEY',
+            'type': 'varchar',
+            'size': '2000',
+            'required': true,
+            'defaultValue': 'clm_1',
+            'description': 'this is for testing'
+          },
+          {
+            'name': 'CLM_11',
+            'type': 'varchar',
+            'size': '10',
+            'required': true,
+            'defaultValue': 'clm_2',
+            'description': 'this is for testing'
+          }
+        ],
+      }
+    };
+    return bdefTestFormatWithPartitions;
+  }
 
-    bdefTestDFNoSchema() {
-        return {
-            'namespace': this.defaultNamespace,
-            'dataProviderName': this.defaultDataProvider,
-            'businessObjectDefinitionName': this.bdefTestDFNoSchemaName,
-            'description': this.description,
-            'displayName': this.displayName + this.bdefTestDFNoSchemaName
-        };
-    }
+  bdefTestNoDF() {
+    return {
+      'namespace': this.defaultNamespace,
+      'dataProviderName': this.defaultDataProvider,
+      'businessObjectDefinitionName': this.bdefTestNoDFName,
+      'description': this.description,
+      'displayName': this.displayName + this.bdefTestNoDFName
+    };
+  }
 
-    bdefTestDFSchemaWith_Partitions() {
-        return {
-            'namespace': this.defaultNamespace,
-            'dataProviderName': this.defaultDataProvider,
-            'businessObjectDefinitionName': this.bdefTestDFSchemaWithPartitions,
-            'description': this.description,
-            'displayName': this.displayName + this.bdefTestDFSchemaWithPartitions
-        };
-    }
+  bdefTestDF() {
+    return {
+      'namespace': this.defaultNamespace,
+      'dataProviderName': this.defaultDataProvider,
+      'businessObjectDefinitionName': this.bdefTestDFName,
+      'description': this.description,
+      'displayName': this.displayName + this.bdefTestDFName
+    };
+  }
 
-    get editColumnBdef() {
-        return {
-            'namespace': this.defaultNamespace,
-            'dataProviderName': this.defaultDataProvider,
-            'businessObjectDefinitionName': this.bdefTestEditColumns,
-            'description': this.description,
-            'displayName': this.displayName + this.bdefTestEditColumns
-        };
-    }
+  bdefTestDFNoSchema() {
+    return {
+      'namespace': this.defaultNamespace,
+      'dataProviderName': this.defaultDataProvider,
+      'businessObjectDefinitionName': this.bdefTestDFNoSchemaName,
+      'description': this.description,
+      'displayName': this.displayName + this.bdefTestDFNoSchemaName
+    };
+  }
 
-    // put DF, contains schema columns => put respective bdef columns
-    bdefTestDF_FORMAT() {
-        const befTestFormat = {
-            'namespace': this.defaultNamespace,
-            'businessObjectDefinitionName': this.bdefTestDFName,
-            'businessObjectFormatUsage': 'USG1',
-            'businessObjectFormatFileType': 'TXT',
-            'partitionKey': 'TEST_KEY',
-            'description': 'Nam et interdum quam, hendrerit varius magna.',
-            'schema': {
-                'nullValue': 'NULL', 'delimiter': '|', 'escapeCharacter': '\\',
-                'columns': [
-                    {
-                        'name': 'CLM_100', // bdef column name:'column 100'
-                        'type': 'varchar',
-                        'size': '2000',
-                        'required': true,
-                        'defaultValue': 'clm_100',
-                        'description': 'this is for testing'
-                    },
-                    {
-                        'name': 'CLM_101', // bdef column name:'column 101'
-                        'type': 'Integer',
-                        'size': '10',
-                        'required': true,
-                        'defaultValue': 'clm_100',
-                        'description': 'this is for testing'
-                    }
-                ]
-            }
-        };
-        return befTestFormat;
-    }
+  bdefTestDFSchemaWith_Partitions() {
+    return {
+      'namespace': this.defaultNamespace,
+      'dataProviderName': this.defaultDataProvider,
+      'businessObjectDefinitionName': this.bdefTestDFSchemaWithPartitions,
+      'description': this.description,
+      'displayName': this.displayName + this.bdefTestDFSchemaWithPartitions
+    };
+  }
 
-    // put DF, contains schema columns with partitions
-    bdefTestDF_FORMAT_WithPartitions() {
-        const bdefTestFormatWithPartitions = {
-            'namespace': this.defaultNamespace,
-            'businessObjectDefinitionName': this.bdefTestDFSchemaWithPartitions,
-            'businessObjectFormatUsage': 'USG2',
-            'businessObjectFormatFileType': 'TXT',
-            'partitionKey': 'TEST_KEY',
-            'description': 'Nam et interdum quam, hendrerit varius magna.',
-            'schema': {
-                'nullValue': 'NULL', 'delimiter': '|', 'escapeCharacter': '\\',
-                'columns': [
-                    {
-                        'name': 'TEST_KEY',
-                        'type': 'varchar',
-                        'size': '2000',
-                        'required': true,
-                        'defaultValue': 'clm_1',
-                        'description': 'this is for testing'
-                    },
-                    {
-                        'name': 'CLM_11',
-                        'type': 'varchar',
-                        'size': '10',
-                        'required': true,
-                        'defaultValue': 'clm_2',
-                        'description': 'this is for testing'
-                    }
-                ],
-                'partitions': [
-                    {
-                        'name': 'TEST_KEY',
-                        'type': 'varchar',
-                        'size': '2000',
-                        'required': true,
-                        'defaultValue': 'clm_1',
-                        'description': 'this is for testing'
-                    },
-                    {
-                        'name': 'CLM_11',
-                        'type': 'varchar',
-                        'size': '10',
-                        'required': true,
-                        'defaultValue': 'clm_2',
-                        'description': 'this is for testing'
-                    }
-                ]
-            }
-        };
-        return bdefTestFormatWithPartitions;
-    }
+  // put DF, contains schema columns => put respective bdef columns
+  bdefTestDF_FORMAT() {
+    const befTestFormat = {
+      'namespace': this.defaultNamespace,
+      'businessObjectDefinitionName': this.bdefTestDFName,
+      'businessObjectFormatUsage': 'USG1',
+      'businessObjectFormatFileType': 'TXT',
+      'partitionKey': 'TEST_KEY',
+      'description': 'Nam et interdum quam, hendrerit varius magna.',
+      'schema': {
+        'nullValue': 'NULL', 'delimiter': '|', 'escapeCharacter': '\\',
+        'columns': [
+          {
+            'name': 'CLM_100', // bdef column name:'column 100'
+            'type': 'varchar',
+            'size': '2000',
+            'required': true,
+            'defaultValue': 'clm_100',
+            'description': 'this is for testing'
+          },
+          {
+            'name': 'CLM_101', // bdef column name:'column 101'
+            'type': 'Integer',
+            'size': '10',
+            'required': true,
+            'defaultValue': 'clm_100',
+            'description': 'this is for testing'
+          }
+        ]
+      }
+    };
+    return befTestFormat;
+  }
 
-    get editableColumnsFormat() {
-        const bdefTestFormatWithPartitions = {
-            'namespace': this.defaultNamespace,
-            'businessObjectDefinitionName': this.bdefTestEditColumns,
-            'businessObjectFormatUsage': 'USG3',
-            'businessObjectFormatFileType': 'TXT',
-            'partitionKey': 'TEST_KEY',
-            'description': 'Nam et interdum quam, hendrerit varius magna.',
-            'schema': {
-                'nullValue': 'NULL', 'delimiter': '|', 'escapeCharacter': '\\',
-                'columns': [
-                    {
-                        'name': 'TEST_KEY',
-                        'type': 'varchar',
-                        'size': '2000',
-                        'required': true,
-                        'defaultValue': 'clm_1',
-                        'description': 'this is for testing'
-                    },
-                    {
-                        'name': 'CLM_11',
-                        'type': 'varchar',
-                        'size': '10',
-                        'required': true,
-                        'defaultValue': 'clm_2',
-                        'description': 'this is for testing'
-                    }
-                ],
-            }
-        };
-        return bdefTestFormatWithPartitions;
-    }
+  // put DF, contains schema columns with partitions
+  bdefTestDF_FORMAT_WithPartitions() {
+    const bdefTestFormatWithPartitions = {
+      'namespace': this.defaultNamespace,
+      'businessObjectDefinitionName': this.bdefTestDFSchemaWithPartitions,
+      'businessObjectFormatUsage': 'USG2',
+      'businessObjectFormatFileType': 'TXT',
+      'partitionKey': 'TEST_KEY',
+      'description': 'Nam et interdum quam, hendrerit varius magna.',
+      'schema': {
+        'nullValue': 'NULL', 'delimiter': '|', 'escapeCharacter': '\\',
+        'columns': [
+          {
+            'name': 'TEST_KEY',
+            'type': 'varchar',
+            'size': '2000',
+            'required': true,
+            'defaultValue': 'clm_1',
+            'description': 'this is for testing'
+          },
+          {
+            'name': 'CLM_11',
+            'type': 'varchar',
+            'size': '10',
+            'required': true,
+            'defaultValue': 'clm_2',
+            'description': 'this is for testing'
+          }
+        ],
+        'partitions': [
+          {
+            'name': 'TEST_KEY',
+            'type': 'varchar',
+            'size': '2000',
+            'required': true,
+            'defaultValue': 'clm_1',
+            'description': 'this is for testing'
+          },
+          {
+            'name': 'CLM_11',
+            'type': 'varchar',
+            'size': '10',
+            'required': true,
+            'defaultValue': 'clm_2',
+            'description': 'this is for testing'
+          }
+        ]
+      }
+    };
+    return bdefTestFormatWithPartitions;
+  }
 
-    // put DF, no schema columns or bdef columns
-    bdefTestDFNoSchema_FORMAT() {
-        const befTestFormat = {
-            'namespace': this.defaultNamespace,
-            'businessObjectDefinitionName': this.bdefTestDFNoSchemaName,
-            'businessObjectFormatUsage': 'USG3',
-            'businessObjectFormatFileType': 'TXT',
-            'partitionKey': 'TEST_KEY',
-            'description': 'Nam et interdum quam, hendrerit varius magna.'
-        };
-        return befTestFormat;
-    }
+  // put DF, no schema columns or bdef columns
+  bdefTestDFNoSchema_FORMAT() {
+    const befTestFormat = {
+      'namespace': this.defaultNamespace,
+      'businessObjectDefinitionName': this.bdefTestDFNoSchemaName,
+      'businessObjectFormatUsage': 'USG3',
+      'businessObjectFormatFileType': 'TXT',
+      'partitionKey': 'TEST_KEY',
+      'description': 'Nam et interdum quam, hendrerit varius magna.'
+    };
+    return befTestFormat;
+  }
 }

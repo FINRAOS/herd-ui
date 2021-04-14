@@ -67,60 +67,60 @@ export const postRequests = function () {
         'order': 4,
         'url': tagTypePostUrl,
         'body': new schema.TagType().postBody(data.tagTypeCode().code,
-        data.tagTypeCode().displayName, data.tagTypeCode().order, 'desc')
+          data.tagTypeCode().displayName, data.tagTypeCode().order, 'desc')
       }, {
         'order': 4,
         'url': tagTypePostUrl,
         'body': new schema.TagType().postBody(data.tagTypeCode2().code, data.tagTypeCode2().displayName,
-        data.tagTypeCode2().order, 'desc')
+          data.tagTypeCode2().order, 'desc')
       }, {
         'order': 4,
         'url': tagTypePostUrl,
         'body': new schema.TagType().postBody(data.tagTypeCode3().code, data.tagTypeCode3().displayName,
-        data.tagTypeCode3().order, 'desc')
+          data.tagTypeCode3().order, 'desc')
       }, {
         'order': 5,
         'url': tagPostUrl,
         'body': new schema.Tags().postBodyWithoutParent(data.tagTypeCode().code,
-        data.tagTypeCode().tags[0].code, data.tagTypeCode().tags[0].displayName, data.description)
+          data.tagTypeCode().tags[0].code, data.tagTypeCode().tags[0].displayName, data.description)
       },
       {
         'order': 5,
         'url': tagPostUrl,
         'body': new schema.Tags().postBodyWithoutParent(data.tagTypeCode().code, data.tagTypeCode().tags[1].code,
-        data.tagTypeCode().tags[1].displayName, data.description)
+          data.tagTypeCode().tags[1].displayName, data.description)
       },
       {
         'order': 5,
         'url': tagPostUrl,
         'body': new schema.Tags().postBodyWithoutParent(data.tagTypeCode().code, data.tagTypeCode().tags[2].code,
-        data.tagTypeCode().tags[2].displayName, data.description)
+          data.tagTypeCode().tags[2].displayName, data.description)
       },
       {
         'order': 42,
         'url': tagPostUrl,
         'body': new schema.Tags().postBodyWithParent(data.tagTypeCode().code, data.tagTypeCode().tags[3].code,
-                data.tagTypeCode().tags[3].displayName, data.description,
-                data.tagTypeCode().code, data.tagTypeCode().tags[3].parentCode)
+          data.tagTypeCode().tags[3].displayName, data.description,
+          data.tagTypeCode().code, data.tagTypeCode().tags[3].parentCode)
       },
       {
         'order': 43,
         'url': tagPostUrl,
         'body': new schema.Tags().postBodyWithParent(data.tagTypeCode().code, data.tagTypeCode().tags[4].code,
-                data.tagTypeCode().tags[4].displayName, data.description,
-                data.tagTypeCode().code, data.tagTypeCode().tags[4].parentCode)
+          data.tagTypeCode().tags[4].displayName, data.description,
+          data.tagTypeCode().code, data.tagTypeCode().tags[4].parentCode)
       },
       {
         'order': 5,
         'url': tagPostUrl,
         'body': new schema.Tags().postBodyWithoutParent(data.tagTypeCode2().code, data.tagTypeCode2().tags[0].code,
-                data.tagTypeCode2().tags[0].displayName, data.description)
+          data.tagTypeCode2().tags[0].displayName, data.description)
       },
       {
         'order': 5,
         'url': tagPostUrl,
         'body': new schema.Tags().postBodyWithoutParent(data.tagTypeCode3().code, data.tagTypeCode3().tags[0].code,
-                data.tagTypeCode3().tags[0].displayName, data.description)
+          data.tagTypeCode3().tags[0].displayName, data.description)
       }
     ]
   };
@@ -141,7 +141,7 @@ export const postBdefTagRequests = function () {
         'order': 99,
         'url': new schema.BusinessObjectDefinitionTags().postUrl(),
         'body': new schema.BusinessObjectDefinitionTags().postBody(data.defaultNamespace, data[bdef.name]().businessObjectDefinitionName,
-        tagType.code, tag.code)
+          tagType.code, tag.code)
       };
     }));
   }
@@ -169,11 +169,11 @@ export const deleteRequests = function () {
     'options': [{
       'order': 2,
       'url': new schema.BusinessObjectDefinitions().deleteUrl(data.defaultNamespace,
-      data.bdefLongDescription().businessObjectDefinitionName)
+        data.bdefLongDescription().businessObjectDefinitionName)
     }, {
       'order': 2,
       'url': new schema.BusinessObjectDefinitions().deleteUrl(data.defaultNamespace,
-      data.bdefShortDescription().businessObjectDefinitionName)
+        data.bdefShortDescription().businessObjectDefinitionName)
     }, {
       'order': 2,
       'url': new schema.BusinessObjectDefinitions().deleteUrl(data.defaultNamespace, data.bdefNoDescription().businessObjectDefinitionName)
@@ -226,7 +226,7 @@ export const deleteBDefTagRequests = function () {
         return {
           'order': -1,
           'url': new schema.BusinessObjectDefinitionTags().deleteUrl(data.defaultNamespace,
-          data[bdef.name]().businessObjectDefinitionName, tagType.code, tag.code)
+            data[bdef.name]().businessObjectDefinitionName, tagType.code, tag.code)
         };
       }
     }));
@@ -235,7 +235,7 @@ export const deleteBDefTagRequests = function () {
     });
   }
 
-   // foreach accepts a callback and as a second argument a variable to make point to this
+  // foreach accepts a callback and as a second argument a variable to make point to this
   //  simply pass along the tagTypeCode as this in order to get all the arguments needed to construct the array of options
   data.tagTypeCode().tags.forEach(processTeardownOption, data.tagTypeCode());
 
@@ -259,12 +259,12 @@ export const updateRequests = function () {
       'order': 1,
       'url': new schema.Tags().deleteUrl(data.tagTypeCode().code, data.tagTypeCode().tags[3].code),
       'body': new schema.Tags().putBody(data.tagTypeCode().code, data.tagTypeCode().tags[3].code,
-      data.tagTypeCode().tags[3].displayName, data.description)
+        data.tagTypeCode().tags[3].displayName, data.description)
     }, {
       'order': 2,
       'url': new schema.Tags().deleteUrl(data.tagTypeCode().code, data.tagTypeCode().tags[4].code),
       'body': new schema.Tags().putBody(data.tagTypeCode().code, data.tagTypeCode().tags[4].code,
-      data.tagTypeCode().tags[4].displayName, data.description)
+        data.tagTypeCode().tags[4].displayName, data.description)
     }]
   };
 };
@@ -278,7 +278,7 @@ export const initRequests = {
 
 export const tearDownRequests = {
   updates: updateRequests(),
-  deletes:  {
+  deletes: {
     options: deleteRequests().options.concat(deleteBDefTagRequests().options)
   }
 };

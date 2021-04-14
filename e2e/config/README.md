@@ -13,21 +13,22 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-##configuration required to test.
+
+## configuration required to test.
 
 You reached here because you are trying to test the project and conf.e2e.json is not available.
 
 You need to create your own conf.e2e.json or you need to ask it from the owner of the community who is developing it.
 
-Keeping in mind, this code is open source and can be used in any purpose with any data, The specific data related to particular project is not checked in.
-While testing, you need to provide your sample configuration file (conf.e2e.json) data so that it will test the code with your data.
+Keeping in mind, this code is open source and can be used in any purpose with any data, The specific data related to
+particular project is not checked in. While testing, you need to provide your sample configuration file (conf.e2e.json)
+data so that it will test the code with your data.
 
-####sample data:
+#### sample data:
 
-Below is a sample json which is similar what testing would except but not as it is.
-You will also get the JSON file avilable there and need to provide environemnt configuration to run test successfully.
-Make sure to provide your data like backend url, home page link, other page link, specific data, etc.
-
+Below is a sample json which is similar what testing would except but not as it is. You will also get the JSON file
+avilable there and need to provide environemnt configuration to run test successfully. Make sure to provide your data
+like backend url, home page link, other page link, specific data, etc.
 
 ```json
 {

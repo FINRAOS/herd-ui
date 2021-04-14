@@ -193,14 +193,14 @@ export class BusinessObjectFormats {
   }
 
   public deleteUrl(namespace, businessObjectDefinitionName,
-    businessObjectFormatUsage, businessObjectFormatFileType, businessObjectFormatVersion) {
+                   businessObjectFormatUsage, businessObjectFormatFileType, businessObjectFormatVersion) {
     return '/businessObjectFormats/namespaces/' + namespace + '/businessObjectDefinitionNames/' + businessObjectDefinitionName +
       '/businessObjectFormatUsages/' + businessObjectFormatUsage + '/businessObjectFormatFileTypes/' + businessObjectFormatFileType +
       '/businessObjectFormatVersions/' + businessObjectFormatVersion;
   }
 
   public putParentsUrl(namespace, businessObjectDefinitionName,
-    businessObjectFormatUsage, businessObjectFormatFileType) {
+                       businessObjectFormatUsage, businessObjectFormatFileType) {
     return '/businessObjectFormatParents/namespaces/' + namespace + '/businessObjectDefinitionNames/' + businessObjectDefinitionName +
       '/businessObjectFormatUsages/' + businessObjectFormatUsage + '/businessObjectFormatFileTypes/' + businessObjectFormatFileType;
   }
@@ -219,11 +219,11 @@ export class ExternalInterfaces {
 
   public postBody(externalInterfaceName, displayName, discription) {
     return {
-        'externalInterfaceKey': {
-          'externalInterfaceName': externalInterfaceName
-        },
-        'displayName': displayName,
-        'description': discription
+      'externalInterfaceKey': {
+        'externalInterfaceName': externalInterfaceName
+      },
+      'displayName': displayName,
+      'description': discription
     };
   }
 
@@ -233,8 +233,8 @@ export class ExternalInterfaces {
 
   public putBody(displayName, discription) {
     return {
-        'displayName': displayName,
-        'description': discription
+      'displayName': displayName,
+      'description': discription
     };
   }
 
@@ -250,19 +250,19 @@ export class BusinessObjectFormatExternalInterfaces {
 
   public postBody(namespace, bdefName, formatUsage, fileType, externalInterfaceName) {
     return {
-        'businessObjectFormatExternalInterfaceKey': {
-          'namespace': namespace,
-          'businessObjectDefinitionName': bdefName,
-          'businessObjectFormatUsage': formatUsage,
-          'businessObjectFormatFileType': fileType,
-          'externalInterfaceName': externalInterfaceName
-        }
+      'businessObjectFormatExternalInterfaceKey': {
+        'namespace': namespace,
+        'businessObjectDefinitionName': bdefName,
+        'businessObjectFormatUsage': formatUsage,
+        'businessObjectFormatFileType': fileType,
+        'externalInterfaceName': externalInterfaceName
+      }
     };
   }
 
   public deleteUrl(namespace, bdefName, formatUsage, fileType, externalInterfaceName) {
     return '/businessObjectFormatExternalInterfaces/namespaces/' + namespace + '/businessObjectDefinitionNames/' + bdefName
-      + "/businessObjectFormatUsage/" + formatUsage + "/businessObjectFormatFileType/" + fileType + "/externalInterfaceName/" + externalInterfaceName;
+      + '/businessObjectFormatUsage/' + formatUsage + '/businessObjectFormatFileType/' + fileType + '/externalInterfaceName/' + externalInterfaceName;
   }
 }
 
@@ -295,8 +295,8 @@ export class BusinessObjectDataAttribute {
   }
 
   public deleteUrl(namespace, businessObjectDefinitionName, businessObjectFormatUsage,
-    businessObjectFormatFileType, businessObjectFormatVersion,
-    partitionValue, businessObjectDataVersion, businessObjectDataAttributeName) {
+                   businessObjectFormatFileType, businessObjectFormatVersion,
+                   partitionValue, businessObjectDataVersion, businessObjectDataAttributeName) {
     return '/businessObjectDataAttributes/namespaces/' + namespace
       + '/businessObjectDefinitionNames/' + businessObjectDefinitionName +
       '/businessObjectFormatUsages/' + businessObjectFormatUsage
@@ -315,6 +315,7 @@ export class BusinessObjectDefinitionData {
       + '/businessObjectFormatVersions/' + formatVersion
       + '/partitionValues/' + partitionValue + '/businessObjectDataVersions/' + dataVersion;
   }
+
   public putFormatRentionTypeUrl(namespace, bdefName, formatUsage, formatFileType, formatVersion, partitionValue, dataVersion) {
     return '/businessObjectFormatRetentionInformation/namespaces/' + namespace + '/businessObjectDefinitionNames/' + bdefName
       + '/businessObjectFormatUsages/' + formatUsage + '/businessObjectFormatFileTypes/' + formatFileType;
@@ -322,21 +323,21 @@ export class BusinessObjectDefinitionData {
 
   public putDataObjectRentionExpirationDateUrl(namespace, bdefName, formatUsage, formatFileType, formatVersion, partitionValue, dataVersion) {
     return '/businessObjectDataRetentionInformation/namespaces/' + namespace + '/businessObjectDefinitionNames/' + bdefName
-        + '/businessObjectFormatUsages/' + formatUsage + '/businessObjectFormatFileTypes/' + formatFileType
-        + '/businessObjectFormatVersions/' + formatVersion
-        + '/partitionValues/' + partitionValue + '/businessObjectDataVersions/' + dataVersion;
+      + '/businessObjectFormatUsages/' + formatUsage + '/businessObjectFormatFileTypes/' + formatFileType
+      + '/businessObjectFormatVersions/' + formatVersion
+      + '/partitionValues/' + partitionValue + '/businessObjectDataVersions/' + dataVersion;
   }
 
- public putRentionTypeBody(retentionType) {
+  public putRentionTypeBody(retentionType) {
     return {
-      'recordFlag':true,'retentionType': retentionType
-   };
- }
+      'recordFlag': true, 'retentionType': retentionType
+    };
+  }
 
- public putRentionExpirationDateBody(retentionExpirationDate) {
-     return {
-        'retentionExpirationDate': retentionExpirationDate
-     };
+  public putRentionExpirationDateBody(retentionExpirationDate) {
+    return {
+      'retentionExpirationDate': retentionExpirationDate
+    };
   }
 
   public postUrl() {
@@ -344,8 +345,8 @@ export class BusinessObjectDefinitionData {
   }
 
   public deleteWith4SubPartitionsUrl(namespace, businessObjectDefinitionName, businessObjectFormatUsage, businessObjectFormatFileType,
-    businessObjectFormatVersion, partitionValue, subPartition1Value, subPartition2Value,
-    subPartition3Value, subPartition4Value, businessObjectDataVersion, deleteFiles) {
+                                     businessObjectFormatVersion, partitionValue, subPartition1Value, subPartition2Value,
+                                     subPartition3Value, subPartition4Value, businessObjectDataVersion, deleteFiles) {
     return '/businessObjectData/namespaces/' + namespace + '/businessObjectDefinitionNames/'
       + businessObjectDefinitionName + '/businessObjectFormatUsages/' +
       businessObjectFormatUsage + '/businessObjectFormatFileTypes/' + businessObjectFormatFileType
@@ -356,8 +357,8 @@ export class BusinessObjectDefinitionData {
   }
 
   public deleteWith1SubPartitionsUrl(namespace, businessObjectDefinitionName, businessObjectFormatUsage,
-    businessObjectFormatFileType, businessObjectFormatVersion, partitionValue,
-    subPartition1Value, businessObjectDataVersion, deleteFiles) {
+                                     businessObjectFormatFileType, businessObjectFormatVersion, partitionValue,
+                                     subPartition1Value, businessObjectDataVersion, deleteFiles) {
     return '/businessObjectData/namespaces/' + namespace + '/businessObjectDefinitionNames/' + businessObjectDefinitionName
       + '/businessObjectFormatUsages/' + businessObjectFormatUsage + '/businessObjectFormatFileTypes/' + businessObjectFormatFileType
       + '/businessObjectFormatVersions/' + businessObjectFormatVersion + '/partitionValues/' + partitionValue
@@ -366,7 +367,7 @@ export class BusinessObjectDefinitionData {
   }
 
   public deleteWithoutSubPartitionsUrl(namespace, businessObjectDefinitionName, businessObjectFormatUsage, businessObjectFormatFileType,
-    businessObjectFormatVersion, partitionValue, businessObjectDataVersion, deleteFiles) {
+                                       businessObjectFormatVersion, partitionValue, businessObjectDataVersion, deleteFiles) {
     return '/businessObjectData/namespaces/' + namespace + '/businessObjectDefinitionNames/' + businessObjectDefinitionName
       + '/businessObjectFormatUsages/' + businessObjectFormatUsage + '/businessObjectFormatFileTypes/'
       + businessObjectFormatFileType + '/businessObjectFormatVersions/' + businessObjectFormatVersion

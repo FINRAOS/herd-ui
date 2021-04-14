@@ -21,12 +21,13 @@
 import utils from '../../../../../util/utils';
 
 const uniqueId = utils.uniqueId();
+
 export class Data {
   public dataProviderName = 'DP_PROTRACTOR_TEST_DL42' + uniqueId;
   public namespace = 'NS_PROTRACTOR_TEST_DL42' + uniqueId;
   public defaultNamespace = this.namespace;
   public description = 'Sample description text for testing purpose. ' +
-  'Used for data-objects detail screen to test lineage functionality';
+    'Used for data-objects detail screen to test lineage functionality';
   public defaultDataProvider = this.dataProviderName;
 
   public bdef = {
@@ -134,7 +135,7 @@ export class Data {
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
         'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/src/' +
-        'txt/data-lineage-test/schm-v0/data-v0/test-key=Bird/test1-key=TWO/employee-key=THREE/data-key=Four/firm-key=five'
+          'txt/data-lineage-test/schm-v0/data-v0/test-key=Bird/test1-key=TWO/employee-key=THREE/data-key=Four/firm-key=five'
       }
     }]
   };
@@ -153,7 +154,7 @@ export class Data {
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
         'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/src/txt/data-lineage-test/' +
-        'schm-v0/data-v0/test-key=ALPHA/test1-key=beta/employee-key=gamma/data-key=delta/firm-key=epsilon'
+          'schm-v0/data-v0/test-key=ALPHA/test1-key=beta/employee-key=gamma/data-key=delta/firm-key=epsilon'
       }
     }],
     'businessObjectDataParents': [{
@@ -264,7 +265,7 @@ export class Data {
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
         'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/src/txt/data-lineage-test/' +
-        'schm-v0/data-v0/test-key=Romeo/test1-key=Juliet/employee-key=Mercutio/data-key=Tybalt/firm-key=Benvolio'
+          'schm-v0/data-v0/test-key=Romeo/test1-key=Juliet/employee-key=Mercutio/data-key=Tybalt/firm-key=Benvolio'
       }
     }],
     'businessObjectDataParents': [{

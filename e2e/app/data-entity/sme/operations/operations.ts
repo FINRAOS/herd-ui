@@ -29,8 +29,8 @@ const data = new Data();
  */
 
 export const postRequests = function () {
-const smePostUrl = new schema.BusinessObjectDefinitionSmes().postUrl();
-const bdefPostUrl = new schema.BusinessObjectDefinitions().postUrl();
+  const smePostUrl = new schema.BusinessObjectDefinitionSmes().postUrl();
+  const bdefPostUrl = new schema.BusinessObjectDefinitions().postUrl();
 
   return {
     'options': [
@@ -114,7 +114,7 @@ export const initRequests = {
 };
 
 export const tearDownRequests = {
-  deletes:  {
+  deletes: {
     options: deleteRequests().options
   }
 };

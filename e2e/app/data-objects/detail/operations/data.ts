@@ -114,8 +114,8 @@ export class Data {
     'storageUnits': [{
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
-        'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g,'-') + "/" + this.defaultDataProvider.toLowerCase().replace(/_/g,'-') +
-        '/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=Dog'
+        'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g, '-') + '/' + this.defaultDataProvider.toLowerCase().replace(/_/g, '-') +
+          '/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=Dog'
       }
     }]
   };
@@ -132,8 +132,8 @@ export class Data {
     'storageUnits': [{
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
-        'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g,'-') + "/" + this.defaultDataProvider.toLowerCase().replace(/_/g,'-') +
-        '/src/txt/data-lineage-test/schm-v0/data-v0/test-key=Bird/market-key=TWO/employee-key=THREE/data-key=Four/firm-key=five'
+        'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g, '-') + '/' + this.defaultDataProvider.toLowerCase().replace(/_/g, '-') +
+          '/src/txt/data-lineage-test/schm-v0/data-v0/test-key=Bird/market-key=TWO/employee-key=THREE/data-key=Four/firm-key=five'
       }
     }]
   };
@@ -149,8 +149,8 @@ export class Data {
     'storageUnits': [{
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
-        'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g,'-') + "/" + this.defaultDataProvider.toLowerCase().replace(/_/g,'-') +
-        '/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=versionTest'
+        'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g, '-') + '/' + this.defaultDataProvider.toLowerCase().replace(/_/g, '-') +
+          '/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=versionTest'
       }
     }]
   };
@@ -167,8 +167,8 @@ export class Data {
     'storageUnits': [{
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
-        'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g,'-') + "/" + this.defaultDataProvider.toLowerCase().replace(/_/g,'-')
-        +'/prc/orc/data-lineage-test/schm-v0/data-v1/test-key=versionTest'
+        'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g, '-') + '/' + this.defaultDataProvider.toLowerCase().replace(/_/g, '-')
+          + '/prc/orc/data-lineage-test/schm-v0/data-v1/test-key=versionTest'
       }
     }]
   };
@@ -184,8 +184,8 @@ export class Data {
     'storageUnits': [{
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
-        'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g,'-') + "/" + this.defaultDataProvider.toLowerCase().replace(/_/g,'-') +
-        '/prc/orc/data-lineage-test/schm-v0/data-v2/test-key=versionTest'
+        'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g, '-') + '/' + this.defaultDataProvider.toLowerCase().replace(/_/g, '-') +
+          '/prc/orc/data-lineage-test/schm-v0/data-v2/test-key=versionTest'
       }
     }],
     'attributes': [{
@@ -198,7 +198,7 @@ export class Data {
       }],
     'createNewVersion': 'true'
   };
- public bdataWithRetentionExpirationDate = {
+  public bdataWithRetentionExpirationDate = {
     'namespace': this.namespace,
     'businessObjectDefinitionName': this.bdef.businessObjectDefinitionName,
     'businessObjectFormatUsage': this.formatWithNoSubpartitions.businessObjectFormatUsage,
@@ -207,14 +207,14 @@ export class Data {
     'partitionKey': this.formatWithNoSubpartitions.partitionKey,
     'partitionValue': 'Retention',
     'status': 'VALID',
-    'retentionExpirationDate':'2019-04-12T18:03:03.399Z',
-    'retentionType':'BDATA_RETENTION_DATE',
+    'retentionExpirationDate': '2019-04-12T18:03:03.399Z',
+    'retentionType': 'BDATA_RETENTION_DATE',
     'storageUnits': [{
-          'storageName': 'S3_MANAGED',
-          'storageDirectory': {
-            'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g,'-') + "/" + this.defaultDataProvider.toLowerCase().replace(/_/g,'-') +
-            '/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=Retention'
-          }
-        }],
+      'storageName': 'S3_MANAGED',
+      'storageDirectory': {
+        'directoryPath': this.defaultNamespace.toLowerCase().replace(/_/g, '-') + '/' + this.defaultDataProvider.toLowerCase().replace(/_/g, '-') +
+          '/prc/orc/data-lineage-test/schm-v0/data-v0/test-key=Retention'
+      }
+    }],
   };
 }

@@ -184,7 +184,7 @@ export const initRequests = {
 
 export const tearDownRequests = {
   updates: operation.updateRequests(),
-  deletes:  {
+  deletes: {
     options: operation.deleteRequests().options
   }
 };

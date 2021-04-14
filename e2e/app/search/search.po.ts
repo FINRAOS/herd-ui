@@ -22,46 +22,145 @@ const conf = require('../../config/conf.e2e.json');
 
 export class SearchPage extends BasePo {
 
+  // first date entity search result subtitle
+  private _dataEntitySubtitle = element(by.className('.search-result .col-9 .card-header div namespace-bdef-subtitle'));
+  // first facet verification
+  private _firstFacet = element.all(by.css('sd-facet div.card')).first();
+
   // home page search
   private _homePage = element(by.css('.homepage'));
+
+  get homePage(): ElementFinder {
+    return this._homePage;
+  }
+
   private _searchBox = element(by.css('input[placeholder="I can help you to find anything you want!"]'));
+
+  get searchBox(): ElementFinder {
+    return this._searchBox;
+  }
+
   private _searchButton = element(by.css('i.fa.fa-search'));
+
+  get searchButton(): ElementFinder {
+    return this._searchButton;
+  }
+
   private _matchFilterButton = element(by.css('i.fa.fa-filter'));
+
+  get matchFilterButton(): ElementFinder {
+    return this._matchFilterButton;
+  }
+
   private _searchBoxContainer = element(by.css('sd-search'));
+
+  get searchBoxContainer(): ElementFinder {
+    return this._searchBoxContainer;
+  }
+
   private _searchResultUrl = browser.baseUrl + '/search/' + data.searchTerm + '?match=';
+
+  get searchResultUrl(): string {
+    return this._searchResultUrl;
+  }
+
   private _hitFilter = element(by.css('sd-global-search .hit-match-filter'));
+
+  get hitFilter(): ElementFinder {
+    return this._hitFilter;
+  }
 
   // first result verification
   private _loadingIcon = element(by.css('.search-result .sd-text-center'));
+
+  get loadingIcon(): ElementFinder {
+    return this._loadingIcon;
+  }
+
   private _searchResultDescription = element(by.css('.search-result .col-9 > div:first-child'));
+
+  get searchResultDescription(): ElementFinder {
+    return this._searchResultDescription;
+  }
+
   private _searchResultCount = element.all(by.css('.search-result .col-9 .card'));
+
+  get searchResultCount(): ElementArrayFinder {
+    return this._searchResultCount;
+  }
 
   // first search result
   private _headingAnchor = element(by.css('.search-result .col-9 .card-header div a'));
+
+  get headingAnchor(): ElementFinder {
+    return this._headingAnchor;
+  }
+
   private _headingBadge = element(by.css('.search-result .col-9 .card-header div .badge'));
 
-  // first date entity search result subtitle
-  private _dataEntitySubtitle = element(by.className('.search-result .col-9 .card-header div namespace-bdef-subtitle'));
+  get headingBadge(): ElementFinder {
+    return this._headingBadge;
+  }
 
   // hit highlight testing
   private _highlightFound = element.all(by.css('sd-read-more div span span')).first();
+
+  get highlightFound(): ElementFinder {
+    return this._highlightFound;
+  }
+
   private _highlightReadmoreLink = element(by.css('sd-read-more div a'));
+
+  get highlightReadmoreLink(): ElementFinder {
+    return this._highlightReadmoreLink;
+  }
 
   // facets
   private _facetComponent = element(by.css('sd-facet'));
+
+  get facetComponent(): ElementFinder {
+    return this._facetComponent;
+  }
+
   private _facetRefineByText = element(by.css('sd-facet div h5'));
+
+  get facetRefineByText(): ElementFinder {
+    return this._facetRefineByText;
+  }
+
   private _facetClearLink = element(by.css('sd-facet div a'));
+
+  get facetClearLink(): ElementFinder {
+    return this._facetClearLink;
+  }
+
   private _facetCards = element.all(by.css('sd-facet div.card'));
 
-  // first facet verification
-  private _firstFacet = element.all(by.css('sd-facet div.card')).first();
+  get facetCards(): ElementArrayFinder {
+    return this._facetCards;
+  }
+
   private _firstFacetHeader = this._firstFacet.element(by.css('div.card-header'));
-  private _firstFacetBody =  this._firstFacet.element(by.css('div.card-block'));
+
+  get firstFacetHeader(): ElementFinder {
+    return this._firstFacetHeader;
+  }
+
+  private _firstFacetBody = this._firstFacet.element(by.css('div.card-block'));
+
+  get firstFacetBody(): ElementFinder {
+    return this._firstFacetBody;
+  }
+
   private _tristateCheckbox = this._firstFacetBody.element(by.css('ul li:first-child sd-tri-state div'));
+
+  get tristateCheckbox(): ElementFinder {
+    return this._tristateCheckbox;
+  }
 
   async selectHitMatchType(type: keyof typeof HitMatchTypes | 'all' = 'all') {
     // make sure the match type filter is shown
-    if ( (await this.hitFilter.getSize()).height === 0 ) {
+    if ((await this.hitFilter.getSize()).height === 0) {
       await this.matchFilterButton.click();
     }
 
@@ -74,89 +173,5 @@ export class SearchPage extends BasePo {
     await this.searchBox.clear();
     await this.searchBox.sendKeys(searchTerm);
     return this.searchButton.click();
-  }
-
-  get hitFilter(): ElementFinder {
-    return this._hitFilter;
-  }
-
-  get homePage(): ElementFinder {
-    return this._homePage;
-  }
-
-  get searchBox(): ElementFinder {
-    return this._searchBox;
-  }
-
-  get searchButton(): ElementFinder {
-    return this._searchButton;
-  }
-
-  get searchBoxContainer(): ElementFinder {
-    return this._searchBoxContainer;
-  }
-
-  get searchResultUrl(): string {
-    return this._searchResultUrl;
-  }
-
-  get loadingIcon(): ElementFinder {
-    return this._loadingIcon;
-  }
-
-  get searchResultDescription(): ElementFinder {
-    return this._searchResultDescription;
-  }
-
-  get searchResultCount(): ElementArrayFinder {
-    return this._searchResultCount;
-  }
-
-  get headingAnchor(): ElementFinder {
-    return this._headingAnchor;
-  }
-
-  get headingBadge(): ElementFinder {
-    return this._headingBadge;
-  }
-
-  get highlightFound(): ElementFinder {
-    return this._highlightFound;
-  }
-
-  get highlightReadmoreLink(): ElementFinder {
-    return this._highlightReadmoreLink;
-  }
-
-  get facetComponent(): ElementFinder {
-    return this._facetComponent;
-  }
-
-  get facetRefineByText(): ElementFinder {
-    return this._facetRefineByText;
-  }
-
-  get facetClearLink(): ElementFinder {
-    return this._facetClearLink;
-  }
-
-  get facetCards(): ElementArrayFinder {
-    return this._facetCards;
-  }
-
-  get firstFacetHeader(): ElementFinder {
-    return this._firstFacetHeader;
-  }
-
-  get firstFacetBody(): ElementFinder {
-    return this._firstFacetBody;
-  }
-
-  get tristateCheckbox(): ElementFinder {
-    return this._tristateCheckbox;
-  }
-
-  get matchFilterButton(): ElementFinder {
-    return this._matchFilterButton;
   }
 }

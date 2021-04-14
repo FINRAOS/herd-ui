@@ -115,13 +115,13 @@ export class DataObjectDetailPage extends BasePo {
         .all(by.tagName('div')).get(2).element(by.css('.directory')).getText(),
       statusHistorySectionLabel: storageUnit.element(by.cssContainingText('left-blue-border h2', 'Status History')),
       statusHistorySectionColumnsLabels: storageUnit
-      .element(by.cssContainingText('left-blue-border h2', 'Status History'))
-      .element(by.xpath('ancestor::div[1]')).element(by.xpath('following-sibling::div'))
-      .element(by.css('.columns-header > .list-group-item')),
+        .element(by.cssContainingText('left-blue-border h2', 'Status History'))
+        .element(by.xpath('ancestor::div[1]')).element(by.xpath('following-sibling::div'))
+        .element(by.css('.columns-header > .list-group-item')),
       statusHistorySectionColumnsData: storageUnit
-      .element(by.cssContainingText('left-blue-border h2', 'Status History'))
-      .element(by.xpath('ancestor::div[1]')).element(by.xpath('following-sibling::div'))
-      .all(by.className('columns-detail')),
+        .element(by.cssContainingText('left-blue-border h2', 'Status History'))
+        .element(by.xpath('ancestor::div[1]')).element(by.xpath('following-sibling::div'))
+        .all(by.className('columns-detail')),
       filesSectionLabel: storageUnit.element(by.cssContainingText('left-blue-border h2', 'Files')),
       filesSectionColumnsLabel: storageUnit.all(by.className('list-group-item')).get(2),
       filesRepeater: storageUnit.all(by.css('.files-loop > .list-group-item')),

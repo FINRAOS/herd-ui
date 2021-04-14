@@ -21,6 +21,7 @@
 import utils from '../../../../../util/utils';
 
 const uniqueId = utils.uniqueId();
+
 export class Data {
   public description = 'Sample description text for testing purpose. Used for data-objects detail screen';
   public defaultDataProvider = 'DP_PROTRACTOR_TEST_DL42' + uniqueId;
@@ -93,18 +94,18 @@ export class Data {
         'storageName': 'DDLStorage9638',
         'storageDirectory': {
           'directoryPath': 'Directory:\nperfdatasearch/perfprovider/ddldata/txt/perfdata/' +
-          'schm-v0/data-v0/perfkey=PERFKEY999/perfkey1=test1/perfkey2=thing2/perfkey3=other3/perfkey4=b4'
+            'schm-v0/data-v0/perfkey=PERFKEY999/perfkey1=test1/perfkey2=thing2/perfkey3=other3/perfkey4=b4'
         },
         'storageFiles': [
           {
             'filePath': 'perfdatasearch/perfprovider/ddldata/txt/perfdata/schm-v0/data-v0/perfkey=PERFKEY999/' +
-            'perfkey1=test1/perfkey2=thing2/perfkey3=other3/perfkey4=b4/testA000.txt',
+              'perfkey1=test1/perfkey2=thing2/perfkey3=other3/perfkey4=b4/testA000.txt',
             'fileSizeBytes': 10,
             'rowCount': 1
           },
           {
             'filePath': 'perfdatasearch/perfprovider/ddldata/txt/perfdata/schm-v0/data-v0/perfkey=PERFKEY999/' +
-            'perfkey1=test1/perfkey2=thing2/perfkey3=other3/perfkey4=b4/testA001.txt',
+              'perfkey1=test1/perfkey2=thing2/perfkey3=other3/perfkey4=b4/testA001.txt',
             'fileSizeBytes': 10,
             'rowCount': 1
           }
@@ -114,18 +115,18 @@ export class Data {
         'storageName': 'sampleStorage',
         'storageDirectory': {
           'directoryPath': 'Directory:\nperfdatasearch/perfprovider/ddldata/txt/perfdata/' +
-          'schm-v0/data-v0/perfkey=PERFKEY999/perfkey1=test1/perfkey2=thing2/perfkey3=other3/perfkey4=b4'
+            'schm-v0/data-v0/perfkey=PERFKEY999/perfkey1=test1/perfkey2=thing2/perfkey3=other3/perfkey4=b4'
         },
         'storageFiles': [
           {
             'filePath': 'perfdatasearch/perfprovider/ddldata/txt/perfdata/schm-v0/data-v0/perfkey=PERFKEY999/' +
-            'perfkey1=test1/perfkey2=thing2/perfkey3=other3/perfkey4=b4/testA000.txt',
+              'perfkey1=test1/perfkey2=thing2/perfkey3=other3/perfkey4=b4/testA000.txt',
             'fileSizeBytes': 10,
             'rowCount': 1
           },
           {
             'filePath': 'perfdatasearch/perfprovider/ddldata/txt/perfdata/schm-v0/data-v0/perfkey=PERFKEY999/' +
-            'perfkey1=test1/perfkey2=thing2/perfkey3=other3/perfkey4=b4/testA001.txt',
+              'perfkey1=test1/perfkey2=thing2/perfkey3=other3/perfkey4=b4/testA001.txt',
             'fileSizeBytes': 10,
             'rowCount': 1
           }
@@ -159,7 +160,7 @@ export class Data {
       },
       'storageFiles': [{
         'filePath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/data-v0' +
-        '/test-key=TEST_61/test.txt',
+          '/test-key=TEST_61/test.txt',
         'fileSizeBytes': 35,
         'rowCount': 1
       }]
@@ -180,22 +181,22 @@ export class Data {
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
         'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/' +
-        'data-lineage-test/schm-v0/data-v0/test-key=TEST_62'
+          'data-lineage-test/schm-v0/data-v0/test-key=TEST_62'
       },
       'storageFiles': [
         {
           'filePath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/' +
-          'data-v0/test-key=TEST_62/test.txt',
+            'data-v0/test-key=TEST_62/test.txt',
           'fileSizeBytes': 35
         },
         {
           'filePath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/' +
-          'schm-v0/data-v0/test-key=TEST_62/test1.txt',
+            'schm-v0/data-v0/test-key=TEST_62/test1.txt',
           'fileSizeBytes': 35
         },
         {
           'filePath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc/data-lineage-test/schm-v0/' +
-          'data-v0/test-key=TEST_62/test2.txt',
+            'data-v0/test-key=TEST_62/test2.txt',
           'fileSizeBytes': 35
         }]
     }]
@@ -224,11 +225,11 @@ export class Data {
       'storageName': 'S3_MANAGED',
       'storageDirectory': {
         'directoryPath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc' +
-        '/data-lineage-test/schm-v0/data-v0/test-key=TEST_64'
+          '/data-lineage-test/schm-v0/data-v0/test-key=TEST_64'
       },
       'storageFiles': [{
         'filePath': 'ns-protractor-test-dl42/dp-protractor-test-dl42/prc/orc' +
-        '/data-lineage-test/schm-v0/data-v0/test-key=TEST_64/test.txt',
+          '/data-lineage-test/schm-v0/data-v0/test-key=TEST_64/test.txt',
         'fileSizeBytes': 35
       }]
     }]

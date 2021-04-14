@@ -36,6 +36,24 @@ export class DataManager {
 
   static logger: Logger;
 
+  constructor() {
+    // Uncomment the following line to enable logging
+    // winston.level = 'debug';
+    DataManager.logger = winston.createLogger({
+      level: 'info',
+      format: winston.format.json(),
+      transports: [
+        //
+        // - Write to all logs with level `info` and below to `combined.log`
+        // - Write all logs error (and below) to `error.log`.
+        //
+        // new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        // new winston.transports.File({ filename: 'combined.log' })
+        new winston.transports.Console()
+      ]
+    });
+  }
+
   static async initializeData(specs: string[]) {
 
     const dm = new DataManager();
@@ -115,24 +133,6 @@ export class DataManager {
       }
     }
     return Promise.resolve();
-  }
-
-  constructor() {
-    // Uncomment the following line to enable logging
-    // winston.level = 'debug';
-    DataManager.logger = winston.createLogger({
-      level: 'info',
-      format: winston.format.json(),
-      transports: [
-        //
-        // - Write to all logs with level `info` and below to `combined.log`
-        // - Write all logs error (and below) to `error.log`.
-        //
-        // new winston.transports.File({ filename: 'error.log', level: 'error' }),
-        // new winston.transports.File({ filename: 'combined.log' })
-        new winston.transports.Console()
-      ]
-    });
   }
 
   // sorts the list of options according to their provided 'order'

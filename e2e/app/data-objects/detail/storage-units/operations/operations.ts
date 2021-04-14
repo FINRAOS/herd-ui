@@ -40,91 +40,91 @@ export class Operations {
    * @return options: *[]
    */
 
-  public postRequests () {
-  return {
-    'options': [
-      this.dataManager.DMOption(1, new schema.Namespace().postUrl(), new schema.Namespace().postBody(this.data.defaultNamespace)),
-      this.dataManager.DMOption(2, new schema.DataProvider().postUrl(), new schema.DataProvider().postBody(this.data.defaultDataProvider)),
-      this.dataManager.DMOption(3, new schema.BusinessObjectDefinitions().postUrl(), this.data.bdef),
-      this.dataManager.DMOption(4, new schema.BusinessObjectFormats().postUrl(), this.data.formatWithNoSubpartitions),
-      this.dataManager.DMOption(5, new schema.BusinessObjectDefinitionData().postUrl(), this.data.noStorageFiles),
-      this.dataManager.DMOption(5, new schema.BusinessObjectDefinitionData().postUrl(), this.data.singleStorageFile),
-      this.dataManager.DMOption(5, new schema.BusinessObjectDefinitionData().postUrl(), this.data.multipleStorageFiles),
-      this.dataManager.DMOption(5, new schema.BusinessObjectDefinitionData().postUrl(), this.data.multipleStorageUnits),
-    ]
-  };
+  public postRequests() {
+    return {
+      'options': [
+        this.dataManager.DMOption(1, new schema.Namespace().postUrl(), new schema.Namespace().postBody(this.data.defaultNamespace)),
+        this.dataManager.DMOption(2, new schema.DataProvider().postUrl(), new schema.DataProvider().postBody(this.data.defaultDataProvider)),
+        this.dataManager.DMOption(3, new schema.BusinessObjectDefinitions().postUrl(), this.data.bdef),
+        this.dataManager.DMOption(4, new schema.BusinessObjectFormats().postUrl(), this.data.formatWithNoSubpartitions),
+        this.dataManager.DMOption(5, new schema.BusinessObjectDefinitionData().postUrl(), this.data.noStorageFiles),
+        this.dataManager.DMOption(5, new schema.BusinessObjectDefinitionData().postUrl(), this.data.singleStorageFile),
+        this.dataManager.DMOption(5, new schema.BusinessObjectDefinitionData().postUrl(), this.data.multipleStorageFiles),
+        this.dataManager.DMOption(5, new schema.BusinessObjectDefinitionData().postUrl(), this.data.multipleStorageUnits),
+      ]
+    };
+  }
+
+  public deleteRequests() {
+    return {
+      'options': [
+        this.dataManager.DMOption(1, new schema.BusinessObjectDefinitionData().deleteWithoutSubPartitionsUrl(
+          this.data.defaultNamespace,
+          this.data.bdef.businessObjectDefinitionName,
+          this.data.multipleStorageUnits.businessObjectFormatUsage,
+          this.data.multipleStorageUnits.businessObjectFormatFileType,
+          this.data.multipleStorageUnits.businessObjectFormatVersion,
+          this.data.multipleStorageUnits.partitionValue, 0, true)),
+
+        this.dataManager.DMOption(1, new schema.BusinessObjectDefinitionData().deleteWithoutSubPartitionsUrl(
+          this.data.defaultNamespace,
+          this.data.bdef.businessObjectDefinitionName,
+          this.data.multipleStorageFiles.businessObjectFormatUsage,
+          this.data.multipleStorageFiles.businessObjectFormatFileType,
+          this.data.multipleStorageFiles.businessObjectFormatVersion,
+          this.data.multipleStorageFiles.partitionValue, 0, true)),
+        this.dataManager.DMOption(1, new schema.BusinessObjectDefinitionData().deleteWithoutSubPartitionsUrl(
+          this.data.defaultNamespace,
+          this.data.bdef.businessObjectDefinitionName,
+          this.data.singleStorageFile.businessObjectFormatUsage,
+          this.data.singleStorageFile.businessObjectFormatFileType,
+          this.data.singleStorageFile.businessObjectFormatVersion,
+          this.data.singleStorageFile.partitionValue, 0, true)),
+        this.dataManager.DMOption(1, new schema.BusinessObjectDefinitionData().deleteWithoutSubPartitionsUrl(
+          this.data.defaultNamespace,
+          this.data.bdef.businessObjectDefinitionName,
+          this.data.noStorageFiles.businessObjectFormatUsage,
+          this.data.noStorageFiles.businessObjectFormatFileType,
+          this.data.noStorageFiles.businessObjectFormatVersion,
+          this.data.noStorageFiles.partitionValue, 0, true)),
+        this.dataManager.DMOption(2, new schema.BusinessObjectFormats().deleteUrl(
+          this.data.defaultNamespace,
+          this.data.bdef.businessObjectDefinitionName,
+          this.data.formatWithNoSubpartitions.businessObjectFormatUsage,
+          this.data.formatWithNoSubpartitions.businessObjectFormatFileType,
+          0)),
+        this.dataManager.DMOption(3, new schema.BusinessObjectDefinitions().deleteUrl(this.data.defaultNamespace,
+          this.data.bdef.businessObjectDefinitionName)),
+        this.dataManager.DMOption(4, new schema.DataProvider().deleteUrl(this.data.defaultDataProvider)),
+        this.dataManager.DMOption(5, new schema.Namespace().deleteUrl(this.data.defaultNamespace))
+      ]
+    };
+  }
+
+  public AWSRequests() {
+    const retval = {
+      options: []
+    };
+
+    retval.options.push(this.aws.S3MOption(this.data.singleStorageFile.storageUnits[0].storageFiles[0].filePath, null));
+
+    retval.options = retval.options.concat(this.data.multipleStorageFiles.storageUnits[0].storageFiles.map((file) => {
+      return this.aws.S3MOption(file.filePath);
+    }));
+
+    this.data.multipleStorageUnits.storageUnits.forEach((unit) => {
+      if (unit.storageName === 'S3_MANAGED') {
+        retval.options = retval.options.concat(unit.storageFiles.map((file) => {
+          return this.aws.S3MOption(file.filePath);
+        }));
+      }
+    });
+
+    return retval;
+  }
 }
 
-  public deleteRequests () {
-  return {
-    'options': [
-      this.dataManager.DMOption(1, new schema.BusinessObjectDefinitionData().deleteWithoutSubPartitionsUrl(
-        this.data.defaultNamespace,
-        this.data.bdef.businessObjectDefinitionName,
-        this.data.multipleStorageUnits.businessObjectFormatUsage,
-        this.data.multipleStorageUnits.businessObjectFormatFileType,
-        this.data.multipleStorageUnits.businessObjectFormatVersion,
-        this.data.multipleStorageUnits.partitionValue, 0, true)),
-
-      this.dataManager.DMOption(1, new schema.BusinessObjectDefinitionData().deleteWithoutSubPartitionsUrl(
-        this.data.defaultNamespace,
-        this.data.bdef.businessObjectDefinitionName,
-        this.data.multipleStorageFiles.businessObjectFormatUsage,
-        this.data.multipleStorageFiles.businessObjectFormatFileType,
-        this.data.multipleStorageFiles.businessObjectFormatVersion,
-        this.data.multipleStorageFiles.partitionValue, 0, true)),
-      this.dataManager.DMOption(1, new schema.BusinessObjectDefinitionData().deleteWithoutSubPartitionsUrl(
-        this.data.defaultNamespace,
-        this.data.bdef.businessObjectDefinitionName,
-        this.data.singleStorageFile.businessObjectFormatUsage,
-        this.data.singleStorageFile.businessObjectFormatFileType,
-        this.data.singleStorageFile.businessObjectFormatVersion,
-        this.data.singleStorageFile.partitionValue, 0, true)),
-      this.dataManager.DMOption(1, new schema.BusinessObjectDefinitionData().deleteWithoutSubPartitionsUrl(
-        this.data.defaultNamespace,
-        this.data.bdef.businessObjectDefinitionName,
-        this.data.noStorageFiles.businessObjectFormatUsage,
-        this.data.noStorageFiles.businessObjectFormatFileType,
-        this.data.noStorageFiles.businessObjectFormatVersion,
-        this.data.noStorageFiles.partitionValue, 0, true)),
-      this.dataManager.DMOption(2, new schema.BusinessObjectFormats().deleteUrl(
-        this.data.defaultNamespace,
-        this.data.bdef.businessObjectDefinitionName,
-        this.data.formatWithNoSubpartitions.businessObjectFormatUsage,
-        this.data.formatWithNoSubpartitions.businessObjectFormatFileType,
-        0)),
-      this.dataManager.DMOption(3, new schema.BusinessObjectDefinitions().deleteUrl(this.data.defaultNamespace,
-        this.data.bdef.businessObjectDefinitionName)),
-      this.dataManager.DMOption(4, new schema.DataProvider().deleteUrl(this.data.defaultDataProvider)),
-      this.dataManager.DMOption(5, new schema.Namespace().deleteUrl(this.data.defaultNamespace))
-    ]
-  };
-}
-
-  public AWSRequests () {
-  const retval = {
-    options: []
-  };
-
-  retval.options.push(this.aws.S3MOption(this.data.singleStorageFile.storageUnits[0].storageFiles[0].filePath, null));
-
-  retval.options = retval.options.concat(this.data.multipleStorageFiles.storageUnits[0].storageFiles.map( (file) => {
-    return this.aws.S3MOption(file.filePath);
-  }));
-
-  this.data.multipleStorageUnits.storageUnits.forEach( (unit) => {
-    if (unit.storageName === 'S3_MANAGED') {
-      retval.options = retval.options.concat(unit.storageFiles.map( (file) => {
-        return this.aws.S3MOption(file.filePath);
-      }));
-    }
-  });
-
-  return retval;
-}
-}
-
-const operations = new  Operations();
+const operations = new Operations();
 export const initRequests = {
   posts: {
     options: operations.postRequests().options
@@ -132,7 +132,7 @@ export const initRequests = {
 };
 
 export const tearDownRequests = {
-  deletes:  {
+  deletes: {
     options: operations.deleteRequests().options
   }
 };
