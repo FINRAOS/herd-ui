@@ -22,10 +22,10 @@
 
   <ng-container *ngFor="let suggestion of suggestions; let i = index;">
 
-    <div class="card card-suggest{{i}}"
-         (mouseover)="onMouseEnter($event, i)"
+    <div (click)="enterEditMode(i)"
          (mouseout)="onMouseLeave($event, i)"
-         (click)="enterEditMode(i)">
+         (mouseover)="onMouseEnter($event, i)"
+         class="card card-suggest{{i}}">
 
       <div class="card-header d-flex justify-content-between">
         <h6>{{suggestion.createdByUserId}}</h6>
@@ -36,17 +36,17 @@
         <div class="row editing-block{{i}}">
           <div class="col">
             <div class="content-diff{{i}}">
-              <div class="suggest-diff" diff [left]="removeHtmlTag(original)"
-                   [right]="removeHtmlTag(suggestion.descriptionSuggestion)"></div>
+              <div [left]="removeHtmlTag(original)" [right]="removeHtmlTag(suggestion.descriptionSuggestion)" class="suggest-diff"
+                   diff></div>
             </div>
           </div>
           <div class="col-1 content-edit-icon{{i}}">
             <i class="fa fa-pencil"></i>
           </div>
         </div>
-        <div class="row" [hidden]="!(suggestion.editMode === undefined || suggestion.editMode === false)">
+        <div [hidden]="!(suggestion.editMode === undefined || suggestion.editMode === false)" class="row">
           <div class="col">
-              <button class="btn btn-primary" (click)="approve(suggestion, i, $event)">Approve</button>
+            <button (click)="approve(suggestion, i, $event)" class="btn btn-primary">Approve</button>
           </div>
         </div>
         <div class="content-edit{{i}}">
@@ -54,8 +54,8 @@
             <ckeditor [(ngModel)]="suggestion.newSuggestion" [config]="{extraPlugins: 'divarea' }"></ckeditor>
           </div>
           <div class="editor-buttons">
-            <button class="btn btn-primary" (click)="save(suggestion, i)">Save</button>
-            <button class="btn btn-danger" (click)="editDone(i, $event)">Cancel</button>
+            <button (click)="save(suggestion, i)" class="btn btn-primary">Save</button>
+            <button (click)="editDone(i, $event)" class="btn btn-danger">Cancel</button>
           </div>
         </div>
 

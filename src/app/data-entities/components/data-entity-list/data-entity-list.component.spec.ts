@@ -35,8 +35,7 @@ describe('DataEntityListComponent', () => {
       declarations: [DataEntityListComponent, RouterLinkStubDirective],
       providers: [{
         provide: ElementRef, useValue: {
-          nativeElement: {
-          }
+          nativeElement: {}
         }
       }, {
         provide: ActivatedRoute,
@@ -60,12 +59,12 @@ describe('DataEntityListComponent', () => {
     fixture.destroy();
   });
 
-    it('should set data on data change', async(inject([ActivatedRoute, Router], (route: ActivatedRoute, router: Router) => {
+  it('should set data on data change', async(inject([ActivatedRoute, Router], (route: ActivatedRoute, router: Router) => {
     spyOn(component.searchInput, 'focus');
 
     (route as any).testData = {
       resolvedData: {
-        dataEntities: [{ namespace: 'ns', businessObjectDefinitionName: 'bdef1' }, {
+        dataEntities: [{namespace: 'ns', businessObjectDefinitionName: 'bdef1'}, {
           namespace: 'ns', businessObjectDefinitionName: 'bdef2'
         }, {
           namespace: 'vsn2', businessObjectDefinitionName: 'bdef3'

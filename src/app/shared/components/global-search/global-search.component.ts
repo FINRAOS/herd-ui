@@ -24,15 +24,33 @@ import { HitMatchTypes } from '../../services/search.service';
   styleUrls: ['./global-search.component.scss']
 })
 export class GlobalSearchComponent implements OnInit {
-  private MIN_SEARCH_LENGTH = 2;
   @Input() placeHolder = 'I can help you to find anything you want!';
   @Input() searchText: string;
   @Output() search = new EventEmitter<Object>();
   public error = false;
   showHitMatchFilter = false;
   hitMatchTypes = HitMatchTypes;
+  // defined type so we make sure to update it whenever we add more hit match types
+  hitMatch: {
+    all: boolean,
+    hitType: {
+      [hitType in keyof typeof HitMatchTypes]: boolean
+    }
+  } = {
+    all: true,
+    hitType: {
+      column: false,
+    }
+  };
+  @ViewChild('hitMatchFilter') hitMatchFilter: HTMLElement;
+  private MIN_SEARCH_LENGTH = 2;
+  @ViewChild('searchTextBox') private elementRef: ElementRef;
+
+  constructor(private route: ActivatedRoute, private router: Router) {
+  }
 
   private _match: string[] = [];
+
   get match() {
     return this._match;
   }
@@ -55,26 +73,6 @@ export class GlobalSearchComponent implements OnInit {
         }
       });
     }
-  }
-
-
-  // defined type so we make sure to update it whenever we add more hit match types
-  hitMatch: {
-    all: boolean,
-    hitType: {
-      [hitType in keyof typeof HitMatchTypes]: boolean
-    }
-  } = {
-    all: true,
-    hitType: {
-      column: false,
-    }
-  };
-
-  @ViewChild('hitMatchFilter') hitMatchFilter: HTMLElement;
-  @ViewChild('searchTextBox') private elementRef: ElementRef;
-
-  constructor(private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {

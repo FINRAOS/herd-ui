@@ -33,4 +33,5 @@ const routes: Routes = [{
   ],
   exports: [RouterModule]
 })
-export class FormatsRoutingModule { }
+export class FormatsRoutingModule {
+}

@@ -17,7 +17,20 @@ import { Facet, IndexSearchResponse, IndexSearchResult } from '@herd/angular-cli
 
 export class IndexSearchMockData {
 
+  private _noResults: IndexSearchResult[] = [];
+  private _noFacets: Facet[] = [];
+  private _indexSearchResponseNoResults: IndexSearchResponse = {
+    'totalIndexSearchResults': 0,
+    'indexSearchResults': this._noResults,
+    'facets': this._noFacets
+  };
+
   private _searchText = 'test search';
+
+  get searchText(): string {
+    return this._searchText;
+  }
+
   private _indexSearchResponse: IndexSearchResponse = {
     'totalIndexSearchResults': 2,
     'indexSearchResults': [
@@ -80,13 +93,9 @@ export class IndexSearchMockData {
     ]
   };
 
-  private _noResults: IndexSearchResult[] = [];
-  private _noFacets: Facet[] = [];
-  private _indexSearchResponseNoResults: IndexSearchResponse = {
-    'totalIndexSearchResults': 0,
-    'indexSearchResults': this._noResults,
-    'facets': this._noFacets
-  };
+  get indexSearchResponse(): IndexSearchResponse {
+    return this._indexSearchResponse;
+  }
 
   private _facets: Array<Facet> = [
     {
@@ -140,19 +149,11 @@ export class IndexSearchMockData {
     }
   ];
 
-  get searchText(): string {
-    return this._searchText;
-  }
-
-  get indexSearchResponse(): IndexSearchResponse {
-    return this._indexSearchResponse;
+  get facets(): Array<Facet> {
+    return this._facets;
   }
 
   get indexSearchResponseNoResponse(): IndexSearchResponse {
     return this._indexSearchResponseNoResults;
-  }
-
-  get facets(): Array<Facet> {
-    return this._facets;
   }
 }

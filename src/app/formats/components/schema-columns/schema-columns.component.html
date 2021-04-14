@@ -14,45 +14,48 @@
  limitations under the License.
 -->
 <div class="schema-columns">
-  <p-dataTable #dt [value]="content" [rows]="10" reorderableColumns="true"
-    resizableColumns="true" exportFilename="schema-columns"
-    [responsive]="true" emptyMessage="No Columns Registered">
+  <p-dataTable #dt [responsive]="true" [rows]="10" [value]="content"
+               emptyMessage="No Columns Registered" exportFilename="schema-columns"
+               reorderableColumns="true" resizableColumns="true">
     <p-header *ngIf="content && content.length">
       <div class="table-header row justify-content-end">
-        <button class="btn btn-primary" (click)="open(extractDdl, '')">Generate Format DDL</button> &nbsp;
-        <button class="btn btn-primary" type="button" pButton icon="fa-download" iconPos="left" label="Download CSV" (click)="dt.exportCSV()"></button>
+        <button (click)="open(extractDdl, '')" class="btn btn-primary">Generate Format DDL</button> &nbsp;
+        <button (click)="dt.exportCSV()" class="btn btn-primary" icon="fa-download" iconPos="left" label="Download CSV" pButton
+                type="button"></button>
       </div>
     </p-header>
-    <p-column *ngFor="let col of schemaCols" [style]="col.style" [hidden]="col.hide" [sortable]="col.sortable" [field]="col.field"
-      [header]="col.header">
-      <ng-template let-name="rowData.name" *ngIf="col.templateField === 'name'" pTemplate="body">
+    <p-column *ngFor="let col of schemaCols" [field]="col.field" [header]="col.header" [hidden]="col.hide"
+              [sortable]="col.sortable"
+              [style]="col.style">
+      <ng-template *ngIf="col.templateField === 'name'" let-name="rowData.name" pTemplate="body">
         <sd-ellipsis-overflow>
           {{name}}
         </sd-ellipsis-overflow>
       </ng-template>
-      <ng-template let-type="rowData.type" *ngIf="col.templateField === 'type'" pTemplate="body">
+      <ng-template *ngIf="col.templateField === 'type'" let-type="rowData.type" pTemplate="body">
         <sd-ellipsis-overflow>
           {{type}}
         </sd-ellipsis-overflow>
       </ng-template>
-      <ng-template let-size="rowData.size" *ngIf="col.templateField === 'size'" pTemplate="body">
+      <ng-template *ngIf="col.templateField === 'size'" let-size="rowData.size" pTemplate="body">
         <sd-ellipsis-overflow>
           {{size}}
         </sd-ellipsis-overflow>
       </ng-template>
-      <ng-template let-required="rowData.required" *ngIf="col.templateField === 'required'" pTemplate="body">
+      <ng-template *ngIf="col.templateField === 'required'" let-required="rowData.required" pTemplate="body">
         <sd-ellipsis-overflow>
           {{required}}
         </sd-ellipsis-overflow>
       </ng-template>
-      <ng-template let-defaultValue="rowData.defaultValue" *ngIf="col.templateField === 'defaultValue'" pTemplate="body">
+      <ng-template *ngIf="col.templateField === 'defaultValue'" let-defaultValue="rowData.defaultValue"
+                   pTemplate="body">
         <sd-ellipsis-overflow>
           {{defaultValue}}
         </sd-ellipsis-overflow>
       </ng-template>
-      <ng-template let-description="rowData.description"
-      let-bDefColumnDescription="rowData.bDefColumnDescription"
-      *ngIf="col.templateField === 'bDefColumnDescription'" pTemplate="body">
+      <ng-template *ngIf="col.templateField === 'bDefColumnDescription'"
+                   let-bDefColumnDescription="rowData.bDefColumnDescription"
+                   let-description="rowData.description" pTemplate="body">
         <p [innerHTML]="bDefColumnDescription || ''"></p>
         <div *ngIf="description">
           <div><b>Technical notes:</b></div>
@@ -67,7 +70,7 @@
 <ng-template #extractDdl let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">DDL</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button (click)="d('Cross click')" aria-label="Close" class="close" type="button">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -77,10 +80,12 @@
       <h6> {{ ddlError.subTitle }} </h6>
       <p> {{ ddlError.text }} </p>
     </div>
-    <codemirror [hidden]="ddlError" class="ace-editor" [(ngModel)]="ddl" [config]="config"></codemirror>
+    <codemirror [(ngModel)]="ddl" [config]="config" [hidden]="ddlError" class="ace-editor"></codemirror>
   </div>
   <div class="modal-footer">
-    <button [hidden]="ddlError" class="btn btn-default" [class.btn-success]="true" type="button" ngxClipboard [cbContent]="ddl"
-            (cbOnSuccess)="alertSuccessfulCopy()">Copy</button>
+    <button (cbOnSuccess)="alertSuccessfulCopy()" [cbContent]="ddl" [class.btn-success]="true" [hidden]="ddlError" class="btn btn-default"
+            ngxClipboard
+            type="button">Copy
+    </button>
   </div>
 </ng-template>

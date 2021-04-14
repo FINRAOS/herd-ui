@@ -13,8 +13,13 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { BusinessObjectDataService, BusinessObjectFormat, BusinessObjectFormatService, UploadAndDownloadService,
-  DownloadBusinessObjectDataStorageFileSingleInitiationRequest } from '@herd/angular-client';
+import {
+  BusinessObjectDataService,
+  BusinessObjectFormat,
+  BusinessObjectFormatService,
+  DownloadBusinessObjectDataStorageFileSingleInitiationRequest,
+  UploadAndDownloadService
+} from '@herd/angular-client';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
@@ -44,12 +49,12 @@ export interface DataObjectDetailRequest {
 
 
 export class DataObjectDetailComponent implements OnInit {
-  private request: DataObjectDetailRequest;
   public sideActions;
   public businessObjectData;
   public businessObjectDataVersionSelected;
   public businessObjectDataVersions: number[] = [];
   public presignedURL: string;
+  private request: DataObjectDetailRequest;
 
   constructor(
     private router: Router,
@@ -133,14 +138,6 @@ export class DataObjectDetailComponent implements OnInit {
       }]);
   }
 
-  private populateSideActions() {
-    this.sideActions = [
-      new Action(AppIcons.shareIcon, 'Share'),
-      new Action(AppIcons.saveIcon, 'Save'),
-      new Action(AppIcons.watchIcon, 'Watch')
-    ];
-  }
-
   public findSubPartitionKeys(response: BusinessObjectFormat) {
     const result = {
       subPartitionKeys: []
@@ -158,30 +155,38 @@ export class DataObjectDetailComponent implements OnInit {
   public getPreSignedUrl(event: any) {
     const downloadBusinessObjectDataStorageFileSingleInitiationRequest: DownloadBusinessObjectDataStorageFileSingleInitiationRequest = {
       businessObjectDataStorageFileKey:
-            {
-              namespace: this.businessObjectData.namespace,
-              businessObjectDefinitionName: this.businessObjectData.businessObjectDefinitionName,
-              businessObjectFormatUsage: this.businessObjectData.businessObjectFormatUsage,
-              businessObjectFormatFileType: this.businessObjectData.businessObjectFormatFileType,
-              businessObjectFormatVersion: this.businessObjectData.businessObjectFormatVersion,
-              partitionValue: this.businessObjectData.partitionValue,
-              subPartitionValues: this.businessObjectData.subPartitionValues,
-              businessObjectDataVersion: this.businessObjectData.businessObjectDataVersion || this.businessObjectData.version,
-              storageName: event.storage.name,
-              filePath: event.filePath
-            }
-        };
+        {
+          namespace: this.businessObjectData.namespace,
+          businessObjectDefinitionName: this.businessObjectData.businessObjectDefinitionName,
+          businessObjectFormatUsage: this.businessObjectData.businessObjectFormatUsage,
+          businessObjectFormatFileType: this.businessObjectData.businessObjectFormatFileType,
+          businessObjectFormatVersion: this.businessObjectData.businessObjectFormatVersion,
+          partitionValue: this.businessObjectData.partitionValue,
+          subPartitionValues: this.businessObjectData.subPartitionValues,
+          businessObjectDataVersion: this.businessObjectData.businessObjectDataVersion || this.businessObjectData.version,
+          storageName: event.storage.name,
+          filePath: event.filePath
+        }
+    };
 
     this.uploadAndDownloadService.uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile(
       downloadBusinessObjectDataStorageFileSingleInitiationRequest).subscribe(
-        (response) => {
-          this.presignedURL = response.preSignedUrl;
-        }, (error) => {
-          const errorMessage = error && error.error && error.error.message ? error.error.message : error.toString();
-          this.alertService.alert(new DangerAlert('Unable to initiate download', '', errorMessage, 10));
-          console.log(error);
-        }
+      (response) => {
+        this.presignedURL = response.preSignedUrl;
+      }, (error) => {
+        const errorMessage = error && error.error && error.error.message ? error.error.message : error.toString();
+        this.alertService.alert(new DangerAlert('Unable to initiate download', '', errorMessage, 10));
+        console.log(error);
+      }
     );
+  }
+
+  private populateSideActions() {
+    this.sideActions = [
+      new Action(AppIcons.shareIcon, 'Share'),
+      new Action(AppIcons.saveIcon, 'Save'),
+      new Action(AppIcons.watchIcon, 'Watch')
+    ];
   }
 
 }

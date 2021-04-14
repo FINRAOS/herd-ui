@@ -15,23 +15,28 @@
 */
 sd-tri-state {
   cursor: pointer;
+
   * {
     cursor: pointer;
     outline: none;
   }
+
   div {
     span.fa-stack {
       width: 17px;
       height: 21px;;
       line-height: 0.75em;;
     }
+
     span {
       i.fa-stack-1x {
         top: 0;
       }
+
       i.fa-check {
         font-size: 16px;
       }
+
       i.fa-close {
         font-size: 16px;
       }

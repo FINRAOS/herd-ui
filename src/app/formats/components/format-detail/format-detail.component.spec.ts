@@ -23,8 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
 import {
   BusinessObjectDataService,
   BusinessObjectDefinitionColumnService,
-  BusinessObjectFormatService,
   BusinessObjectFormatExternalInterfaceDescriptiveInformationService,
+  BusinessObjectFormatService,
   StorageService
 } from '@herd/angular-client';
 import { of, throwError } from 'rxjs';
@@ -195,7 +195,7 @@ describe('FormatDetailComponent', () => {
           .and.returnValue(of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinitionColumnKeys}));
         (storageApi.storageGetStorages as jasmine.Spy).and.returnValue(of({storageKeys: [{storageName: 'S3'}]}));
         (businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability as jasmine.Spy)
-            .and.returnValue(of({availableStatuses: [{partitionValue: '3'}, {partitionValue: '4'}]}));
+          .and.returnValue(of({availableStatuses: [{partitionValue: '3'}, {partitionValue: '4'}]}));
         fixture.detectChanges();
 
         expect(component.namespace).toEqual('ns');

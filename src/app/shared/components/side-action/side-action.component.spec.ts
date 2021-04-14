@@ -27,18 +27,18 @@ describe('SideActionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-          imports: [
-            NgbModule.forRoot()],
-          declarations: [ SideActionComponent ]
-        })
-        .compileComponents();
+      imports: [
+        NgbModule.forRoot()],
+      declarations: [SideActionComponent]
+    })
+      .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SideActionComponent);
     component = fixture.componentInstance;
     expectedAction = new Action('<i class=\'fa fa-share-alt\'></i>',
-        'Share', () => 'clicked share.', true);
+      'Share', () => 'clicked share.', true);
     component.action = expectedAction;
     fixture.detectChanges();
   });

@@ -20,9 +20,11 @@ $header-color: $logo-color;
 
 .sd-header {
   background-color: $header-background;
+
   .navbar-brand {
     width: 120px;
   }
+
   .help {
     font-size: 26px;
     cursor: pointer;
@@ -31,11 +33,13 @@ $header-color: $logo-color;
       color: inherit;
     }
   }
+
   .container {
     nav {
-      padding:0px;
+      padding: 0px;
       color: $header-color;
       background-color: $header-background;
+
       a {
         div {
           max-height: 60px;
@@ -47,6 +51,7 @@ $header-color: $logo-color;
             width: 120px;
             height: 60px;
             max-height: 60px !important;
+
             path {
               color: $header-color;
             }
@@ -54,6 +59,7 @@ $header-color: $logo-color;
           }
         }
       }
+
       div {
         ul {
           li {

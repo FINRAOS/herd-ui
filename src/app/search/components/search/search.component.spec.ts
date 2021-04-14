@@ -133,7 +133,7 @@ describe('SearchComponent', () => {
 
   it('Verify no results', () => {
     const searchCalled = spyOn(searchService, 'search')
-        .and.returnValue(of(mockData.indexSearchResponseNoResponse));
+      .and.returnValue(of(mockData.indexSearchResponseNoResponse));
     component.search();
 
     expect(component.indexSearchResults).toEqual(mockData.indexSearchResponseNoResponse['indexSearchResults']);

@@ -13,31 +13,31 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<sd-filter-template [title]="title" [(isFilterContentShown)]="showContent" (removeFilter)="delete()">
+<sd-filter-template (removeFilter)="delete()" [(isFilterContentShown)]="showContent" [title]="title">
 
   <div filter-content>
     <form [formGroup]="registrationDateRangeFilterForm" novalidate>
 
       <div class="form-group">
-        <button type="button" (click)="clear()" class="btn btn-link">Clear</button>
+        <button (click)="clear()" class="btn btn-link" type="button">Clear</button>
         <hr/>
-        <small class="error" *ngIf="registrationDateRangeFilterForm.errors && registrationDateRangeFilterForm.touched">
+        <small *ngIf="registrationDateRangeFilterForm.errors && registrationDateRangeFilterForm.touched" class="error">
           {{ registrationDateRangeFilterForm.errors.valueRequired}}
         </small>
       </div>
 
       <div class="form-group">
         <label>Start date</label>
-        <input class="form-control" type="date" placeholder="yyyy-mm-dd" formControlName="startRegistrationDate">
+        <input class="form-control" formControlName="startRegistrationDate" placeholder="yyyy-mm-dd" type="date">
       </div>
 
       <div class="form-group">
         <label>End date</label>
-        <input class="form-control" type="date" placeholder="yyyy-mm-dd" formControlName="endRegistrationDate">
+        <input class="form-control" formControlName="endRegistrationDate" placeholder="yyyy-mm-dd" type="date">
       </div>
 
-      <button type="button" (click)="apply()" name="apply" class="btn btn-link">Apply</button>
-      <button type="button" (click)="cancel()" name="cancel" class="btn btn-link">Cancel</button>
+      <button (click)="apply()" class="btn btn-link" name="apply" type="button">Apply</button>
+      <button (click)="cancel()" class="btn btn-link" name="cancel" type="button">Cancel</button>
     </form>
 
   </div>

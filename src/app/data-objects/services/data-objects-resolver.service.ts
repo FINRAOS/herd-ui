@@ -19,15 +19,15 @@ import { TitleResolverData } from 'app/data-entities/services/data-entity-list-r
 
 @Injectable()
 export class DataObjectsResolverService implements Resolve<any> {
+  constructor() {
+  }
+
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): TitleResolverData {
     const params = route.params;
     const bdefString = `${params.namespace} : ${params.dataEntityName}`;
     const schemaString = params.formatUsage && params.formatFileType && params.formatVersion ?
-      `${params.formatUsage} : ${ params.formatFileType} : ${params.formatVersion}` : '';
+      `${params.formatUsage} : ${params.formatFileType} : ${params.formatVersion}` : '';
     return {title: 'Data Objects - ' + bdefString + (schemaString ? ` | ${schemaString}` : '')};
-  }
-
-  constructor() {
   }
 
 }

@@ -21,67 +21,67 @@ import { BusinessObjectDefinitionService } from '@herd/angular-client';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 describe('Data Entity List Resolver', () => {
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            providers: [DataEntityListResolverService,
-                {
-                    provide: BusinessObjectDefinitionService, useValue: {
-                        businessObjectDefinitionGetBusinessObjectDefinitions:
-                        jasmine.createSpy('businessObjectDefinitionGetBusinessObjectDefinitions'),
-                        configuration: {}
-                    }
-                }]
-        });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [DataEntityListResolverService,
+        {
+          provide: BusinessObjectDefinitionService, useValue: {
+            businessObjectDefinitionGetBusinessObjectDefinitions:
+              jasmine.createSpy('businessObjectDefinitionGetBusinessObjectDefinitions'),
+            configuration: {}
+          }
+        }]
     });
+  });
 
-    it('should return filtered data',
-        async(inject([DataEntityListResolverService, BusinessObjectDefinitionService], (service: DataEntityListResolverService,
-            bdef: BusinessObjectDefinitionService) => {
-            const expectedKeys = [{ namespace: 'ns', businessObjectDefinitionName: 'bdef1' }, {
-                namespace: 'ns', businessObjectDefinitionName: 'bdef2'
-            }, {
-                namespace: 'vsn2', businessObjectDefinitionName: 'bdef3'
-            }];
+  it('should return filtered data',
+    async(inject([DataEntityListResolverService, BusinessObjectDefinitionService], (service: DataEntityListResolverService,
+                                                                                    bdef: BusinessObjectDefinitionService) => {
+      const expectedKeys = [{namespace: 'ns', businessObjectDefinitionName: 'bdef1'}, {
+        namespace: 'ns', businessObjectDefinitionName: 'bdef2'
+      }, {
+        namespace: 'vsn2', businessObjectDefinitionName: 'bdef3'
+      }];
 
-            const bdefSpy = (<jasmine.Spy>bdef.businessObjectDefinitionGetBusinessObjectDefinitions);
-            bdefSpy.and.returnValue(of({businessObjectDefinitionKeys: expectedKeys}));
+      const bdefSpy = (<jasmine.Spy>bdef.businessObjectDefinitionGetBusinessObjectDefinitions);
+      bdefSpy.and.returnValue(of({businessObjectDefinitionKeys: expectedKeys}));
 
-            // no search term
-            (service.resolve(({ queryParams: {} } as any) as ActivatedRouteSnapshot,
-                {} as RouterStateSnapshot) as Observable<DataEntityListResolverData>)
-                .subscribe((data) => {
-                    expect((data as DataEntityListResolverData).dataEntities).toEqual(expectedKeys);
-                    expect((data as DataEntityListResolverData).total).toEqual(expectedKeys.length);
-                    expect((data as DataEntityListResolverData).title).toEqual('Data Entities');
-                    expect(bdefSpy).toHaveBeenCalled();
-                });
+      // no search term
+      (service.resolve(({queryParams: {}} as any) as ActivatedRouteSnapshot,
+        {} as RouterStateSnapshot) as Observable<DataEntityListResolverData>)
+        .subscribe((data) => {
+          expect((data as DataEntityListResolverData).dataEntities).toEqual(expectedKeys);
+          expect((data as DataEntityListResolverData).total).toEqual(expectedKeys.length);
+          expect((data as DataEntityListResolverData).title).toEqual('Data Entities');
+          expect(bdefSpy).toHaveBeenCalled();
+        });
 
-            bdefSpy.calls.reset();
+      bdefSpy.calls.reset();
 
-            // search term = 'ns'
-            of(service.resolve(({ queryParams: { searchTerm: 'ns' } } as any) as ActivatedRouteSnapshot,
-                {} as RouterStateSnapshot)).subscribe((data) => {
-                    expect((data as DataEntityListResolverData).dataEntities)
-                        .toEqual([{ namespace: 'ns', businessObjectDefinitionName: 'bdef1' }, {
-                            namespace: 'ns', businessObjectDefinitionName: 'bdef2'
-                        }]);
-                    expect((data as DataEntityListResolverData).total).toEqual(3);
-                    expect((data as DataEntityListResolverData).title).toEqual('Data Entities');
-                    expect(bdefSpy).not.toHaveBeenCalled();
-                });
+      // search term = 'ns'
+      of(service.resolve(({queryParams: {searchTerm: 'ns'}} as any) as ActivatedRouteSnapshot,
+        {} as RouterStateSnapshot)).subscribe((data) => {
+        expect((data as DataEntityListResolverData).dataEntities)
+          .toEqual([{namespace: 'ns', businessObjectDefinitionName: 'bdef1'}, {
+            namespace: 'ns', businessObjectDefinitionName: 'bdef2'
+          }]);
+        expect((data as DataEntityListResolverData).total).toEqual(3);
+        expect((data as DataEntityListResolverData).title).toEqual('Data Entities');
+        expect(bdefSpy).not.toHaveBeenCalled();
+      });
 
 
-            // search term = 'bdef3'
-            of(service.resolve(({ queryParams: { searchTerm: 'bdef3' } } as any) as ActivatedRouteSnapshot,
-                {} as RouterStateSnapshot)).subscribe((data) => {
-                    expect((data as DataEntityListResolverData).dataEntities)
-                        .toEqual([{
-                            namespace: 'vsn2', businessObjectDefinitionName: 'bdef3'
-                        }]);
-                    expect((data as DataEntityListResolverData).total).toEqual(3);
-                    expect((data as DataEntityListResolverData).title).toEqual('Data Entities');
-                    expect(bdefSpy).not.toHaveBeenCalled();
-                });
+      // search term = 'bdef3'
+      of(service.resolve(({queryParams: {searchTerm: 'bdef3'}} as any) as ActivatedRouteSnapshot,
+        {} as RouterStateSnapshot)).subscribe((data) => {
+        expect((data as DataEntityListResolverData).dataEntities)
+          .toEqual([{
+            namespace: 'vsn2', businessObjectDefinitionName: 'bdef3'
+          }]);
+        expect((data as DataEntityListResolverData).total).toEqual(3);
+        expect((data as DataEntityListResolverData).title).toEqual('Data Entities');
+        expect(bdefSpy).not.toHaveBeenCalled();
+      });
 
-        })));
+    })));
 });

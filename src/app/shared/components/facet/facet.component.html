@@ -13,30 +13,30 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<div class="d-flex justify-content-between" *ngIf="viewFacets.length > 0">
+<div *ngIf="viewFacets.length > 0" class="d-flex justify-content-between">
   <h5>Refine By </h5>
-  <a href="javascript:void(0)" (click)="clearFacets()">reset</a>
+  <a (click)="clearFacets()" href="javascript:void(0)">reset</a>
 </div>
-<div class="card" *ngFor="let facet of viewFacets">
+<div *ngFor="let facet of viewFacets" class="card">
 
-  <div class="card-header" (click)="facet.showChildren = !facet.showChildren"
-       [attr.aria-expanded]="!showChildren" aria-controls="facet.facetId">
+  <div (click)="facet.showChildren = !facet.showChildren" [attr.aria-expanded]="!showChildren"
+       aria-controls="facet.facetId" class="card-header">
 
     <div class="d-flex justify-content-between">
       {{facet.facetDisplayName}}
-      <i [hidden]="facet.showChildren" class="fa fa-sort-up" aria-hidden="true"></i>
-      <i [hidden]="!facet.showChildren" class="fa fa-sort-down" aria-hidden="true"></i>
+      <i [hidden]="facet.showChildren" aria-hidden="true" class="fa fa-sort-up"></i>
+      <i [hidden]="!facet.showChildren" aria-hidden="true" class="fa fa-sort-down"></i>
     </div>
 
   </div>
 
-  <div id="{{facet.facetId}}" class="card-block" [hidden]="facet.showChildren">
+  <div [hidden]="facet.showChildren" class="card-block" id="{{facet.facetId}}">
 
     <ul class="list-unstyled">
       <li *ngFor="let childFacet of facet.facets">
         <sd-tri-state
-          [state]="childFacet.state"
           (propagate)="propagateSelection($event, childFacet, facet)"
+          [state]="childFacet.state"
           label="{{ childFacet.facetDisplayName + ' (' + childFacet.facetCount + ')'}}">
         </sd-tri-state>
       </li>

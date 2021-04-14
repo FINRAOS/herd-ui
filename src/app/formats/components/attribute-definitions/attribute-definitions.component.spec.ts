@@ -23,9 +23,9 @@ describe('AttributeDefinitionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AttributeDefinitionsComponent ]
+      declarations: [AttributeDefinitionsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

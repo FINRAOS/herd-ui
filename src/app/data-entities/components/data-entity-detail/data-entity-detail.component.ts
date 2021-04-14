@@ -105,13 +105,13 @@ export type ExtendedFormatKey = BusinessObjectFormatKey & {
 export class DataEntityDetailComponent implements OnInit {
   authMap = AuthMap;
   editDescriptiveContentPermissions = [NamespaceAuthorization.NamespacePermissionsEnum.WRITE,
-  NamespaceAuthorization.NamespacePermissionsEnum.WRITEDESCRIPTIVECONTENT];
+    NamespaceAuthorization.NamespacePermissionsEnum.WRITEDESCRIPTIVECONTENT];
   emptyColumnsMessage = '';
   sideActions: Action[];
   sampleDataFileUrl: string;
   ddl = '';
   ddlError: DangerAlert;
-  config = { lineNumbers: true, mode: 'text/x-go', readOnly: true };
+  config = {lineNumbers: true, mode: 'text/x-go', readOnly: true};
   businessObjectDefinitionDescriptionSuggestions: Array<any>;
 
   bdef: BusinessObjectDefinition = {} as BusinessObjectDefinition;
@@ -136,10 +136,10 @@ export class DataEntityDetailComponent implements OnInit {
   // variables for lineage visualization
   @ViewChild('viewLineage') viewLineage: TemplateRef<any>;
   public popover: NgbPopover;
-  colors: any[] = [{ name: 'parent', value: '#05af7e' },
-  { name: 'child', value: '#55ACD2' },
-  { name: 'center', value: '#000000' }];
-  hierarchialGraph: HierarchialGraph = { nodes: [], links: [] };
+  colors: any[] = [{name: 'parent', value: '#05af7e'},
+    {name: 'child', value: '#55ACD2'},
+    {name: 'center', value: '#000000'}];
+  hierarchialGraph: HierarchialGraph = {nodes: [], links: []};
   curve: any = shape.curveBundle;
   modalReference: NgbModalRef;
   displayDelimiter = ':';
@@ -154,31 +154,30 @@ export class DataEntityDetailComponent implements OnInit {
       header: 'Business Name',
       hide: false,
       sortable: true,
-      style: { 'width': '100px' }
+      style: {'width': '100px'}
     }, {
       templateField: 'description',
       field: 'description',
       header: 'Definition',
       hide: false,
       sortable: true,
-      style: { 'width': '250px' }
+      style: {'width': '250px'}
     }, {
       templateField: 'schemaColumnName',
       field: 'schemaColumnName',
       header: 'Physical Name',
       hide: false,
       sortable: true,
-      style: { 'width': '100px' }
+      style: {'width': '100px'}
     }, {
       templateField: 'type',
       field: 'type',
       header: 'Data Type',
       hide: false,
       sortable: true,
-      style: { 'width': '100px' }
+      style: {'width': '100px'}
     }];
 
-  groupResultsBy = (node: DataEntityLineageNode) => node.type;
   constructor(
     private route: ActivatedRoute,
     private businessObjectDefinitionApi: BusinessObjectDefinitionService,
@@ -192,6 +191,8 @@ export class DataEntityDetailComponent implements OnInit {
     private businessObjectDefinitionDescriptionSuggestionService: BusinessObjectDefinitionDescriptionSuggestionService
   ) {
   }
+
+  groupResultsBy = (node: DataEntityLineageNode) => node.type;
 
   ngOnInit() {
     this.bdef = this.route.snapshot.data.resolvedData.bdef;
@@ -250,7 +251,9 @@ export class DataEntityDetailComponent implements OnInit {
       obs = createColumn();
     }
 
-    obs.pipe(finalize(() => { this.businessObjectDefinitionColumnApi.defaultHeaders.delete('skipAlert'); })).subscribe((resp) => {
+    obs.pipe(finalize(() => {
+      this.businessObjectDefinitionColumnApi.defaultHeaders.delete('skipAlert');
+    })).subscribe((resp) => {
       col.exists = true;
       col.businessObjectDefinitionColumnName = resp.businessObjectDefinitionColumnKey.businessObjectDefinitionColumnName;
       this.alertService.alert(new SuccessAlert('Success!', '', 'Your column creation was saved.'));
@@ -274,13 +277,15 @@ export class DataEntityDetailComponent implements OnInit {
       this.businessObjectDefinitionColumnApi
         .businessObjectDefinitionColumnUpdateBusinessObjectDefinitionColumn(this.bdef.namespace,
           this.bdef.businessObjectDefinitionName, col.businessObjectDefinitionColumnName, request)
-        .pipe(finalize(() => { this.businessObjectDefinitionColumnApi.defaultHeaders.delete('skipAlert'); })).subscribe((resp) => {
-          col.description = resp.description;
-          this.alertService.alert(new SuccessAlert('Success!', '', 'Your column edit was saved.'));
-        }, (error) => {
-          this.alertService.alert(
-            new DangerAlert('Failure!', '', 'Your column description edit could not be saved. Try again or contact the support team.'));
-        });
+        .pipe(finalize(() => {
+          this.businessObjectDefinitionColumnApi.defaultHeaders.delete('skipAlert');
+        })).subscribe((resp) => {
+        col.description = resp.description;
+        this.alertService.alert(new SuccessAlert('Success!', '', 'Your column edit was saved.'));
+      }, (error) => {
+        this.alertService.alert(
+          new DangerAlert('Failure!', '', 'Your column description edit could not be saved. Try again or contact the support team.'));
+      });
     }
   }
 
@@ -366,40 +371,40 @@ export class DataEntityDetailComponent implements OnInit {
           // Fetch the columns
           this.businessObjectDefinitionColumnApi.businessObjectDefinitionColumnSearchBusinessObjectDefinitionColumns(
             body, params.fields).subscribe((columns) => {
-              if (this.descriptiveFormat.schema) {
-                // get ddl to show in ui
-                this.getDDL();
-                // Fetch the columns that match the schema cols of descriptive format
-                // By setting to the .map output we make sure that we treat datatable data as immutable
-                this.bdefColumns = this.descriptiveFormat.schema.columns.map<DataEntityWithFormatColumn>((formatColumn) => {
-                  let searchColumnBusinessName = '';
-                  let searchColumnDescription = '';
-                  const exists: boolean = columns.businessObjectDefinitionColumns.some((searchColumn) => {
-                    if (searchColumn.schemaColumnName === formatColumn.name) {
-                      searchColumnBusinessName = searchColumn.businessObjectDefinitionColumnKey
-                        .businessObjectDefinitionColumnName;
-                      searchColumnDescription = searchColumn.description;
-                      return true;
-                    }
-                    return false;
-                  });
-
-                  let dataType = formatColumn.type;
-                  if (formatColumn.size !== null) {
-                    dataType += ' (' + formatColumn.size + ')';
+            if (this.descriptiveFormat.schema) {
+              // get ddl to show in ui
+              this.getDDL();
+              // Fetch the columns that match the schema cols of descriptive format
+              // By setting to the .map output we make sure that we treat datatable data as immutable
+              this.bdefColumns = this.descriptiveFormat.schema.columns.map<DataEntityWithFormatColumn>((formatColumn) => {
+                let searchColumnBusinessName = '';
+                let searchColumnDescription = '';
+                const exists: boolean = columns.businessObjectDefinitionColumns.some((searchColumn) => {
+                  if (searchColumn.schemaColumnName === formatColumn.name) {
+                    searchColumnBusinessName = searchColumn.businessObjectDefinitionColumnKey
+                      .businessObjectDefinitionColumnName;
+                    searchColumnDescription = searchColumn.description;
+                    return true;
                   }
-                  return {
-                    businessObjectDefinitionColumnName: searchColumnBusinessName,
-                    description: searchColumnDescription,
-                    schemaColumnName: formatColumn.name,
-                    type: dataType,
-                    exists
-                  };
+                  return false;
                 });
-              } else {
-                this.emptyColumnsMessage = 'Cannot display columns - No Schema columns present in specified Descriptive Format';
-              }
-            });
+
+                let dataType = formatColumn.type;
+                if (formatColumn.size !== null) {
+                  dataType += ' (' + formatColumn.size + ')';
+                }
+                return {
+                  businessObjectDefinitionColumnName: searchColumnBusinessName,
+                  description: searchColumnDescription,
+                  schemaColumnName: formatColumn.name,
+                  type: dataType,
+                  exists
+                };
+              });
+            } else {
+              this.emptyColumnsMessage = 'Cannot display columns - No Schema columns present in specified Descriptive Format';
+            }
+          });
         });
     } else {
       this.emptyColumnsMessage = 'Cannot display columns - No Descriptive Format defined for this Data Entity';
@@ -416,7 +421,7 @@ export class DataEntityDetailComponent implements OnInit {
     })).subscribe((response) => {
       for (const formatKey of response.businessObjectFormatKeys) {
         const extendedFormatKey: ExtendedFormatKey = {
-          namespace : formatKey.namespace,
+          namespace: formatKey.namespace,
           businessObjectDefinitionName: formatKey.businessObjectDefinitionName,
           businessObjectFormatUsage: formatKey.businessObjectFormatUsage,
           businessObjectFormatFileType: formatKey.businessObjectFormatFileType,
@@ -430,20 +435,20 @@ export class DataEntityDetailComponent implements OnInit {
       // table information
       for (const extendableFormatKey of this.formats.filter(formatKey => this.isRelationalTable(formatKey))) {
         this.businessObjectFormatApi.businessObjectFormatGetBusinessObjectFormat(
-            extendableFormatKey.namespace,
-            extendableFormatKey.businessObjectDefinitionName,
-            extendableFormatKey.businessObjectFormatUsage,
-            extendableFormatKey.businessObjectFormatFileType,
-            extendableFormatKey.businessObjectFormatVersion
+          extendableFormatKey.namespace,
+          extendableFormatKey.businessObjectDefinitionName,
+          extendableFormatKey.businessObjectFormatUsage,
+          extendableFormatKey.businessObjectFormatFileType,
+          extendableFormatKey.businessObjectFormatVersion
         ).subscribe(getFormatResponse => {
           const index: number = this.formats.findIndex(formatKey => (
-              formatKey.businessObjectFormatUsage === extendableFormatKey.businessObjectFormatUsage
-              && formatKey.businessObjectFormatFileType === extendableFormatKey.businessObjectFormatFileType
-              && formatKey.businessObjectFormatVersion === extendableFormatKey.businessObjectFormatVersion ));
+            formatKey.businessObjectFormatUsage === extendableFormatKey.businessObjectFormatUsage
+            && formatKey.businessObjectFormatFileType === extendableFormatKey.businessObjectFormatFileType
+            && formatKey.businessObjectFormatVersion === extendableFormatKey.businessObjectFormatVersion));
 
           // replace format key element in-place with a new object containing relational table information
           this.formats[index] = {
-            namespace : extendableFormatKey.namespace,
+            namespace: extendableFormatKey.namespace,
             businessObjectDefinitionName: extendableFormatKey.businessObjectDefinitionName,
             businessObjectFormatUsage: extendableFormatKey.businessObjectFormatUsage,
             businessObjectFormatFileType: extendableFormatKey.businessObjectFormatFileType,
@@ -460,7 +465,7 @@ export class DataEntityDetailComponent implements OnInit {
 
   updateDescriptiveFormat(format: BusinessObjectFormatKey, recommended: boolean) {
     const businessObjectDefinitionDescriptiveInformationUpdateRequest: BusinessObjectDefinitionDescriptiveInformationUpdateRequest =
-      recommended ? { description: this.bdef.description, displayName: this.bdef.displayName } : {
+      recommended ? {description: this.bdef.description, displayName: this.bdef.displayName} : {
         description: this.bdef.description,
         displayName: this.bdef.displayName,
         descriptiveBusinessObjectFormat: {
@@ -549,19 +554,19 @@ export class DataEntityDetailComponent implements OnInit {
   }
 
   constructGraph(bdefs: BusinessObjectDefinition[], formatKeys: BusinessObjectFormatKey[], type: DAGNodeType,
-    centerNode: DataEntityLineageNode): Observable<HierarchialGraph> {
+                 centerNode: DataEntityLineageNode): Observable<HierarchialGraph> {
     const nodes: DataEntityLineageNode[] = [];
     const links: DAGLink[] = [];
     for (let i = 0; i < bdefs.length; i++) {
       const newNode = this.createNode(bdefs[i], formatKeys[i], type);
       if (type === DAGNodeType.parent) {
-        links.push({ source: newNode.id, target: centerNode.id });
+        links.push({source: newNode.id, target: centerNode.id});
       } else {
-        links.push({ source: centerNode.id, target: newNode.id });
+        links.push({source: centerNode.id, target: newNode.id});
       }
       nodes.push(newNode);
     }
-    return of({ nodes, links } as any);
+    return of({nodes, links} as any);
   }
 
   createNode(bdef: BusinessObjectDefinition, format: BusinessObjectFormatKey, type: DAGNodeType): DataEntityLineageNode {
@@ -576,7 +581,7 @@ export class DataEntityDetailComponent implements OnInit {
     }
 
     const id = [format.namespace, format.businessObjectDefinitionName, format.businessObjectFormatUsage,
-    format.businessObjectFormatFileType].join(this.idDelimiter).replace(/[^a-zA-Z0-9:]/gi, '_');
+      format.businessObjectFormatFileType].join(this.idDelimiter).replace(/[^a-zA-Z0-9:]/gi, '_');
 
     const idNum = this.nodeIdCount[id] !== undefined ? ++this.nodeIdCount[id] : this.nodeIdCount[id] = 1;
 
@@ -604,39 +609,39 @@ export class DataEntityDetailComponent implements OnInit {
       selectedNode.bdefKey.split(this.displayDelimiter)[1],
       selectedNode.tooltip.split(this.displayDelimiter)[0],
       selectedNode.tooltip.split(this.displayDelimiter)[1]).pipe(
-        flatMap((format) => {
-          if (selectedNode.type === DAGNodeType.parent) {
-            return this.processParents(selectedNode, format);
-          } else if (selectedNode.type === DAGNodeType.child) {
-            return this.processChildren(selectedNode, format);
-          }
-          // thiere is a unit test failing for this. Need to figure out why use of throwError is cause that.
-          return throwError('invalidNodeType');
-        })
-      ).subscribe((graph: HierarchialGraph) => {
-        // hide the show more link as we will not attempt to reload the parents or children
-        this.hierarchialGraph.nodes.some((node) => {
-          if (node.id === selectedNode.id) {
-            node.loadLineage = false;
-            return true;
-          }
-          return false;
-        });
-
-        if (graph.nodes.length === 0) {
-          this.alertService.alert(new WarningAlert('No Further Lineage', '',
-            `${selectedNode.label} does not have any more ${selectedNode.type === DAGNodeType.parent ? 'parents.' : 'children.'}`,
-            5
-          ));
+      flatMap((format) => {
+        if (selectedNode.type === DAGNodeType.parent) {
+          return this.processParents(selectedNode, format);
+        } else if (selectedNode.type === DAGNodeType.child) {
+          return this.processChildren(selectedNode, format);
         }
-
-        this.hierarchialGraph.nodes = [...this.hierarchialGraph.nodes, ...graph.nodes];
-        this.hierarchialGraph.links = [...this.hierarchialGraph.links, ...graph.links];
-        this.hierarchialGraph.loaded = true;
-
-        // close the pop up after user clicks button
-        this.popover.close();
+        // thiere is a unit test failing for this. Need to figure out why use of throwError is cause that.
+        return throwError('invalidNodeType');
+      })
+    ).subscribe((graph: HierarchialGraph) => {
+      // hide the show more link as we will not attempt to reload the parents or children
+      this.hierarchialGraph.nodes.some((node) => {
+        if (node.id === selectedNode.id) {
+          node.loadLineage = false;
+          return true;
+        }
+        return false;
       });
+
+      if (graph.nodes.length === 0) {
+        this.alertService.alert(new WarningAlert('No Further Lineage', '',
+          `${selectedNode.label} does not have any more ${selectedNode.type === DAGNodeType.parent ? 'parents.' : 'children.'}`,
+          5
+        ));
+      }
+
+      this.hierarchialGraph.nodes = [...this.hierarchialGraph.nodes, ...graph.nodes];
+      this.hierarchialGraph.links = [...this.hierarchialGraph.links, ...graph.links];
+      this.hierarchialGraph.loaded = true;
+
+      // close the pop up after user clicks button
+      this.popover.close();
+    });
   }
 
 
@@ -737,7 +742,7 @@ export class DataEntityDetailComponent implements OnInit {
   open(content: TemplateRef<any> | String, windowClass?: string) {
     // append the modal to the data-entity-detail container so when views are switched it goes away with taht view.
     this.modalReference = this.modalService
-      .open(content, { windowClass: windowClass, size: 'lg', container: '.data-entity-detail', backdrop: 'static' });
+      .open(content, {windowClass: windowClass, size: 'lg', container: '.data-entity-detail', backdrop: 'static'});
     return this.modalReference;
   }
 
@@ -761,17 +766,17 @@ export class DataEntityDetailComponent implements OnInit {
       .businessObjectDefinitionDescriptionSuggestionSearchBusinessObjectDefinitionDescriptionSuggestions(
         businessObjectDefinitionDescriptionSuggestionSearchRequest, 'status, descriptionSuggestion, createdByUserId, createdOn'
       ).pipe(
-        catchError((error) => {
-          this.alertService.alert(new DangerAlert('Unable to get data entity description suggestions', '',
-            `Problem: ${error} : Try again later.`, 5));
-          return of(error);
-        })
-      ).subscribe((response: any) => {
-        this.businessObjectDefinitionDescriptionSuggestions = response && response.businessObjectDefinitionDescriptionSuggestions;
-      }, (error) => {
+      catchError((error) => {
         this.alertService.alert(new DangerAlert('Unable to get data entity description suggestions', '',
           `Problem: ${error} : Try again later.`, 5));
-      });
+        return of(error);
+      })
+    ).subscribe((response: any) => {
+      this.businessObjectDefinitionDescriptionSuggestions = response && response.businessObjectDefinitionDescriptionSuggestions;
+    }, (error) => {
+      this.alertService.alert(new DangerAlert('Unable to get data entity description suggestions', '',
+        `Problem: ${error} : Try again later.`, 5));
+    });
 
   }
 

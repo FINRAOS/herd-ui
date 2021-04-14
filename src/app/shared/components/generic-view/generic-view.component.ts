@@ -23,7 +23,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class GenericViewComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

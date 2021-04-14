@@ -64,7 +64,7 @@ describe('SearchResolverService', () => {
       searchServiceSearchSpy.and.returnValue(of(searchResolveData));
 
       (service.resolve(({params: {searchText: 'this is not me'}, queryParams: {match: 'test'}} as any) as ActivatedRouteSnapshot,
-        {} as RouterStateSnapshot)as Observable<SearchResolveData>)
+        {} as RouterStateSnapshot) as Observable<SearchResolveData>)
         .subscribe((data) => {
           expect((data as SearchResolveData).indexSearchResults).toEqual(searchResolveData.indexSearchResults);
           expect((data as SearchResolveData).facets).toEqual(searchResolveData.facets);

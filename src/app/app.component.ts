@@ -46,11 +46,11 @@ export class AppComponent implements OnInit {
   skipDictionary: { [path: string]: number };
 
   constructor(private alerter: AlertService,
-    private router: Router,
-    private ga: GoogleAnalyticsService,
-    public cu: UserService,
-    private route: ActivatedRoute,
-    @Inject(WINDOW) private window: any
+              private router: Router,
+              private ga: GoogleAnalyticsService,
+              public cu: UserService,
+              private route: ActivatedRoute,
+              @Inject(WINDOW) private window: any
   ) {
     this.skipDictionary = {};
     // handled skipAlert flag for messaging of failed requests

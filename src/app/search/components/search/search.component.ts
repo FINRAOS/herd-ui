@@ -45,10 +45,10 @@ export class SearchComponent implements OnInit {
 
     this.activatedRoute.data.subscribe((data) => {
       if (data.resolvedData && data.resolvedData.indexSearchResults) {
-          this.newSearch = true;
-          this.indexSearchResults = data.resolvedData.indexSearchResults;
-          this.facets = data.resolvedData.facets;
-          this.totalIndexSearchResults = data.resolvedData.totalIndexSearchResults;
+        this.newSearch = true;
+        this.indexSearchResults = data.resolvedData.indexSearchResults;
+        this.facets = data.resolvedData.facets;
+        this.totalIndexSearchResults = data.resolvedData.totalIndexSearchResults;
       }
     });
 

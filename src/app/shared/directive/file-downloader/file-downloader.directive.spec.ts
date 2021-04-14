@@ -29,11 +29,11 @@ describe('FileDownloaderDirective', () => {
     let fc = true;
     const downloadSpy = spyOn(directive, 'download');
     const changeObj: SimpleChanges = {
-      sampleDataFileUrl : {
-        currentValue : 'http://test.url',
-        previousValue : directive.sampleDataFileUrl,
+      sampleDataFileUrl: {
+        currentValue: 'http://test.url',
+        previousValue: directive.sampleDataFileUrl,
         firstChange: true,
-        isFirstChange : () => fc
+        isFirstChange: () => fc
       }
     };
 

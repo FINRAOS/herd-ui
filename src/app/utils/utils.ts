@@ -16,21 +16,21 @@
 import { ActivatedRouteSnapshot, PRIMARY_OUTLET } from '@angular/router';
 
 export class Utils {
-    // this logic can be used to generate breadcrumbs if needed in the future.
-     static findPrimaryRoute(route: ActivatedRouteSnapshot): ActivatedRouteSnapshot {
-        const children: ActivatedRouteSnapshot[] = route.children;
+  // this logic can be used to generate breadcrumbs if needed in the future.
+  static findPrimaryRoute(route: ActivatedRouteSnapshot): ActivatedRouteSnapshot {
+    const children: ActivatedRouteSnapshot[] = route.children;
 
-        if (!children || children.length === 0) {
-            return route;
-        }
-
-        for (const child of children) {
-            if (child.outlet !== PRIMARY_OUTLET) {
-                continue;
-            }
-
-            return this.findPrimaryRoute(child);
-        }
-
+    if (!children || children.length === 0) {
+      return route;
     }
+
+    for (const child of children) {
+      if (child.outlet !== PRIMARY_OUTLET) {
+        continue;
+      }
+
+      return this.findPrimaryRoute(child);
+    }
+
+  }
 }

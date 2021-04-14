@@ -13,15 +13,16 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<div ngbTooltip="{{ellipsisContent}}" triggers="manual" container="body" (mouseover)="enableTooltip()" (mouseout)="disableTooltip()"
-    placement="{{tooltipDirection || 'top'}}" class="ellipsis-overflow">
+<div (mouseout)="disableTooltip()" (mouseover)="enableTooltip()" class="ellipsis-overflow" container="body"
+     ngbTooltip="{{ellipsisContent}}"
+     placement="{{tooltipDirection || 'top'}}" triggers="manual">
 
-        <ng-content *ngIf="!ellipsisContent; else content">
+  <ng-content *ngIf="!ellipsisContent; else content">
 
-        </ng-content>
+  </ng-content>
 
-        <ng-template #content>
-            {{ ellipsisContent || '' }}
-        </ng-template>
+  <ng-template #content>
+    {{ ellipsisContent || '' }}
+  </ng-template>
 
 </div>

@@ -30,7 +30,7 @@ describe('FilterTemplateComponent', () => {
         FilterTemplateComponent, EllipsisOverflowComponent
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

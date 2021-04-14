@@ -16,6 +16,7 @@
 body {
   background-color: #0c8bea;
 }
+
 .container {
   padding: 250px;
 }
@@ -24,6 +25,7 @@ body {
   color: #ffffff;
   background-color: #31a9e2;
 }
+
 .card {
   border-color: #006bd0;
   box-shadow: 1px 4px 7px 0px #003b75, 0px 4px 17px 0px #07427b;
@@ -48,7 +50,7 @@ body {
   z-index: -1;
 }
 
-.splash>svg {
+.splash > svg {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -57,7 +59,7 @@ body {
   height: 50vh;
 }
 
-sd-root:empty+.splash {
+sd-root:empty + .splash {
   opacity: 1;
   z-index: 100;
 }

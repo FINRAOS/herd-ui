@@ -48,4 +48,5 @@ const routes: Routes = [{
     DataObjectDetailResolverService
   ]
 })
-export class DataObjectsRoutingModule { }
+export class DataObjectsRoutingModule {
+}

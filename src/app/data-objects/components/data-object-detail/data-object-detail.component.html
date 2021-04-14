@@ -44,7 +44,8 @@
                 businessObjectData.businessObjectFormatUsage,
                 businessObjectData.businessObjectFormatFileType,
                 businessObjectData.businessObjectFormatVersion]">
-              {{businessObjectData.businessObjectFormatUsage}} :{{businessObjectData.businessObjectFormatFileType}} :{{businessObjectData.businessObjectFormatVersion
+              {{businessObjectData.businessObjectFormatUsage}} :{{businessObjectData.businessObjectFormatFileType}}
+              :{{businessObjectData.businessObjectFormatVersion
               }}
             </a>
           </span>
@@ -67,7 +68,8 @@
                   <span class="col-6">Value</span>
                 </div>
 
-                <div class="row partition-value" *ngIf="businessObjectData.subPartitionKeys && businessObjectData.subPartitionKeys.length === 0">
+                <div *ngIf="businessObjectData.subPartitionKeys && businessObjectData.subPartitionKeys.length === 0"
+                     class="row partition-value">
                   <div class="col-6">
                     <sd-ellipsis-overflow [ellipsisContent]="businessObjectData.partitionKey">
                     </sd-ellipsis-overflow>
@@ -77,16 +79,16 @@
                   </div>
                 </div>
 
-                <div class="row partition-value" *ngFor="let subPartitionKey of businessObjectData.subPartitionKeys; let i = index">
+                <div *ngFor="let subPartitionKey of businessObjectData.subPartitionKeys; let i = index"
+                     class="row partition-value">
                   <div class="col-6">
                     <sd-ellipsis-overflow [ellipsisContent]="subPartitionKey"></sd-ellipsis-overflow>
                   </div>
                   <div class="col-6">
-                    <sd-ellipsis-overflow [ellipsisContent]="i === 0 ? businessObjectData.partitionValue : businessObjectData.subPartitionValues[i - 1]"></sd-ellipsis-overflow>
+                    <sd-ellipsis-overflow
+                      [ellipsisContent]="i === 0 ? businessObjectData.partitionValue : businessObjectData.subPartitionValues[i - 1]"></sd-ellipsis-overflow>
                   </div>
                 </div>
-
-
 
 
               </div>
@@ -107,9 +109,11 @@
                 <div class="row">
                   <span class="col-5 status">{{ businessObjectData.status }}</span>
                   <div class="col-5">
-                    <select *ngIf="businessObjectDataVersions.length > 1" class="version-select" [(ngModel)]="businessObjectDataVersionSelected"
-                      (change)="go(businessObjectDataVersionSelected)" title="selector">
-                      <option *ngFor="let businessObjectDataVersion of businessObjectDataVersions" [ngValue]="businessObjectDataVersion" [selected]="businessObjectDataVersionSelected">
+                    <select (change)="go(businessObjectDataVersionSelected)" *ngIf="businessObjectDataVersions.length > 1"
+                            [(ngModel)]="businessObjectDataVersionSelected"
+                            class="version-select" title="selector">
+                      <option *ngFor="let businessObjectDataVersion of businessObjectDataVersions"
+                              [ngValue]="businessObjectDataVersion" [selected]="businessObjectDataVersionSelected">
                         {{ businessObjectDataVersion }}
                       </option>
                     </select>
@@ -130,7 +134,8 @@
                 </div>
                 <div class="row">
                   <div class="col-5 id">{{ businessObjectData.id }}</div>
-                  <div class="col-5 expiry-date">{{ businessObjectData.retentionExpirationDate|date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                  <div
+                    class="col-5 expiry-date">{{ businessObjectData.retentionExpirationDate|date:'yyyy-MM-dd HH:mm:ss'}}</div>
                 </div>
               </div>
             </div>
@@ -148,10 +153,12 @@
     <!--childrens-->
     <div class="content-wrapper">
       <div class="sub-header-label">Children</div>
-      <div layout="column" flex *ngIf="businessObjectData.businessObjectDataChildren && businessObjectData.businessObjectDataChildren.length === 0">
+      <div *ngIf="businessObjectData.businessObjectDataChildren && businessObjectData.businessObjectDataChildren.length === 0" flex
+           layout="column">
         <div class="unavailable-label">No children registered.</div>
       </div>
-      <div layout="column" flex *ngIf="businessObjectData.businessObjectDataChildren && businessObjectData.businessObjectDataChildren.length !== 0">
+      <div *ngIf="businessObjectData.businessObjectDataChildren && businessObjectData.businessObjectDataChildren.length !== 0" flex
+           layout="column">
         <sd-lineage [content]="businessObjectData.businessObjectDataChildren"></sd-lineage>
       </div>
     </div>
@@ -159,10 +166,12 @@
     <!--parents-->
     <div class="content-wrapper">
       <div class="sub-header-label">Parents</div>
-      <div layout="column" *ngIf="businessObjectData.businessObjectDataParents && businessObjectData.businessObjectDataParents.length === 0">
+      <div *ngIf="businessObjectData.businessObjectDataParents && businessObjectData.businessObjectDataParents.length === 0"
+           layout="column">
         <div class="unavailable-label">No parents registered.</div>
       </div>
-      <div *ngIf="businessObjectData.businessObjectDataParents && businessObjectData.businessObjectDataParents.length !== 0">
+      <div
+        *ngIf="businessObjectData.businessObjectDataParents && businessObjectData.businessObjectDataParents.length !== 0">
         <sd-lineage [content]="businessObjectData.businessObjectDataParents"></sd-lineage>
       </div>
     </div>
@@ -170,10 +179,12 @@
     <!-- status history-->
     <div class="content-wrapper">
       <div class="sub-header-label">Status History</div>
-      <div layout="column" *ngIf="businessObjectData.businessObjectDataStatusHistory && businessObjectData.businessObjectDataStatusHistory.length === 0">
+      <div *ngIf="businessObjectData.businessObjectDataStatusHistory && businessObjectData.businessObjectDataStatusHistory.length === 0"
+           layout="column">
         <div class="unavailable-label">No status history found.</div>
       </div>
-      <div class="container columns-content" *ngIf="businessObjectData.businessObjectDataStatusHistory && businessObjectData.businessObjectDataStatusHistory.length !== 0">
+      <div *ngIf="businessObjectData.businessObjectDataStatusHistory && businessObjectData.businessObjectDataStatusHistory.length !== 0"
+           class="container columns-content">
         <div class="list-group columns-header">
           <div class="row list-group-item">
             <div class="col-2">Status</div>
@@ -181,7 +192,8 @@
             <div class="col-6">User</div>
           </div>
         </div>
-        <div class="list-group columns-detail" *ngFor="let businessObjectDataStatusChangeEvent of businessObjectData.businessObjectDataStatusHistory">
+        <div *ngFor="let businessObjectDataStatusChangeEvent of businessObjectData.businessObjectDataStatusHistory"
+             class="list-group columns-detail">
           <div>
             <div class="row list-group-item">
               <div class="col-2">{{ businessObjectDataStatusChangeEvent.status }}</div>
@@ -196,10 +208,10 @@
     <!--storage unit and files-->
     <div class="content-wrapper">
       <sd-storage-units
-        sdFileDownloader [sampleDataFileUrl]='presignedURL'
-        [namespace]="businessObjectData.namespace"
+        (downloadAFile)="getPreSignedUrl($event)" [namespace]="businessObjectData.namespace"
+        [sampleDataFileUrl]='presignedURL'
         [storageUnits]="businessObjectData.storageUnits"
-        (downloadAFile)="getPreSignedUrl($event)"></sd-storage-units>
+        sdFileDownloader></sd-storage-units>
     </div>
 
   </div>

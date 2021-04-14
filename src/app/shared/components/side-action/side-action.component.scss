@@ -14,6 +14,7 @@
 * limitations under the License.
 */
 @import '../../styles/shared';
+
 $side-action-disabled-color: #63b5f2;
 $side-action-enabled-color: $white;
 
@@ -23,22 +24,23 @@ $side-action-enabled-color: $white;
   margin: 0px 5px;
 
   .icon {
-    @include text-styling(18px, bolder,$side-action-disabled-color);
+    @include text-styling(18px, bolder, $side-action-disabled-color);
   }
 
   label {
-     @include text-styling(13px, bolder, $side-action-disabled-color);
+    @include text-styling(13px, bolder, $side-action-disabled-color);
   }
 }
 
-div.enabled{
+div.enabled {
 
-  .icon{
+  .icon {
     cursor: pointer;
     @include text-styling(18px, bolder, $side-action-enabled-color);
   }
-  label{
-     cursor: pointer;
-     @include text-styling(13px, bolder, $side-action-enabled-color);
+
+  label {
+    cursor: pointer;
+    @include text-styling(13px, bolder, $side-action-enabled-color);
   }
 }
