@@ -134,7 +134,7 @@ describe('DataObjectDetailComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         SharedModule,
         RouterTestingModule
       ],
@@ -462,8 +462,10 @@ describe('DataObjectDetailComponent', () => {
     };
 
     // Spy on the services
-    spyUploadAndDownloadService = (<jasmine.Spy>uploadAndDownloadService.uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile)
-      .and.returnValue(of(downloadBusinessObjectDataStorageFileSingleInitiationResponse));
+    spyUploadAndDownloadService = (<jasmine.Spy>uploadAndDownloadService
+      .uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile)
+      .and
+      .returnValue(of(downloadBusinessObjectDataStorageFileSingleInitiationResponse));
 
     component.businessObjectData = businessObjectData;
     component.getPreSignedUrl(storageEvent);
@@ -499,8 +501,10 @@ describe('DataObjectDetailComponent', () => {
     };
 
     // Spy on the services
-    spyUploadAndDownloadService = (<jasmine.Spy>uploadAndDownloadService.uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile)
-      .and.returnValue(throwError({status: 404}));
+    spyUploadAndDownloadService = (<jasmine.Spy>uploadAndDownloadService
+      .uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile)
+      .and
+      .returnValue(throwError({status: 404}));
 
     component.businessObjectData = businessObjectData;
     component.getPreSignedUrl(storageEvent);
@@ -545,8 +549,10 @@ describe('DataObjectDetailComponent', () => {
       };
 
       // Spy on the services
-      spyUploadAndDownloadService = (<jasmine.Spy>uploadAndDownloadService.uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile)
-        .and.returnValue(throwError(downloadError));
+      spyUploadAndDownloadService = (<jasmine.Spy>uploadAndDownloadService
+        .uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile)
+        .and
+        .returnValue(throwError(downloadError));
       // throwError("Test failure");
 
       spyAlertService = (<jasmine.Spy>alertService.alert);

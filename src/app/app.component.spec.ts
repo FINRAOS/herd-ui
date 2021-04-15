@@ -60,7 +60,7 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        NgbModule.forRoot(),
+        NgbModule,
         InlineSVGModule,
         HttpClientTestingModule
       ],

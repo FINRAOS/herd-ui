@@ -51,8 +51,7 @@ import {
   UploadAndDownloadService,
   UserAuthorizations
 } from '@herd/angular-client';
-import { HttpClientModule } from '@angular/common/http';
-import { Headers } from '@angular/http';
+import { HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, ReplaySubject, throwError } from 'rxjs';
 import { AlertService, DangerAlert, SuccessAlert, WarningAlert } from '../../../core/services/alert.service';
@@ -448,7 +447,7 @@ describe('DataEntityDetailComponent', () => {
             businessObjectFormatGetBusinessObjectFormat: jasmine.createSpy('businessObjectFormatGetBusinessObjectFormat'),
             businessObjectFormatGetBusinessObjectFormats: jasmine.createSpy('businessObjectFormatGetBusinessObjectFormats'),
             businessObjectFormatGenerateBusinessObjectFormatDdl: jasmine.createSpy('businessObjectFormatGenerateBusinessObjectFormatDdl'),
-            defaultHeaders: new Headers(),
+            defaultHeaders: new HttpHeaders(),
             configuration: {
               withCredentials: true
             }
@@ -457,7 +456,7 @@ describe('DataEntityDetailComponent', () => {
         {
           provide: BusinessObjectDefinitionColumnService,
           useValue: {
-            defaultHeaders: new Headers(),
+            defaultHeaders: new HttpHeaders(),
             businessObjectDefinitionColumnSearchBusinessObjectDefinitionColumns:
               jasmine.createSpy('businessObjectDefinitionColumnSearchBusinessObjectDefinitionColumns'),
             businessObjectDefinitionColumnUpdateBusinessObjectDefinitionColumn:
@@ -571,7 +570,8 @@ describe('DataEntityDetailComponent', () => {
       // expect(component.bdefTags).toEqual(expectedBdefTags.businessObjectDefinitionTagKeys);
       // expect(component.hasTag).toEqual(true);
       expect(component.smes).toEqual(expectedSmes);
-      expect(component.businessObjectDefinitionDescriptionSuggestions).toEqual(bdefSuggestion.businessObjectDefinitionDescriptionSuggestions);
+      expect(component.businessObjectDefinitionDescriptionSuggestions)
+        .toEqual(bdefSuggestion.businessObjectDefinitionDescriptionSuggestions);
 
       component.onSampleDataClick();
       expect(component.sampleDataFileUrl).toEqual(sampleDataResponse.preSignedUrl);

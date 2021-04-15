@@ -30,8 +30,9 @@ describe('DataEntityListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
-        FormsModule],
+        NgbModule,
+        FormsModule
+      ],
       declarations: [DataEntityListComponent, RouterLinkStubDirective],
       providers: [{
         provide: ElementRef, useValue: {

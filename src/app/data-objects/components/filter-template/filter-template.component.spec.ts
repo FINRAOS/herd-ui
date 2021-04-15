@@ -25,7 +25,7 @@ describe('FilterTemplateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule.forRoot()],
+      imports: [NgbModule],
       declarations: [
         FilterTemplateComponent, EllipsisOverflowComponent
       ]

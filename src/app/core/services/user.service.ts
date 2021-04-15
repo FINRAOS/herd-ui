@@ -22,17 +22,6 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
-  // User info returned from Herd
-  userAuthorizations: UserAuthorizations;
-  // encrypted user id
-  encryptedUserIdentifier: string;
-
-  constructor(private currentUserApi: CurrentUserService,
-              private encryptionService: EncryptionService,
-              private apiConf: Configuration) {
-  }
-
-  private _user: ReplaySubject<UserAuthorizations> = new ReplaySubject<UserAuthorizations>();
 
   get user(): Observable<UserAuthorizations> {
     return this._user.asObservable();
@@ -40,6 +29,17 @@ export class UserService {
 
   get isAuthenticated() {
     return this.userAuthorizations && this.userAuthorizations.userId;
+  }
+  // User info returned from Herd
+  userAuthorizations: UserAuthorizations;
+  // encrypted user id
+  encryptedUserIdentifier: string;
+
+  private _user: ReplaySubject<UserAuthorizations> = new ReplaySubject<UserAuthorizations>();
+
+  constructor(private currentUserApi: CurrentUserService,
+              private encryptionService: EncryptionService,
+              private apiConf: Configuration) {
   }
 
   getCurrentUser(username?: string, password?: string): Observable<UserAuthorizations> {

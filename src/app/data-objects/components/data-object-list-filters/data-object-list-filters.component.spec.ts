@@ -26,6 +26,7 @@ import {
 } from './data-object-list-filters.component';
 import { PartitionFilterComponent } from 'app/data-objects/components/partition-filter/partition-filter.component';
 import { AttributeFilterComponent } from 'app/data-objects/components/attribute-filter/attribute-filter.component';
+// tslint:disable-next-line:max-line-length
 import { LatestValidVersionFilterComponent } from 'app/data-objects/components/latest-valid-version-filter/latest-valid-version-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -40,7 +41,7 @@ describe('DataObjectListFiltersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule.forRoot(), ReactiveFormsModule],
+      imports: [NgbModule, ReactiveFormsModule],
       declarations: [DataObjectListFiltersComponent,
         PartitionFilterComponent,
         AttributeFilterComponent,

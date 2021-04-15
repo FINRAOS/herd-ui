@@ -546,6 +546,7 @@ export class DataEntityDetailComponent implements OnInit {
       const bdefRequest = format => this.businessObjectDefinitionApi
         .businessObjectDefinitionGetBusinessObjectDefinition(format.namespace, format.businessObjectDefinitionName);
       return frmtQueues.pipe(
+        // tslint:disable-next-line:deprecation
         flatMap((q: any) => forkJoin(...q.map(bdefRequest))
         ));
     } else {

@@ -28,7 +28,7 @@ describe('SideActionsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot()
+        NgbModule
       ],
       declarations: [SideActionsComponent, SideActionComponent]
     })

@@ -40,7 +40,7 @@ describe('SearchComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         HttpClientModule,
         RouterTestingModule,
         SharedModule

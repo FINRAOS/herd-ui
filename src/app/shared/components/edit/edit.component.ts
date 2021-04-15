@@ -57,7 +57,7 @@ export class EditComponent implements OnInit {
     }
 
     return Object.keys(retVal).length > 0 ? retVal : null;
-  };
+  }
 
   containsIllegalCharacters(value: string): boolean {
     return this.illegalCharacters.some((c) => {

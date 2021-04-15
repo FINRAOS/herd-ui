@@ -33,7 +33,7 @@ describe('GlobalSearchComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         HttpClientModule,
         FormsModule
       ],
@@ -99,6 +99,7 @@ describe('GlobalSearchComponent', () => {
     } catch {
       // for phantomjs
       ev = document.createEvent('KeyboardEvent');
+      // tslint:disable-next-line:deprecation
       ev.initKeyboardEvent('keyup', true, true, window, 'Enter', 0, '', false, '');
     }
 

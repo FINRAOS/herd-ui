@@ -27,7 +27,7 @@ describe('AttributeFilterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule.forRoot(), ReactiveFormsModule],
+      imports: [NgbModule, ReactiveFormsModule],
       declarations: [AttributeFilterComponent,
         FilterTemplateComponent,
         EllipsisOverflowComponent],

@@ -62,14 +62,14 @@ export type AlertType = 'success' | 'info' | 'warning' | 'danger';
 @Injectable()
 export class AlertService {
 
-  constructor() {
-    this._alerts = new ReplaySubject();
+  get alerts(): Observable<Alert> {
+    return this._alerts.asObservable();
   }
 
   private _alerts: ReplaySubject<Alert>;
 
-  get alerts(): Observable<Alert> {
-    return this._alerts.asObservable();
+  constructor() {
+    this._alerts = new ReplaySubject();
   }
 
   /**

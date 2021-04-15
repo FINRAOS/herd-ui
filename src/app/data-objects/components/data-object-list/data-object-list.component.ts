@@ -33,6 +33,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Action } from 'app/shared/components/side-action/side-action.component';
 import { DataTable } from 'primeng/components/datatable/datatable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+// tslint:disable-next-line:max-line-length
 import { DataObjectListFiltersChangeEventData } from 'app/data-objects/components/data-object-list-filters/data-object-list-filters.component';
 import { AlertService, DangerAlert, SuccessAlert } from 'app/core/services/alert.service';
 import { of } from 'rxjs/internal/observable/of';

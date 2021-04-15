@@ -72,7 +72,8 @@ export class FormatDetailComponent implements OnInit {
     private businessObjectFormatApi: BusinessObjectFormatService,
     private businessObjectDefinitionColumnApi: BusinessObjectDefinitionColumnService,
     private businessObjectDataApi: BusinessObjectDataService,
-    private businessObjectFormatExternalInterfaceDescriptiveInformationApi: BusinessObjectFormatExternalInterfaceDescriptiveInformationService,
+    private businessObjectFormatExternalInterfaceDescriptiveInformationApi:
+      BusinessObjectFormatExternalInterfaceDescriptiveInformationService,
     private storageApi: StorageService,
     private alerter: AlertService,
     private router: Router
