@@ -25,7 +25,8 @@ export class LatestValidVersionFilterComponent implements OnInit {
   title = 'Latest Valid Version';
   @Output() filterDeleted: EventEmitter<string> = new EventEmitter();
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

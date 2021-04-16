@@ -14,6 +14,7 @@
 * limitations under the License.
 */
 @import '../../../shared/styles/shared';
+
 $button-hover-color: $table-header-color;
 
 .tags-container {
@@ -26,12 +27,15 @@ $button-hover-color: $table-header-color;
     padding: 0.5rem 0.5rem;
     border: 0;
   }
+
   button.tag-button:not([disabled]):hover {
     background-color: $button-hover-color;
   }
+
   .inner-header {
     @include inner-header;
   }
+
   p {
     @include unavailable-label
   }
@@ -46,6 +50,7 @@ $button-hover-color: $table-header-color;
   margin: 0;
   border: 1px solid;
   border-color: #ffffff;
+
   .col-1 {
     display: none;
     text-align: center;

@@ -46,7 +46,7 @@ describe('Logincomponent', () => {
           }
         },
         {
-          provide: AlertService, useValue: { alert: jasmine.createSpy('alert') }
+          provide: AlertService, useValue: {alert: jasmine.createSpy('alert')}
         },
         {
           provide: Router,
@@ -92,7 +92,7 @@ describe('Logincomponent', () => {
     expect(component.loginForm.valid).toBeTruthy();
     expect(c.getCurrentUser).toHaveBeenCalledWith('testusername', 'testpassword');
     // replace the current URL so that /login is not in the state history.
-    expect(r.navigateByUrl).toHaveBeenCalledWith(component.returnUrl, { replaceUrl: true });
+    expect(r.navigateByUrl).toHaveBeenCalledWith(component.returnUrl, {replaceUrl: true});
     expect(component.loading).toBe(false);
   }));
 

@@ -21,14 +21,14 @@ import {
   BusinessObjectDataAvailabilityRequest,
   BusinessObjectDataService,
   BusinessObjectDefinitionColumnService,
-  BusinessObjectFormatService,
   BusinessObjectFormatExternalInterfaceDescriptiveInformationService,
+  BusinessObjectFormatService,
   StorageService
 } from '@herd/angular-client';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { AlertService, DangerAlert, SuccessAlert } from 'app/core/services/alert.service';
-import { catchError, finalize, flatMap, map, startWith } from 'rxjs/operators';
+import { AlertService, DangerAlert } from 'app/core/services/alert.service';
+import { finalize, flatMap, map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'sd-format-detail',
@@ -54,9 +54,6 @@ export class FormatDetailComponent implements OnInit {
   externalInterfaceDescription = '';
   externalInterfaceError: DangerAlert;
   modalReference: NgbModalRef;
-  private errorMessageNotFound = 'No data registered';
-  private errorMessageAuthorization = 'Access Denied';
-
   documentSchemaConfig = {
     lineNumbers: true,
     lineWrapping: true,
@@ -65,6 +62,8 @@ export class FormatDetailComponent implements OnInit {
     scrollbarStyle: null,
     fixedGutter: true
   };
+  private errorMessageNotFound = 'No data registered';
+  private errorMessageAuthorization = 'Access Denied';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -73,7 +72,8 @@ export class FormatDetailComponent implements OnInit {
     private businessObjectFormatApi: BusinessObjectFormatService,
     private businessObjectDefinitionColumnApi: BusinessObjectDefinitionColumnService,
     private businessObjectDataApi: BusinessObjectDataService,
-    private businessObjectFormatExternalInterfaceDescriptiveInformationApi: BusinessObjectFormatExternalInterfaceDescriptiveInformationService,
+    private businessObjectFormatExternalInterfaceDescriptiveInformationApi:
+      BusinessObjectFormatExternalInterfaceDescriptiveInformationService,
     private storageApi: StorageService,
     private alerter: AlertService,
     private router: Router
@@ -107,10 +107,10 @@ export class FormatDetailComponent implements OnInit {
 
       this.businessObjectFormatApi
         .businessObjectFormatGetBusinessObjectFormat(this.namespace,
-        this.businessObjectDefinitionName,
-        this.businessObjectFormatUsage,
-        this.businessObjectFormatFileType,
-        this.businessObjectFormatVersion)
+          this.businessObjectDefinitionName,
+          this.businessObjectFormatUsage,
+          this.businessObjectFormatFileType,
+          this.businessObjectFormatVersion)
         .subscribe((bFormatResponse) => {
           this.businessObjectFormatDetail = bFormatResponse;
           this.businessObjectDefinitionColumnApi
@@ -120,21 +120,21 @@ export class FormatDetailComponent implements OnInit {
               for (const businessObjectDefinitionColumn of this.businessObjectDefinitionColumns) {
                 this.businessObjectDefinitionColumnApi
                   .businessObjectDefinitionColumnGetBusinessObjectDefinitionColumn(
-                  businessObjectDefinitionColumn.namespace,
-                  businessObjectDefinitionColumn.businessObjectDefinitionName,
-                  businessObjectDefinitionColumn.businessObjectDefinitionColumnName
+                    businessObjectDefinitionColumn.namespace,
+                    businessObjectDefinitionColumn.businessObjectDefinitionName,
+                    businessObjectDefinitionColumn.businessObjectDefinitionColumnName
                   ).subscribe((resp) => {
-                    businessObjectDefinitionColumn.schemaColumnName = resp.schemaColumnName;
-                    businessObjectDefinitionColumn.description = resp.description;
-                    if (this.businessObjectFormatDetail.schema && this.businessObjectFormatDetail.schema.columns) {
-                      for (const col of this.businessObjectFormatDetail.schema.columns) {
-                        if (businessObjectDefinitionColumn.schemaColumnName === col.name) {
-                          col.bDefColumnDescription = businessObjectDefinitionColumn.description;
-                        }
+                  businessObjectDefinitionColumn.schemaColumnName = resp.schemaColumnName;
+                  businessObjectDefinitionColumn.description = resp.description;
+                  if (this.businessObjectFormatDetail.schema && this.businessObjectFormatDetail.schema.columns) {
+                    for (const col of this.businessObjectFormatDetail.schema.columns) {
+                      if (businessObjectDefinitionColumn.schemaColumnName === col.name) {
+                        col.bDefColumnDescription = businessObjectDefinitionColumn.description;
                       }
                     }
+                  }
 
-                  });
+                });
               }
 
             });
@@ -166,7 +166,7 @@ export class FormatDetailComponent implements OnInit {
         this.businessObjectFormatFileType,
         externalInterfaceName)
       .pipe(finalize(() => {
-          this.businessObjectFormatExternalInterfaceDescriptiveInformationApi.defaultHeaders.delete('skipAlert');
+        this.businessObjectFormatExternalInterfaceDescriptiveInformationApi.defaultHeaders.delete('skipAlert');
       }))
       .subscribe((response: any) => {
         this.externalInterfaceDisplayName = response.externalInterfaceDisplayName;
@@ -214,12 +214,12 @@ export class FormatDetailComponent implements OnInit {
     this.storageApi.defaultHeaders.append('skipAlert', 'true');
     this.storageApi.storageGetStorages().pipe(
       flatMap((resp: any) => {
-      request.storageNames = resp.storageKeys.map((key) => {
-        return key.storageName;
-      });
-      return this.businessObjectDataApi
-        .businessObjectDataCheckBusinessObjectDataAvailability(request);
-    })).pipe(finalize(() => {
+        request.storageNames = resp.storageKeys.map((key) => {
+          return key.storageName;
+        });
+        return this.businessObjectDataApi
+          .businessObjectDataCheckBusinessObjectDataAvailability(request);
+      })).pipe(finalize(() => {
       this.businessObjectDataApi.defaultHeaders.delete('skipAlert');
       this.storageApi.defaultHeaders.delete('skipAlert');
     })).subscribe(
@@ -242,7 +242,7 @@ export class FormatDetailComponent implements OnInit {
         } else if (error.url) {
           // be sure to show other errors if they occur.
           this.alerter.alert(new DangerAlert('HTTP Error: ' + error.status + ' ' + error.statusText,
-                        'URL: ' + error.url, 'Info: ' + error.error.message));
+            'URL: ' + error.url, 'Info: ' + error.error.message));
         }
       });
   }

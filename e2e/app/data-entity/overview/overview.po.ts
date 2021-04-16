@@ -19,9 +19,6 @@ import { BasePo } from '../../base/base.po';
 export class OverviewPage extends BasePo {
 
   _headingEl = element(by.className('detail-header'));
-  get heading() {
-    return this._headingEl.getText();
-  }
   _bdefTitleEl = element(by.className('detail-title'));
   auditDetails: ElementFinder = element(by.className('audit-details'));
   descLabel: ElementFinder = element(by.css('.description-label>div:first-child'));
@@ -29,28 +26,17 @@ export class OverviewPage extends BasePo {
   innerHeader: ElementArrayFinder = element.all(by.className('inner-header'));
   _bdefDetails = element(by.className('bdef-details'));
   formatContainer: ElementFinder = element(by.className('bdef-formats'));
-
   dataObjectListLinkContainer = element(by.className('data-object-link'));
-  protected _tabs = element(by.tagName('ngb-tabset')).element(by.css('ul.nav.nav-tabs'));
-
   _tagsContainerEl: ElementFinder = element(by.className('tags-container'));
   _tagsEditorEl: ElementFinder = this._tagsContainerEl.element(by.className('tags-content'));
   tags: ElementArrayFinder = this._tagsContainerEl.all(by.tagName('button'));
   tags_button: ElementArrayFinder = this._tagsEditorEl.all(by.className('tag-button'));
   tag_tooltip: ElementFinder = this._tagsContainerEl.element(by.tagName('ngb-tooltip-window'));
-  overviewTab: ElementFinder = this._tabs.all(by.tagName('li')).get(0).element(by.tagName('a'));
-
   dataProvider: ElementFinder = this._bdefDetails.all(by.tagName('div')).get(0).all(by.tagName('div')).get(1);
   physicalName: ElementFinder = this._bdefDetails.all(by.tagName('sd-ellipsis-overflow')).get(0);
-
   namespace: ElementFinder = this._bdefDetails.all(by.tagName('sd-ellipsis-overflow')).get(1);
-
   _noTagsMessageEl = this._tagsContainerEl.all(by.tagName('p')).get(1);
-  get noTagsMessage() {
-    return this._noTagsMessageEl.getText();
-  }
   tagsEditIcon: ElementFinder = this._tagsContainerEl.element(by.className('col-1 edit-icon'));
-
   selectTag: ElementFinder = this._tagsContainerEl.element(by.tagName('ng-select'));
   selectOption: ElementFinder = this.selectTag.element(by.className('option'));
   deSelectOption: ElementFinder = this.selectOption.element(by.className('deselect-option'));
@@ -63,6 +49,16 @@ export class OverviewPage extends BasePo {
   format_tooltip: ElementFinder = this.formatContainer.element(by.tagName('ngb-tooltip-window'));
   lineageButton: ElementFinder = element(by.cssContainingText('sd-side-action .side-action', 'Lineage'));
   modal: ElementFinder = element(by.tagName('ngb-modal-window'));
+  protected _tabs = element(by.tagName('ngb-tabset')).element(by.css('ul.nav.nav-tabs'));
+  overviewTab: ElementFinder = this._tabs.all(by.tagName('li')).get(0).element(by.tagName('a'));
+
+  get heading() {
+    return this._headingEl.getText();
+  }
+
+  get noTagsMessage() {
+    return this._noTagsMessageEl.getText();
+  }
 
   // suggestions page objects
   get suggestionButton(): ElementFinder {

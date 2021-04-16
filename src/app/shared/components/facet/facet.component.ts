@@ -37,7 +37,7 @@ export class FacetComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.viewFacets = [...this.facets];
-   }
+  }
 
 
   public ngOnChanges(changesObj: SimpleChanges) {
@@ -55,10 +55,10 @@ export class FacetComponent implements OnInit, OnChanges {
     childFacet.state = event.facetState;
 
     if (childFacet.state !== FacetTriState.default) {
-    this.googleAnalyticsService.sendEventData(
-      'Global Search Facets',
-      FacetTriState[childFacet.state],
-      parentFacet.facetDisplayName + ';' + childFacet.facetDisplayName
+      this.googleAnalyticsService.sendEventData(
+        'Global Search Facets',
+        FacetTriState[childFacet.state],
+        parentFacet.facetDisplayName + ';' + childFacet.facetDisplayName
       );
     }
 

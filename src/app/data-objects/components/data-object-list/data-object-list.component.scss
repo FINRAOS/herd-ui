@@ -54,8 +54,8 @@ p-datatable {
   }
 
   // only needed while their library has the issue take this out once PR is merged into PrimeNg Datatable
-  @media(max-width:35em) {
-    /deep/.ui-datatable-reflow {
+  @media(max-width: 35em) {
+    /deep/ .ui-datatable-reflow {
       .ui-datatable-data > tr > td {
         width: 100% !important;
       }

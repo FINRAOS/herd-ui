@@ -36,12 +36,12 @@ export class DataObjectDetailResolverService implements Resolve<any> {
   private request: DataObjectDetailRequest;
 
   constructor(private router: Router,
-    private businessObjectDataApi: BusinessObjectDataService) {
+              private businessObjectDataApi: BusinessObjectDataService) {
     this.dataObjectsResolverData = null;
   }
 
   public resolve(route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<DataObjectDetailResolverData> | TitleResolverData {
+                 state: RouterStateSnapshot): Observable<DataObjectDetailResolverData> | TitleResolverData {
 
     if (!this.router.routeReuseStrategy.shouldAttach(route)) {
 
@@ -81,7 +81,7 @@ export class DataObjectDetailResolverService implements Resolve<any> {
       ).pipe(map((response) => {
         retval.businessObjectData = response;
         retval.title = 'Data Object - ' + [retval.businessObjectData.partitionKey,
-        route.params.partitionValue, this.request.dataObjectVersion].join(' : ');
+          route.params.partitionValue, this.request.dataObjectVersion].join(' : ');
         return retval;
       }));
 

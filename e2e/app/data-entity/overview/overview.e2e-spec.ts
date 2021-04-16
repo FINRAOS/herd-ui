@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { NoAuthFrameData, OverviewPage } from './overview.po';
+import { OverviewPage } from './overview.po';
 import { protractor } from 'protractor';
 import { Data } from './operations/data';
 import * as operations from './operations/operations';
@@ -264,7 +264,7 @@ it('static header and data populated correctly', async () => {
     it('should not be able to edit Categories', async () => {
       await expect(page.canEditCategories()).toBe(false);
     });
-    
+
        */
 
     });
@@ -286,8 +286,8 @@ it('static header and data populated correctly', async () => {
 
       it(' should not show suggestion button if there are no pending suggestion', async () => {
         await page.navigateTo(_url
-            .replace('{namespace}', namespace)
-            .replace('{businessObjectDefinitionName}', data.bdefTest().businessObjectDefinitionName));
+          .replace('{namespace}', namespace)
+          .replace('{businessObjectDefinitionName}', data.bdefTest().businessObjectDefinitionName));
 
         // Notice we are using isPresent here as the element will not present at all
         await expect(page.suggestionButton.isPresent()).toBeFalsy();

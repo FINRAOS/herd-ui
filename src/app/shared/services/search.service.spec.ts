@@ -42,7 +42,7 @@ describe('SearchService', () => {
 
   it('should process search properly', async(inject([SearchService, IndexSearchService],
     (service: SearchService, indexSearchApi: IndexSearchService) => {
-      const expectedResultTypeFacet: Facet =  {
+      const expectedResultTypeFacet: Facet = {
         facetDisplayName: 'Result Type',
         facetCount: 0,
         facetType: 'ResultType',
@@ -83,7 +83,7 @@ describe('SearchService', () => {
         }, 'displayName,shortDescription', HitMatchTypes.column);
         expect(retval.indexSearchResults).toEqual(data.indexSearchResults);
         expect(retval.totalIndexSearchResults).toEqual(data.totalIndexSearchResults);
-        expect(retval.facets).toEqual([...(data.facets.slice(0, data.facets.length - 2)), expectedResultTypeFacet ]);
+        expect(retval.facets).toEqual([...(data.facets.slice(0, data.facets.length - 2)), expectedResultTypeFacet]);
       });
 
       // refresh data (new instance)
@@ -102,7 +102,7 @@ describe('SearchService', () => {
             tagTypeCode: 'mock_type_code'
           },
           indexSearchResultTypeKey:
-            { indexSearchResultType: 'mockTagTypeKey' }
+            {indexSearchResultType: 'mockTagTypeKey'}
         }]
       }]).subscribe((retval) => {
         expect(iSearchSpy).toHaveBeenCalledWith({
@@ -115,18 +115,18 @@ describe('SearchService', () => {
                 tagTypeCode: 'mock_type_code'
               },
               indexSearchResultTypeKey:
-                { indexSearchResultType: 'mockTagTypeKey' }
+                {indexSearchResultType: 'mockTagTypeKey'}
             }]
           }],
           enableHitHighlighting: true
         }, 'displayName,shortDescription', '');
         expect(retval.indexSearchResults).toEqual(data.indexSearchResults);
         expect(retval.totalIndexSearchResults).toEqual(data.totalIndexSearchResults);
-        expect(retval.facets).toEqual([...(data.facets.slice(0, data.facets.length - 2)), expectedResultTypeFacet ]);
+        expect(retval.facets).toEqual([...(data.facets.slice(0, data.facets.length - 2)), expectedResultTypeFacet]);
       });
 
       // returning no facets
-      iSearchSpy.and.returnValue(of({...(new IndexSearchMockData()).indexSearchResponse, facets: [] }));
+      iSearchSpy.and.returnValue(of({...(new IndexSearchMockData()).indexSearchResponse, facets: []}));
       service.search('this is not me 3', []).subscribe((retval) => {
         expect(iSearchSpy).toHaveBeenCalledWith({
           searchTerm: 'this is not me 3',
@@ -141,18 +141,18 @@ describe('SearchService', () => {
 
     })));
 
-    it('should create hit highlight results', inject([SearchService], (service: SearchService) => {
-      const highlight: Highlight = {
-        fields: [
-          {
-            fieldName: 'displayName',
-            fragments: [
-              '<hlt class="highlight"> test highlight <hlt>'
-            ]
-          }
-        ]
-      };
-      expect(service.joinHighlight(highlight))
+  it('should create hit highlight results', inject([SearchService], (service: SearchService) => {
+    const highlight: Highlight = {
+      fields: [
+        {
+          fieldName: 'displayName',
+          fragments: [
+            '<hlt class="highlight"> test highlight <hlt>'
+          ]
+        }
+      ]
+    };
+    expect(service.joinHighlight(highlight))
       .toEqual('<span class="found">Found in - Name</span>&nbsp<hlt class="highlight"> test highlight <hlt></br>');
-    }));
+  }));
 });

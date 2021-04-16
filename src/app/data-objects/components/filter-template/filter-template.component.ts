@@ -27,11 +27,13 @@ export class FilterTemplateComponent implements OnInit {
   @Input() isFilterContentShown: boolean;
   @Output() isFilterContentShownChange: EventEmitter<boolean> = new EventEmitter();
   @Output() removeFilter: EventEmitter<any> = new EventEmitter();
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit() {
     // make shown by default
-    if ( this.isFilterContentShown === null || this.isFilterContentShown === undefined) {
+    if (this.isFilterContentShown === null || this.isFilterContentShown === undefined) {
       this.isFilterContentShown = true;
     }
   }

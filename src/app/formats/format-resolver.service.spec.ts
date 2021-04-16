@@ -52,18 +52,18 @@ describe('FormatResolverService', () => {
       };
 
       (service.resolve({params: testParams} as ActivatedRouteSnapshot,
-         {} as RouterStateSnapshot) as Observable<FormatResolverServiceData>)
+        {} as RouterStateSnapshot) as Observable<FormatResolverServiceData>)
         .subscribe((data) => {
           // resolves properly when it is a completely new route
           expect(data.title).toBe('Format - USG:TYP:4');
         });
 
-        // when using cached data should just return the title
-        router.routeReuseStrategy.shouldAttach.and.returnValue(true);
-        const retVal = (service.resolve({params: testParams} as ActivatedRouteSnapshot,
-           {} as RouterStateSnapshot) as FormatResolverServiceData);
+      // when using cached data should just return the title
+      router.routeReuseStrategy.shouldAttach.and.returnValue(true);
+      const retVal = (service.resolve({params: testParams} as ActivatedRouteSnapshot,
+        {} as RouterStateSnapshot) as FormatResolverServiceData);
 
-        expect(retVal.title).toBe('Format - USG:TYP:4');
+      expect(retVal.title).toBe('Format - USG:TYP:4');
     })));
 
 });

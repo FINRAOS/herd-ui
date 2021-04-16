@@ -42,7 +42,7 @@ export function windowFactory() {
     NgbModule,
     SharedModule
   ],
-  declarations: [HeaderComponent, HomeComponent, BackTrackComponent, AlertsComponent, LoginComponent ],
+  declarations: [HeaderComponent, HomeComponent, BackTrackComponent, AlertsComponent, LoginComponent],
   exports: [HeaderComponent, HomeComponent, BackTrackComponent, AlertsComponent, LoginComponent, SharedModule]
 })
 export class CoreModule {
@@ -65,7 +65,7 @@ export class CoreModule {
     };
   }
 
-  constructor( @Optional() @SkipSelf() parentModule: CoreModule) {
+  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
     if (parentModule) {
       throw new Error(
         'CoreModule is already loaded. Import it in the AppModule only');

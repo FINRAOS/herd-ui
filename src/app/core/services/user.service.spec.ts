@@ -119,7 +119,7 @@ describe('CurrentUserService', () => {
       // no userAuthrizations
       expect(service.isAuthenticated).toBeFalsy();
 
-      service.userAuthorizations = { userId: '' };
+      service.userAuthorizations = {userId: ''};
       // user authorizations but no userId set in them
       expect(service.isAuthenticated).toBeFalsy();
     }));

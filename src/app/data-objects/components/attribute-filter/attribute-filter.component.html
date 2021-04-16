@@ -13,22 +13,23 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<sd-filter-template [title]="title" [(isFilterContentShown)]="showContent" (removeFilter)="delete()">
+<sd-filter-template (removeFilter)="delete()" [(isFilterContentShown)]="showContent" [title]="title">
   <div filter-content>
     <form [formGroup]="attributeFilterForm" novalidate>
-      <button type="button" (click)="clear()" class="btn btn-link">Clear</button>
-      <div class="form-errors" *ngIf="attributeFilterForm.errors && attributeFilterForm.errors.atLeastOneRequired && (attributeFilterForm.touched)">
+      <button (click)="clear()" class="btn btn-link" type="button">Clear</button>
+      <div *ngIf="attributeFilterForm.errors && attributeFilterForm.errors.atLeastOneRequired && (attributeFilterForm.touched)"
+           class="form-errors">
         <small class="form-text"> {{ attributeFilterForm.errors.atLeastOneRequired }}</small>
       </div>
       <div class="form-group">
-        <input type="text" class="form-control" formControlName="name"  placeholder="Attribute Name">
+        <input class="form-control" formControlName="name" placeholder="Attribute Name" type="text">
       </div>
       <div class="form-group">
-        <input type="text" class="form-control" formControlName="value" placeholder="Attribute Value">
+        <input class="form-control" formControlName="value" placeholder="Attribute Value" type="text">
       </div>
 
-      <button type="button" (click)="apply()" class="btn btn-link">Apply</button>
-      <button type="button" (click)="cancel()" class="btn btn-link">Cancel</button>
+      <button (click)="apply()" class="btn btn-link" type="button">Apply</button>
+      <button (click)="cancel()" class="btn btn-link" type="button">Cancel</button>
     </form>
   </div>
 </sd-filter-template>

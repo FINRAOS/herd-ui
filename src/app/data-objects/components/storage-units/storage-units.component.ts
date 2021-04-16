@@ -34,7 +34,8 @@ export class StorageUnitsComponent implements OnInit {
     NamespaceAuthorization.NamespacePermissionsEnum.READ
   ];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

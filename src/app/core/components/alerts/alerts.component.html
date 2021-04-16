@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 <div class="sd-alerts">
-  <ngb-alert *ngFor="let alert of alerts" [type]="alert.type" (close)="closeAlert(alert)">
+  <ngb-alert (close)="closeAlert(alert)" *ngFor="let alert of alerts" [type]="alert.type">
     <h4> {{ alert.title }} </h4>
     <h6> {{ alert.subTitle }} </h6>
     <p> {{ alert.text }} </p>

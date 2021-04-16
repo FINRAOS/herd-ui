@@ -69,7 +69,7 @@ describe('displaying sme details and edit', () => {
     expect(page.message.getText()).toBe(expectedValues.unavailable_message);
   });
 
-  it('should activate edit smes mode and delete contact on click of close("x") icon',  () => {
+  it('should activate edit smes mode and delete contact on click of close("x") icon', () => {
     page.navigateTo(_url + '/' + namespace + '/' + data.defaultBdef().businessObjectDefinitionName);
     page.container.click();
     expect(page.container).toBeDefined();

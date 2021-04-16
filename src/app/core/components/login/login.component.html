@@ -22,17 +22,17 @@
     <h2>Login</h2>
   </div>
   <div class="card-block">
-    <form class="form-horizontal" [formGroup]="loginForm" (ngSubmit)="onSubmit()" oninvalid="">
+    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="form-horizontal" oninvalid="">
       <div class="row">
         <div class="col">
-          <div class="form-group" [ngClass]="{'has-danger': username.invalid && (username.dirty || username.touched)}">
+          <div [ngClass]="{'has-danger': username.invalid && (username.dirty || username.touched)}" class="form-group">
             <label class="sr-only" for="username">User ID</label>
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
               <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
-              <input type="text" name="username" formControlName="username"
-                     class="form-control form-control-danger" id="username"
+              <input autofocus class="form-control form-control-danger" formControlName="username"
+                     id="username" name="username"
                      placeholder="Username" required
-                     autofocus>
+                     type="text">
             </div>
             <span *ngIf="username.invalid && (username.dirty || username.touched)" class="text-danger align-middle">
                 <i class="fa fa-close"></i> Username is required
@@ -43,13 +43,13 @@
 
       <div class="row">
         <div class="col">
-          <div class="form-group" [ngClass]="{'has-danger': password.invalid && (password.dirty || password.touched)}">
+          <div [ngClass]="{'has-danger': password.invalid && (password.dirty || password.touched)}" class="form-group">
             <label class="sr-only" for="password">Password</label>
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
               <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
-              <input type="password" name="password" formControlName="password" class="form-control form-control-danger"
-                     id="password" placeholder="Password"
-                     required>
+              <input class="form-control form-control-danger" formControlName="password" id="password" name="password"
+                     placeholder="Password" required
+                     type="password">
             </div>
             <span *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger align-middle">
                 <i class="fa fa-close"></i> Password is required
@@ -60,10 +60,12 @@
 
       <div class="row" style="padding-top: 1rem">
         <div class="col">
-          <button type="submit" [disabled]="loginForm.invalid || loading" class="btn btn-success"><i class="fa fa-sign-in"></i>
+          <button [disabled]="loginForm.invalid || loading" class="btn btn-success" type="submit"><i
+            class="fa fa-sign-in"></i>
             Login
           </button>
-          <img [hidden]="!loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+          <img [hidden]="!loading"
+               src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
         </div>
       </div>
     </form>

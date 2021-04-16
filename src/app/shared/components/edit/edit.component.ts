@@ -41,8 +41,8 @@ export class EditComponent implements OnInit {
     this.editForm = this.formBuilder.group({
       text: ''
     }, {
-        validator: this.editValidator
-      });
+      validator: this.editValidator
+    });
   }
 
   editValidator = (fg: FormGroup): ValidationErrors | null => {
@@ -71,7 +71,7 @@ export class EditComponent implements OnInit {
 
   enterEdit() {
     if (!this.disableEdit) {
-      this.editForm.setValue({ text: this.text });
+      this.editForm.setValue({text: this.text});
       this.editMode = true;
       this.hover = false;
     }
@@ -83,7 +83,7 @@ export class EditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.editForm.setValue({ text: this.text });
+    this.editForm.setValue({text: this.text});
   }
 
   onSubmit() {

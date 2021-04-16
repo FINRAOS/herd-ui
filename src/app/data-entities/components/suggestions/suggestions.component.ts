@@ -14,9 +14,8 @@
 * limitations under the License.
 */
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  BusinessObjectDefinitionDescriptionSuggestion
-} from '@herd/angular-client/dist/model/businessObjectDefinitionDescriptionSuggestion';
+// tslint:disable-next-line:max-line-length
+import { BusinessObjectDefinitionDescriptionSuggestion } from '@herd/angular-client/dist/model/businessObjectDefinitionDescriptionSuggestion';
 import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/alert.service';
 import { BusinessObjectDefinitionDescriptionSuggestionService } from '@herd/angular-client';
 

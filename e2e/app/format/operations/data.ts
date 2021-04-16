@@ -373,7 +373,7 @@ export class Data {
       'businessObjectFormatFileType': 'RELATIONAL_TABLE',
       'relationalSchemaName': 'rel_schema_name',
       'relationalTableName': 'rel_table_name'
-    }
+    };
   }
 
   bdata1() {

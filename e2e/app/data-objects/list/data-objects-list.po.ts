@@ -26,6 +26,7 @@ export class AttributeFilter {
   nameInput: ElementFinder;
   valueInput: ElementFinder;
   closeButton: ElementFinder;
+
   constructor(public filter: ElementFinder) {
     this.title = filter.element(by.className('filter-title'));
     this.closeButton = this.title.element(by.className('close-col'));
@@ -47,6 +48,7 @@ export class PartitionFilter {
   keyInput: ElementFinder;
   valueInput: ElementFinder;
   title: ElementFinder;
+
   constructor(public filter: ElementFinder) {
     this.title = filter.element(by.className('filter-title'));
     this.closeButton = this.title.element(by.className('close-col'));
@@ -65,6 +67,7 @@ export class RegistrationDateValidFilter {
   startDateInput: ElementFinder;
   endDateInput: ElementFinder;
   title: ElementFinder;
+
   constructor(public filter: ElementFinder) {
     this.title = filter.element(by.className('filter-title'));
     this.closeButton = this.title.element(by.className('close-col'));
@@ -76,6 +79,7 @@ export class RegistrationDateValidFilter {
 export class LatestValidFilter {
   closeButton: ElementFinder;
   title: ElementFinder;
+
   constructor(public filter: ElementFinder) {
     this.title = filter.element(by.className('filter-title'));
     this.closeButton = this.title.element(by.className('close-col'));
@@ -84,6 +88,7 @@ export class LatestValidFilter {
 
 export class DataTable {
   rows: RowData[];
+
   constructor() {
 
   }
@@ -97,6 +102,7 @@ export class RowData {
   link: ElementFinder;
   attributes: ElementFinder;
   status: ElementFinder;
+
   constructor(public row: ElementFinder) {
     this.status = this.row
       .element(by.cssContainingText('td > span.ui-column-title', 'Status'))
@@ -122,79 +128,79 @@ export class RowData {
 }
 
 export class DataObjectListPage extends BasePo {
-    emptyMessage: ElementFinder = element(by.css('.ui-datatable-emptymessage'));
-    mainHeader: ElementFinder = element(by.className('main-header'));
-    subHeader: ElementFinder = element(by.className('sub-header'));
+  emptyMessage: ElementFinder = element(by.css('.ui-datatable-emptymessage'));
+  mainHeader: ElementFinder = element(by.className('main-header'));
+  subHeader: ElementFinder = element(by.className('sub-header'));
 
-    dataEntitySubHeader: ElementFinder = this.subHeader.all(by.tagName('span')).first();
-    dataEntitySubHeaderLink: ElementFinder = this.dataEntitySubHeader.element(by.tagName('a'));
-    formatSubHeader: ElementFinder = this.subHeader.all(by.tagName('span')).get(1);
-    formatSubHeaderLink: ElementFinder = this.formatSubHeader.element(by.tagName('a'));
+  dataEntitySubHeader: ElementFinder = this.subHeader.all(by.tagName('span')).first();
+  dataEntitySubHeaderLink: ElementFinder = this.dataEntitySubHeader.element(by.tagName('a'));
+  formatSubHeader: ElementFinder = this.subHeader.all(by.tagName('span')).get(1);
+  formatSubHeaderLink: ElementFinder = this.formatSubHeader.element(by.tagName('a'));
 
-    filtersSection: ElementFinder = element(by.className('data-object-list-filters'));
+  filtersSection: ElementFinder = element(by.className('data-object-list-filters'));
 
-    addFilterButton: ElementFinder = this.filtersSection.element(by.className('dropdown-toggle'));
-    addFilterMenu: ElementFinder = element(by.className('dropdown-menu'));
-    addFilterMenuItems: ElementArrayFinder = this.addFilterMenu.all(by.className('dropdown-item'));
+  addFilterButton: ElementFinder = this.filtersSection.element(by.className('dropdown-toggle'));
+  addFilterMenu: ElementFinder = element(by.className('dropdown-menu'));
+  addFilterMenuItems: ElementArrayFinder = this.addFilterMenu.all(by.className('dropdown-item'));
 
-    filters: ElementArrayFinder = this.filtersSection.all(by.css('.filters > div'));
+  filters: ElementArrayFinder = this.filtersSection.all(by.css('.filters > div'));
 
-    dataTable: ElementFinder = element(by.tagName('p-datatable'));
+  dataTable: ElementFinder = element(by.tagName('p-datatable'));
 
-    dataTableHeader: ElementFinder = this.dataTable.element(by.tagName('p-header'));
+  dataTableHeader: ElementFinder = this.dataTable.element(by.tagName('p-header'));
 
-    dataRows: ElementArrayFinder = this.dataTable.all(by.css('tbody.ui-datatable-data > tr'));
+  dataRows: ElementArrayFinder = this.dataTable.all(by.css('tbody.ui-datatable-data > tr'));
 
-    async createFilter(type: 'attr' | 'part' | 'lvv' | 'regiDateRng'):
-      Promise<AttributeFilter | PartitionFilter | LatestValidFilter | RegistrationDateRangeFilter | null> {
-        if (!await this.addFilterMenu.isDisplayed()) {
-            await this.addFilterButton.click();
-        }
-
-        switch (type) {
-            case 'attr':
-                await this.addFilterMenuItems.get(1).click();
-                break;
-            case 'part':
-                await this.addFilterMenuItems.get(0).click();
-                break;
-            case 'lvv':
-                if (await this.addFilterMenuItems.count() > 2) {
-                    await this.addFilterMenuItems.get(2).click();
-                } else {
-                    return null;
-                }
-                break;
-           case 'regiDateRng':
-                if (await this.addFilterMenuItems.count() > 2) {
-                    await this.addFilterMenuItems.get(2).click();
-                } else {
-                    return null;
-                }
-                break;
-        }
-
-        return await this.selectFilter(await this.filters.count() - 1, type);
+  async createFilter(type: 'attr' | 'part' | 'lvv' | 'regiDateRng'):
+    Promise<AttributeFilter | PartitionFilter | LatestValidFilter | RegistrationDateRangeFilter | null> {
+    if (!await this.addFilterMenu.isDisplayed()) {
+      await this.addFilterButton.click();
     }
 
-    selectFilter(index: number, type: 'attr' | 'part' | 'lvv' | 'regiDateRng'):
-      AttributeFilter | PartitionFilter | LatestValidFilter | RegistrationDateValidFilter {
-        switch (type) {
-            case 'attr':
-                return new AttributeFilter(this.filters.get(index));
-            case 'part':
-                return new PartitionFilter(this.filters.get(index));
-            case 'lvv':
-                return new LatestValidFilter(this.filters.get(index));
-           case 'regiDateRng':
-                return new RegistrationDateValidFilter(this.filters.get(index));
+    switch (type) {
+      case 'attr':
+        await this.addFilterMenuItems.get(1).click();
+        break;
+      case 'part':
+        await this.addFilterMenuItems.get(0).click();
+        break;
+      case 'lvv':
+        if (await this.addFilterMenuItems.count() > 2) {
+          await this.addFilterMenuItems.get(2).click();
+        } else {
+          return null;
         }
-
+        break;
+      case 'regiDateRng':
+        if (await this.addFilterMenuItems.count() > 2) {
+          await this.addFilterMenuItems.get(2).click();
+        } else {
+          return null;
+        }
+        break;
     }
 
-    async getRow(index: number): Promise<RowData> {
-        return await new RowData(this.dataRows.get(index));
+    return await this.selectFilter(await this.filters.count() - 1, type);
+  }
+
+  selectFilter(index: number, type: 'attr' | 'part' | 'lvv' | 'regiDateRng'):
+    AttributeFilter | PartitionFilter | LatestValidFilter | RegistrationDateValidFilter {
+    switch (type) {
+      case 'attr':
+        return new AttributeFilter(this.filters.get(index));
+      case 'part':
+        return new PartitionFilter(this.filters.get(index));
+      case 'lvv':
+        return new LatestValidFilter(this.filters.get(index));
+      case 'regiDateRng':
+        return new RegistrationDateValidFilter(this.filters.get(index));
     }
+
+  }
+
+  async getRow(index: number): Promise<RowData> {
+    return await new RowData(this.dataRows.get(index));
+  }
 }
 
 

@@ -14,9 +14,9 @@
 * limitations under the License.
 */
 export default {
-    shareIcon: '<i class=\'fa fa-share-alt\'></i>',
-    saveIcon: '<i class=\'fa fa-floppy-o\'></i>',
-    watchIcon: '<i class=\'fa fa-eye\'></i>',
-    gridOnIcon: '<i class=\'fa fa-th\'></i>',
-    flowChartIcon: '<i class=\'fa fa-sitemap\'></i>'
+  shareIcon: '<i class=\'fa fa-share-alt\'></i>',
+  saveIcon: '<i class=\'fa fa-floppy-o\'></i>',
+  watchIcon: '<i class=\'fa fa-eye\'></i>',
+  gridOnIcon: '<i class=\'fa fa-th\'></i>',
+  flowChartIcon: '<i class=\'fa fa-sitemap\'></i>'
 };

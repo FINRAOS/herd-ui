@@ -17,9 +17,11 @@
   margin: 0;
   border: 0px solid;
   border-color: inherit;
+
   .col:empty {
     min-height: 2em;
   }
+
   .col-1 {
     background-color: #dddddd;
     text-align: center;

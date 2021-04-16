@@ -23,18 +23,22 @@
         @include text-styling(14px, 700, #fff);
       }
     }
+
     .columns-detail {
       .list-group-item {
         border-radius: 0;
         @include text-styling(13px, 400);
+
         .storage-attribute:not(:last-child) {
           margin-bottom: 10px;
         }
+
         .btn-link {
           padding: 0 8px;
           text-align: center;
           cursor: pointer;
           cursor: hand;
+
           .fa-cloud-download {
             font-size: 25px;
             color: #0074d9
@@ -44,6 +48,7 @@
     }
 
   }
+
   .left-blue-border {
     border-left: 15px solid #0074d9;
     height: 60px;
@@ -52,7 +57,7 @@
   h2 {
     padding-left: 16px;
     padding-top: 15px;
-    @include text-styling (24px, bold, #0074d9);
+    @include text-styling(24px, bold, #0074d9);
   }
 
   .sub-header-label {

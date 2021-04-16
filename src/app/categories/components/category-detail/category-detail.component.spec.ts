@@ -63,7 +63,7 @@ describe('CategoryDetailComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         SharedModule,
         RouterTestingModule,
         HttpClientModule
@@ -311,7 +311,7 @@ describe('CategoryDetailComponent', () => {
     expect(spySearchServiceApi.calls.count()).toEqual(1);
   }));
 
-  it('Facet change function is changing facets and effecting search result', async() => {
+  it('Facet change function is changing facets and effecting search result', async () => {
     const event: any = {
       facets: indexSearchMockData.facets,
       newSearch: true
@@ -321,7 +321,7 @@ describe('CategoryDetailComponent', () => {
     event.facets[1]['facets'][0].state = 2;
     const searchService = fixture.debugElement.injector.get(SearchService);
     const spySearchService = spyOn(searchService, 'search')
-      .and.returnValue(of({ indexSearchResults: indexSearchMockData.indexSearchResponse['indexSearchResults']}));
+      .and.returnValue(of({indexSearchResults: indexSearchMockData.indexSearchResponse['indexSearchResults']}));
 
     component.facetChange(event);
     expect(component.results).toEqual(indexSearchMockData.indexSearchResponse['indexSearchResults']);

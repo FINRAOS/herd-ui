@@ -68,25 +68,25 @@ describe('data-objects storage units', function () {
       });
 
       it('static checks: BData details page', async () => {
-          expect(await page.storageUnitsSectionLabel.getText()).toBe('Storage Units');
-          expect(await page.getSingleStorageUnit(0).columnsLabel.getText()).toBe('Storage name\nStatus\nDetails');
-          expect(await page.getSingleStorageUnit(0).filesSectionLabel.getText()).toBe('Files');
-          expect(await page.getSingleStorageUnit(0).filesSectionColumnsLabel.getText()).toBe('File path\nFile size\nRows');
-          /*element.all(by.tagName('select')).getInnerHtml().then(function (text) {
-            expect(text.length).toBe(0);
-          });*/
-        });
+        expect(await page.storageUnitsSectionLabel.getText()).toBe('Storage Units');
+        expect(await page.getSingleStorageUnit(0).columnsLabel.getText()).toBe('Storage name\nStatus\nDetails');
+        expect(await page.getSingleStorageUnit(0).filesSectionLabel.getText()).toBe('Files');
+        expect(await page.getSingleStorageUnit(0).filesSectionColumnsLabel.getText()).toBe('File path\nFile size\nRows');
+        /*element.all(by.tagName('select')).getInnerHtml().then(function (text) {
+          expect(text.length).toBe(0);
+        });*/
+      });
 
       it('single storage unit checks, bucket name: BData details page', async () => {
-          expect(await storageUnitsRepeater.count()).toBe(1);
-          const unit = page.getSingleStorageUnit(0);
-          expect(await unit.storageName).toBe(data.versionTestV2.storageUnits[0].storageName);
-          expect(await unit.storageStatus).toBe('ENABLED');
-          expect(await unit.bucketNameLabel.isPresent()).toBe(true);
-          // TODO put bucket name back here but as variable @ani
-          expect(await unit.bucketNameLabel.getText()).toContain('{{bucketnamehere}}');
-          expect(await unit.directoryPath).toBe(data.versionTestV2.storageUnits[0].storageDirectory.directoryPath);
-        });
+        expect(await storageUnitsRepeater.count()).toBe(1);
+        const unit = page.getSingleStorageUnit(0);
+        expect(await unit.storageName).toBe(data.versionTestV2.storageUnits[0].storageName);
+        expect(await unit.storageStatus).toBe('ENABLED');
+        expect(await unit.bucketNameLabel.isPresent()).toBe(true);
+        // TODO put bucket name back here but as variable @ani
+        expect(await unit.bucketNameLabel.getText()).toContain('{{bucketnamehere}}');
+        expect(await unit.directoryPath).toBe(data.versionTestV2.storageUnits[0].storageDirectory.directoryPath);
+      });
 
       it('single storage unit checks, file: BData details page'
         , async () => {

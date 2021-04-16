@@ -29,7 +29,8 @@ export class AlertsComponent implements OnInit {
   public alerts: Array<Alert> = [];
   public delay: number;
 
-  constructor(private alerter: AlertService) { }
+  constructor(private alerter: AlertService) {
+  }
 
   ngOnInit() {
     this.alerter.alerts.subscribe((a: Alert) => {

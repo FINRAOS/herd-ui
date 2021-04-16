@@ -13,8 +13,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<div class="side-action" [ngClass]="checkDisabled() ? '' : 'enabled' "
-     (click)="checkDisabled() ? null : action.onAction()">
-  <span class="icon" [innerHTML]="action.icon"></span>
+<div (click)="checkDisabled() ? null : action.onAction()" [ngClass]="checkDisabled() ? '' : 'enabled' "
+     class="side-action">
+  <span [innerHTML]="action.icon" class="icon"></span>
   <label>{{action.label}}</label>
 </div>

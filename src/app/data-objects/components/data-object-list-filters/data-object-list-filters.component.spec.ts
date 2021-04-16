@@ -26,9 +26,8 @@ import {
 } from './data-object-list-filters.component';
 import { PartitionFilterComponent } from 'app/data-objects/components/partition-filter/partition-filter.component';
 import { AttributeFilterComponent } from 'app/data-objects/components/attribute-filter/attribute-filter.component';
-import {
-  LatestValidVersionFilterComponent
-} from 'app/data-objects/components/latest-valid-version-filter/latest-valid-version-filter.component';
+// tslint:disable-next-line:max-line-length
+import { LatestValidVersionFilterComponent } from 'app/data-objects/components/latest-valid-version-filter/latest-valid-version-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterTemplateComponent } from 'app/data-objects/components/filter-template/filter-template.component';
@@ -42,7 +41,7 @@ describe('DataObjectListFiltersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule.forRoot(), ReactiveFormsModule],
+      imports: [NgbModule, ReactiveFormsModule],
       declarations: [DataObjectListFiltersComponent,
         PartitionFilterComponent,
         AttributeFilterComponent,
@@ -70,21 +69,21 @@ describe('DataObjectListFiltersComponent', () => {
 
     // adding partition filter
     component.addFilter(component.filterTypes[0]);
-    expectedFilters.push({ type: 'partition', data: undefined } as PartitionFilter);
+    expectedFilters.push({type: 'partition', data: undefined} as PartitionFilter);
     expect(component.filters).toEqual(expectedFilters);
     // should call filter saved for partition filters on filter save of the
     // generated component
     expect(spyFilterSaved).not.toHaveBeenCalled();
 
     component.addFilter(component.filterTypes[1]);
-    expectedFilters.push({ type: 'attribute', data: undefined } as AttributeFilter);
+    expectedFilters.push({type: 'attribute', data: undefined} as AttributeFilter);
     expect(component.filters).toEqual(expectedFilters);
     // should call filter saved for attribute filters on filter save of the
     // generated component
     expect(spyFilterSaved).not.toHaveBeenCalled();
 
     component.addFilter(component.filterTypes[2]);
-    expectedFilters.push({ type: 'lvv' } as LatestValidVersionFilter);
+    expectedFilters.push({type: 'lvv'} as LatestValidVersionFilter);
     expect(component.filters).toEqual(expectedFilters);
     // should call filter saved  when lastest valid version filter is added
     // as it does not have any extra changes before a save
@@ -97,7 +96,7 @@ describe('DataObjectListFiltersComponent', () => {
 
     // Index 2 is used again as after ivv filter deleted, registration date filter will be in 2nd position.
     component.addFilter(component.filterTypes[2]);
-    expectedFilters.push({ type: 'registrationDate' } as RegistrationFilter);
+    expectedFilters.push({type: 'registrationDate'} as RegistrationFilter);
     expect(component.filters).toEqual(expectedFilters);
     // should call filter saved  when lastest valid version filter is added
     // as it does not have any extra changes before a save

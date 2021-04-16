@@ -27,19 +27,19 @@ describe('SideActionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-          imports: [
-            NgbModule.forRoot()
-          ],
-          declarations: [ SideActionsComponent, SideActionComponent]
-        })
-        .compileComponents();
+      imports: [
+        NgbModule
+      ],
+      declarations: [SideActionsComponent, SideActionComponent]
+    })
+      .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SideActionsComponent);
     component = fixture.componentInstance;
     expectedActions = [new Action(AppIcons.shareIcon, 'Share', () => 'clicked share.', true),
-            new Action(AppIcons.watchIcon, 'Watch', () => 'clicked watch.', true)];
+      new Action(AppIcons.watchIcon, 'Watch', () => 'clicked watch.', true)];
     component.actions = expectedActions;
     fixture.detectChanges();
 
@@ -54,7 +54,7 @@ describe('SideActionsComponent', () => {
   });
 
   it('should expose "Actions" object', () => {
-    component.actions.forEach(function(action, index) {
+    component.actions.forEach(function (action, index) {
       expect(action).toBeDefined();
       expect(action.icon).toEqual(expectedActions[index].icon);
       expect(action.label).toEqual(expectedActions[index].label);

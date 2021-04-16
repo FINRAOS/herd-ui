@@ -46,7 +46,7 @@ describe('Format page:', () => {
     page = new FormatPage();
   });
 
-   beforeAll(function () {
+  beforeAll(function () {
     const requests = operations.postRequests();
     dataManager.setUp(requests.options);
   });
@@ -60,9 +60,9 @@ describe('Format page:', () => {
     version = 0;
     const format = data.bformat2();
     const urlParams = [format.namespace,
-    format.businessObjectDefinitionName,
-    format.businessObjectFormatUsage,
-    format.businessObjectFormatFileType, version].join('/');
+      format.businessObjectDefinitionName,
+      format.businessObjectFormatUsage,
+      format.businessObjectFormatFileType, version].join('/');
     await page.navigateTo(formatPageUrl + urlParams);
 
     // validate document schema tab
@@ -86,15 +86,15 @@ describe('Format page:', () => {
     // validate external interfaces list
     await page.externalInterfacesTab.click();
     await expect(page.externalInterfacesSubHeader.getText()).toEqual(expectedValues.externalInterfacesSubHeader);
-});
+  });
 
   it('format with all data except partitions and version 1', async () => {
     version = 1;
     const format = data.bformat21();
     const urlParams = [format.namespace,
-    format.businessObjectDefinitionName,
-    format.businessObjectFormatUsage,
-    format.businessObjectFormatFileType, version].join('/');
+      format.businessObjectDefinitionName,
+      format.businessObjectFormatUsage,
+      format.businessObjectFormatFileType, version].join('/');
     await page.navigateTo(formatPageUrl + urlParams);
     await validate(format, expectedValues.noMinMaxValue, expectedValues.noMinMaxValue);
 
@@ -121,15 +121,15 @@ describe('Format page:', () => {
     version = 0;
     await validate(data.bformat2(), 'TEST_1', 'TEST_2');
 
-});
+  });
 
- it('format with partitions data', async () => {
+  it('format with partitions data', async () => {
     version = 0;
     const format = data.bformat1();
     const urlParams = [format.namespace,
-    format.businessObjectDefinitionName,
-    format.businessObjectFormatUsage,
-    format.businessObjectFormatFileType, version].join('/');
+      format.businessObjectDefinitionName,
+      format.businessObjectFormatUsage,
+      format.businessObjectFormatFileType, version].join('/');
     await page.navigateTo(formatPageUrl + urlParams);
     await expect(page.documentSchemaTab.isDisplayed()).toBeFalsy();
     await validate(format, 'TEST_1', '');
@@ -138,41 +138,41 @@ describe('Format page:', () => {
     await expect(page.partitionColumnsHeader.getText()).toEqual(expectedValues.partitionColsHeader);
     await expect(page.partitionColumnsData.count()).toEqual(2);
     await expect(page.partitionColumnsData.get(0).getText()).toEqual(['TEST_KEY', 'VARCHAR', '20', 'true', 'XYZ',
-    'this is a test partition'].join('\n'));
+      'this is a test partition'].join('\n'));
     await expect(page.partitionColumnsData.get(1).getText()).toEqual(['MARKET_KEY', 'VARCHAR', '5', 'true', 'OOPS',
-    'this is another test partition'].join('\n'));
- });
+      'this is another test partition'].join('\n'));
+  });
 
- it('format of type relational table', async () => {
-     version = 0;
-     const format = data.bFormatRelationalTable();
-     const urlParams = [format.namespace,
-     format.businessObjectDefinitionName,
-     format.businessObjectFormatUsage,
-     format.businessObjectFormatFileType, version].join('/');
-     await page.navigateTo(formatPageUrl + urlParams);
+  it('format of type relational table', async () => {
+    version = 0;
+    const format = data.bFormatRelationalTable();
+    const urlParams = [format.namespace,
+      format.businessObjectDefinitionName,
+      format.businessObjectFormatUsage,
+      format.businessObjectFormatFileType, version].join('/');
+    await page.navigateTo(formatPageUrl + urlParams);
 
-     await expect(page.getDetailsGroup(0).getText()).toContain(
-         [
-             'Namespace:', format.namespace,
-             'Usage:', format.businessObjectFormatUsage,
-             'Format:', format.businessObjectFormatFileType,
-             'Version:'
-         ].join('\n'));
-     await expect(page.getDetailsGroup(1).getText()).toEqual(
-         [
-             'Relational Schema Name', format.relationalSchemaName,
-             'Relational Table Name', format.relationalTableName
-         ]
-     )
- })
+    await expect(page.getDetailsGroup(0).getText()).toContain(
+      [
+        'Namespace:', format.namespace,
+        'Usage:', format.businessObjectFormatUsage,
+        'Format:', format.businessObjectFormatFileType,
+        'Version:'
+      ].join('\n'));
+    await expect(page.getDetailsGroup(1).getText()).toEqual(
+      [
+        'Relational Schema Name', format.relationalSchemaName,
+        'Relational Table Name', format.relationalTableName
+      ]
+    );
+  });
 
   async function validate(format, minValue, maxValue) {
 
     // validate required data
     await expect(page.pageTitle.getText()).toBe(expectedValues.title);
     await expect(page.heading.getText()).toBe([format.businessObjectFormatUsage,
-    format.businessObjectFormatFileType, version].join(':'));
+      format.businessObjectFormatFileType, version].join(':'));
     await expect(page.physicalNameText.getText()).toBe(expectedValues.physicalNameText);
     await expect(page.dataEntityLink.getText()).toBe(format.businessObjectDefinitionName);
     await expect(page.descBody.getText()).toEqual(format.description);
@@ -196,17 +196,17 @@ describe('Format page:', () => {
           'Partition Key Group:'].join('\n'));
     }
 
-   if (maxValue !== '') {
-    await expect(page.getDetailsGroup(2).getText()).toContain(
-      ['Partition:', format.partitionKey,
-        'Min Value:', minValue,
-        'Max Value:', maxValue].join('\n'));
-   } else {
-       await expect(page.getDetailsGroup(2).getText()).toContain(
-      ['Partition:', format.partitionKey,
-        'Min Value:', minValue,
-        'Max Value:'].join('\n'));
-   }
+    if (maxValue !== '') {
+      await expect(page.getDetailsGroup(2).getText()).toContain(
+        ['Partition:', format.partitionKey,
+          'Min Value:', minValue,
+          'Max Value:', maxValue].join('\n'));
+    } else {
+      await expect(page.getDetailsGroup(2).getText()).toContain(
+        ['Partition:', format.partitionKey,
+          'Min Value:', minValue,
+          'Max Value:'].join('\n'));
+    }
 
   }
 });

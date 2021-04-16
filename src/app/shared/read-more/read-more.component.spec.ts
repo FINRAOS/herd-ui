@@ -42,7 +42,7 @@ describe('ReadMoreComponent', () => {
   });
 
   it('should be created', () => {
-     expect(component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it('should toggle view', () => {
@@ -60,7 +60,7 @@ describe('ReadMoreComponent', () => {
     expect(component.currentText).toEqual(component.text.slice(0, component.maxLength));
   });
 
-    it('should set current text when isCollapsed is false', () => {
+  it('should set current text when isCollapsed is false', () => {
     component.isCollapsed = false;
     component.maxLength = 4;
     fixture.detectChanges();

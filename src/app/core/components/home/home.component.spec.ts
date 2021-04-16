@@ -122,7 +122,7 @@ describe('HomeComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         InlineSVGModule,
         RouterTestingModule,
         FormsModule,

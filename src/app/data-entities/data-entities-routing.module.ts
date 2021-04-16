@@ -46,4 +46,5 @@ const routes: Routes = [{
     DataEntityDetailResolverService
   ]
 })
-export class DataEntitiesRoutingModule { }
+export class DataEntitiesRoutingModule {
+}

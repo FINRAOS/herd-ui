@@ -15,33 +15,36 @@
 */
 @import '../../../shared/styles/shared';
 
- .schema-columns {
-   .technical-notes {
+.schema-columns {
+  .technical-notes {
     font-weight: 700;
-   }
-p-datatable {
-  td { white-space: normal !important;}
-
-  /deep/ .ui-datatable-tablewrapper {
-    overflow-x: auto;
   }
 
-  /deep/ .ui-datatable {
-    margin-top: 20px;
-  }
+  p-datatable {
+    td {
+      white-space: normal !important;
+    }
+
+    /deep/ .ui-datatable-tablewrapper {
+      overflow-x: auto;
+    }
+
+    /deep/ .ui-datatable {
+      margin-top: 20px;
+    }
 
 
-  // only needed while their library has the issue take this out once PR is merged into PrimeNg Datatable
-  @media(max-width:35em) {
-    /deep/.ui-datatable-reflow {
-      .ui-datatable-data > tr > td {
-        width: 100% !important;
+    // only needed while their library has the issue take this out once PR is merged into PrimeNg Datatable
+    @media(max-width: 35em) {
+      /deep/ .ui-datatable-reflow {
+        .ui-datatable-data > tr > td {
+          width: 100% !important;
+        }
       }
     }
-  }
 
-  /deep/ .table-header {
-    margin: 0;
+    /deep/ .table-header {
+      margin: 0;
+    }
   }
 }
- }

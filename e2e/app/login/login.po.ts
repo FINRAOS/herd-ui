@@ -18,14 +18,15 @@ import { browser, by, element, ElementFinder, protractor } from 'protractor';
 const conf = require('../../config/conf.e2e.json');
 
 export class LoginPage {
-    loginForm: ElementFinder = element(by.css('sd-login .card-block'));
-    username: ElementFinder = this.loginForm.all(by.tagName('input')).get(0);
-    password: ElementFinder = this.loginForm.all(by.tagName('input')).get(1);
-    loginButton: ElementFinder = this.loginForm.element(by.css('.btn-success'));
-    async login(name: string = conf.loginUser, pwd: string = conf.loginPwd) {
-        await this.username.sendKeys(name);
-        await this.password.sendKeys(pwd);
-        await this.loginButton.click();
-        return browser.wait(protractor.ExpectedConditions.not(protractor.ExpectedConditions.urlContains('returnUrl')));
-    }
+  loginForm: ElementFinder = element(by.css('sd-login .card-block'));
+  username: ElementFinder = this.loginForm.all(by.tagName('input')).get(0);
+  password: ElementFinder = this.loginForm.all(by.tagName('input')).get(1);
+  loginButton: ElementFinder = this.loginForm.element(by.css('.btn-success'));
+
+  async login(name: string = conf.loginUser, pwd: string = conf.loginPwd) {
+    await this.username.sendKeys(name);
+    await this.password.sendKeys(pwd);
+    await this.loginButton.click();
+    return browser.wait(protractor.ExpectedConditions.not(protractor.ExpectedConditions.urlContains('returnUrl')));
+  }
 }

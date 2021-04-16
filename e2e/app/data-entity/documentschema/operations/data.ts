@@ -22,9 +22,10 @@
  * bdefShortDescription: exports.data.bdefShortDescription, bdefNoDescription: exports.data.bdefNoDescription,
  * bdefNoDisplayName: exports.data.bdefNoDisplayName}}
  */
-import utils from "../../../../util/utils";
+import utils from '../../../../util/utils';
 
 const uniqueId = utils.uniqueId();
+
 export class Data {
   description = 'Sample description text for testing purpose. Used for all description fields';
   defaultDataProvider = 'DP_PROTRACTOR_TEST_SCHM' + uniqueId;
@@ -36,7 +37,7 @@ export class Data {
   documentSchemaUrl = 'Sample document schema url';
   displayName = 'display name of ';
 
- bdefTestWithDocumentSchemaUrl() {
+  bdefTestWithDocumentSchemaUrl() {
     return {
       'namespace': this.defaultNamespace,
       'dataProviderName': this.defaultDataProvider,
@@ -84,16 +85,16 @@ export class Data {
   // put DF, contains document schema
   bdefTestWithDocumentSchemaUrl_FORMAT() {
     const befTestDocumentSchemaFormat = {
-        'namespace': this.defaultNamespace,
-        'businessObjectDefinitionName': this.bdefWithDocumentSchemaUrl,
-        'businessObjectFormatUsage': 'USG1',
-        'businessObjectFormatFileType': 'TXT',
-        'partitionKey': 'TEST_KEY',
-        'description': 'Nam et interdum quam, hendrerit varius magna.',
-        'documentSchema': this.documentSchema,
-        'documentSchemaUrl': this.documentSchemaUrl,
+      'namespace': this.defaultNamespace,
+      'businessObjectDefinitionName': this.bdefWithDocumentSchemaUrl,
+      'businessObjectFormatUsage': 'USG1',
+      'businessObjectFormatFileType': 'TXT',
+      'partitionKey': 'TEST_KEY',
+      'description': 'Nam et interdum quam, hendrerit varius magna.',
+      'documentSchema': this.documentSchema,
+      'documentSchemaUrl': this.documentSchemaUrl,
     };
-      return befTestDocumentSchemaFormat;
+    return befTestDocumentSchemaFormat;
   }
 
   // put DF, no schema columns or bdef columns

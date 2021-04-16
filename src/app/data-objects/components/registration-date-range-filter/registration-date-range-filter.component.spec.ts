@@ -31,7 +31,7 @@ describe('RegistrationDateRangeFilterComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         ReactiveFormsModule
       ],
       declarations: [

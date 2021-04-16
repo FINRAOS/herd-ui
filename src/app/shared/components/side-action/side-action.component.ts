@@ -37,7 +37,10 @@ export class Action {
 export class SideActionComponent implements OnInit {
 
   @Input() action: Action;
-  constructor() { }
+
+  constructor() {
+  }
+
   ngOnInit() {
 
   }

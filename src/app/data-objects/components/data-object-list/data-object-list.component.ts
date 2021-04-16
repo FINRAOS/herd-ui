@@ -33,9 +33,8 @@ import { Observable, Subscription } from 'rxjs';
 import { Action } from 'app/shared/components/side-action/side-action.component';
 import { DataTable } from 'primeng/components/datatable/datatable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  DataObjectListFiltersChangeEventData
-} from 'app/data-objects/components/data-object-list-filters/data-object-list-filters.component';
+// tslint:disable-next-line:max-line-length
+import { DataObjectListFiltersChangeEventData } from 'app/data-objects/components/data-object-list-filters/data-object-list-filters.component';
 import { AlertService, DangerAlert, SuccessAlert } from 'app/core/services/alert.service';
 import { of } from 'rxjs/internal/observable/of';
 
@@ -67,21 +66,25 @@ class FormatField {
 }
 
 class DataObjectRowData {
-  private _partition: PartitionField;
-  private _attributes: AttributeField[];
-  private _format: FormatField;
-
   version: number;
   dataEntity: BusinessObjectDefinition;
   subPartitions: string[];
   status: string;
 
+  private _partition: PartitionField;
+
+  get partition() {
+    return this._partition;
+  }
+
   set partition(p: { value: string, key?: string }) {
     this._partition = new PartitionField(p.value, p.key);
   }
 
-  get partition() {
-    return this._partition;
+  private _attributes: AttributeField[];
+
+  get attributes() {
+    return this._attributes;
   }
 
   set attributes(ats: Attribute[]) {
@@ -90,16 +93,14 @@ class DataObjectRowData {
     });
   }
 
-  get attributes() {
-    return this._attributes;
+  private _format: FormatField;
+
+  get format() {
+    return this._format;
   }
 
   set format(f: { usage: string, fileType: string, version: number }) {
     this._format = new FormatField(f.usage, f.fileType, f.version);
-  }
-
-  get format() {
-    return this._format;
   }
 
   get formatField(): string {
@@ -114,7 +115,6 @@ class DataObjectRowData {
   styleUrls: ['./data-object-list.component.scss']
 })
 export class DataObjectListComponent implements OnInit {
-  @ViewChild(DataTable) private dt: DataTable;
   config = {lineNumbers: true, mode: 'text/x-go', readOnly: true};
   dataEntity: BusinessObjectDefinition;
   format: BusinessObjectFormat;
@@ -172,6 +172,7 @@ export class DataObjectListComponent implements OnInit {
     hide: false,
     sortable: true
   };
+  @ViewChild(DataTable) private dt: DataTable;
 
   constructor(private route: ActivatedRoute,
               private bDataApi: BusinessObjectDataService,

@@ -22,9 +22,9 @@ describe('GenericViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GenericViewComponent ]
+      declarations: [GenericViewComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

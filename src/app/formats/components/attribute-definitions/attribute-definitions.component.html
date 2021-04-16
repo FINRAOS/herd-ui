@@ -24,8 +24,8 @@
         <div class="col-6">Published</div>
       </div>
     </div>
-    <div class="row list-group columns-detail"
-         *ngFor="let businessObjectFormatAttributeDefinition of content">
+    <div *ngFor="let businessObjectFormatAttributeDefinition of content"
+         class="row list-group columns-detail">
       <div class="list-group-item">
         <div class="col-6">{{businessObjectFormatAttributeDefinition.name}}</div>
         <div class="col-6">{{businessObjectFormatAttributeDefinition.publish ? 'Yes' : 'No'}}</div>

@@ -50,14 +50,14 @@ describe('Google Analytics Service', () => {
 
   describe('with trackAnalytics turned on', () => {
 
-    beforeEach( inject([], () => {
+    beforeEach(inject([], () => {
       environment.trackAnalytics = true;
     }));
 
     it('should initialize google analytics if trackAnalytics is set to true and trackingId exists',
       inject([GoogleAnalyticsService], (googleAnalyticsService: GoogleAnalyticsService) => {
-      expect(ga).toHaveBeenCalledWith('create', '{{TRACKING_ID}}', 'auto');
-    }));
+        expect(ga).toHaveBeenCalledWith('create', '{{TRACKING_ID}}', 'auto');
+      }));
 
     it('should send data to google analytics', inject([GoogleAnalyticsService, UserService], (
       service: GoogleAnalyticsService, cu: UserService) => {
@@ -72,14 +72,14 @@ describe('Google Analytics Service', () => {
       service: GoogleAnalyticsService, cu: UserService) => {
       service.sendEventData('Global Search Facets', 'include', 'facetName');
       expect(ga).toHaveBeenCalledWith('send', 'event', 'Global Search Facets', 'include', 'facetName',
-        { 'dimension1': cu.encryptedUserIdentifier });
+        {'dimension1': cu.encryptedUserIdentifier});
     }));
 
   });
 
 
   describe('with trackAnalytics turned off', () => {
-    beforeEach( inject([], () => {
+    beforeEach(inject([], () => {
       environment.trackAnalytics = false;
     }));
 

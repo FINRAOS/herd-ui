@@ -437,5 +437,5 @@ export const initRequests = {
 
 export const tearDownRequests = {
   updates: updateRequests(),
-  deletes:  deleteRequests()
+  deletes: deleteRequests()
 };

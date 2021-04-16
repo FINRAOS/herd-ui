@@ -26,6 +26,7 @@
 import utils from '../../../util/utils';
 
 const uniqueId = utils.uniqueId();
+
 export class Data {
 
   description = 'Sample description text for testing purpose. Used for all description fields';
