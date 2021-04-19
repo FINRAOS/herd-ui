@@ -31,9 +31,9 @@
           <a [routerLink]="['/data-objects',
            namespace, businessObjectDefinitionName, businessObjectFormatUsage,
            businessObjectFormatFileType, businessObjectFormatVersion]">
-            <i class="fa fa-list" aria-hidden="true"></i>
+            <i aria-hidden="true" class="fa fa-list"></i>
             <span>Data Object List</span>
-            <i class="fa fa-angle-right" aria-hidden="true"></i>
+            <i aria-hidden="true" class="fa fa-angle-right"></i>
           </a>
         </div>
       </div>
@@ -53,7 +53,8 @@
           <div class="row container overview">
             <div class="col">
               <div class="row sub-header-label">Description</div>
-              <div class="row description-body" [innerHTML]="businessObjectFormatDetail && businessObjectFormatDetail.description">
+              <div [innerHTML]="businessObjectFormatDetail && businessObjectFormatDetail.description"
+                   class="row description-body">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
                 dolore magna aliqua
               </div>
@@ -79,8 +80,9 @@
                       <div class="row">
                         <div class="col-6"><b>Version:</b></div>
                         <div class="col-6">
-                          <select *ngIf="(formatVersions | async).length > 1; else singleValue" #versionSelect (change)="switchVersions(versionSelect)"
-                            [ngModel]="businessObjectFormatVersion">
+                          <select #versionSelect (change)="switchVersions(versionSelect)"
+                                  *ngIf="(formatVersions | async).length > 1; else singleValue"
+                                  [ngModel]="businessObjectFormatVersion">
                             <option *ngFor="let version of formatVersions | async" [value]="version">{{ version }}
                             </option>
                           </select>
@@ -93,44 +95,46 @@
                       </div>
                     </div>
                     <div class="col-8">
-                      <div class="row justify-content-around" *ngIf="businessObjectFormatDetail && (businessObjectFormatDetail.businessObjectFormatFileType != 'RELATIONAL_TABLE'); else relationalInfo">
+                      <div *ngIf="businessObjectFormatDetail && (businessObjectFormatDetail.businessObjectFormatFileType != 'RELATIONAL_TABLE'); else relationalInfo"
+                           class="row justify-content-around">
                         <div class="col">
                           <div class="row">
                             <div class="col-8"><b>Null Value:</b></div>
                             <div class="col-4">
                               {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
-                              businessObjectFormatDetail.schema.nullValue || ' '}}
+                            businessObjectFormatDetail.schema.nullValue || ' '}}
                             </div>
                           </div>
                           <div class="row">
                             <div class="col-8"><b>Delimiter:</b></div>
                             <div class="col-4">
                               {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
-                              businessObjectFormatDetail.schema.delimiter || ' '}}
+                            businessObjectFormatDetail.schema.delimiter || ' '}}
                             </div>
                           </div>
                           <div class="row">
                             <div class="col-8"><b>Escape Character:</b></div>
                             <div class="col-4">
                               {{ businessObjectFormatDetail && businessObjectFormatDetail.schema &&
-                              businessObjectFormatDetail.schema.escapeCharacter ||
-                              ' '}}
+                            businessObjectFormatDetail.schema.escapeCharacter ||
+                            ' '}}
                             </div>
                           </div>
                           <div class="row">
                             <div class="col-8"><b>Partition Key Group:</b></div>
                             <div class="col-4">
                               {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
-                              businessObjectFormatDetail.schema.partitionKeyGroup
-                              || ' '}}
+                            businessObjectFormatDetail.schema.partitionKeyGroup
+                            || ' '}}
                             </div>
                           </div>
                         </div>
                         <div class="col min-max-value">
                           <div class="row">
                             <div class="col-6"><b>Partition:</b></div>
-                            <div class="col-6">{{ businessObjectFormatDetail && businessObjectFormatDetail.partitionKey ||
-                              ' '}}
+                            <div
+                              class="col-6">{{ businessObjectFormatDetail && businessObjectFormatDetail.partitionKey ||
+                            ' '}}
                             </div>
                           </div>
                           <div class="row">
@@ -148,14 +152,16 @@
                           <div class="col-9">
                             <div class="row">
                               <div class="col"><b>Relational Schema Name:</b></div>
-                              <div class="col">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName ||
-                                ' '}}
+                              <div
+                                class="col">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalSchemaName ||
+                              ' '}}
                               </div>
                             </div>
                             <div class="row">
                               <div class="col"><b>Relational Table Name:</b></div>
-                              <div class="col">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalTableName ||
-                                ' '}}
+                              <div
+                                class="col">{{ businessObjectFormatDetail && businessObjectFormatDetail.relationalTableName ||
+                              ' '}}
                               </div>
                             </div>
                           </div>
@@ -168,9 +174,9 @@
 
               <!--Retention Information (type, period, flog)-->
               <div class="row sub-header-label">Retention Information</div>
-              <div class="row" *ngIf="(businessObjectFormatDetail && businessObjectFormatDetail.retentionType)
+              <div *ngIf="(businessObjectFormatDetail && businessObjectFormatDetail.retentionType)
                    || (businessObjectFormatDetail && businessObjectFormatDetail.retentionPeriodInDays)
-                   || (businessObjectFormatDetail && businessObjectFormatDetail.recordFlag); else noRetention">
+                   || (businessObjectFormatDetail && businessObjectFormatDetail.recordFlag); else noRetention" class="row">
                 <div class="col align-self-start left-blue-border">
                   <div class="row justify-content-around details-sub">
                     <div class="col-4">
@@ -178,11 +184,11 @@
                     </div>
                     <div class="col-4">
                       <b>Retention period: </b> {{businessObjectFormatDetail &&
-                      businessObjectFormatDetail.retentionPeriodInDays}}
+                    businessObjectFormatDetail.retentionPeriodInDays}}
                       days
                     </div>
                     <div class="col-4">
-                      <b>Record: </b> {{(businessObjectFormatDetail && businessObjectFormatDetail.recordFlag) ? 'Yes':
+                      <b>Record: </b> {{(businessObjectFormatDetail && businessObjectFormatDetail.recordFlag) ? 'Yes' :
                       'No'}}
                     </div>
                   </div>
@@ -201,9 +207,9 @@
                   <p>No partition columns registered.</p>
                 </ng-template>
               </div>
-              <div class="row partition-data" *ngIf="businessObjectFormatDetail &&
-              businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.partitions; else noPartitions">
-                <div class="container columns-content" *ngIf="businessObjectFormatDetail.schema.partitions.length > 0">
+              <div *ngIf="businessObjectFormatDetail &&
+              businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.partitions; else noPartitions" class="row partition-data">
+                <div *ngIf="businessObjectFormatDetail.schema.partitions.length > 0" class="container columns-content">
                   <div class="list-group columns-header">
                     <div class="row list-group-item">
                       <div class="col-3">Name</div>
@@ -214,22 +220,28 @@
                       <div class="col-3">Description</div>
                     </div>
                   </div>
-                  <div class="list-group columns-detail" *ngFor="let businessObjectFormatDetailColumn of businessObjectFormatDetail.schema.partitions">
+                  <div *ngFor="let businessObjectFormatDetailColumn of businessObjectFormatDetail.schema.partitions"
+                       class="list-group columns-detail">
                     <div class="row list-group-item">
                       <div class="col-3">
-                        <sd-ellipsis-overflow ellipsisContent="{{businessObjectFormatDetailColumn.name}}"></sd-ellipsis-overflow>
+                        <sd-ellipsis-overflow
+                          ellipsisContent="{{businessObjectFormatDetailColumn.name}}"></sd-ellipsis-overflow>
                       </div>
                       <div class="col-2">
-                        <sd-ellipsis-overflow ellipsisContent="{{businessObjectFormatDetailColumn.type}}"></sd-ellipsis-overflow>
+                        <sd-ellipsis-overflow
+                          ellipsisContent="{{businessObjectFormatDetailColumn.type}}"></sd-ellipsis-overflow>
                       </div>
                       <div class="col-1">
-                        <sd-ellipsis-overflow ellipsisContent="{{businessObjectFormatDetailColumn.size}}"></sd-ellipsis-overflow>
+                        <sd-ellipsis-overflow
+                          ellipsisContent="{{businessObjectFormatDetailColumn.size}}"></sd-ellipsis-overflow>
                       </div>
                       <div class="col-1">
-                        <sd-ellipsis-overflow ellipsisContent="{{businessObjectFormatDetailColumn.required}}"></sd-ellipsis-overflow>
+                        <sd-ellipsis-overflow
+                          ellipsisContent="{{businessObjectFormatDetailColumn.required}}"></sd-ellipsis-overflow>
                       </div>
                       <div class="col-2">
-                        <sd-ellipsis-overflow ellipsisContent="{{businessObjectFormatDetailColumn.defaultValue}}"></sd-ellipsis-overflow>
+                        <sd-ellipsis-overflow
+                          ellipsisContent="{{businessObjectFormatDetailColumn.defaultValue}}"></sd-ellipsis-overflow>
                       </div>
                       <div class="col-3">
                         <p>{{businessObjectFormatDetailColumn.description}}</p>
@@ -252,12 +264,14 @@
       <ngb-tab>
         <ng-template ngbTabTitle>
           COLUMNS
-          <span *ngIf="businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns">
+          <span
+            *ngIf="businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns">
             ({{businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns.length}})
           </span>
         </ng-template>
         <ng-template ngbTabContent>
-          <sd-schema-columns [bdef]="businessObjectFormatDetail" [content]="businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns">
+          <sd-schema-columns [bdef]="businessObjectFormatDetail"
+                             [content]="businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns">
           </sd-schema-columns>
         </ng-template>
       </ngb-tab>
@@ -266,7 +280,7 @@
           EXTERNAL INTERFACES
           <span *ngIf="businessObjectFormatDetail && businessObjectFormatDetail.businessObjectFormatExternalInterfaces">
             ({{businessObjectFormatDetail.businessObjectFormatExternalInterfaces &&
-            businessObjectFormatDetail.businessObjectFormatExternalInterfaces.length}})
+          businessObjectFormatDetail.businessObjectFormatExternalInterfaces.length}})
           </span>
         </ng-template>
         <ng-template ngbTabContent>
@@ -277,16 +291,20 @@
               </div>
             </ng-template>
           </div>
-          <div class="row external-interfaces-data" *ngIf="businessObjectFormatDetail && businessObjectFormatDetail.businessObjectFormatExternalInterfaces &&
-            businessObjectFormatDetail.businessObjectFormatExternalInterfaces.length;else noExternalInterfaces">
-            <div class="container columns-content" *ngIf="businessObjectFormatDetail.businessObjectFormatExternalInterfaces.length > 0">
-              <div class="list-group columns-detail" *ngFor="let ei of businessObjectFormatDetail.businessObjectFormatExternalInterfaces">
+          <div *ngIf="businessObjectFormatDetail && businessObjectFormatDetail.businessObjectFormatExternalInterfaces &&
+            businessObjectFormatDetail.businessObjectFormatExternalInterfaces.length;else noExternalInterfaces" class="row external-interfaces-data">
+            <div *ngIf="businessObjectFormatDetail.businessObjectFormatExternalInterfaces.length > 0"
+                 class="container columns-content">
+              <div *ngFor="let ei of businessObjectFormatDetail.businessObjectFormatExternalInterfaces"
+                   class="list-group columns-detail">
                 <div class="row list-group-item">
                   <div class="col-10">
                     <sd-ellipsis-overflow ellipsisContent="{{ei.externalInterfaceName}}"></sd-ellipsis-overflow>
                   </div>
                   <div class="col-2">
-                    <button class="btn btn-primary" (click)="open(extractExternalInterface, ei.externalInterfaceName, '')">View</button>
+                    <button (click)="open(extractExternalInterface, ei.externalInterfaceName, '')"
+                            class="btn btn-primary">View
+                    </button>
                   </div>
                 </div>
               </div>
@@ -294,12 +312,14 @@
           </div>
         </ng-template>
       </ngb-tab>
-      <ngb-tab *ngIf="businessObjectFormatDetail && (businessObjectFormatDetail.documentSchema ||businessObjectFormatDetail.documentSchemaUrl)">
+      <ngb-tab
+        *ngIf="businessObjectFormatDetail && (businessObjectFormatDetail.documentSchema ||businessObjectFormatDetail.documentSchemaUrl)">
         <ng-template ngbTabTitle>
           DOCUMENT SCHEMA
         </ng-template>
         <ng-template ngbTabContent>
-          <div class="row tab-contents" *ngIf="businessObjectFormatDetail.documentSchemaUrl && businessObjectFormatDetail.documentSchemaUrl.length >0">
+          <div *ngIf="businessObjectFormatDetail.documentSchemaUrl && businessObjectFormatDetail.documentSchemaUrl.length >0"
+               class="row tab-contents">
             <div class="col-9">
               <div class="sub-header-label">
                 Document Schema Url
@@ -315,8 +335,9 @@
           <div class="card container document-schema">
             <div class="card-block">
               <div class="row">
-                <codemirror class="ace-editor" [(ngModel)]="businessObjectFormatDetail && businessObjectFormatDetail.documentSchema"
-                  [config]="documentSchemaConfig">
+                <codemirror [(ngModel)]="businessObjectFormatDetail && businessObjectFormatDetail.documentSchema"
+                            [config]="documentSchemaConfig"
+                            class="ace-editor">
                 </codemirror>
               </div>
             </div>
@@ -338,7 +359,8 @@
     <ngb-tab>
       <ng-template ngbTabTitle>Attribute definitions</ng-template>
       <ng-template ngbTabContent>
-        <sd-attribute-definitions [content]="businessObjectFormatDetail && businessObjectFormatDetail.attributeDefinitions">
+        <sd-attribute-definitions
+          [content]="businessObjectFormatDetail && businessObjectFormatDetail.attributeDefinitions">
         </sd-attribute-definitions>
       </ng-template>
     </ngb-tab>
@@ -348,7 +370,7 @@
 <ng-template #extractExternalInterface let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title"> {{ externalInterfaceDisplayName }} </h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button (click)="d('Cross click')" aria-label="Close" class="close" type="button">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -359,9 +381,9 @@
       <p> {{ externalInterfaceError.text }} </p>
     </div>
     <div [hidden]="externalInterfaceError" class="physical-name"> Physical Name: {{ externalInterfaceName }} </div>
-    <div [hidden]="externalInterfaceError" class="description-body" [innerHTML]="externalInterfaceDescription"></div>
+    <div [hidden]="externalInterfaceError" [innerHTML]="externalInterfaceDescription" class="description-body"></div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-success" type="button" (click)="close()">Close</button>
+    <button (click)="close()" class="btn btn-success" type="button">Close</button>
   </div>
 </ng-template>

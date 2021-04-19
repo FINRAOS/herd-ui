@@ -37,7 +37,7 @@ describe('LineageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, NgbModule.forRoot()],
+      imports: [RouterTestingModule, NgbModule],
       declarations: [LineageComponent, EllipsisOverflowComponent]
     })
       .compileComponents();

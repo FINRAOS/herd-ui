@@ -15,7 +15,7 @@
 -->
 <div>
   <span [innerHTML]="currentText | safeHtml"></span>
-  <a href="javascript:void(0);" [class.hidden]="hideToggle" *ngIf="!hideLink" (click)="toggleView()">
+  <a (click)="toggleView()" *ngIf="!hideLink" [class.hidden]="hideToggle" href="javascript:void(0);">
     {{isCollapsed ? linkLabel : 'hide'}}
   </a>
 </div>

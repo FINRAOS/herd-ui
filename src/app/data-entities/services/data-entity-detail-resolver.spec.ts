@@ -23,96 +23,96 @@ import { RouterStub } from 'testing/router-stubs';
 
 describe('Data Entity Detail Resolver', () => {
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            providers: [DataEntityDetailResolverService,
-                {
-                    provide: BusinessObjectDefinitionService, useValue: {
-                        businessObjectDefinitionGetBusinessObjectDefinition:
-                        jasmine.createSpy('businessObjectDefinitionGetBusinessObjectDefinition'),
-                        configuration: {}
-                    }
-                }, {
-                    provide: Router,
-                    useClass: RouterStub
-                }]
-        });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [DataEntityDetailResolverService,
+        {
+          provide: BusinessObjectDefinitionService, useValue: {
+            businessObjectDefinitionGetBusinessObjectDefinition:
+              jasmine.createSpy('businessObjectDefinitionGetBusinessObjectDefinition'),
+            configuration: {}
+          }
+        }, {
+          provide: Router,
+          useClass: RouterStub
+        }]
     });
+  });
 
-    it('should return bdef data initially',
-        async(inject([DataEntityDetailResolverService, BusinessObjectDefinitionService, Router],
-            (service: DataEntityDetailResolverService,
-                bdef: BusinessObjectDefinitionService, r: Router) => {
-                const expectedBdef: BusinessObjectDefinition = {
-                    namespace: 'ns',
-                    businessObjectDefinitionName: 'bdef',
-                    dataProviderName: 'dp',
-                    displayName: 'display name',
-                    sampleDataFiles: [{
-                        directoryPath: '/tmp',
-                        fileName: 'test'
-                    }]
-                };
+  it('should return bdef data initially',
+    async(inject([DataEntityDetailResolverService, BusinessObjectDefinitionService, Router],
+      (service: DataEntityDetailResolverService,
+       bdef: BusinessObjectDefinitionService, r: Router) => {
+        const expectedBdef: BusinessObjectDefinition = {
+          namespace: 'ns',
+          businessObjectDefinitionName: 'bdef',
+          dataProviderName: 'dp',
+          displayName: 'display name',
+          sampleDataFiles: [{
+            directoryPath: '/tmp',
+            fileName: 'test'
+          }]
+        };
 
-                const bdefSpy = (<jasmine.Spy>bdef.businessObjectDefinitionGetBusinessObjectDefinition);
-                bdefSpy.and.returnValue(of(expectedBdef));
+        const bdefSpy = (<jasmine.Spy>bdef.businessObjectDefinitionGetBusinessObjectDefinition);
+        bdefSpy.and.returnValue(of(expectedBdef));
 
 
-                const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach);
-                shouldAttachSpy.and.returnValue(false);
+        const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach);
+        shouldAttachSpy.and.returnValue(false);
 
-                (service.resolve(
-                    ({ params: { namespace: 'ns', dataEntityName: 'dn' } } as any) as ActivatedRouteSnapshot,
-                    {} as RouterStateSnapshot) as Observable<DataEntityDetailResolverData>).subscribe((data) => {
-                        expect(data.bdef)
-                            .toEqual(expectedBdef);
-                        expect(data.title).toEqual('Data Entity - display name');
-                        expect(bdefSpy).toHaveBeenCalled();
-             });
+        (service.resolve(
+          ({params: {namespace: 'ns', dataEntityName: 'dn'}} as any) as ActivatedRouteSnapshot,
+          {} as RouterStateSnapshot) as Observable<DataEntityDetailResolverData>).subscribe((data) => {
+          expect(data.bdef)
+            .toEqual(expectedBdef);
+          expect(data.title).toEqual('Data Entity - display name');
+          expect(bdefSpy).toHaveBeenCalled();
+        });
 
-            })));
+      })));
 
-    it('should return saved bdef data',
-        async(inject([DataEntityDetailResolverService, BusinessObjectDefinitionService, Router],
-            (service: DataEntityDetailResolverService,
-                bdef: BusinessObjectDefinitionService, r: Router) => {
-                const expectedBdef: BusinessObjectDefinition = {
-                    namespace: 'ns',
-                    businessObjectDefinitionName: 'bdef',
-                    dataProviderName: 'dp',
-                    displayName: 'display name',
-                    sampleDataFiles: [{
-                        directoryPath: '/tmp',
-                        fileName: 'test'
-                    }]
-                };
+  it('should return saved bdef data',
+    async(inject([DataEntityDetailResolverService, BusinessObjectDefinitionService, Router],
+      (service: DataEntityDetailResolverService,
+       bdef: BusinessObjectDefinitionService, r: Router) => {
+        const expectedBdef: BusinessObjectDefinition = {
+          namespace: 'ns',
+          businessObjectDefinitionName: 'bdef',
+          dataProviderName: 'dp',
+          displayName: 'display name',
+          sampleDataFiles: [{
+            directoryPath: '/tmp',
+            fileName: 'test'
+          }]
+        };
 
-                const bdefSpy = (<jasmine.Spy>bdef.businessObjectDefinitionGetBusinessObjectDefinition);
-                bdefSpy.and.returnValue(of(expectedBdef));
+        const bdefSpy = (<jasmine.Spy>bdef.businessObjectDefinitionGetBusinessObjectDefinition);
+        bdefSpy.and.returnValue(of(expectedBdef));
 
-                const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach);
-                shouldAttachSpy.and.returnValue(true);
+        const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach);
+        shouldAttachSpy.and.returnValue(true);
 
-                const retrieveSpy = (<jasmine.Spy>r.routeReuseStrategy.retrieve);
-                retrieveSpy.and.returnValue({
-                        route : {
-                            value: {
-                                data: {
-                                    _value: {
-                                        resolvedData: {
-                                            title: 'Data Entity - display name',
-                                            bdef: expectedBdef
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                });
+        const retrieveSpy = (<jasmine.Spy>r.routeReuseStrategy.retrieve);
+        retrieveSpy.and.returnValue({
+          route: {
+            value: {
+              data: {
+                _value: {
+                  resolvedData: {
+                    title: 'Data Entity - display name',
+                    bdef: expectedBdef
+                  }
+                }
+              }
+            }
+          }
+        });
 
-              const returnValue =  service.resolve(({ params: { namespace: 'ns', dataEntityName: 'dn' } } as any) as ActivatedRouteSnapshot,
-                    {} as RouterStateSnapshot) as DataEntityDetailResolverData;
-              expect(returnValue.bdef).toEqual(expectedBdef);
-              expect(returnValue.title).toEqual('Data Entity - display name');
-              expect(bdefSpy).not.toHaveBeenCalled();
-     })));
+        const returnValue = service.resolve(({params: {namespace: 'ns', dataEntityName: 'dn'}} as any) as ActivatedRouteSnapshot,
+          {} as RouterStateSnapshot) as DataEntityDetailResolverData;
+        expect(returnValue.bdef).toEqual(expectedBdef);
+        expect(returnValue.title).toEqual('Data Entity - display name');
+        expect(bdefSpy).not.toHaveBeenCalled();
+      })));
 });

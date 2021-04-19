@@ -15,34 +15,34 @@
 */
 @import './../../../../styles';
 
- .truncated-content-wrapper {
-    overflow: hidden;
-    transition: all 0.5s;
-    width: 100%;
-    position: relative;
+.truncated-content-wrapper {
+  overflow: hidden;
+  transition: all 0.5s;
+  width: 100%;
+  position: relative;
 }
 
- .truncated-content {
-    line-height: 1.2;
-    width: 100%;
+.truncated-content {
+  line-height: 1.2;
+  width: 100%;
 }
 
- .truncated-content *{
-    line-height: inherit !important;
+.truncated-content * {
+  line-height: inherit !important;
 }
 
 .toggle-content {
-    text-transform: capitalize;
-    cursor: pointer;
-    color: $blue;
-    opacity: .5;
-    text-align: right;
-    transition: all 0.5s;
-    width: 100%;
-    height: 1.2rem;
+  text-transform: capitalize;
+  cursor: pointer;
+  color: $blue;
+  opacity: .5;
+  text-align: right;
+  transition: all 0.5s;
+  width: 100%;
+  height: 1.2rem;
 }
 
 .hide {
-    display: none;
+  display: none;
 }
 

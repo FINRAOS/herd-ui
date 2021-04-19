@@ -36,7 +36,6 @@ export class S3Manager {
   }
 
 
-
   /**
    * Utility function to put an object on S3. This could be used to create files in order to register a BData or sample data.
    *

@@ -29,34 +29,34 @@ const ns = new Namespace();
 const provider = new DataProvider();
 
 
-  export const postRequests = function () {
-      const setupOptions = {
-        'options': [
-          {
-            'order': 1, 'url': ns.postUrl(), 'body': ns.postBody(data.defaultNamespace)
-          }, {
-            'order': 2, 'url': provider.postUrl(), 'body': provider.postBody(data.defaultDataProvider)
-          }, {
-            'order': 3, 'url': bDefs.postUrl(), 'body': data.bdef1
-          }, {
-            'order': 4, 'url': formats.postUrl(), 'body': data.formatWithData
-          }, {
-            'order': 4, 'url': formats.postUrl(), 'body': data.formatNoData
-          }, {
-            'order': 4, 'url': formats.postUrl(), 'body': data.formatForFilter
-          }, {
-            'order': 5, 'url': bData.postUrl(), 'body': data.bdata1 // order matters for bdata for tests to get consistent list tests
-          }, {
-            'order': 6, 'url': bData.postUrl(), 'body': data.bdata2
-          }, {
-            'order': 7, 'url': bData.postUrl(), 'body': data.bdata3
-          }, {
-            'order': 8, 'url': bData.postUrl(), 'body': data.bdataWithSubPartitions
-          }
-        ]
-      };
-      return setupOptions;
-    };
+export const postRequests = function () {
+  const setupOptions = {
+    'options': [
+      {
+        'order': 1, 'url': ns.postUrl(), 'body': ns.postBody(data.defaultNamespace)
+      }, {
+        'order': 2, 'url': provider.postUrl(), 'body': provider.postBody(data.defaultDataProvider)
+      }, {
+        'order': 3, 'url': bDefs.postUrl(), 'body': data.bdef1
+      }, {
+        'order': 4, 'url': formats.postUrl(), 'body': data.formatWithData
+      }, {
+        'order': 4, 'url': formats.postUrl(), 'body': data.formatNoData
+      }, {
+        'order': 4, 'url': formats.postUrl(), 'body': data.formatForFilter
+      }, {
+        'order': 5, 'url': bData.postUrl(), 'body': data.bdata1 // order matters for bdata for tests to get consistent list tests
+      }, {
+        'order': 6, 'url': bData.postUrl(), 'body': data.bdata2
+      }, {
+        'order': 7, 'url': bData.postUrl(), 'body': data.bdata3
+      }, {
+        'order': 8, 'url': bData.postUrl(), 'body': data.bdataWithSubPartitions
+      }
+    ]
+  };
+  return setupOptions;
+};
 
 
 export const deleteRequests = function () {
@@ -127,7 +127,6 @@ export const deleteRequests = function () {
   };
   return setupOptions;
 };
-
 
 
 export const initRequests = {

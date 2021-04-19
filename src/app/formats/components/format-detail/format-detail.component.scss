@@ -14,6 +14,7 @@
 * limitations under the License.
 */
 @import '../../../shared/styles/shared';
+
 $recommended-format-color: $brand-blue;
 $description-body-color: #3c3c3c;
 
@@ -21,58 +22,69 @@ $description-body-color: #3c3c3c;
   .document-schema {
     margin-top: 20px;
   }
+
   .header-content {
     max-width: 100%;
   }
+
   .rectangle {
     @include detail-rectangle(102px, 6px);
   }
+
   .detail-header {
     @include detail-header;
   }
+
   .detail-title {
-    @include text-styling (42px, 700);
+    @include text-styling(42px, 700);
     padding: 0px;
   }
+
   .data-object-link {
-     @include data-object-link;
+    @include data-object-link;
   }
-  .physical-name{
-      margin-bottom: 30px;
-      line-height: 0.5em;
-      font-size: 1rem;
-      font-weight: bold;
+
+  .physical-name {
+    margin-bottom: 30px;
+    line-height: 0.5em;
+    font-size: 1rem;
+    font-weight: bold;
+
     span {
       margin-right: 8px;
 
     }
   }
- .nav-tabs .nav-link.active{
-      font-weight: bold;
-    }
+
+  .nav-tabs .nav-link.active {
+    font-weight: bold;
+  }
+
   .sub-header-label {
-      @include sub-header-label;
-      @include side-detail-box(30px);
+    @include sub-header-label;
+    @include side-detail-box(30px);
   }
 
   .description-body {
     margin-top: 20px;
     margin-right: 20px;
-    @include text-styling (16px, normal, $description-body-color);
+    @include text-styling(16px, normal, $description-body-color);
   }
 
   .left-blue-border {
-     border-left: 15px solid #0074d9;
+    border-left: 15px solid #0074d9;
   }
-  .label-container{
+
+  .label-container {
     line-height: 1rem;
     font-weight: 700;
   }
 
-  .content-container{
+  .content-container {
     line-height: 1rem;
 
   }
+
   .other-data {
     margin-left: -32px;
   }
@@ -80,26 +92,31 @@ $description-body-color: #3c3c3c;
   .details-sub {
     margin-left: 10px;
   }
+
   sd-schema-columns {
     width: 100%;
   }
+
   sd-external-interfaces-list {
     width: 100%;
   }
+
   sd-attributes {
     margin-left: 10px;
   }
+
   sd-attribute-definitions {
     margin-left: 10px;
   }
 
-    .columns-content {
+  .columns-content {
     .columns-header {
       .list-group-item {
         @include table-heading;
         @include text-styling(14px, 700, #fff);
       }
     }
+
     .columns-detail {
       .list-group-item {
         @include table-contents;
@@ -107,8 +124,8 @@ $description-body-color: #3c3c3c;
     }
   }
 
-  .min-max-value  {
-        padding: 0px;
+  .min-max-value {
+    padding: 0px;
   }
 
   .btn {

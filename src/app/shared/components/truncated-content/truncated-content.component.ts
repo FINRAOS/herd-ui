@@ -29,15 +29,15 @@ export class TruncatedContentComponent implements OnInit, AfterViewInit, AfterVi
   @Input() showLessText: string;
   @Input() lastLineRatio = 0;
   @ViewChild('truncatedWrapper') wrapper: ElementRef & HTMLElement;
-  @ViewChild('truncatedContent') private contentElement: ElementRef & HTMLElement;
   @ViewChild('toggleContent') toggle: ElementRef & HTMLElement;
   baseLines: string;
   contentStyles: CSSStyleDeclaration;
+  @ViewChild('truncatedContent') private contentElement: ElementRef & HTMLElement;
 
   ngOnInit() {
     this.readMoreText = this.readMoreText ? this.readMoreText : '';
     this.showLessText = this.showLessText ? this.showLessText : '';
-    this.showLines = !isNaN(this.showLines) && this.showLines > - 1 ? this.showLines : 1;
+    this.showLines = !isNaN(this.showLines) && this.showLines > -1 ? this.showLines : 1;
   }
 
   ngAfterViewInit(): void {

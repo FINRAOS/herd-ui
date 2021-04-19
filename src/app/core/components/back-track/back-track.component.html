@@ -13,8 +13,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<div class="back-track-wrapper" [hidden]="!previousTitle">
+<div [hidden]="!previousTitle" class="back-track-wrapper">
   <div class="container">
-    <a (click)="goBack()">  <i class="fa fa-chevron-left" aria-hidden="true"></i> {{previousTitle}}  </a>
+    <a (click)="goBack()"> <i aria-hidden="true" class="fa fa-chevron-left"></i> {{previousTitle}}  </a>
   </div>
 </div>

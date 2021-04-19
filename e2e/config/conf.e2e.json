@@ -8,7 +8,7 @@
   "homePage": "/",
   "searchUrl": "/search",
   "dataEntityDetailPath": "/data-entities",
-  "dataEntityBdefPath":"/data-entities/{namespace}/{businessObjectDefinitionName}",
+  "dataEntityBdefPath": "/data-entities/{namespace}/{businessObjectDefinitionName}",
   "categoryDetailPath": "/categories/",
   "formatPage": "/formats/",
   "bdataListPath": "/data-objects/{namespace}/{definitionName}/{usage}/{fileType}/{version}",

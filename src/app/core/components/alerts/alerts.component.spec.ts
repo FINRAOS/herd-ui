@@ -27,7 +27,7 @@ describe('AlertsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
       ],
       providers: [
         AlertService

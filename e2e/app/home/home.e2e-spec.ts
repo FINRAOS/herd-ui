@@ -30,7 +30,6 @@ describe('Feature:HomePage', function () {
   });
 
 
-
   it(' should display proper headings and category data', async () => {
     await page.navigateTo();
 

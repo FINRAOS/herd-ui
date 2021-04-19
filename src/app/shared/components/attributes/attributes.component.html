@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 <div class="container columns-content">
-  <div class="row" *ngIf="content && !content.length">
+  <div *ngIf="content && !content.length" class="row">
     <span class="unavailable-label">No user-defined attributes registered</span>
   </div>
   <div *ngIf="content && content.length !== 0">
@@ -24,7 +24,7 @@
         <div class="col-9">Value</div>
       </div>
     </div>
-    <div class="list-group columns-detail" *ngFor="let attribute of content">
+    <div *ngFor="let attribute of content" class="list-group columns-detail">
       <div class="row list-group-item">
         <div class="col-3">{{attribute.name}}</div>
         <div class="col-9">{{attribute.value}}</div>

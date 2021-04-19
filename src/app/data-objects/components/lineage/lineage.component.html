@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<div class="container columns-content" *ngIf="content.length !== 0">
+<div *ngIf="content.length !== 0" class="container columns-content">
   <div class="list-group columns-header">
     <div class="row list-group-item">
       <div class="col-2">Namespace</div>
@@ -22,11 +22,11 @@
       <div class="col-2">Partition value</div>
       <div class="col-2">SubPartitions</div>
       <div class="col-1">Version</div>
-      <div class="col-1"> </div>
+      <div class="col-1"></div>
     </div>
   </div>
 
-  <div class="list-group columns-detail" *ngFor="let bData of content">
+  <div *ngFor="let bData of content" class="list-group columns-detail">
     <div class="row list-group-item">
       <div class="col-2">
         <sd-ellipsis-overflow [ellipsisContent]="bData.namespace"></sd-ellipsis-overflow>

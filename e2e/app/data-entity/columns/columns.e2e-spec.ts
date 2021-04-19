@@ -131,20 +131,20 @@ describe('Bdef Columns Page', () => {
     it('should not be able to edit column data with out proper credentials', async () => {
       // without permisisons to edit
       await page.navigateTo(_url + '/' + namespace + '/' + data.editColumnBdef.businessObjectDefinitionName,
-      conf.noAccessUser, conf.noAccessPassword);
+        conf.noAccessUser, conf.noAccessPassword);
 
       const expectedRow: DataEntityColumnRowData = {
         businessName: '',
         physicalName: data.editableColumnsFormat.schema.columns[0].name,
         dataType: data.editableColumnsFormat.schema.columns[0].type +
-        ' (' + data.editableColumnsFormat.schema.columns[0].size + ')',
+          ' (' + data.editableColumnsFormat.schema.columns[0].size + ')',
         definition: ''
       };
 
       await page.columnsTab.click();
       await expect(page.getRowData(0)).toEqual(expectedRow);
       // TODO: fix test
-      //await expect(page.canEditColumns()).toBe(false);
+      // await expect(page.canEditColumns()).toBe(false);
     });
 
     it('should be able to edit column data with proper credentials', async () => {
@@ -159,12 +159,12 @@ describe('Bdef Columns Page', () => {
         businessName: nameEdit,
         physicalName: data.editableColumnsFormat.schema.columns[0].name,
         dataType: data.editableColumnsFormat.schema.columns[0].type +
-        ' (' + data.editableColumnsFormat.schema.columns[0].size + ')',
+          ' (' + data.editableColumnsFormat.schema.columns[0].size + ')',
         definition: ''
       };
 
-      const rowEdited2 = { ...rowEdited1, definition: definitionEdit };
-      const rowEdited3 = { ...rowEdited1, definition: definitionEdit2 };
+      const rowEdited2 = {...rowEdited1, definition: definitionEdit};
+      const rowEdited3 = {...rowEdited1, definition: definitionEdit2};
 
       await page.editDataEntityColumnName(0, nameEdit);
       await expect(page.getRowData(0)).toEqual(rowEdited1);
@@ -176,10 +176,6 @@ describe('Bdef Columns Page', () => {
       await expect(page.getRowData(0)).toEqual(rowEdited3);
     });
   });
-
-
-
-
 
 
 });

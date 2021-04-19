@@ -16,7 +16,7 @@
 <sd-generic-view class="data-entity-detail">
   <div side-action>
     <sd-side-actions [actions]="sideActions"></sd-side-actions>
-    <p sdFileDownloader [sampleDataFileUrl]='sampleDataFileUrl'></p>
+    <p [sampleDataFileUrl]='sampleDataFileUrl' sdFileDownloader></p>
   </div>
   <div header-content>
     <div class="col-10 header-content">
@@ -26,50 +26,64 @@
       </div>
       <div class="row header">
         <div class="col detail-title">
-          <div sdAuthorized [securityFunction]="authMap.editDescriptiveInfo" [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions"
-            [displayUnAuthorized]="'show'">
+          <div [displayUnAuthorized]="'show'" [namespacePermissions]="editDescriptiveContentPermissions" [namespace]="bdef.namespace"
+               [securityFunction]="authMap.editDescriptiveInfo"
+               sdAuthorized>
             <div [innerHTML]="bdef.displayName || bdef.businessObjectDefinitionName"></div>
           </div>
-          <div sdAuthorized [securityFunction]="authMap.editDescriptiveInfo" [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions">
-            <sd-edit [text]="bdef.displayName || bdef.businessObjectDefinitionName" [simpleEdit]="true" (editDone)="saveDataEntityDisplayName($event)"></sd-edit>
+          <div [namespacePermissions]="editDescriptiveContentPermissions" [namespace]="bdef.namespace" [securityFunction]="authMap.editDescriptiveInfo"
+               sdAuthorized>
+            <sd-edit (editDone)="saveDataEntityDisplayName($event)" [simpleEdit]="true"
+                     [text]="bdef.displayName || bdef.businessObjectDefinitionName"></sd-edit>
           </div>
         </div>
-        <div sdAuthorized [securityFunction]="authMap.getBData" [namespace]="bdef.namespace" [namespacePermissions]="'READ'" class="col-2 data-object-link">
+        <div [namespacePermissions]="'READ'" [namespace]="bdef.namespace" [securityFunction]="authMap.getBData"
+             class="col-2 data-object-link" sdAuthorized>
           <a [routerLink]="['/data-objects', bdef.namespace, bdef.businessObjectDefinitionName]">
-            <i class="fa fa-list" aria-hidden="true"></i>
+            <i aria-hidden="true" class="fa fa-list"></i>
             <span>Data Object List</span>
-            <i class="fa fa-angle-right" aria-hidden="true"></i>
+            <i aria-hidden="true" class="fa fa-angle-right"></i>
           </a>
         </div>
       </div>
-      <div class="row audit-details">Created by {{bdef.createdByUserId }}, last modified by {{bdef.lastUpdatedByUserId }} on {{bdef.lastUpdatedOn | date:'short'}}.
+      <div class="row audit-details">Created by {{bdef.createdByUserId }}, last modified
+        by {{bdef.lastUpdatedByUserId }} on {{bdef.lastUpdatedOn | date:'short'}}.
       </div>
     </div>
   </div>
   <div main-content>
     <ngb-tabset>
-      <ngb-tab title="OVERVIEW" id="overview">
+      <ngb-tab id="overview" title="OVERVIEW">
         <ng-template ngbTabContent>
           <div class="row tab-contents">
             <div class="col-9">
               <div class="description-label d-flex">
                 <div>Description</div>
-                <div *ngIf="businessObjectDefinitionDescriptionSuggestions && businessObjectDefinitionDescriptionSuggestions.length > 0"
-                     sdAuthorized [securityFunction]="authMap.editDescriptiveInfo" [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions">
-                  <button class="btn btn-primary btn-suggestion" (click)="open(approveSuggestion, '')">review suggestion</button>
+                <div
+                  *ngIf="businessObjectDefinitionDescriptionSuggestions && businessObjectDefinitionDescriptionSuggestions.length > 0"
+                  [namespacePermissions]="editDescriptiveContentPermissions" [namespace]="bdef.namespace" [securityFunction]="authMap.editDescriptiveInfo"
+                  sdAuthorized>
+                  <button (click)="open(approveSuggestion, '')" class="btn btn-primary btn-suggestion">review
+                    suggestion
+                  </button>
                 </div>
               </div>
-              <div sdAuthorized [securityFunction]="authMap.editDescriptiveInfo" [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions"
-                [displayUnAuthorized]="'show'">
-                <div class="description-body" [innerHTML]="bdef.description || ''"></div>
+              <div [displayUnAuthorized]="'show'" [namespacePermissions]="editDescriptiveContentPermissions" [namespace]="bdef.namespace"
+                   [securityFunction]="authMap.editDescriptiveInfo"
+                   sdAuthorized>
+                <div [innerHTML]="bdef.description || ''" class="description-body"></div>
               </div>
-              <div sdAuthorized [securityFunction]="authMap.editDescriptiveInfo" [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions">
-                <sd-edit [text]=" !bdef.description ? '' : bdef.description" (editDone)="saveDataEntityDescription($event)"></sd-edit>
+              <div [namespacePermissions]="editDescriptiveContentPermissions" [namespace]="bdef.namespace" [securityFunction]="authMap.editDescriptiveInfo"
+                   sdAuthorized>
+                <sd-edit (editDone)="saveDataEntityDescription($event)"
+                         [text]=" !bdef.description ? '' : bdef.description"></sd-edit>
               </div>
             </div>
             <div class="col-3 side-details">
-              <sd-tags [namespace]="bdef.namespace" [dataEntityName]="bdef.businessObjectDefinitionName"></sd-tags>
-              <sd-contacts [namespace]="bdef.namespace" [businessObjectDefinitionName]="bdef.businessObjectDefinitionName" [contacts]="smes"></sd-contacts>
+              <sd-tags [dataEntityName]="bdef.businessObjectDefinitionName" [namespace]="bdef.namespace"></sd-tags>
+              <sd-contacts [businessObjectDefinitionName]="bdef.businessObjectDefinitionName"
+                           [contacts]="smes"
+                           [namespace]="bdef.namespace"></sd-contacts>
               <div class="bdef-details">
                 <div>
                   <div class="inner-header">Provider</div>
@@ -78,23 +92,24 @@
                 <div>
                   <div class="inner-header">Physical Name</div>
                   <div>
-                    <sd-ellipsis-overflow tooltipDirection="bottom" [ellipsisContent]="bdef.businessObjectDefinitionName">
+                    <sd-ellipsis-overflow [ellipsisContent]="bdef.businessObjectDefinitionName"
+                                          tooltipDirection="bottom">
                     </sd-ellipsis-overflow>
                   </div>
                 </div>
                 <div>
                   <div class="inner-header">Namespace</div>
-                  <sd-ellipsis-overflow tooltipDirection="bottom" [ellipsisContent]=" bdef.namespace">
+                  <sd-ellipsis-overflow [ellipsisContent]=" bdef.namespace" tooltipDirection="bottom">
                   </sd-ellipsis-overflow>
                 </div>
               </div>
               <div
-                sdAuthorized
-                [securityFunction]="authMap.getBData"
-                [namespace]="bdef.namespace"
-                [namespacePermissions]="'READ'"
                 *ngIf="bdef.attributes && bdef.attributes.length > 0"
-                class="attributes">
+                [namespacePermissions]="'READ'"
+                [namespace]="bdef.namespace"
+                [securityFunction]="authMap.getBData"
+                class="attributes"
+                sdAuthorized>
                 <div class="inner-header">User-defined Attributes</div>
                 <div class="card container">
                   <div class="card-block">
@@ -102,13 +117,13 @@
                       <div class="col">Name</div>
                       <div class="col">Value</div>
                     </div>
-                    <div class="row" *ngFor="let attribute of bdef.attributes;">
+                    <div *ngFor="let attribute of bdef.attributes;" class="row">
                       <div class="col-6">
-                        <sd-ellipsis-overflow tooltipDirection="bottom" [ellipsisContent]="attribute.name">
+                        <sd-ellipsis-overflow [ellipsisContent]="attribute.name" tooltipDirection="bottom">
                         </sd-ellipsis-overflow>
                       </div>
                       <div class="col-6">
-                        <sd-ellipsis-overflow tooltipDirection="bottom" [ellipsisContent]="attribute.value">
+                        <sd-ellipsis-overflow [ellipsisContent]="attribute.value" tooltipDirection="bottom">
                         </sd-ellipsis-overflow>
                       </div>
                     </div>
@@ -117,10 +132,10 @@
               </div>
               <div class="bdef-formats">
                 <div
-                  sdAuthorized
-                  [securityFunction]="authMap.getBData"
-                  [namespace]="bdef.namespace" [namespacePermissions]="'READ'"
-                  [displayUnAuthorized]="'show'">
+                  [displayUnAuthorized]="'show'"
+                  [namespacePermissions]="'READ'"
+                  [namespace]="bdef.namespace" [securityFunction]="authMap.getBData"
+                  sdAuthorized>
                   <div class="inner-header">Recommended Format</div>
                   <div *ngIf="bdef.descriptiveBusinessObjectFormat; else noFormats">
                     <div class="row">
@@ -128,7 +143,8 @@
                         Usage
                       </span>
                       <span class="col-6">
-                        <sd-ellipsis-overflow [ellipsisContent]="bdef.descriptiveBusinessObjectFormat.businessObjectFormatUsage">
+                        <sd-ellipsis-overflow
+                          [ellipsisContent]="bdef.descriptiveBusinessObjectFormat.businessObjectFormatUsage">
                         </sd-ellipsis-overflow>
                       </span>
                     </div>
@@ -137,22 +153,26 @@
                         File Type
                       </span>
                       <span class="col-6">
-                        <sd-ellipsis-overflow [ellipsisContent]="bdef.descriptiveBusinessObjectFormat.businessObjectFormatFileType">
+                        <sd-ellipsis-overflow
+                          [ellipsisContent]="bdef.descriptiveBusinessObjectFormat.businessObjectFormatFileType">
                         </sd-ellipsis-overflow>
                       </span>
                     </div>
                   </div>
                 </div>
-                <div sdAuthorized [securityFunction]="authMap.getBData" [namespace]="bdef.namespace" [namespacePermissions]="'READ'">
+                <div [namespacePermissions]="'READ'" [namespace]="bdef.namespace" [securityFunction]="authMap.getBData"
+                     sdAuthorized>
                   <div class="inner-header">Schema</div>
                   <div *ngIf="formats && formats.length; else noFormats">
-                    <div class="col card format-whiteframe pointer" *ngFor="let frmt of formats" ngbTooltip="Click to view format" placement="left"
-                         [ngClass]="isRecommendedFormat(frmt)? 'recommended' : ''" (click)="$event.stopPropagation()" [routerLink]="['/formats',
+                    <div (click)="$event.stopPropagation()" *ngFor="let frmt of formats"
+                         [ngClass]="isRecommendedFormat(frmt)? 'recommended' : ''" [routerLink]="['/formats',
                              frmt.namespace,
                              frmt.businessObjectDefinitionName,
                              frmt.businessObjectFormatUsage,
                              frmt.businessObjectFormatFileType,
-                             frmt.businessObjectFormatVersion]">
+                             frmt.businessObjectFormatVersion]"
+                         class="col card format-whiteframe pointer" ngbTooltip="Click to view format"
+                         placement="left">
                       <div class="row">
                         <div class="col-4 format-header">
                           <div class="row">Usage:</div>
@@ -184,12 +204,17 @@
                           </div>
                           <div class="span">{{ frmt.businessObjectFormatVersion }}</div>
                         </div>
-                        <div class="col-2" sdAuthorized [securityFunction]="authMap.editRecommendedFormat" [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions">
+                        <div [namespacePermissions]="editDescriptiveContentPermissions" [namespace]="bdef.namespace" [securityFunction]="authMap.editRecommendedFormat"
+                             class="col-2" sdAuthorized>
                           <div *ngIf="isRecommendedFormat(frmt); else otherFormat">
-                            <i class="fa fa-dot-circle-o" style="color: black" (click)="$event.stopPropagation(); updateDescriptiveFormat(frmt, isRecommendedFormat(frmt))" ngbTooltip="Recommended Format (click to unset)" aria-hidden="true"></i>
+                            <i (click)="$event.stopPropagation(); updateDescriptiveFormat(frmt, isRecommendedFormat(frmt))" aria-hidden="true"
+                               class="fa fa-dot-circle-o"
+                               ngbTooltip="Recommended Format (click to unset)" style="color: black"></i>
                           </div>
                           <ng-template #otherFormat>
-                            <i class="fa fa-circle-o" (click)="$event.stopPropagation(); updateDescriptiveFormat(frmt, isRecommendedFormat(frmt))" ngbTooltip="Click to set as Recommended Format" aria-hidden="true"></i>
+                            <i (click)="$event.stopPropagation(); updateDescriptiveFormat(frmt, isRecommendedFormat(frmt))"
+                               aria-hidden="true"
+                               class="fa fa-circle-o" ngbTooltip="Click to set as Recommended Format"></i>
                           </ng-template>
                         </div>
                       </div>
@@ -204,44 +229,59 @@
           </div>
         </ng-template>
       </ngb-tab>
-      <ngb-tab [title]="bdefColumns && bdefColumns.length ? 'COLUMNS (' + bdefColumns.length + ')'  : 'COLUMNS' " id="columns">
+      <ngb-tab [title]="bdefColumns && bdefColumns.length ? 'COLUMNS (' + bdefColumns.length + ')'  : 'COLUMNS' "
+               id="columns">
         <ng-template ngbTabContent>
           <!--TODO: use csvSeparator to allow commas in html data when primeNG updates-->
-          <p-dataTable #dt [responsive]="true" [emptyMessage]="emptyColumnsMessage" [value]="bdefColumns" [rows]="10" reorderableColumns="true"
-            resizableColumns="true" exportFilename="data-entity-columns" [loading]="loading" >
+          <p-dataTable #dt [emptyMessage]="emptyColumnsMessage" [loading]="loading" [responsive]="true" [rows]="10"
+                       [value]="bdefColumns"
+                       exportFilename="data-entity-columns" reorderableColumns="true" resizableColumns="true">
             <p-header *ngIf="bdefColumns && bdefColumns.length">
               <div class="table-header row justify-content-end">
-                <button class="btn btn-primary" (click)="open(extractDdl, '')">Generate Format DDL</button> &nbsp;
-                <button class="btn btn-primary" type="button" pButton icon="fa-download" iconPos="left" label="Download CSV" (click)="dt.exportCSV()"></button>&nbsp;&nbsp;
+                <button (click)="open(extractDdl, '')" class="btn btn-primary">Generate Format DDL</button> &nbsp;
+                <button (click)="dt.exportCSV()" class="btn btn-primary" icon="fa-download" iconPos="left" label="Download CSV"
+                        pButton type="button"></button>&nbsp;&nbsp;
               </div>
             </p-header>
-            <p-column *ngFor="let col of bdefCols" [style]="col.style" [hidden]="col.hide" [sortable]="col.sortable" [field]="col.field"
-              [header]="col.header" [editable]="!!col.editable">
-              <ng-template let-bdefCol="rowData" *ngIf="col.field === 'description'" pTemplate="body">
-                <div style="height:1em;" sdAuthorized [securityFunction]="authMap.editBdefColumn" [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions"
-                  *ngIf="!bdefCol.exists" container="body" ngbTooltip="Description cannot be edited until a business name is defined.">
+            <p-column *ngFor="let col of bdefCols" [editable]="!!col.editable" [field]="col.field" [header]="col.header"
+                      [hidden]="col.hide"
+                      [sortable]="col.sortable" [style]="col.style">
+              <ng-template *ngIf="col.field === 'description'" let-bdefCol="rowData" pTemplate="body">
+                <div *ngIf="!bdefCol.exists" [namespacePermissions]="editDescriptiveContentPermissions" [namespace]="bdef.namespace"
+                     [securityFunction]="authMap.editBdefColumn" container="body"
+                     ngbTooltip="Description cannot be edited until a business name is defined." sdAuthorized
+                     style="height:1em;">
 
                 </div>
-                <sd-edit *ngIf="bdefCol.exists" [text]="bdefCol.description" (editDone)="saveDataEntityColumnDescriptionChange($event, bdefCol)"
-                  sdAuthorized [namespacePermissions]="editDescriptiveContentPermissions" [securityFunction]="authMap.editBdefColumn"
-                  [namespace]="bdef.namespace"></sd-edit>
+                <sd-edit (editDone)="saveDataEntityColumnDescriptionChange($event, bdefCol)" *ngIf="bdefCol.exists"
+                         [namespacePermissions]="editDescriptiveContentPermissions"
+                         [namespace]="bdef.namespace" [securityFunction]="authMap.editBdefColumn"
+                         [text]="bdefCol.description"
+                         sdAuthorized></sd-edit>
 
-                <div class="no-auth-description" *ngIf="bdefCol.exists" sdAuthorized [securityFunction]="authMap.editBdefColumn" [innerHTML]="bdefCol.description"
-                  [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions" [displayUnAuthorized]="'show'">
+                <div *ngIf="bdefCol.exists" [displayUnAuthorized]="'show'" [innerHTML]="bdefCol.description"
+                     [namespacePermissions]="editDescriptiveContentPermissions" [namespace]="bdef.namespace"
+                     [securityFunction]="authMap.editBdefColumn" class="no-auth-description"
+                     sdAuthorized>
 
                 </div>
               </ng-template>
-              <ng-template let-bdefCol="rowData" *ngIf="col.field === 'schemaColumnName'" pTemplate="body">
+              <ng-template *ngIf="col.field === 'schemaColumnName'" let-bdefCol="rowData" pTemplate="body">
                 <sd-ellipsis-overflow [ellipsisContent]="bdefCol.schemaColumnName">
                 </sd-ellipsis-overflow>
               </ng-template>
-              <ng-template let-bdefCol="rowData" *ngIf="col.field === 'businessObjectDefinitionColumnName'" pTemplate="body">
-                <sd-edit [text]="bdefCol.businessObjectDefinitionColumnName" [simpleEdit]="true" (editDone)="saveDataEntityColumnNameChange($event, bdefCol)"
-                  [required]="true" [illegalCharacters]="['?']" sdAuthorized [securityFunction]="authMap.deleteBdefColumn"
-                  [namespace]="bdef.namespace" [namespacePermissions]="editDescriptiveContentPermissions"></sd-edit>
+              <ng-template *ngIf="col.field === 'businessObjectDefinitionColumnName'" let-bdefCol="rowData"
+                           pTemplate="body">
+                <sd-edit (editDone)="saveDataEntityColumnNameChange($event, bdefCol)" [illegalCharacters]="['?']"
+                         [namespacePermissions]="editDescriptiveContentPermissions"
+                         [namespace]="bdef.namespace" [required]="true" [securityFunction]="authMap.deleteBdefColumn"
+                         [simpleEdit]="true"
+                         [text]="bdefCol.businessObjectDefinitionColumnName"
+                         sdAuthorized></sd-edit>
 
-                <div class="no-auth-name" sdAuthorized [securityFunction]="authMap.deleteBdefColumn" [displayUnAuthorized]="'show'" [namespace]="bdef.namespace"
-                  [namespacePermissions]="editDescriptiveContentPermissions">
+                <div [displayUnAuthorized]="'show'" [namespacePermissions]="editDescriptiveContentPermissions" [namespace]="bdef.namespace"
+                     [securityFunction]="authMap.deleteBdefColumn" class="no-auth-name"
+                     sdAuthorized>
                   {{ bdefCol.businessObjectDefinitionColumnName }}
                 </div>
               </ng-template>
@@ -254,7 +294,8 @@
           DOCUMENT SCHEMA
         </ng-template>
         <ng-template ngbTabContent>
-          <div class="row tab-contents" *ngIf="descriptiveFormat.documentSchemaUrl && descriptiveFormat.documentSchemaUrl.length > 0">
+          <div *ngIf="descriptiveFormat.documentSchemaUrl && descriptiveFormat.documentSchemaUrl.length > 0"
+               class="row tab-contents">
             <div class="col-9">
               <div class="schema-url-label sub-header-label">
                 Document Schema Url
@@ -271,8 +312,8 @@
           <div class="card container document-schema">
             <div class="card-block">
               <div class="row">
-                <codemirror class="ace-editor" [(ngModel)]="documentSchema"
-                  [config]="documentSchemaConfig">
+                <codemirror [(ngModel)]="documentSchema" [config]="documentSchemaConfig"
+                            class="ace-editor">
                 </codemirror>
               </div>
             </div>
@@ -286,7 +327,7 @@
 <ng-template #extractDdl let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">DDL</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button (click)="d('Cross click')" aria-label="Close" class="close" type="button">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -296,59 +337,68 @@
       <h6> {{ ddlError.subTitle }} </h6>
       <p> {{ ddlError.text }} </p>
     </div>
-    <codemirror [hidden]="ddlError" class="ace-editor" [(ngModel)]="ddl" [config]="config"></codemirror>
+    <codemirror [(ngModel)]="ddl" [config]="config" [hidden]="ddlError" class="ace-editor"></codemirror>
   </div>
   <div class="modal-footer">
-    <button [hidden]="ddlError" class="btn btn-default" [class.btn-success]="true" type="button" ngxClipboard [cbContent]="ddl"
-      (cbOnSuccess)="alertSuccessfulCopy()">Copy</button>
+    <button (cbOnSuccess)="alertSuccessfulCopy()" [cbContent]="ddl" [class.btn-success]="true" [hidden]="ddlError" class="btn btn-default"
+            ngxClipboard
+            type="button">Copy
+    </button>
   </div>
 </ng-template>
 
 <ng-template #viewLineage let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">Data Entity Lineage - {{ bdef.displayName || bdef.businessObjectDefinitionName}}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button (click)="d('Cross click')" aria-label="Close" class="close" type="button">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
 
     <div class="graph-wrapper">
-      <ngx-graph class="chart-container" [groupResultsBy]="groupResultsBy" [legend]="true" [customColors]="colors" [links]="hierarchialGraph.links"
-        [nodes]="hierarchialGraph.nodes" [orientation]="'LR'" [curve]="curve">
+      <ngx-graph [curve]="curve" [customColors]="colors" [groupResultsBy]="groupResultsBy" [legend]="true"
+                 [links]="hierarchialGraph.links"
+                 [nodes]="hierarchialGraph.nodes" [orientation]="'LR'" class="chart-container">
 
         <ng-template #defsTemplate>
-          <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto">
-            <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
+          <svg:marker id="arrow" markerHeight="4" markerWidth="4" orient="auto" refX="8" refY="0" viewBox="0 -5 10 10">
+            <svg:path class="arrow-head" d="M0,-5L10,0L0,5"/>
           </svg:marker>
         </ng-template>
 
         <ng-template #nodeTemplate let-node>
-          <svg:g *ngIf="node.type !== 'center'" id="center" class="node parent-child" ngx-tooltip [tooltipPlacement]="'top'" [tooltipType]="'tooltip'"
-            [tooltipTitle]="node.tooltip" [ngbPopover]="nodePopOver" placement="bottom" container="body" triggers="manual" #p="ngbPopover" (click)="popupOpen(p)">
-            <svg:rect [attr.width]="node.width" [attr.height]="node.height" [attr.fill]="node.color" />
-            <svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="node.height / 2">{{node.label}}
+          <svg:g #p="ngbPopover" (click)="popupOpen(p)" *ngIf="node.type !== 'center'" [ngbPopover]="nodePopOver"
+                 [tooltipPlacement]="'top'" [tooltipTitle]="node.tooltip"
+                 [tooltipType]="'tooltip'" class="node parent-child" container="body" id="center"
+                 ngx-tooltip placement="bottom" triggers="manual">
+            <svg:rect [attr.fill]="node.color" [attr.height]="node.height" [attr.width]="node.width"/>
+            <svg:text [attr.x]="10" [attr.y]="node.height / 2" alignment-baseline="central">{{node.label}}
             </svg:text>
           </svg:g>
 
           <ng-template #nodePopOver>
             <div class="row justify-content-center">
-              <a (click)="close()" style="margin-bottom: 5px;" class="btn btn-primary" [routerLink]="['/data-entities', node.bdefKey.split(':')[0], node.bdefKey.split(':')[1]]"> Browse To Data Entity</a>
-              <button *ngIf="node.loadLineage" (click)="showFurther(node)" class="btn btn-primary">Show More {{ node.type === 'parent' ? 'Parents' : 'Children' }}</button>
+              <a (click)="close()" [routerLink]="['/data-entities', node.bdefKey.split(':')[0], node.bdefKey.split(':')[1]]" class="btn btn-primary"
+                 style="margin-bottom: 5px;"> Browse To
+                Data Entity</a>
+              <button (click)="showFurther(node)" *ngIf="node.loadLineage" class="btn btn-primary">Show
+                More {{ node.type === 'parent' ? 'Parents' : 'Children' }}</button>
             </div>
           </ng-template>
 
-          <svg:g *ngIf="node.type === 'center'" id="center" class="node main-node" ngx-tooltip [tooltipPlacement]="'top'" [tooltipType]="'tooltip'"
-            [tooltipTitle]="node.tooltip">
-            <svg:rect [attr.width]="node.width" [attr.height]="node.height" [attr.fill]="node.color" />
-            <svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="node.height / 2">{{node.label}}
+          <svg:g *ngIf="node.type === 'center'" [tooltipPlacement]="'top'" [tooltipTitle]="node.tooltip" [tooltipType]="'tooltip'"
+                 class="node main-node" id="center"
+                 ngx-tooltip>
+            <svg:rect [attr.fill]="node.color" [attr.height]="node.height" [attr.width]="node.width"/>
+            <svg:text [attr.x]="10" [attr.y]="node.height / 2" alignment-baseline="central">{{node.label}}
             </svg:text>
           </svg:g>
         </ng-template>
 
         <ng-template #linkTemplate let-link>
           <svg:g class="edge">
-            <svg:path class="line" stroke-width="2" marker-end="url(#arrow)">
+            <svg:path class="line" marker-end="url(#arrow)" stroke-width="2">
             </svg:path>
           </svg:g>
         </ng-template>
@@ -365,19 +415,20 @@
 <ng-template #approveSuggestion let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">Suggestion for data entity description</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button (click)="d('Cross click')" aria-label="Close" class="close" type="button">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <sd-suggestions (approveSuggestion)="suggestionApproved($event)" [original]="bdef.description || ''" [suggestions]="businessObjectDefinitionDescriptionSuggestions"></sd-suggestions>
+    <sd-suggestions (approveSuggestion)="suggestionApproved($event)" [original]="bdef.description || ''"
+                    [suggestions]="businessObjectDefinitionDescriptionSuggestions"></sd-suggestions>
   </div>
   <div class="modal-footer">
     <button
-      [hidden]="ddlError"
-      class="btn btn-default"
+      (click)="d('Cross click')"
       [class.btn-success]="true"
-      type="button" (click)="d('Cross click')">
+      [hidden]="ddlError"
+      class="btn btn-default" type="button">
       Done
     </button>
   </div>

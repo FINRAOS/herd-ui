@@ -17,7 +17,7 @@ import { Action } from './../../../shared/components/side-action/side-action.com
 import { StorageUnitsComponent } from './../storage-units/storage-units.component';
 import { LineageComponent } from './../lineage/lineage.component';
 import { ActivatedRouteStub, RouterStub } from './../../../../testing/router-stubs';
-import { By } from "@angular/platform-browser";
+import { By } from '@angular/platform-browser';
 import {
   BusinessObjectData,
   BusinessObjectDataService,
@@ -34,8 +34,8 @@ import { DataObjectDetailComponent, DataObjectDetailRequest } from './data-objec
 import { ActivatedRoute, Router } from '@angular/router';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { throwError } from 'rxjs/internal/observable/throwError';
-import {AlertService} from "../../../core/services/alert.service";
-import {of} from "rxjs";
+import { AlertService } from '../../../core/services/alert.service';
+import { of } from 'rxjs';
 
 describe('DataObjectDetailComponent', () => {
   let component: DataObjectDetailComponent;
@@ -134,7 +134,7 @@ describe('DataObjectDetailComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         SharedModule,
         RouterTestingModule
       ],
@@ -194,7 +194,7 @@ describe('DataObjectDetailComponent', () => {
 
       // Set active route params
       activeRoute.testParams = routeParams;
-      const date=new Date();
+      const date = new Date();
       const expectedResult: BusinessObjectData = {
         namespace: 'ns',
         businessObjectDefinitionName: 'dn',
@@ -267,7 +267,7 @@ describe('DataObjectDetailComponent', () => {
       expect(spyBdefFormatApi.calls.count()).toEqual(0);
       expect(spydataApi.calls.count()).toEqual(1);
       expect(component.businessObjectData.retentionExpirationDate).toBe(undefined);
-      let spanEl = fixture.debugElement.query(By.css('.expiry-date')).nativeElement;
+      const spanEl = fixture.debugElement.query(By.css('.expiry-date')).nativeElement;
       expect(spanEl.innerHTML).toBe('');
     })));
 
@@ -462,8 +462,10 @@ describe('DataObjectDetailComponent', () => {
     };
 
     // Spy on the services
-    spyUploadAndDownloadService = (<jasmine.Spy>uploadAndDownloadService.uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile)
-      .and.returnValue(of(downloadBusinessObjectDataStorageFileSingleInitiationResponse));
+    spyUploadAndDownloadService = (<jasmine.Spy>uploadAndDownloadService
+      .uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile)
+      .and
+      .returnValue(of(downloadBusinessObjectDataStorageFileSingleInitiationResponse));
 
     component.businessObjectData = businessObjectData;
     component.getPreSignedUrl(storageEvent);
@@ -499,8 +501,10 @@ describe('DataObjectDetailComponent', () => {
     };
 
     // Spy on the services
-    spyUploadAndDownloadService = (<jasmine.Spy>uploadAndDownloadService.uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile)
-      .and.returnValue(throwError({status: 404}));
+    spyUploadAndDownloadService = (<jasmine.Spy>uploadAndDownloadService
+      .uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile)
+      .and
+      .returnValue(throwError({status: 404}));
 
     component.businessObjectData = businessObjectData;
     component.getPreSignedUrl(storageEvent);
@@ -513,51 +517,53 @@ describe('DataObjectDetailComponent', () => {
   it('should show alert with error message when download failed', async(inject([
       UploadAndDownloadService, AlertService],
     (uploadAndDownloadService: UploadAndDownloadService, alertService: AlertService) => {
-    const businessObjectData: BusinessObjectData = {
-      namespace: 'ns',
-      businessObjectDefinitionName: 'dn',
-      businessObjectFormatUsage: 'PRC',
-      businessObjectFormatFileType: 'TXT',
-      businessObjectFormatVersion: 0,
-      partitionKey: 'TEST_KEY',
-      partitionValue: '09-01-2018',
-      version: 0
-    };
+      const businessObjectData: BusinessObjectData = {
+        namespace: 'ns',
+        businessObjectDefinitionName: 'dn',
+        businessObjectFormatUsage: 'PRC',
+        businessObjectFormatFileType: 'TXT',
+        businessObjectFormatVersion: 0,
+        partitionKey: 'TEST_KEY',
+        partitionValue: '09-01-2018',
+        version: 0
+      };
 
-    const storageEvent = {
-      directoryPath: 'test-file-directory/file-path',
-      filePath: 'test-file-directory/file-path/filename.txt',
-      storage: {
-        name: 'test name',
-        attributes: [
-          {
-            value: 'test-bucket-name'
-          }
-        ]
-      }
-    };
+      const storageEvent = {
+        directoryPath: 'test-file-directory/file-path',
+        filePath: 'test-file-directory/file-path/filename.txt',
+        storage: {
+          name: 'test name',
+          attributes: [
+            {
+              value: 'test-bucket-name'
+            }
+          ]
+        }
+      };
 
-    const downloadError = {
-      status: 500,
-      error: {
-        message: "Test error message"
-      }
-    };
+      const downloadError = {
+        status: 500,
+        error: {
+          message: 'Test error message'
+        }
+      };
 
-    // Spy on the services
-    spyUploadAndDownloadService = (<jasmine.Spy>uploadAndDownloadService.uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile)
-      .and.returnValue(throwError(downloadError));
-      //throwError("Test failure");
+      // Spy on the services
+      spyUploadAndDownloadService = (<jasmine.Spy>uploadAndDownloadService
+        .uploadandDownloadInitiateDownloadSingleBusinessObjectDataStorageFile)
+        .and
+        .returnValue(throwError(downloadError));
+      // throwError("Test failure");
 
-    spyAlertService = (<jasmine.Spy>alertService.alert);
+      spyAlertService = (<jasmine.Spy>alertService.alert);
 
-    component.businessObjectData = businessObjectData;
-    component.getPreSignedUrl(storageEvent);
+      component.businessObjectData = businessObjectData;
+      component.getPreSignedUrl(storageEvent);
 
-    expect(component.presignedURL).toBeUndefined();
-    expect(spyUploadAndDownloadService).toHaveBeenCalledTimes(1);
-    expect(spyAlertService).toHaveBeenCalledTimes(1);
+      expect(component.presignedURL).toBeUndefined();
+      expect(spyUploadAndDownloadService).toHaveBeenCalledTimes(1);
+      expect(spyAlertService).toHaveBeenCalledTimes(1);
 
-  })));
+    })));
 
 });

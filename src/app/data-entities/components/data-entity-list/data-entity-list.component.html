@@ -16,8 +16,8 @@
 <div class="data-entity-list-view">
   <div class="container">
     <div class="row">
-      <i class="fa fa-search" aria-hidden="true"></i>
-      <input autofocus placeholder="Enter a namespace or data entity name." [(ngModel)]="searchTerm" type="text" />
+      <i aria-hidden="true" class="fa fa-search"></i>
+      <input [(ngModel)]="searchTerm" autofocus placeholder="Enter a namespace or data entity name." type="text"/>
     </div>
 
     <div class="content-header">
@@ -25,7 +25,7 @@
       <h4 class="filter-results">Showing {{ dataEntities.length }} of {{ total }}</h4>
     </div>
 
-    <div class="row data-entity-row" *ngFor="let dataEntity of dataEntities">
+    <div *ngFor="let dataEntity of dataEntities" class="row data-entity-row">
       <div class="col-10">
         <h4>{{dataEntity.businessObjectDefinitionName}}</h4>
         <h6>
@@ -34,7 +34,9 @@
         </h6>
       </div>
       <div class="col-2 text-center my-auto">
-        <a class="btn btn-primary" [routerLink]="['/data-entities', dataEntity.namespace, dataEntity.businessObjectDefinitionName]"> View Data Entity</a>
+        <a [routerLink]="['/data-entities', dataEntity.namespace, dataEntity.businessObjectDefinitionName]"
+           class="btn btn-primary"> View Data
+          Entity</a>
       </div>
     </div>
 

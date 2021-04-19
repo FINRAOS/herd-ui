@@ -18,69 +18,69 @@ import utils from '../../../../util/utils';
 const uniqueId = utils.uniqueId();
 
 export class Data {
-    description = 'Sample description text for testing purpose. Used for all description fields';
-    defaultDataProvider = 'DP_PROTRACTOR_TEST_EI' + uniqueId;
-    defaultNamespace = 'NS_PROTRACTOR_TEST_EI' + uniqueId;
-    defaultBdef = 'BDEF_PROTRACTOR_TEST_EI';
-    defaultFormatUsage = 'FMT_PROTRACTOR_TEST_EI';
-    defaultFormatFileType = "TXT";
-    defaultExternalInterface = "EI_PROTRACTOR_TEST_EI" + uniqueId;
-    invalidExternalInterface = "EI_PROTRACTOR_TEST_EI_INVALID" + uniqueId;
-    invalidExternalInterfaceDescription = 'Bad description #elseif';
-    displayName = 'display name of ';
+  description = 'Sample description text for testing purpose. Used for all description fields';
+  defaultDataProvider = 'DP_PROTRACTOR_TEST_EI' + uniqueId;
+  defaultNamespace = 'NS_PROTRACTOR_TEST_EI' + uniqueId;
+  defaultBdef = 'BDEF_PROTRACTOR_TEST_EI';
+  defaultFormatUsage = 'FMT_PROTRACTOR_TEST_EI';
+  defaultFormatFileType = 'TXT';
+  defaultExternalInterface = 'EI_PROTRACTOR_TEST_EI' + uniqueId;
+  invalidExternalInterface = 'EI_PROTRACTOR_TEST_EI_INVALID' + uniqueId;
+  invalidExternalInterfaceDescription = 'Bad description #elseif';
+  displayName = 'display name of ';
 
-    bdefTest = {
-        'namespace': this.defaultNamespace,
-        'dataProviderName': this.defaultDataProvider,
-        'businessObjectDefinitionName': this.defaultBdef,
-        'description': this.description,
-        'displayName': this.displayName + this.defaultBdef
-    };
+  bdefTest = {
+    'namespace': this.defaultNamespace,
+    'dataProviderName': this.defaultDataProvider,
+    'businessObjectDefinitionName': this.defaultBdef,
+    'description': this.description,
+    'displayName': this.displayName + this.defaultBdef
+  };
 
-    businessObjectFormatTest = {
-        'namespace': this.defaultNamespace,
-        'businessObjectDefinitionName': this.defaultBdef,
-        'businessObjectFormatUsage': this.defaultFormatUsage,
-        'businessObjectFormatFileType': this.defaultFormatFileType,
-        'partitionKey': 'TEST_KEY',
-        'description': 'Nam et interdum quam, hendrerit varius magna.'
-    };
+  businessObjectFormatTest = {
+    'namespace': this.defaultNamespace,
+    'businessObjectDefinitionName': this.defaultBdef,
+    'businessObjectFormatUsage': this.defaultFormatUsage,
+    'businessObjectFormatFileType': this.defaultFormatFileType,
+    'partitionKey': 'TEST_KEY',
+    'description': 'Nam et interdum quam, hendrerit varius magna.'
+  };
 
-    externalInterfaceTest = {
-        "externalInterfaceKey": {
-          "externalInterfaceName": this.defaultExternalInterface
-        },
-        "displayName": this.displayName + this.defaultExternalInterface,
-        "description": this.description
-      };
+  externalInterfaceTest = {
+    'externalInterfaceKey': {
+      'externalInterfaceName': this.defaultExternalInterface
+    },
+    'displayName': this.displayName + this.defaultExternalInterface,
+    'description': this.description
+  };
 
 
-    externalInterfaceBadDescriptionTest = {
-        "externalInterfaceKey": {
-          "externalInterfaceName": this.invalidExternalInterface
-      },
-        "displayName": this.displayName + this.invalidExternalInterface,
-        "description": this.invalidExternalInterfaceDescription
-    };
+  externalInterfaceBadDescriptionTest = {
+    'externalInterfaceKey': {
+      'externalInterfaceName': this.invalidExternalInterface
+    },
+    'displayName': this.displayName + this.invalidExternalInterface,
+    'description': this.invalidExternalInterfaceDescription
+  };
 
-    businessObjectFormatExternalInterfaceTest = {
-        "businessObjectFormatExternalInterfaceKey": {
-          "namespace": this.defaultNamespace,
-          "businessObjectDefinitionName": this.defaultBdef,
-          "businessObjectFormatUsage": this.defaultFormatUsage,
-          "businessObjectFormatFileType": this.defaultFormatFileType,
-          "externalInterfaceName": this.defaultExternalInterface
-        }
-    };
+  businessObjectFormatExternalInterfaceTest = {
+    'businessObjectFormatExternalInterfaceKey': {
+      'namespace': this.defaultNamespace,
+      'businessObjectDefinitionName': this.defaultBdef,
+      'businessObjectFormatUsage': this.defaultFormatUsage,
+      'businessObjectFormatFileType': this.defaultFormatFileType,
+      'externalInterfaceName': this.defaultExternalInterface
+    }
+  };
 
 
   businessObjectFormatInvalidExternalInterfaceTest = {
-      "businessObjectFormatExternalInterfaceKey": {
-        "namespace": this.defaultNamespace,
-        "businessObjectDefinitionName": this.defaultBdef,
-        "businessObjectFormatUsage": this.defaultFormatUsage,
-        "businessObjectFormatFileType": this.defaultFormatFileType,
-        "externalInterfaceName": this.invalidExternalInterface
-      }
-    };
+    'businessObjectFormatExternalInterfaceKey': {
+      'namespace': this.defaultNamespace,
+      'businessObjectDefinitionName': this.defaultBdef,
+      'businessObjectFormatUsage': this.defaultFormatUsage,
+      'businessObjectFormatFileType': this.defaultFormatFileType,
+      'externalInterfaceName': this.invalidExternalInterface
+    }
+  };
 }

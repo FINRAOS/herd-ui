@@ -25,25 +25,27 @@
         <span class="detail-title">{{category.displayName}}</span>
       </div>
       <div class="audit-details">
-        Created by {{category.userId }}, last modified by {{category.lastUpdatedByUserId }} on {{ category.updatedTime | date:'short'}}.
+        Created by {{category.userId }}, last modified by {{category.lastUpdatedByUserId }}
+        on {{ category.updatedTime | date:'short'}}.
       </div>
     </div>
     <div main-content>
-      <sd-truncated-content [showLines]="6" [content]="category.description" [readMoreText]="'show more'" [showLessText]="'show less'"
-        [lastLineRatio]=".33">
+      <sd-truncated-content [content]="category.description" [lastLineRatio]=".33" [readMoreText]="'show more'"
+                            [showLessText]="'show less'"
+                            [showLines]="6">
       </sd-truncated-content>
 
       <!-- Related Categories (tag hierarchy) -->
       <div class="related-categories">
         <div *ngIf="(parent |  async) || (tagChildren && tagChildren.length)">
           <h2>Related Categories</h2>
-          <div class="tag-hierarchy" *ngIf="parent | async; let parent">
+          <div *ngIf="parent | async; let parent" class="tag-hierarchy">
             <a (click)="onCategoryLinkClick(parent)" class="link tag-label">{{parent.displayName}}</a>
           </div>
           <div class="tag-hierarchy current-tag">
             <div class="tag-label-current">{{category.displayName}}</div>
           </div>
-          <div class="tag-hierarchy child-tag" *ngIf="tagChildren">
+          <div *ngIf="tagChildren" class="tag-hierarchy child-tag">
             <a (click)="onCategoryLinkClick(childTag)" *ngFor="let childTag of tagChildren" class="link tag-label">
               {{childTag.displayName}}
             </a>
@@ -58,29 +60,35 @@
         <hr/>
 
         <div class="search-box">
-          <sd-global-search (search)="globalSearch($event)" [placeHolder]="'Search related data entities'"></sd-global-search>
+          <sd-global-search (search)="globalSearch($event)"
+                            [placeHolder]="'Search related data entities'"></sd-global-search>
         </div>
 
         <div class="row">
-          <sd-facet class="col-3" [newSearch]="newSearch" [facets]="facets" (facetChange)="facetChange($event)"></sd-facet>
+          <sd-facet (facetChange)="facetChange($event)" [facets]="facets" [newSearch]="newSearch"
+                    class="col-3"></sd-facet>
 
-          <div class="col text-center bdefs-unavailable" *ngIf="!loading && results && results.length < 1">No related data entities registered.</div>
+          <div *ngIf="!loading && results && results.length < 1" class="col text-center bdefs-unavailable">No related
+            data entities registered.
+          </div>
           <div [hidden]="!loading" class="col text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></div>
 
-          <div class="col-9" [hidden]="loading || results.length < 1">
-            <div>Showing <b>{{results && results.length}} results</b> out of {{totalIndexSearchResults}} <span *ngIf="searchText">for</span> <b *ngIf="searchText">"{{searchText}}"</b></div>
+          <div [hidden]="loading || results.length < 1" class="col-9">
+            <div>Showing <b>{{results && results.length}} results</b> out of {{totalIndexSearchResults}} <span
+              *ngIf="searchText">for</span> <b *ngIf="searchText">"{{searchText}}"</b></div>
 
-            <div class="card" *ngFor="let result of results">
-              <div class="card-header d-flex justify-content-between"
-                   *ngIf="result.indexSearchResultType.includes('BUS_OBJCT_DFNTN'); else tagtemplate">
+            <div *ngFor="let result of results" class="card">
+              <div *ngIf="result.indexSearchResultType.includes('BUS_OBJCT_DFNTN'); else tagtemplate"
+                   class="card-header d-flex justify-content-between">
                 <div class="d-flex align-items-start flex-column">
                   <a [routerLink]="['/data-entities', result.indexSearchResultKey.businessObjectDefinitionKey.namespace,
                result.indexSearchResultKey.businessObjectDefinitionKey.businessObjectDefinitionName]">
                     {{result.displayName ||
-                    result.indexSearchResultKey.businessObjectDefinitionKey.businessObjectDefinitionName }}
+                  result.indexSearchResultKey.businessObjectDefinitionKey.businessObjectDefinitionName }}
                   </a>
                   <div class="namespace-bdef-subtitle">
-                    {{result.indexSearchResultKey.businessObjectDefinitionKey.namespace}}.{{result.indexSearchResultKey.businessObjectDefinitionKey.businessObjectDefinitionName}}
+                    {{result.indexSearchResultKey.businessObjectDefinitionKey.namespace}}
+                    .{{result.indexSearchResultKey.businessObjectDefinitionKey.businessObjectDefinitionName}}
                   </div>
                 </div>
                 <div>
@@ -103,14 +111,14 @@
 
               <div class="card-block">
 
-                <sd-read-more [text]="result.shortDescription" [maxLength]="200" [hideLink]="true"></sd-read-more>
+                <sd-read-more [hideLink]="true" [maxLength]="200" [text]="result.shortDescription"></sd-read-more>
 
-                <div class="highlight-block" *ngIf="result.highlight && result.highlight.fields.length > 0">
+                <div *ngIf="result.highlight && result.highlight.fields.length > 0" class="highlight-block">
                   <sd-read-more
-                    [text]="makeHighlightFull(result.highlight)"
-                    [maxLength]="180"
+                    [hideLink]="false"
                     [linkLabel]="(result.highlight.fields.length -1 === 0 ? '...read ' : '...and '+ (result.highlight.fields.length - 1)) + ' more'"
-                    [hideLink]="false">
+                    [maxLength]="180"
+                    [text]="makeHighlightFull(result.highlight)">
                   </sd-read-more>
                 </div>
 

@@ -56,21 +56,21 @@ describe('Feature:BDataLineage', () => {
   });
 
   describe('StaticContent', () => {
-    it('Data details page should display data children when present', async() => {
+    it('Data details page should display data children when present', async () => {
       //  Check header/subheader values
       expect(await page.childLineageHeaderLabel.getText()).toBe('Children');
       expect(await page.childLineageSectionColumns.getText())
         .toBe('Namespace\nDefinition name\nFormat\nPartition value\nSubPartitions\nVersion');
     });
 
-    it('Data details page should display data parents when present', async() => {
+    it('Data details page should display data parents when present', async () => {
       //  Check header/subheader values
       expect(await page.parentLineageHeaderLabel.getText()).toBe('Parents');
       expect(await page.parentLineageSectionColumns.getText())
         .toBe('Namespace\nDefinition name\nFormat\nPartition value\nSubPartitions\nVersion');
     });
 
-    it('Data details page should display status history', async() => {
+    it('Data details page should display status history', async () => {
       //  Check header/subheader values
       expect(await page.statusHistorySectionLabel.getText()).toBe('Status History');
       const tableSubHeaders = page.statusHistorySectionColumns.getText();
@@ -81,7 +81,7 @@ describe('Feature:BDataLineage', () => {
   });
 
   describe('DynamicContent', () => {
-    it('Data details page should display correct values with or without subpartitions', async() => {
+    it('Data details page should display correct values with or without subpartitions', async () => {
       const child1 = data.bdataLeafWithoutSubpartitions;
       const child2 = data.bdataLeafWithSubpartitions;
       const parent1 = data.bdataParentWithoutSubpartitions;
@@ -133,13 +133,13 @@ describe('Feature:BDataLineage', () => {
       compareLineageData(page.getLineageRowData(page.parentLineageRepeater, 1), expectedParent2);
     });
 
-    it('Data details page should display correct values with one status value in its history', async() => {
+    it('Data details page should display correct values with one status value in its history', async () => {
       expect(await page.statusHistoryRepeater.count()).toBe(1);
       // TODO add tests for all columns that are generated
       expect(page.statusHistoryRepeater.first().getText()).toMatch('VALID\n.+\n.+');
     });
 
-    it('Data details page should display correct values with more than one status value in its history', async() => {
+    it('Data details page should display correct values with more than one status value in its history', async () => {
       baseDetail.initiateBrowser(data.statusChange, data.formatWithNoSubpartitions.schema.delimiter);
 
       expect(await page.statusHistoryRepeater.count()).toBe(2);
@@ -149,19 +149,19 @@ describe('Feature:BDataLineage', () => {
   });
 
   describe('MissingContent', function () {
-    it('Data details page should hide the children table when no children present', async() => {
+    it('Data details page should hide the children table when no children present', async () => {
       baseDetail.initiateBrowser(data.bdataLeafWithoutSubpartitions, data.formatWithNoSubpartitions.schema.delimiter);
       //  Should find zero elements matching the 'Children' table's descriptors
       expect(await page.noChildrenLabel.getText()).toEqual('No children registered.');
     });
 
-    it('Data details page should hide the parents table when no parents present', async() => {
+    it('Data details page should hide the parents table when no parents present', async () => {
       baseDetail.initiateBrowser(data.bdataParentWithoutSubpartitions, data.formatWithNoSubpartitions.schema.delimiter);
       //  Should find zero elements matching the 'Children' table's descriptors
       expect(page.noParentsLabel.getText()).toContain('No parents registered.');
     });
 
-    it('Data details page should hide both tables when neither parents nor children present', async() => {
+    it('Data details page should hide both tables when neither parents nor children present', async () => {
       baseDetail.initiateBrowser(data.noLineageBdata, data.formatWithNoSubpartitions.schema.delimiter);
 
       //  Should find zero elements matching the 'Parents' table's descriptors
@@ -177,7 +177,7 @@ describe('Feature:BDataLineage', () => {
       baseDetail.initiateBrowser(data.bdataChildWithSubpartitionsToHaveChildren, data.formatWithSubpartitions.schema.delimiter);
     });
 
-    it('Data details page should go to correct page when using Details button on child data', async() => {
+    it('Data details page should go to correct page when using Details button on child data', async () => {
       page.getLineageRowData(page.childLineageRepeater, 0).link.getAttribute('href').then(function (text) {
         console.log(text);
       });
@@ -206,7 +206,7 @@ describe('Feature:BDataLineage', () => {
       expect(currentUrl2).toEqual(expectedUrl);
     });
 
-    it('Data details page should go to correct page when using Details button on parent data', async() => {
+    it('Data details page should go to correct page when using Details button on parent data', async () => {
       page.getLineageRowData(page.parentLineageRepeater, 0).link.getAttribute('href').then(function (text) {
         console.log(text);
       });
@@ -227,7 +227,7 @@ describe('Feature:BDataLineage', () => {
       browser.navigate().back();
 
       //  Validate that we are on the data-objects page with the correct parameters
-      browser.getCurrentUrl().then(function(urlText) {
+      browser.getCurrentUrl().then(function (urlText) {
         const expectedUrl = baseDetail.replaceUrlParams(data.bdataChildWithSubpartitionsToHaveChildren,
           data.formatWithSubpartitions.schema.delimiter)
           .replace(/ /g, '%20')

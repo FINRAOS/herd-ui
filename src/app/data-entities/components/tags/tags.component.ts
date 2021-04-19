@@ -35,15 +35,15 @@ export class TagsComponent implements OnInit {
   @Input() namespace: string;
   @Input() dataEntityName: string;
 
-  editDescriptiveContentPermissions = [ NamespaceAuthorization.NamespacePermissionsEnum.WRITE,
-    NamespaceAuthorization.NamespacePermissionsEnum.WRITEDESCRIPTIVECONTENT ];
+  editDescriptiveContentPermissions = [NamespaceAuthorization.NamespacePermissionsEnum.WRITE,
+    NamespaceAuthorization.NamespacePermissionsEnum.WRITEDESCRIPTIVECONTENT];
   allTags: Array<BusinessObjectDefinitionTagKey | any> = [];
   displayingTags: Array<BusinessObjectDefinitionTagKey | any> = [];
   selectedTags: Array<BusinessObjectDefinitionTagKey | any> = [];
   initialSelectedTags: Array<BusinessObjectDefinitionTagKey | any> = [];
   disabled = false;
   public hover = false;
-  private  unableToDeleteServer: boolean;
+  private unableToDeleteServer: boolean;
 
   private businessObjectDefinitionTagCreateRequest: BusinessObjectDefinitionTagCreateRequest;
 
@@ -101,7 +101,7 @@ export class TagsComponent implements OnInit {
         this.displayingTags.push(event);
       }, (error) => {
         // we tried to add tag but some how server did not add. we need to remove it in the UI
-        this.selectedTags = this.selectedTags.filter( (key) => {
+        this.selectedTags = this.selectedTags.filter((key) => {
           return !(key.tagTypeCode === event.tagKey.tagTypeCode && key.tagCode === event.tagKey.tagCode);
         });
       });
@@ -111,7 +111,7 @@ export class TagsComponent implements OnInit {
     this.businessObjectDefinitionTagApi.businessObjectDefinitionTagDeleteBusinessObjectDefinitionTag(
       this.namespace, this.dataEntityName, event.tagKey.tagTypeCode, event.tagKey.tagCode
     ).subscribe((response) => {
-      this.displayingTags = this.displayingTags.filter( (key) => {
+      this.displayingTags = this.displayingTags.filter((key) => {
         return !(key.tagKey.tagTypeCode === event.tagKey.tagTypeCode && key.tagKey.tagCode === event.tagKey.tagCode);
       });
     }, (error) => {
@@ -120,8 +120,7 @@ export class TagsComponent implements OnInit {
   }
 
   getExistingBdefTags() {
-    this.businessObjectDefinitionTagApi.
-    businessObjectDefinitionTagGetBusinessObjectDefinitionTagsByBusinessObjectDefinition(
+    this.businessObjectDefinitionTagApi.businessObjectDefinitionTagGetBusinessObjectDefinitionTagsByBusinessObjectDefinition(
       this.namespace, this.dataEntityName).subscribe((data) => {
       data.businessObjectDefinitionTagKeys.forEach((bdefTagKey) => {
 

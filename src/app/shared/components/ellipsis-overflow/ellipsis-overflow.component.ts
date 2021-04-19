@@ -27,28 +27,27 @@ export class EllipsisOverflowComponent implements AfterViewInit {
 
   @Input() public ellipsisContent;
   @Input() public tooltipDirection;
+  @ViewChild(NgbTooltip) public tooltip: NgbTooltip;
   private isEllipisOverflow;
   private div;
-
-  @ViewChild(NgbTooltip) public tooltip: NgbTooltip;
 
   constructor(private elementRef: ElementRef) {
   }
 
- ngAfterViewInit() {
+  ngAfterViewInit() {
     this.div = this.elementRef.nativeElement.getElementsByClassName('ellipsis-overflow')[0];
- }
-
- enableTooltip() {
-  // tolerance of -3 due to IE offsetWidth issues
-  if ( this.div.clientWidth < this.div.scrollWidth - 3 ) {
-    this.tooltip.ngbTooltip = this.div.innerText;
-    this.tooltip.open();
   }
- }
 
- disableTooltip() {
-  this.tooltip.close();
- }
+  enableTooltip() {
+    // tolerance of -3 due to IE offsetWidth issues
+    if (this.div.clientWidth < this.div.scrollWidth - 3) {
+      this.tooltip.ngbTooltip = this.div.innerText;
+      this.tooltip.open();
+    }
+  }
+
+  disableTooltip() {
+    this.tooltip.close();
+  }
 
 }

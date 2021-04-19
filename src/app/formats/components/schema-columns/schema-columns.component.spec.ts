@@ -17,7 +17,7 @@ import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing'
 
 import { SchemaColumnsComponent } from './schema-columns.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Headers } from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 import { BusinessObjectFormatDdlRequest, BusinessObjectFormatService } from '@herd/angular-client';
 import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/alert.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -35,7 +35,7 @@ describe('SchemaColumnsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         CodemirrorModule,
         ClipboardModule,
       ],
@@ -53,7 +53,7 @@ describe('SchemaColumnsComponent', () => {
           provide: BusinessObjectFormatService,
           useValue: {
             businessObjectFormatGenerateBusinessObjectFormatDdl: jasmine.createSpy('businessObjectFormatGenerateBusinessObjectFormatDdl'),
-            defaultHeaders: new Headers(),
+            defaultHeaders: new HttpHeaders(),
             configuration: {
               withCredentials: true
             }

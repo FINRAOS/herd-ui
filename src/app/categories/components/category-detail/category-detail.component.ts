@@ -36,9 +36,6 @@ export class CategoryDetailComponent implements OnInit {
   category: Tag;
   tagChildren: Tag[];
   parent: Observable<Tag> | any;
-  private tagTypeCode: string;
-  private tagCode: string;
-
   // variables for related data entity
   public newSearch = true;
   public loading = false;
@@ -46,6 +43,8 @@ export class CategoryDetailComponent implements OnInit {
   public facets: Array<Facet>;
   public totalIndexSearchResults;
   public indexSearchFilters: any;
+  private tagTypeCode: string;
+  private tagCode: string;
   private fields = 'dataProviderName,shortDescription,displayName';
 
   constructor(private route: ActivatedRoute,
@@ -108,18 +107,6 @@ export class CategoryDetailComponent implements OnInit {
     this.tagApi.tagSearchTags(tagSearchRequest, fields).subscribe((tagChildren) => {
       this.tagChildren = tagChildren.tags;
     });
-  }
-
-  /*
-  * Populate the side actions
-  *
-  */
-  private populateSideActions() {
-    this.sideActions = [
-      new Action(AppIcons.shareIcon, 'Share'),
-      new Action(AppIcons.saveIcon, 'Save'),
-      new Action(AppIcons.watchIcon, 'Watch')
-    ];
   }
 
   public onCategoryLinkClick(tag) {
@@ -214,6 +201,18 @@ export class CategoryDetailComponent implements OnInit {
         match: match
       }
     });
+  }
+
+  /*
+  * Populate the side actions
+  *
+  */
+  private populateSideActions() {
+    this.sideActions = [
+      new Action(AppIcons.shareIcon, 'Share'),
+      new Action(AppIcons.saveIcon, 'Save'),
+      new Action(AppIcons.watchIcon, 'Watch')
+    ];
   }
 
 

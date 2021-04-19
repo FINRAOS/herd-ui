@@ -76,6 +76,11 @@ export class MockFormat {
     'businessObjectFormatParents': [],
     'businessObjectFormatChildren': []
   };
+
+  get formatDetail() {
+    return this._formatDetail;
+  }
+
   private _businessObjectDefinitionColumnKeys = [
     {
       'namespace': 'testns',
@@ -98,10 +103,6 @@ export class MockFormat {
       'businessObjectDefinitionName': 'ADMIN',
       'businessObjectDefinitionColumnName': 'Test Agent Identifier',
     }];
-
-  get formatDetail() {
-    return this._formatDetail;
-  }
 
   get businessObjectDefinitionColumnKeys() {
     return this._businessObjectDefinitionColumnKeys;

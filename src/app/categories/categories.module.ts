@@ -36,4 +36,5 @@ import { SearchService } from '../shared/services/search.service';
     CategoryDetailComponent
   ]
 })
-export class CategoriesModule { }
+export class CategoriesModule {
+}

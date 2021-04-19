@@ -25,7 +25,7 @@ describe('EllipsisOverflowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule.forRoot()],
+      imports: [NgbModule],
       declarations: [EllipsisOverflowComponent]
     })
       .compileComponents();

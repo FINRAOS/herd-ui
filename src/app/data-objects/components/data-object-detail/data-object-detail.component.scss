@@ -14,6 +14,7 @@
 * limitations under the License.
 */
 @import '../../../shared/styles/shared';
+
 $recommended-format-color: $brand-blue;
 $description-body-color: #3c3c3c;
 
@@ -24,27 +25,34 @@ $description-body-color: #3c3c3c;
     margin-bottom: 20px;
     max-width: 100%;
   }
+
   .rectangle {
     @include detail-rectangle(102px, 6px);
   }
+
   .detail-header {
     @include detail-header;
   }
+
   .detail-title {
-    @include text-styling (42px, 700);
+    @include text-styling(42px, 700);
     padding: 0px;
   }
+
   .data-object-link {
     @include data-object-link;
   }
-  .physical-name{
+
+  .physical-name {
     margin-bottom: 30px;
     line-height: 0.5em;
+
     span {
       margin-right: 8px;
     }
   }
-  .nav-tabs .nav-link.active{
+
+  .nav-tabs .nav-link.active {
     font-weight: bold;
   }
 
@@ -56,22 +64,24 @@ $description-body-color: #3c3c3c;
   .description-body {
     margin-top: 20px;
     margin-right: 20px;
-    @include text-styling (16px, normal, $description-body-color);
+    @include text-styling(16px, normal, $description-body-color);
   }
 
   .left-blue-border {
     border-left: 15px solid #0074d9;
     height: 150px;
   }
-  .label-container{
+
+  .label-container {
     line-height: 1rem;
     font-weight: 700;
   }
 
-  .content-container{
+  .content-container {
     line-height: 1rem;
 
   }
+
   .other-data {
     margin-left: -32px;
   }
@@ -86,7 +96,7 @@ $description-body-color: #3c3c3c;
   }
 
   .card-header {
-    @include text-styling (24px, bold);
+    @include text-styling(24px, bold);
   }
 
   .columns-content {
@@ -96,6 +106,7 @@ $description-body-color: #3c3c3c;
         @include text-styling(14px, 700, #fff);
       }
     }
+
     .columns-detail {
       .list-group-item {
         @include table-contents;
@@ -109,6 +120,7 @@ $description-body-color: #3c3c3c;
       margin: 0;
     }
   }
+
   .underline {
     text-decoration: underline;
   }
@@ -120,40 +132,42 @@ $description-body-color: #3c3c3c;
     font-weight: bold;
 
     .schema {
-  padding-left: 10px;
-}
-  }
-
-
-.partition-details-container {
-  margin:0px;
-  .left-blue-border {
-    border-left: 15px solid #0074d9;
-    height: 60;
-  }
-
-  .details-content {
-    margin-top: 10px;
-    margin-left: 10px;
-  }
-
-  .partition-content {
-    margin-top: 10px;
-    margin-left: 10px;
-  }
-
-  .details-label {
-    span {
-    @include text-styling(13px, 700, #aaa);
+      padding-left: 10px;
     }
   }
 
-  .partition-value {
-    line-height: 1rem;
-    sd-ellipsis-overflow {
-     @include text-styling(13px, 300);
+
+  .partition-details-container {
+    margin: 0px;
+
+    .left-blue-border {
+      border-left: 15px solid #0074d9;
+      height: 60;
+    }
+
+    .details-content {
+      margin-top: 10px;
+      margin-left: 10px;
+    }
+
+    .partition-content {
+      margin-top: 10px;
+      margin-left: 10px;
+    }
+
+    .details-label {
+      span {
+        @include text-styling(13px, 700, #aaa);
+      }
+    }
+
+    .partition-value {
+      line-height: 1rem;
+
+      sd-ellipsis-overflow {
+        @include text-styling(13px, 300);
+      }
     }
   }
-}
 
 }

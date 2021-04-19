@@ -17,7 +17,7 @@ import { Component, Input, OnInit, TemplateRef, ViewEncapsulation } from '@angul
 import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/alert.service';
 import { BusinessObjectFormatDdlRequest, BusinessObjectFormatService } from '@herd/angular-client';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { catchError, finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'sd-schema-columns',
@@ -113,7 +113,7 @@ export class SchemaColumnsComponent implements OnInit {
 
     this.businessObjectFormatService.businessObjectFormatGenerateBusinessObjectFormatDdl(businessObjectFormatDdlRequest)
       .pipe(finalize(() => {
-          this.businessObjectFormatService.defaultHeaders.delete('skipAlert');
+        this.businessObjectFormatService.defaultHeaders.delete('skipAlert');
       }))
       .subscribe((response: any) => {
         this.ddl = response.ddl;

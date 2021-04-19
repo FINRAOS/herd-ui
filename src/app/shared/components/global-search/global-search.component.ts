@@ -24,15 +24,7 @@ import { HitMatchTypes } from '../../services/search.service';
   styleUrls: ['./global-search.component.scss']
 })
 export class GlobalSearchComponent implements OnInit {
-  private MIN_SEARCH_LENGTH = 2;
-  @Input() placeHolder = 'I can help you to find anything you want!';
-  @Input() searchText: string;
-  @Output() search = new EventEmitter<Object>();
-  public error = false;
-  showHitMatchFilter = false;
-  hitMatchTypes = HitMatchTypes;
 
-  private _match: string[] = [];
   get match() {
     return this._match;
   }
@@ -56,8 +48,12 @@ export class GlobalSearchComponent implements OnInit {
       });
     }
   }
-
-
+  @Input() placeHolder = 'I can help you to find anything you want!';
+  @Input() searchText: string;
+  @Output() search = new EventEmitter<Object>();
+  public error = false;
+  showHitMatchFilter = false;
+  hitMatchTypes = HitMatchTypes;
   // defined type so we make sure to update it whenever we add more hit match types
   hitMatch: {
     all: boolean,
@@ -70,9 +66,11 @@ export class GlobalSearchComponent implements OnInit {
       column: false,
     }
   };
-
   @ViewChild('hitMatchFilter') hitMatchFilter: HTMLElement;
+  private MIN_SEARCH_LENGTH = 2;
   @ViewChild('searchTextBox') private elementRef: ElementRef;
+
+  private _match: string[] = [];
 
   constructor(private route: ActivatedRoute, private router: Router) {
   }

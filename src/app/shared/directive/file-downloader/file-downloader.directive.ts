@@ -22,7 +22,8 @@ export class FileDownloaderDirective implements OnChanges {
 
   @Input() sampleDataFileUrl: string;
 
-  constructor() { }
+  constructor() {
+  }
 
   public ngOnChanges(changesObj: SimpleChanges) {
     const urlChange = changesObj['sampleDataFileUrl'];

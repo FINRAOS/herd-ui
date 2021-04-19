@@ -13,21 +13,24 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<div class="row no-gutters" *ngIf="!editMode" (mouseover)="hover=true;" (mouseout)="hover=false;" (click)="enterEdit()" [ngClass]="{ edit: showEditIcon() }">
-  <div class="col" [innerHTML]="text"></div>
-  <div class="col-1" *ngIf="showEditIcon()">
+<div (click)="enterEdit()" (mouseout)="hover=false;" (mouseover)="hover=true;" *ngIf="!editMode" [ngClass]="{ edit: showEditIcon() }"
+     class="row no-gutters">
+  <div [innerHTML]="text" class="col"></div>
+  <div *ngIf="showEditIcon()" class="col-1">
     <i class="fa fa-pencil"></i>
   </div>
 </div>
 
-<div class="editor-form" *ngIf="editMode">
-  <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+<div *ngIf="editMode" class="editor-form">
+  <form (ngSubmit)="onSubmit()" [formGroup]="editForm">
     <div class="form-group">
-      <div class="form-errors" *ngIf="editForm.errors && editForm.touched">
+      <div *ngIf="editForm.errors && editForm.touched" class="form-errors">
         <small *ngIf="editForm.errors.valueRequired" class="form-text"> {{ editForm.errors.valueRequired }}</small>
-        <small *ngIf="editForm.errors.illegalCharacters" class="form-text"> {{ editForm.errors.illegalCharacters }}</small>
+        <small *ngIf="editForm.errors.illegalCharacters"
+               class="form-text"> {{ editForm.errors.illegalCharacters }}</small>
       </div>
-      <ckeditor *ngIf="!simpleEdit; else simpleForm" [ngModel]="text" [config]="{extraPlugins: 'divarea' }" formControlName="text">
+      <ckeditor *ngIf="!simpleEdit; else simpleForm" [config]="{extraPlugins: 'divarea' }" [ngModel]="text"
+                formControlName="text">
       </ckeditor>
       <ng-template #simpleForm>
         <input [ngModel]="text" formControlName="text" type="text">
@@ -35,7 +38,7 @@
     </div>
     <div class="form-group">
       <button class="btn btn-primary" type="submit">Save</button>
-      <button class="btn btn-danger" type="button" (click)="closeEditor()">Cancel</button>
+      <button (click)="closeEditor()" class="btn btn-danger" type="button">Cancel</button>
     </div>
   </form>
 </div>

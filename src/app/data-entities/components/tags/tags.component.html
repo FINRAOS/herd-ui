@@ -16,13 +16,14 @@
 <div class="tags-container">
   <div class="inner-header">Categories</div>
 
-  <div sdAuthorized [securityFunction]="authMap.editTags"
-  [namespace]="namespace"
-  [namespacePermissions]="editDescriptiveContentPermissions"
-  [displayUnAuthorized]="'show'">
-    <ul class="list-inline" *ngIf="displayingTags.length > 0; else noTags">
-      <li class="list-inline-item" *ngFor="let existingTag of displayingTags">
-        <button [routerLink]="['/categories', existingTag.tagKey.tagTypeCode, existingTag.tagKey.tagCode]" class="tag-button"
+  <div [displayUnAuthorized]="'show'" [namespacePermissions]="editDescriptiveContentPermissions"
+       [namespace]="namespace"
+       [securityFunction]="authMap.editTags"
+       sdAuthorized>
+    <ul *ngIf="displayingTags.length > 0; else noTags" class="list-inline">
+      <li *ngFor="let existingTag of displayingTags" class="list-inline-item">
+        <button [routerLink]="['/categories', existingTag.tagKey.tagTypeCode, existingTag.tagKey.tagCode]"
+                class="tag-button"
                 ngbTooltip="{{existingTag.tagTypeDisplayName}}" placement="right">
           {{existingTag.tagDisplayName}}
         </button>
@@ -33,19 +34,20 @@
     </ng-template>
   </div>
 
-  <div class="tags-content row no-gutters justify-content-between"
-       sdAuthorized [securityFunction]="authMap.editTags"
-       [namespace]="namespace"
+  <div (click)="click(false)"
+       (mouseout)="onMouseLeave($event)" (mouseover)="onMouseEnter($event)"
        [namespacePermissions]="editDescriptiveContentPermissions"
-       (mouseover)="onMouseEnter($event)"
-       (mouseout)="onMouseLeave($event)"
-       (click)="click(false)"
-       [ngClass]="{'edit': hover}">
+       [namespace]="namespace"
+       [ngClass]="{'edit': hover}"
+       [securityFunction]="authMap.editTags"
+       class="tags-content row no-gutters justify-content-between"
+       sdAuthorized>
 
     <div class="col-11">
-      <ul class="list-inline" *ngIf="displayingTags.length > 0; else noTagsEdit">
-        <li class="list-inline-item" *ngFor="let existingTag of displayingTags">
-          <button [routerLink]="['/categories', existingTag.tagKey.tagTypeCode, existingTag.tagKey.tagCode]" (click)="$event.stopPropagation()" class="tag-button"
+      <ul *ngIf="displayingTags.length > 0; else noTagsEdit" class="list-inline">
+        <li *ngFor="let existingTag of displayingTags" class="list-inline-item">
+          <button (click)="$event.stopPropagation()"
+                  [routerLink]="['/categories', existingTag.tagKey.tagTypeCode, existingTag.tagKey.tagCode]" class="tag-button"
                   ngbTooltip="{{existingTag.tagTypeDisplayName}}" placement="right">
             {{existingTag.tagDisplayName || existingTag.displayName}}
           </button>
@@ -57,7 +59,7 @@
 
     </div>
 
-    <div class="col-1" [ngClass]="{'edit-icon': hover}">
+    <div [ngClass]="{'edit-icon': hover}" class="col-1">
       <i class="fa fa-pencil"></i>
     </div>
   </div>
@@ -66,18 +68,18 @@
     <div class="card-block">
       <div class="form-group">
         <ng-select
-          [multiple]="true"
-          [(ngModel)]="selectedTags"
-          [options]="allTags"
-          [disabled]="disabled"
-          [notFoundMsg]="'No Categories Found'"
-          (selected)="selected($event)"
-          (deselected)="removed($event)"
           (blur)="blur($event)"
+          (deselected)="removed($event)"
+          (selected)="selected($event)"
+          [(ngModel)]="selectedTags"
+          [disabled]="disabled"
+          [multiple]="true"
+          [notFoundMsg]="'No Categories Found'"
+          [options]="allTags"
           placeholder="Click to Select Categories"></ng-select>
       </div>
       <div class="form-group">
-        <button class="btn btn-primary btn-sm" type="button" (click)="click(true)">Done</button>
+        <button (click)="click(true)" class="btn btn-primary btn-sm" type="button">Done</button>
       </div>
 
     </div>

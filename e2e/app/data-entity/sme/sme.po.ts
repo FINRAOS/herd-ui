@@ -20,26 +20,62 @@ import { BasePo } from '../../base/base.po';
 export class SmePage extends BasePo {
 
   private _container = element(by.tagName('sd-contacts'));
-  private _heading = this._container.element(by.className('inner-header'));
-  private _smes = this._container.all(by.className('sme-content'));
-  private _jobTitle = this._smes.all(by.className('job-title'));
-  private _telephone = this._smes.all(by.className('telephone-number'));
-  private _email = this._smes.all(by.partialLinkText('Email'));
-  private _message = this._container.element(by.tagName('p'));
 
-  // edit sme po's
-  private _smeCards = this._container.all(by.tagName('ngb-alert'));
-  private _closeIcon = this._container.element(by.className('close'));
-  private _contactInputField = this._container.element(by.name('contact'));
-  private _saveButton = this._container.element(by.buttonText('Save'));
-  private _doneButton = this._container.element(by.buttonText('Done'));
+  get container(): ElementFinder {
+    return this._container;
+  }
+
+  private _heading = this._container.element(by.className('inner-header'));
 
   get heading(): ElementFinder {
     return this._heading;
   }
 
+  private _smes = this._container.all(by.className('sme-content'));
+
+  private _jobTitle = this._smes.all(by.className('job-title'));
+  private _telephone = this._smes.all(by.className('telephone-number'));
+  private _email = this._smes.all(by.partialLinkText('Email'));
+
   get smes(): ElementArrayFinder {
     return this._smes;
+  }
+
+  private _message = this._container.element(by.tagName('p'));
+
+  get message(): ElementFinder {
+    return this._message;
+  }
+
+  // edit sme po's
+  private _smeCards = this._container.all(by.tagName('ngb-alert'));
+
+  get smeCards(): any {
+    return this._smeCards;
+  }
+
+  private _closeIcon = this._container.element(by.className('close'));
+
+  get closeIcon(): any {
+    return this._closeIcon;
+  }
+
+  private _contactInputField = this._container.element(by.name('contact'));
+
+  get contactInputField(): any {
+    return this._contactInputField;
+  }
+
+  private _saveButton = this._container.element(by.buttonText('Save'));
+
+  get saveButton(): any {
+    return this._saveButton;
+  }
+
+  private _doneButton = this._container.element(by.buttonText('Done'));
+
+  get doneButton(): any {
+    return this._doneButton;
   }
 
   sme(index): ElementFinder {
@@ -60,33 +96,5 @@ export class SmePage extends BasePo {
 
   email(index): ElementFinder {
     return this._email.get(index);
-  }
-
-  get message(): ElementFinder {
-    return this._message;
-  }
-
-  get container(): ElementFinder {
-    return this._container;
-  }
-
-  get closeIcon(): any {
-    return this._closeIcon;
-  }
-
-  get contactInputField(): any {
-    return this._contactInputField;
-  }
-
-  get saveButton(): any {
-    return this._saveButton;
-  }
-
-  get doneButton(): any {
-    return this._doneButton;
-  }
-
-  get smeCards(): any {
-    return this._smeCards;
   }
 }

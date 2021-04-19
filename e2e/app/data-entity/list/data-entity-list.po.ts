@@ -20,18 +20,18 @@ import { BasePo } from '../../base/base.po';
 export class DataEntityListPage extends BasePo {
 
 
-    public contentHeader: ElementFinder = element(by.className('content-header'));
-    public heading: ElementFinder  = this.contentHeader.element(by.tagName('h1'));
-    public subHeading: ElementFinder  = this.contentHeader.element(by.tagName('h4'));
+  public contentHeader: ElementFinder = element(by.className('content-header'));
+  public heading: ElementFinder = this.contentHeader.element(by.tagName('h1'));
+  public subHeading: ElementFinder = this.contentHeader.element(by.tagName('h4'));
 
-    public dataEntityRow: ElementArrayFinder = element.all(by.className('data-entity-row'));
-    public name: ElementFinder  = this.dataEntityRow.get(0).element(by.tagName('h4'));
-    public namespaceContainer: ElementFinder  = this.dataEntityRow.get(0).element(by.tagName('h6'));
+  public dataEntityRow: ElementArrayFinder = element.all(by.className('data-entity-row'));
+  public name: ElementFinder = this.dataEntityRow.get(0).element(by.tagName('h4'));
+  public namespaceContainer: ElementFinder = this.dataEntityRow.get(0).element(by.tagName('h6'));
 
-    public namespaceLabel: ElementFinder = this.namespaceContainer.all(by.tagName('span')).get(0);
-    public namespace: ElementFinder = this.namespaceContainer.all(by.tagName('span')).get(1);
+  public namespaceLabel: ElementFinder = this.namespaceContainer.all(by.tagName('span')).get(0);
+  public namespace: ElementFinder = this.namespaceContainer.all(by.tagName('span')).get(1);
 
-    public link: ElementFinder = this.dataEntityRow.get(0).element(by.tagName('a'));
+  public link: ElementFinder = this.dataEntityRow.get(0).element(by.tagName('a'));
 
-    public searchBox = element(by.tagName('input'));
+  public searchBox = element(by.tagName('input'));
 }

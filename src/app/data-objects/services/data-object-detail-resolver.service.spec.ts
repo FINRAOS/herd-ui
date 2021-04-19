@@ -21,127 +21,127 @@ import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot } f
 import { ActivatedRouteStub, RouterStub } from 'testing/router-stubs';
 
 describe('DataObjectDetailResolverService', () => {
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            providers: [DataObjectDetailResolverService,
-                {
-                    provide: BusinessObjectDataService, useValue: {
-                        businessObjectDataGetBusinessObjectData:
-                        jasmine.createSpy('businessObjectDataGetBusinessObjectData'),
-                        configuration: {}
-                    }
-                }, {
-                    provide: Router,
-                    useClass: RouterStub
-                }, {
-                    provide: ActivatedRoute,
-                    useClass: ActivatedRouteStub
-                }]
-        });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [DataObjectDetailResolverService,
+        {
+          provide: BusinessObjectDataService, useValue: {
+            businessObjectDataGetBusinessObjectData:
+              jasmine.createSpy('businessObjectDataGetBusinessObjectData'),
+            configuration: {}
+          }
+        }, {
+          provide: Router,
+          useClass: RouterStub
+        }, {
+          provide: ActivatedRoute,
+          useClass: ActivatedRouteStub
+        }]
     });
+  });
 
-    it('should fetch data from service initially', inject([DataObjectDetailResolverService,
-        BusinessObjectDataService, Router, ActivatedRoute],
-        (service: DataObjectDetailResolverService, dataApi: BusinessObjectDataService,
-            r: Router, activatedRoute: ActivatedRouteStub) => {
-            expect(service).toBeTruthy();
-            activatedRoute.testParams = {
-                namespace: 'ns',
-                dataEntityName: 'dn',
-                formatUsage: 'PRC',
-                formatFileType: 'TXT',
-                formatVersion: '0',
-                partitionValue: '01-01-2017',
-                subPartitionValues: '01-01-2017',
-                dataObjectVersion: '0'
-            };
+  it('should fetch data from service initially', inject([DataObjectDetailResolverService,
+      BusinessObjectDataService, Router, ActivatedRoute],
+    (service: DataObjectDetailResolverService, dataApi: BusinessObjectDataService,
+     r: Router, activatedRoute: ActivatedRouteStub) => {
+      expect(service).toBeTruthy();
+      activatedRoute.testParams = {
+        namespace: 'ns',
+        dataEntityName: 'dn',
+        formatUsage: 'PRC',
+        formatFileType: 'TXT',
+        formatVersion: '0',
+        partitionValue: '01-01-2017',
+        subPartitionValues: '01-01-2017',
+        dataObjectVersion: '0'
+      };
 
-            const expectedResult: BusinessObjectData = {
-                namespace: 'ns',
-                businessObjectDefinitionName: 'dn',
-                businessObjectFormatUsage: 'PRC',
-                businessObjectFormatFileType: 'TXT',
-                businessObjectFormatVersion: 0,
-                partitionKey: 'TEST_KEY',
-                partitionValue: '01-01-2017',
-                subPartitionValues: ['01-01-2017'],
-                version: 0
-            };
-            const dataSpy = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectData);
-            dataSpy.and.returnValue(of(expectedResult));
+      const expectedResult: BusinessObjectData = {
+        namespace: 'ns',
+        businessObjectDefinitionName: 'dn',
+        businessObjectFormatUsage: 'PRC',
+        businessObjectFormatFileType: 'TXT',
+        businessObjectFormatVersion: 0,
+        partitionKey: 'TEST_KEY',
+        partitionValue: '01-01-2017',
+        subPartitionValues: ['01-01-2017'],
+        version: 0
+      };
+      const dataSpy = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectData);
+      dataSpy.and.returnValue(of(expectedResult));
 
-            const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach);
-            shouldAttachSpy.and.returnValue(false);
+      const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach);
+      shouldAttachSpy.and.returnValue(false);
 
-            (service.resolve(
-                ({ params: activatedRoute.testParams } as any) as ActivatedRouteSnapshot,
-                {} as RouterStateSnapshot) as Observable<any>).subscribe((data) => {
-                    expect((data as DataObjectDetailResolverData).businessObjectData)
-                        .toEqual(expectedResult);
-                    expect((data as DataObjectDetailResolverData).title).toEqual('Data Object - ' +
-                        [expectedResult.partitionKey, expectedResult.partitionValue, expectedResult.version].join(' : '));
-                    expect(dataSpy).toHaveBeenCalled();
-                });
+      (service.resolve(
+        ({params: activatedRoute.testParams} as any) as ActivatedRouteSnapshot,
+        {} as RouterStateSnapshot) as Observable<any>).subscribe((data) => {
+        expect((data as DataObjectDetailResolverData).businessObjectData)
+          .toEqual(expectedResult);
+        expect((data as DataObjectDetailResolverData).title).toEqual('Data Object - ' +
+          [expectedResult.partitionKey, expectedResult.partitionValue, expectedResult.version].join(' : '));
+        expect(dataSpy).toHaveBeenCalled();
+      });
 
-        }));
+    }));
 
-    it('should return saved data', inject([DataObjectDetailResolverService,
-        BusinessObjectDataService, Router, ActivatedRoute],
-        (service: DataObjectDetailResolverService, dataApi: BusinessObjectDataService,
-            r: Router, activatedRoute: ActivatedRouteStub) => {
-            expect(service).toBeTruthy();
-            activatedRoute.testParams = {
-                namespace: 'ns',
-                businessObjectDefinitionName: 'dn',
-                businessObjectFormatUsage: 'PRC',
-                businessObjectFormatFileType: 'TXT',
-                businessObjectFormatVersion: '0',
-                partitionKey: 'TEST_KEY',
-                partitionValue: '01-01-2017',
-                subPartitionValues: '01-01-2017',
-                businessObjectDataVersion: '0'
-            };
+  it('should return saved data', inject([DataObjectDetailResolverService,
+      BusinessObjectDataService, Router, ActivatedRoute],
+    (service: DataObjectDetailResolverService, dataApi: BusinessObjectDataService,
+     r: Router, activatedRoute: ActivatedRouteStub) => {
+      expect(service).toBeTruthy();
+      activatedRoute.testParams = {
+        namespace: 'ns',
+        businessObjectDefinitionName: 'dn',
+        businessObjectFormatUsage: 'PRC',
+        businessObjectFormatFileType: 'TXT',
+        businessObjectFormatVersion: '0',
+        partitionKey: 'TEST_KEY',
+        partitionValue: '01-01-2017',
+        subPartitionValues: '01-01-2017',
+        businessObjectDataVersion: '0'
+      };
 
-            const expectedResult: BusinessObjectData = {
-                namespace: 'ns',
-                businessObjectDefinitionName: 'dn',
-                businessObjectFormatUsage: 'PRC',
-                businessObjectFormatFileType: 'TXT',
-                businessObjectFormatVersion: 0,
-                partitionKey: 'TEST_KEY',
-                partitionValue: '01-01-2017',
-                subPartitionValues: ['01-01-2017'],
-                version: 0
-            };
-            const dataSpy = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectData);
-            dataSpy.and.returnValue(of(expectedResult));
+      const expectedResult: BusinessObjectData = {
+        namespace: 'ns',
+        businessObjectDefinitionName: 'dn',
+        businessObjectFormatUsage: 'PRC',
+        businessObjectFormatFileType: 'TXT',
+        businessObjectFormatVersion: 0,
+        partitionKey: 'TEST_KEY',
+        partitionValue: '01-01-2017',
+        subPartitionValues: ['01-01-2017'],
+        version: 0
+      };
+      const dataSpy = (<jasmine.Spy>dataApi.businessObjectDataGetBusinessObjectData);
+      dataSpy.and.returnValue(of(expectedResult));
 
-            const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach);
-            shouldAttachSpy.and.returnValue(true);
+      const shouldAttachSpy = (<jasmine.Spy>r.routeReuseStrategy.shouldAttach);
+      shouldAttachSpy.and.returnValue(true);
 
-            const retrieveSpy = (<jasmine.Spy>r.routeReuseStrategy.retrieve);
-                retrieveSpy.and.returnValue({
-                        route : {
-                            value: {
-                                data: {
-                                    _value: {
-                                        resolvedData: {
-                                            title: 'Data Object - ' +
-                                            [expectedResult.partitionKey, expectedResult.partitionValue].join(' : '),
-                                            businessObjectData: expectedResult
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                });
+      const retrieveSpy = (<jasmine.Spy>r.routeReuseStrategy.retrieve);
+      retrieveSpy.and.returnValue({
+        route: {
+          value: {
+            data: {
+              _value: {
+                resolvedData: {
+                  title: 'Data Object - ' +
+                    [expectedResult.partitionKey, expectedResult.partitionValue].join(' : '),
+                  businessObjectData: expectedResult
+                }
+              }
+            }
+          }
+        }
+      });
 
-            const retVal = service.resolve(
-                ({ params: activatedRoute.testParams } as any) as ActivatedRouteSnapshot,
-                {} as RouterStateSnapshot) as DataObjectDetailResolverData;
-           expect(retVal.businessObjectData).toEqual(expectedResult);
-            expect(retVal.title).toEqual('Data Object - ' +
-                [expectedResult.partitionKey, expectedResult.partitionValue].join(' : '));
-            expect(dataSpy).not.toHaveBeenCalled();
-        }));
+      const retVal = service.resolve(
+        ({params: activatedRoute.testParams} as any) as ActivatedRouteSnapshot,
+        {} as RouterStateSnapshot) as DataObjectDetailResolverData;
+      expect(retVal.businessObjectData).toEqual(expectedResult);
+      expect(retVal.title).toEqual('Data Object - ' +
+        [expectedResult.partitionKey, expectedResult.partitionValue].join(' : '));
+      expect(dataSpy).not.toHaveBeenCalled();
+    }));
 });

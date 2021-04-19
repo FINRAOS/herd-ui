@@ -31,9 +31,8 @@ import { EllipsisOverflowComponent } from 'app/shared/components/ellipsis-overfl
 import { GenericViewComponent } from 'app/shared/components/generic-view/generic-view.component';
 import { PartitionFilterComponent } from 'app/data-objects/components/partition-filter/partition-filter.component';
 import { AttributeFilterComponent } from 'app/data-objects/components/attribute-filter/attribute-filter.component';
-import {
-  LatestValidVersionFilterComponent
-} from 'app/data-objects/components/latest-valid-version-filter/latest-valid-version-filter.component';
+// tslint:disable-next-line:max-line-length
+import { LatestValidVersionFilterComponent } from 'app/data-objects/components/latest-valid-version-filter/latest-valid-version-filter.component';
 import { FilterTemplateComponent } from 'app/data-objects/components/filter-template/filter-template.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -73,7 +72,7 @@ const businessObjectDataKeys = {
       businessObjectFormatVersion: 'bdef-format-version',
       partitionKey: 'test-key',
       subPartitionValues: ['test-sub-partition-key'],
-      attributes: [{ name: 'xxx', value: 'yyy' }, { name: 'xxxx', value: 'yyyyy' }],
+      attributes: [{name: 'xxx', value: 'yyy'}, {name: 'xxxx', value: 'yyyyy'}],
       version: 231,
       status: false
     },
@@ -84,7 +83,7 @@ const businessObjectDataKeys = {
       businessObjectFormatVersion: 'bdef-format-version1',
       partitionKey: 'test-key',
       subPartitionValues: ['test-sub-partition-key'],
-      attributes: [{ name: 'xxx1', value: 'yyyy1' }, { name: 'xxxx1', value: 'yyyyy1' }],
+      attributes: [{name: 'xxx1', value: 'yyyy1'}, {name: 'xxxx1', value: 'yyyyy1'}],
       version: 232,
       status: false
     }
@@ -94,15 +93,15 @@ const businessObjectDataKeys = {
 const businessObjectSearchResult = {
   businessObjectDataElements: [
     {
-      attributes: [{ name: 'xxx', value: 'yyyy' }, { name: 'xxx1', value: 'yyyy1' }, { name: 'xxx2', value: 'yyyy2' }],
+      attributes: [{name: 'xxx', value: 'yyyy'}, {name: 'xxx1', value: 'yyyy1'}, {name: 'xxx2', value: 'yyyy2'}],
       status: true
     },
     {
-      attributes: [{ name: 'xxx3', value: 'yyyy3' }, { name: 'xxx4', value: 'yyyy4' }, { name: 'xxx5', value: 'yyyy5' }],
+      attributes: [{name: 'xxx3', value: 'yyyy3'}, {name: 'xxx4', value: 'yyyy4'}, {name: 'xxx5', value: 'yyyy5'}],
       status: true
     },
     {
-      attributes: [{ name: 'xxx6', value: 'yyyy6' }, { name: 'xxx7', value: 'yyyy7' }, { name: 'xxx8', value: 'yyyy8' }],
+      attributes: [{name: 'xxx6', value: 'yyyy6'}, {name: 'xxx7', value: 'yyyy7'}, {name: 'xxx8', value: 'yyyy8'}],
       status: true
     }
   ]
@@ -128,7 +127,7 @@ describe('DataObjectListComponent', () => {
       imports: [
         FormsModule,
         HttpClientModule,
-        NgbModule.forRoot(),
+        NgbModule,
         CodemirrorModule,
         ClipboardModule,
         RouterTestingModule,
@@ -153,7 +152,7 @@ describe('DataObjectListComponent', () => {
       ],
       providers: [
         BusinessObjectDataService, BusinessObjectFormatService,
-        { provide: ActivatedRoute, useValue: activeRoute },
+        {provide: ActivatedRoute, useValue: activeRoute},
         AlertService
       ]
     })
@@ -179,7 +178,7 @@ describe('DataObjectListComponent', () => {
     spyOn(businessObjectDataApi, 'businessObjectDataSearchBusinessObjectData')
       .and.returnValue(of(businessObjectSearchResult));
     spyOn(businessObjectDataApi, 'businessObjectDataGenerateBusinessObjectDataDdl')
-      .and.returnValue(of({ ddl: ddl } as BusinessObjectDataDdl));
+      .and.returnValue(of({ddl: ddl} as BusinessObjectDataDdl));
 
     businessObjectFormatApi = fixture.debugElement.injector.get(BusinessObjectFormatService);
     spyOn(businessObjectFormatApi, 'businessObjectFormatGetBusinessObjectFormat').and.returnValue(of(format));
@@ -191,7 +190,7 @@ describe('DataObjectListComponent', () => {
   });
 
   it('should make the data object list without format usage', () => {
-    activeRoute.testParams = { namespace: 'ns', dataEntityname: 'name' };
+    activeRoute.testParams = {namespace: 'ns', dataEntityname: 'name'};
     fixture.detectChanges();
     expect(component.format).toBeFalsy();
   });
@@ -217,7 +216,7 @@ describe('DataObjectListComponent', () => {
     expect(component.lastLoad).toBeTruthy();
     expect(component.data.length).toBeGreaterThan(0);
 
-    const tempEvent = { ...dataObjectListFiltersChangeEventData, latestValidVersion: true, partitionValueFilters: undefined };
+    const tempEvent = {...dataObjectListFiltersChangeEventData, latestValidVersion: true, partitionValueFilters: undefined};
     component.loadData(tempEvent);
     expect(component.useLatestValidVersion).toBe(true);
 
@@ -225,14 +224,14 @@ describe('DataObjectListComponent', () => {
 
   it('should show empty message on server 400 error while load data', () => {
     businessObjectDataApi.businessObjectDataSearchBusinessObjectData
-      .and.returnValue(throwError({ status: 400, message: 'not found error', body: [] }));
+      .and.returnValue(throwError({status: 400, message: 'not found error', body: []}));
     fixture.detectChanges();
     component.loadData(dataObjectListFiltersChangeEventData);
     expect(component.data.length).toBe(0);
     businessObjectDataApi.businessObjectDataSearchBusinessObjectData
       .and.returnValue(throwError({
-        status: 401, url: 'test url for error', message: 'not found error', body: [], statusText: 'not found error'
-      }));
+      status: 401, url: 'test url for error', message: 'not found error', body: [], statusText: 'not found error'
+    }));
     fixture.detectChanges();
     component.loadData(dataObjectListFiltersChangeEventData);
     expect(component.data.length).toBe(0);

@@ -13,27 +13,28 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<div class="error" *ngIf="error">Please supply at least 3 characters.</div>
+<div *ngIf="error" class="error">Please supply at least 3 characters.</div>
 
 <div class="input-group">
-  <input #searchTextBox class="form-control" type="text" [(ngModel)]="searchText" placeholder="{{placeHolder}}">
-  <span class="input-group-addon" [class.hit-match-opened]="showHitMatchFilter" (click)="showHitMatchFilter = !showHitMatchFilter"><i class="fa fa-filter"></i></span>
-  <span class="input-group-addon" (click)="makeSearch(searchText)"><i class="fa fa-search"></i></span>
+  <input #searchTextBox [(ngModel)]="searchText" class="form-control" placeholder="{{placeHolder}}" type="text">
+  <span (click)="showHitMatchFilter = !showHitMatchFilter" [class.hit-match-opened]="showHitMatchFilter"
+        class="input-group-addon"><i class="fa fa-filter"></i></span>
+  <span (click)="makeSearch(searchText)" class="input-group-addon"><i class="fa fa-search"></i></span>
 </div>
 
-<div class="row hit-match-filter" [class.show-hit-match-filter]="showHitMatchFilter">
+<div [class.show-hit-match-filter]="showHitMatchFilter" class="row hit-match-filter">
   <div class="form-check">
     <label class="form-check-label">
-          Match:
+      Match:
     </label>
     <label class="form-check-label">
-      <input type="checkbox" [disabled]="hitMatch.all" [checked]="hitMatch.all"
-      (change)="processCheck($event, '')" class="form-check-input">
+      <input (change)="processCheck($event, '')" [checked]="hitMatch.all" [disabled]="hitMatch.all"
+             class="form-check-input" type="checkbox">
       All
     </label>
     <label class="form-check-label">
-      <input type="checkbox" [checked]="hitMatch.hitType.column"
-      (change)="processCheck($event, hitMatchTypes.column)" class="form-check-input">
+      <input (change)="processCheck($event, hitMatchTypes.column)" [checked]="hitMatch.hitType.column"
+             class="form-check-input" type="checkbox">
       Column
     </label>
   </div>
