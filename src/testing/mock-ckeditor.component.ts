@@ -17,36 +17,49 @@ import { Component, forwardRef, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-    // tslint:disable-next-line:component-selector
-    selector: 'ckeditor',
-    template: '<div>value</div>',
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => MockCkeditorComponent),
-            multi: true
-        }
-    ],
+  // tslint:disable-next-line:component-selector
+  selector: 'ckeditor',
+  template: '<div>value</div>',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => MockCkeditorComponent),
+      multi: true
+    }
+  ],
 })
 export class MockCkeditorComponent {
-    @Input() config: any;
+  @Input() config: any;
 
-    private _value = '';
-    get value(): any { return this._value; }
-    @Input() set value(v) {
-        if (v !== this._value) {
-            this._value = v;
-        }
-    }
+  private _value = '';
+  get value(): any {
+    return this._value;
+  }
 
-    /**
-     * Implements ControlValueAccessor
-     */
-    writeValue(value: any) {
-        this._value = value;
+  @Input() set value(v) {
+    if (v !== this._value) {
+      this._value = v;
     }
-    onChange(_: any) { }
-    onTouched() { }
-    registerOnChange(fn: any) { this.onChange = fn; }
-    registerOnTouched(fn: any) { this.onTouched = fn; }
+  }
+
+  /**
+   * Implements ControlValueAccessor
+   */
+  writeValue(value: any) {
+    this._value = value;
+  }
+
+  onChange(_: any) {
+  }
+
+  onTouched() {
+  }
+
+  registerOnChange(fn: any) {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any) {
+    this.onTouched = fn;
+  }
 }

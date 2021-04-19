@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {by, element, ElementFinder, ElementArrayFinder} from "protractor";
-import {OverviewPage} from "../overview/overview.po";
+import { by, element, ElementArrayFinder, ElementFinder } from 'protractor';
+import { OverviewPage } from '../overview/overview.po';
 
 export class DocumentSchemaPage extends OverviewPage {
-  private _container = element(by.id('ngb-tab-2'));
-
   // document schema
   public documentSchemaContainer = element(by.className('document-schema'));
-
   public documentSchemaUrlContainer = element(by.css('.tab-contents > .col-9 > .sub-header-label'));
   public documentSchemaUrlTxtContainer = element(by.css('.tab-contents > .col-9 p'));
+  private _container = element(by.id('ngb-tab-2'));
 
   get documentSchemaFormatTab(): ElementFinder {
     return this._tabs.all(by.tagName('li')).get(3).element(by.tagName('a'));
   }
+
   get documentSchemaTab(): ElementFinder {
     return this._tabs.all(by.tagName('li')).get(2).element(by.tagName('a'));
   }

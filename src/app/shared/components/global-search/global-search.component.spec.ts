@@ -29,17 +29,18 @@ describe('GlobalSearchComponent', () => {
   let searchTextBox: DebugElement;
   let allCheckBox: DebugElement;
   let columnCheckBox: DebugElement;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         HttpClientModule,
         FormsModule
       ],
       declarations: [GlobalSearchComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: ActivatedRouteStub },
-        { provide: Router, useClass: RouterStub }]
+        {provide: ActivatedRoute, useClass: ActivatedRouteStub},
+        {provide: Router, useClass: RouterStub}]
     })
       .compileComponents();
   }));
@@ -50,6 +51,10 @@ describe('GlobalSearchComponent', () => {
     searchTextBox = fixture.debugElement.query(By.css('input[type="text"]'));
     allCheckBox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[0];
     columnCheckBox = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'))[1];
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should be created', () => {
@@ -77,23 +82,24 @@ describe('GlobalSearchComponent', () => {
     fixture.detectChanges();
     const searchSpy = spyOn(component, 'makeSearch');
     searchTextBox.nativeElement.value = 'testSearch';
-    searchTextBox.triggerEventHandler('input', { target: searchTextBox.nativeElement});
+    searchTextBox.triggerEventHandler('input', {target: searchTextBox.nativeElement});
     // keyup on the actual root element
     fixture.debugElement.triggerEventHandler('keyup.enter', {});
     // expect(searchSpy).toHaveBeenCalledWith('testSearch');
     expect(component.searchText).toBe('testSearch');
 
     searchTextBox.nativeElement.value = 'testSearch2';
-    searchTextBox.triggerEventHandler('input', { target: searchTextBox.nativeElement});
+    searchTextBox.triggerEventHandler('input', {target: searchTextBox.nativeElement});
 
     // setup bubble keyboard event
     let ev: KeyboardEvent;
 
     try {
-      ev = new KeyboardEvent('keyup', { bubbles: true, key: 'Enter' });
+      ev = new KeyboardEvent('keyup', {bubbles: true, key: 'Enter'});
     } catch {
       // for phantomjs
       ev = document.createEvent('KeyboardEvent');
+      // tslint:disable-next-line:deprecation
       ev.initKeyboardEvent('keyup', true, true, window, 'Enter', 0, '', false, '');
     }
 
@@ -104,8 +110,8 @@ describe('GlobalSearchComponent', () => {
   }));
 
   it('should properly set param / queryParam fields on init', inject([ActivatedRoute], (mock: ActivatedRouteStub) => {
-    mock.testQueryParams = { match: 'column,others,testingMore,matches'};
-    mock.testParams = { searchText: 'newSearch' };
+    mock.testQueryParams = {match: 'column,others,testingMore,matches'};
+    mock.testParams = {searchText: 'newSearch'};
     fixture.detectChanges();
     // expect(component.match).toEqual(mock.snapshot.queryParams.match.split(','));
     expect(component.searchText).toEqual('newSearch');
@@ -119,31 +125,31 @@ describe('GlobalSearchComponent', () => {
   }));
 
   it('should properly update searchTerm and match when navigationEnd occurs',
-  async(inject([ActivatedRoute, Router], (mockRoute: ActivatedRouteStub, mockRouter: RouterStub) => {
-    mockRoute.testParams = {
-      searchText: 'test search'
-    };
-    mockRoute.testQueryParams = {
-      match: 'column'
-    };
-    fixture.detectChanges();
+    async(inject([ActivatedRoute, Router], (mockRoute: ActivatedRouteStub, mockRouter: RouterStub) => {
+      mockRoute.testParams = {
+        searchText: 'test search'
+      };
+      mockRoute.testQueryParams = {
+        match: 'column'
+      };
+      fixture.detectChanges();
 
-    expect(component.searchText).toEqual('test search');
-    expect(component.match).toEqual(['column']);
-    expect(component.hitMatch).toEqual({ all: false, hitType: { column: true }});
+      expect(component.searchText).toEqual('test search');
+      expect(component.match).toEqual(['column']);
+      expect(component.hitMatch).toEqual({all: false, hitType: {column: true}});
 
-    mockRoute.testParams = {
-      searchText: 'test search 2'
-    };
-    mockRoute.testQueryParams = {
-      match: ''
-    };
-    mockRouter.emitEnd();
+      mockRoute.testParams = {
+        searchText: 'test search 2'
+      };
+      mockRoute.testQueryParams = {
+        match: ''
+      };
+      mockRouter.emitEnd();
 
-    expect(component.searchText).toEqual('test search 2');
-    expect(component.match).toEqual([]);
-    expect(component.hitMatch).toEqual({ all: true, hitType: { column: false }});
-  })));
+      expect(component.searchText).toEqual('test search 2');
+      expect(component.match).toEqual([]);
+      expect(component.hitMatch).toEqual({all: true, hitType: {column: false}});
+    })));
 
   it('should set match properly when checkboxes are selected', async(() => {
     fixture.detectChanges();

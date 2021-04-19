@@ -21,11 +21,11 @@ const conf = require('./../../../config/conf.e2e.json');
 
 // This can only be run locally.
 describe('Bdef sample data', () => {
-    let page: SampleDataPage;
-    const _url =  conf.dataEntityDetailPath;
-    const file1 = 'C:/Temp/test1.csv';
-    const file2 = 'C:/Temp/test2.csv';
-    const filex = 'C:/Temp/testX.csv';
+  let page: SampleDataPage;
+  const _url = conf.dataEntityDetailPath;
+  const file1 = 'C:/Temp/test1.csv';
+  const file2 = 'C:/Temp/test2.csv';
+  const filex = 'C:/Temp/testX.csv';
 
   beforeEach(() => {
 
@@ -46,8 +46,8 @@ describe('Bdef sample data', () => {
     // Load page
     await page.navigateTo(_url + '/NODE_TEST/SAMPLE_FILES_X');
     if (fs.existsSync(filex)) {
-    // Make sure the browser doesn't have to rename the download.
-    fs.unlinkSync(filex);
+      // Make sure the browser doesn't have to rename the download.
+      fs.unlinkSync(filex);
     }
     await page.sampleDataButton.click();
     // await download and validate no file
@@ -64,22 +64,22 @@ describe('Bdef sample data', () => {
     await expect(page.sampleDataButtonColor.getCssValue('color')).toBe(page.activeIconColor);
     await expect(page.watchButtonColor.getCssValue('color')).toBe(page.inactiveIconColor);
     if (fs.existsSync(file)) {
-    // Make sure the browser doesn't have to rename the download.
-    fs.unlinkSync(file);
+      // Make sure the browser doesn't have to rename the download.
+      fs.unlinkSync(file);
     }
     await page.sampleDataButton.click();
     // await download
     await browser.driver.wait(function () {
       // Wait until the file has been downloaded.
-    // We need to wait thus as otherwise protractor has a nasty habit of
-    // trying to do any following tests while the file is still being
-    // downloaded and hasn't been moved to its final location.
-    return fs.existsSync(file);
+      // We need to wait thus as otherwise protractor has a nasty habit of
+      // trying to do any following tests while the file is still being
+      // downloaded and hasn't been moved to its final location.
+      return fs.existsSync(file);
     }, 30000).then(function () {
-    // Do whatever checks you need here.  This is a simple comparison;
-    // for a larger file you might want to do calculate the file's MD5
-    // hash and see if it matches what you expect.
-    expect(fs.readFileSync(file, {encoding: 'utf8'})).toEqual(data);
+      // Do whatever checks you need here.  This is a simple comparison;
+      // for a larger file you might want to do calculate the file's MD5
+      // hash and see if it matches what you expect.
+      expect(fs.readFileSync(file, {encoding: 'utf8'})).toEqual(data);
     });
   }
 });

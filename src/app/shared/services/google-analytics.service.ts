@@ -27,7 +27,7 @@ export class GoogleAnalyticsService {
    * therefore it is fine to put the ga('create') in its constructor.
    */
   constructor(private cu: UserService) {
-    if ( environment.trackAnalytics && environment.ga.trackingId) {
+    if (environment.trackAnalytics && environment.ga.trackingId) {
       ga('create', environment.ga.trackingId, 'auto');
     } else {
       console.warn(`Google Analytics has not been configured for this deployment.
@@ -36,19 +36,19 @@ export class GoogleAnalyticsService {
   }
 
   public sendPageViewData(url: string) {
-    if ( environment.trackAnalytics) {
-        ga('set', 'page', url);
-        ga('set', 'dimension1', this.cu.encryptedUserIdentifier );
-        ga('set', 'userId', this.cu.encryptedUserIdentifier);
-        ga('send', 'pageview');
+    if (environment.trackAnalytics) {
+      ga('set', 'page', url);
+      ga('set', 'dimension1', this.cu.encryptedUserIdentifier);
+      ga('set', 'userId', this.cu.encryptedUserIdentifier);
+      ga('send', 'pageview');
     }
   }
 
   public sendEventData(eventCategory: string, eventAction: string, eventLabel: string) {
-    if ( environment.trackAnalytics) {
-     // ga send event with encrypted  user id. GA generated the term 'dimension1'. This cannot be modified.
-      ga('send', 'event', eventCategory, eventAction , eventLabel,
-       {'dimension1': this.cu.encryptedUserIdentifier});
+    if (environment.trackAnalytics) {
+      // ga send event with encrypted  user id. GA generated the term 'dimension1'. This cannot be modified.
+      ga('send', 'event', eventCategory, eventAction, eventLabel,
+        {'dimension1': this.cu.encryptedUserIdentifier});
     }
   }
 }

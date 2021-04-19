@@ -22,42 +22,43 @@ import { map } from 'rxjs/operators';
 
 
 export interface TitleResolverData {
-    title?: string;
+  title?: string;
 }
 
 export interface DataEntityDetailResolverData extends TitleResolverData {
-    bdef: BusinessObjectDefinition | any;
+  bdef: BusinessObjectDefinition | any;
 }
 
 @Injectable()
 export class DataEntityDetailResolverService implements Resolve<any> {
 
-    constructor(private router: Router,
-        private businessObjectDefinitionApi: BusinessObjectDefinitionService,
-        private title: Title) {
-    }
+  constructor(private router: Router,
+              private businessObjectDefinitionApi: BusinessObjectDefinitionService,
+              private title: Title) {
+  }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<DataEntityDetailResolverData> |
-        DataEntityDetailResolverData | TitleResolverData {
-        // if we don't currently bdef then fetch the bdef and its details
-        if (!this.router.routeReuseStrategy.shouldAttach(route)) {
-            // Subscribe to the bdef
-            return this.businessObjectDefinitionApi.businessObjectDefinitionGetBusinessObjectDefinition(
-                route.params.namespace, route.params.dataEntityName).pipe(map((res) => {
-                    const retVal: DataEntityDetailResolverData = {
-                        bdef: res,
-                        title: 'Data Entity - ' + (res.displayName || res.businessObjectDefinitionName)
-                    };
-                    return retVal;
-                }));
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<DataEntityDetailResolverData> |
+    DataEntityDetailResolverData | TitleResolverData {
+    // if we don't currently bdef then fetch the bdef and its details
+    if (!this.router.routeReuseStrategy.shouldAttach(route)) {
+      // Subscribe to the bdef
+      return this.businessObjectDefinitionApi.businessObjectDefinitionGetBusinessObjectDefinition(
+        route.params.namespace, route.params.dataEntityName).pipe(map((res) => {
+        const retVal: DataEntityDetailResolverData = {
+          bdef: res,
+          title: 'Data Entity - ' + (res.displayName || res.businessObjectDefinitionName)
+        };
+        return retVal;
+      }));
 
-        } else {
-            // If we do have the bdef return the title
-            const handle: DetachedRouteHandle = this.router.routeReuseStrategy.retrieve(route);
-            const retVal: DataEntityDetailResolverData = {
-                title: ((handle as any).route.value.data as any)._value.resolvedData.title,
-                bdef: ((handle as any).route.value.data as any)._value.resolvedData.bdef };
-            return retVal;
-        }
+    } else {
+      // If we do have the bdef return the title
+      const handle: DetachedRouteHandle = this.router.routeReuseStrategy.retrieve(route);
+      const retVal: DataEntityDetailResolverData = {
+        title: ((handle as any).route.value.data as any)._value.resolvedData.title,
+        bdef: ((handle as any).route.value.data as any)._value.resolvedData.bdef
+      };
+      return retVal;
     }
+  }
 }

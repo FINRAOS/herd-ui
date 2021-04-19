@@ -14,12 +14,13 @@
 * limitations under the License.
 */
 @import '../../../shared/styles/shared';
+
 $recommended-format-color: $brand-blue;
 $description-body-color: #3c3c3c;
 $button-hover-color: $table-header-color;
 
 .data-entity-detail {
-  
+
   .document-schema {
     margin-top: 20px;
   }
@@ -27,38 +28,48 @@ $button-hover-color: $table-header-color;
   .header-content {
     max-width: 100%;
   }
+
   .rectangle {
     @include detail-rectangle(102px, 6px);
   }
+
   .detail-header {
     @include detail-header;
   }
+
   .detail-title {
-    @include text-styling (42px, 700);
+    @include text-styling(42px, 700);
     padding-left: 0px;
   }
+
   .data-object-link {
     @include data-object-link;
   }
+
   .audit-details {
     @include audit-details;
   }
+
   .description-label {
     @include sub-header-label;
+
     div:nth-child(2) {
       margin-left: 6px;
     }
   }
+
   .schema-url-label {
-        @include sub-header-label;
-        div:nth-child(2) {
-          margin-left: 6px;
-        }
+    @include sub-header-label;
+
+    div:nth-child(2) {
+      margin-left: 6px;
+    }
   }
+
   .description-body {
     margin-top: 20px;
     line-height: 1.25rem;
-    @include text-styling (16px, normal, $description-body-color);
+    @include text-styling(16px, normal, $description-body-color);
   }
 
   /*
@@ -66,6 +77,7 @@ $button-hover-color: $table-header-color;
   */
   .side-details {
     padding: 0px;
+
     .attributes {
       .inner-header {
         font-size: 18px;
@@ -74,17 +86,21 @@ $button-hover-color: $table-header-color;
         margin-top: 30px;
         line-height: 1.25rem;
       }
+
       .card {
         box-shadow: 5px 5px 5px grey;
         margin-top: 10px;
+
         .card-block {
           .row {
             border-bottom: 1px solid #ddd;
             color: rgba(0, 0, 0, 0.57);
+
             &:first-child {
               font-weight: bold;
               color: #000000;
             }
+
             &:last-child {
               border-bottom: 0;
             }
@@ -94,63 +110,90 @@ $button-hover-color: $table-header-color;
 
     }
   }
-  .bdef-details>div {
+
+  .bdef-details > div {
     @include side-detail-box;
+
     .inner-header {
       @include inner-header;
     }
   }
+
   /*
   * bdef formats side details
   */
-  .bdef-formats>div {
+  .bdef-formats > div {
     @include side-detail-box;
+
     p {
       @include unavailable-label;
     }
+
     .inner-header {
       @include inner-header;
     }
+
     .descriptive-format-property {
       color: #898989;
     }
+
     .format-whiteframe {
       box-shadow: 5px 5px 5px grey;
       margin-top: 10px;
       padding: 20px 10px;
     }
+
+    .format-whiteframe:focus {
+      outline: none !important;
+    }
+
+    .format-whiteframe:hover {
+      transform: scale(1.07);
+      transition-timing-function: linear;
+      transition-duration: 300ms;
+    }
+
     .recommended.format-whiteframe {
       background: $recommended-format-color;
       color: #fff;
       padding: 20px 10px;
     }
+
     .recommended.format-whiteframe .format-header {
       color: inherit;
     }
+
     .format-header {
       div {
         margin: 1px;
         padding: 0px;
       }
+
       color: grey;
     }
+
     .fa {
       font-size: 1.5rem;
     }
+
     .view-schema-container {
       margin-top: 10px;
     }
+
     .schema-link {
       color: $recommended-format-color;
       text-decoration: none;
       padding: 0px 80px;
     }
+
     .schema-link:hover {
       text-decoration: underline;
     }
+
     .recommended .schema-link:hover {
       color: black;
     }
+
     .recommended .schema-link {
       color: #fff;
       padding: 0px 80px;
@@ -160,23 +203,29 @@ $button-hover-color: $table-header-color;
   .pointer {
     cursor: pointer;
   }
+
   /*
   * bdef smes side details
   */
   .smes-container {
     @include side-detail-box;
     padding: 0px;
+
     .inner-header {
       @include inner-header;
     }
+
     p {
       @include unavailable-label
     }
+
     .smes-content {
       padding: 0px;
+
       .sme-content {
         padding-bottom: 10px;
         margin: 5px 0px;
+
         .job-title {
           color: grey;
         }
@@ -194,8 +243,10 @@ $button-hover-color: $table-header-color;
         @include text-styling(14px, 700, #fff);
       }
     }
+
     .columns-detail {
       width: 100%;
+
       .list-group-item {
         @include table-contents;
       }
@@ -203,22 +254,24 @@ $button-hover-color: $table-header-color;
   }
 
   .tab-contents {
-    margin-top:20px;
+    margin-top: 20px;
   }
 
   ngb-tabset {
     .nav-item {
-      .active{
+      .active {
         font-weight: bold;
       }
     }
   }
 
 }
+
 .modal-header {
   background-color: #2399e5;
   border-color: #2399e5;
 }
+
 .ui-button {
   background-color: #2399e5;
 }
@@ -229,25 +282,27 @@ $button-hover-color: $table-header-color;
 
 .ace-editor {
   min-height: 500px;
-  width:100%;
+  width: 100%;
   overflow: auto;
 }
-
 
 
 p-datatable {
   .ui-datatable {
     margin-top: 20px;
   }
-  td { white-space: normal !important;}
+
+  td {
+    white-space: normal !important;
+  }
 
   /deep/ .ui-datatable-tablewrapper {
     overflow-x: auto;
   }
 
   // only needed while their library has the issue take this out once PR is merged into PrimeNg Datatable
-  @media(max-width:35em) {
-    /deep/.ui-datatable-reflow {
+  @media(max-width: 35em) {
+    /deep/ .ui-datatable-reflow {
       .ui-datatable-data > tr > td {
         width: 100% !important;
       }
@@ -270,7 +325,7 @@ ngx-graph .graph {
   }
 
   .edge {
-    path  {
+    path {
       stroke: #666 !important;
     }
   }
@@ -285,15 +340,18 @@ ngx-charts-legend {
 }
 
 .view-lineage {
-    overflow: hidden !important;
-    .modal-dialog {
-      max-width: 95%;
-      min-height: 95%;
-      max-height: 95%;
+  overflow: hidden !important;
+
+  .modal-dialog {
+    max-width: 95%;
+    min-height: 95%;
+    max-height: 95%;
+
     .modal-content {
       height: 100%;
       width: 100%;
       position: absolute;
+
       .graph-wrapper {
         width: 100%;
         height: 100%;

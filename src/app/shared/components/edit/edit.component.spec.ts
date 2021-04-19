@@ -44,6 +44,10 @@ describe('EditComponent', () => {
     fixture.detectChanges();
   }));
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
@@ -111,7 +115,7 @@ describe('EditComponent', () => {
     query('.row').triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    component.editForm.setValue({ text: 'test new value' });
+    component.editForm.setValue({text: 'test new value'});
 
     query('.editor-form .btn-primary').nativeElement.click();
     fixture.detectChanges();
@@ -156,7 +160,7 @@ describe('EditComponent', () => {
     query('.row').triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    component.editForm.setValue({ text: '' });
+    component.editForm.setValue({text: ''});
 
     query('.editor-form .btn-primary').nativeElement.click();
     fixture.detectChanges();
@@ -172,14 +176,14 @@ describe('EditComponent', () => {
     expect(query('.form-errors small').nativeElement.innerText).toEqual(expectedMesage);
 
     component.illegalCharacters = ['-', '?'];
-    component.editForm.setValue({ text: '-test?@' });
+    component.editForm.setValue({text: '-test?@'});
     query('.editor-form .btn-primary').nativeElement.click();
     fixture.detectChanges();
     expect(query('.row')).toBeNull();
     expect(query('.editor-form')).not.toBeNull();
     expect(component.editDone.emit).not.toHaveBeenCalled();
-    expectedMesage = 'This field contains illegal character(s). Characters not allowed: '  +
-    component.illegalCharacters.join(' , ');
+    expectedMesage = 'This field contains illegal character(s). Characters not allowed: ' +
+      component.illegalCharacters.join(' , ');
     expectedErrors = {
       'illegalCharacters': expectedMesage
     };
@@ -196,7 +200,7 @@ describe('EditComponent', () => {
     query('.row').triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    component.editForm.setValue({ text: 'random new value'});
+    component.editForm.setValue({text: 'random new value'});
     query('.editor-form .btn-danger').nativeElement.click();
     fixture.detectChanges();
     expect(query('.row')).not.toBeNull();
@@ -204,6 +208,7 @@ describe('EditComponent', () => {
     expect(query('.col').nativeElement.innerText).toEqual(initialValue);
     expect(component.closeEditor).toHaveBeenCalled();
   });
+
   function query(selector: string): DebugElement {
     return fixture.debugElement.query(By.css(selector));
   }

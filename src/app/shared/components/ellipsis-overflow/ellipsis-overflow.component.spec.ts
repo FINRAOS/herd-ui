@@ -25,7 +25,7 @@ describe('EllipsisOverflowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule.forRoot()],
+      imports: [NgbModule],
       declarations: [EllipsisOverflowComponent]
     })
       .compileComponents();
@@ -34,6 +34,10 @@ describe('EllipsisOverflowComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EllipsisOverflowComponent);
     component = fixture.componentInstance;
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should create', () => {

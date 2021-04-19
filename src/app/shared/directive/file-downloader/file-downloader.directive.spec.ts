@@ -17,6 +17,7 @@ import { SimpleChanges } from '@angular/core';
 import { FileDownloaderDirective } from './file-downloader.directive';
 
 describe('FileDownloaderDirective', () => {
+
   it('should create an instance', () => {
     const directive = new FileDownloaderDirective();
     expect(directive).toBeTruthy();
@@ -28,11 +29,11 @@ describe('FileDownloaderDirective', () => {
     let fc = true;
     const downloadSpy = spyOn(directive, 'download');
     const changeObj: SimpleChanges = {
-      sampleDataFileUrl : {
-        currentValue : 'http://test.url',
-        previousValue : directive.sampleDataFileUrl,
+      sampleDataFileUrl: {
+        currentValue: 'http://test.url',
+        previousValue: directive.sampleDataFileUrl,
         firstChange: true,
-        isFirstChange : () => fc
+        isFirstChange: () => fc
       }
     };
 

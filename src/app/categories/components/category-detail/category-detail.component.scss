@@ -26,7 +26,7 @@
     }
 
     .detail-title {
-      @include text-styling (42px, 700, black);
+      @include text-styling(42px, 700, black);
       padding: 0;
     }
 
@@ -51,7 +51,7 @@
       margin-top: 30px;
 
       h2 {
-        @include text-styling (1.5rem, bold, black);
+        @include text-styling(1.5rem, bold, black);
         margin-bottom: 20px;
       }
 
@@ -107,10 +107,12 @@
     /* related data entities styles*/
     .related-data-entities {
       margin-top: 30px;
+
       .search-box {
         position: relative;
         margin: 25px 0 12px 0;
       }
+
       .row {
         .card {
           margin-bottom: 3px;
@@ -119,7 +121,7 @@
       }
 
       h2 {
-        @include text-styling (1.5rem, bold, black);
+        @include text-styling(1.5rem, bold, black);
         margin-bottom: 20px;
       }
     }

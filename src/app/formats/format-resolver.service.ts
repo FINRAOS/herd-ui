@@ -28,7 +28,8 @@ export interface FormatResolverServiceData extends TitleResolverData {
 @Injectable()
 export class FormatResolverService implements Resolve<any> {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+  }
 
   public resolve(route: ActivatedRouteSnapshot,
                  state: RouterStateSnapshot): Observable<FormatResolverServiceData> | TitleResolverData {
@@ -37,14 +38,14 @@ export class FormatResolverService implements Resolve<any> {
       const retval: FormatResolverServiceData = {
         businessObjectFormatDetail: null,
         title: 'Format - ' + route.params.formatUsage + ':'
-        + route.params.formatFileType + ':' + route.params.formatVersion
+          + route.params.formatFileType + ':' + route.params.formatVersion
       };
       return of(retval as any);
 
     } else {
       return {
         title: 'Format - ' + route.params.formatUsage + ':'
-        + route.params.formatFileType + ':' + route.params.formatVersion
+          + route.params.formatFileType + ':' + route.params.formatVersion
       };
     }
   }

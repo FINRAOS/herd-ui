@@ -83,7 +83,7 @@ export class AuthorizedDirective implements OnInit, OnChanges {
     if (this.namespace && this.currentUser && this.currentUser.namespaceAuthorizations) {
       return this.currentUser.namespaceAuthorizations.some((nAuth) => {
         if (this.namespace === nAuth.namespace) {
-          if (typeof this.namespacePermissions === 'string' ) {
+          if (typeof this.namespacePermissions === 'string') {
             return nAuth.namespacePermissions.includes(this.namespacePermissions);
           } else {
             const perms = this.namespacePermissions as NamespaceAuthorization.NamespacePermissionsEnum[];

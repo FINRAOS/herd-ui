@@ -30,49 +30,49 @@ const data = new Data();
  */
 
 export const postRequests = function () {
-    const setupOptions = {
-        'options': [
-            {
-                'order': 1,
-                'url': new schema.Namespace().postUrl(),
-                'body': new schema.Namespace().postBody(data.defaultNamespace)
-            }, {
-                'order': 2,
-                'url': new schema.DataProvider().postUrl(),
-                'body': new schema.DataProvider().postBody(data.defaultDataProvider)
-            }, {
-                'order': 3,
-                'url': new schema.BusinessObjectDefinitions().postUrl(),
-                'body': data.bdefTest
-            }, {
-                'order': 4,
-                'url': new schema.BusinessObjectFormats().postUrl(),
-                'body': data.businessObjectFormatTest
-            },
-            {
-                'order': 5,
-                'url': new schema.ExternalInterfaces().postUrl(),
-                'body': data.externalInterfaceTest
-            },
-            {
-              'order': 5,
-              'url': new schema.ExternalInterfaces().postUrl(),
-              'body': data.externalInterfaceBadDescriptionTest
-            },
-            {
-                'order': 6,
-                'url': new schema.BusinessObjectFormatExternalInterfaces().postUrl(),
-                'body': data.businessObjectFormatExternalInterfaceTest
-            },
-            {
-              'order': 6,
-              'url': new schema.BusinessObjectFormatExternalInterfaces().postUrl(),
-              'body': data.businessObjectFormatInvalidExternalInterfaceTest
-            }
+  const setupOptions = {
+    'options': [
+      {
+        'order': 1,
+        'url': new schema.Namespace().postUrl(),
+        'body': new schema.Namespace().postBody(data.defaultNamespace)
+      }, {
+        'order': 2,
+        'url': new schema.DataProvider().postUrl(),
+        'body': new schema.DataProvider().postBody(data.defaultDataProvider)
+      }, {
+        'order': 3,
+        'url': new schema.BusinessObjectDefinitions().postUrl(),
+        'body': data.bdefTest
+      }, {
+        'order': 4,
+        'url': new schema.BusinessObjectFormats().postUrl(),
+        'body': data.businessObjectFormatTest
+      },
+      {
+        'order': 5,
+        'url': new schema.ExternalInterfaces().postUrl(),
+        'body': data.externalInterfaceTest
+      },
+      {
+        'order': 5,
+        'url': new schema.ExternalInterfaces().postUrl(),
+        'body': data.externalInterfaceBadDescriptionTest
+      },
+      {
+        'order': 6,
+        'url': new schema.BusinessObjectFormatExternalInterfaces().postUrl(),
+        'body': data.businessObjectFormatExternalInterfaceTest
+      },
+      {
+        'order': 6,
+        'url': new schema.BusinessObjectFormatExternalInterfaces().postUrl(),
+        'body': data.businessObjectFormatInvalidExternalInterfaceTest
+      }
     ]
 
-    };
-    return setupOptions;
+  };
+  return setupOptions;
 };
 
 
@@ -81,43 +81,43 @@ export const postRequests = function () {
  * @returns options: *[]
  */
 export const deleteRequests = function () {
-    const teardownOptions = {
-        'options': [
-            {
-                'order': 1,
-                'url': new schema.BusinessObjectFormats()
-                    .deleteUrl(data.defaultNamespace, data.defaultBdef, data.defaultFormatUsage,
-                      data.defaultFormatFileType, 0)
-            },
-            {
-                'order': 2,
-                'url': new schema.ExternalInterfaces().deleteUrl(data.defaultExternalInterface)
-            },
-            {
-                'order': 2,
-                'url': new schema.ExternalInterfaces().deleteUrl(data.invalidExternalInterface)
-            },{
-                'order': 3,
-                'url': new schema.BusinessObjectDefinitions().deleteUrl(data.defaultNamespace, data.defaultBdef)
-            },
-            {
-                'order': 4,
-                'url': new schema.Namespace().deleteUrl(data.defaultNamespace)
-            },
-            {
-                'order': 5,
-                'url': new schema.DataProvider().deleteUrl(data.defaultDataProvider)
-            }
-        ]
-    };
+  const teardownOptions = {
+    'options': [
+      {
+        'order': 1,
+        'url': new schema.BusinessObjectFormats()
+          .deleteUrl(data.defaultNamespace, data.defaultBdef, data.defaultFormatUsage,
+            data.defaultFormatFileType, 0)
+      },
+      {
+        'order': 2,
+        'url': new schema.ExternalInterfaces().deleteUrl(data.defaultExternalInterface)
+      },
+      {
+        'order': 2,
+        'url': new schema.ExternalInterfaces().deleteUrl(data.invalidExternalInterface)
+      }, {
+        'order': 3,
+        'url': new schema.BusinessObjectDefinitions().deleteUrl(data.defaultNamespace, data.defaultBdef)
+      },
+      {
+        'order': 4,
+        'url': new schema.Namespace().deleteUrl(data.defaultNamespace)
+      },
+      {
+        'order': 5,
+        'url': new schema.DataProvider().deleteUrl(data.defaultDataProvider)
+      }
+    ]
+  };
 
-    return teardownOptions;
+  return teardownOptions;
 };
 
 export const initRequests = {
-    posts: postRequests(),
+  posts: postRequests(),
 };
 
 export const tearDownRequests = {
-    deletes: deleteRequests()
+  deletes: deleteRequests()
 };

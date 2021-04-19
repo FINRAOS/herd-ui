@@ -54,6 +54,10 @@ describe('FacetComponent', () => {
     component = fixture.componentInstance;
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should be created', async(() => {
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();

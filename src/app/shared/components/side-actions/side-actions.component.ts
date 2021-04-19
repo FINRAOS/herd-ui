@@ -24,7 +24,9 @@ import { Action } from '../side-action/side-action.component';
 export class SideActionsComponent implements OnInit {
 
   @Input() actions: Action[];
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit() {
   }

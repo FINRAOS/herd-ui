@@ -38,31 +38,31 @@ describe('Data Entity List Page', () => {
     page = new DataEntityListPage();
   });
 
-   it('static header and data populated correctly', async () => {
-       await page.navigateTo(_url);
-       await expect((await browser.getTitle()).trim()).toEqual(page.baseTitle + page.dataEntitiesTitle);
-       await expect((await page.heading.getText()).trim()).toEqual(expectedValues.pageHeading);
-       await expect(page.searchBox.getAttribute('placeholder')).toBe(expectedValues.placeholder);
-       await page.searchBox.clear();
-       await page.searchBox.sendKeys(data.defaultBdefName);
-       await validate();
+  it('static header and data populated correctly', async () => {
+    await page.navigateTo(_url);
+    await expect((await browser.getTitle()).trim()).toEqual(page.baseTitle + page.dataEntitiesTitle);
+    await expect((await page.heading.getText()).trim()).toEqual(expectedValues.pageHeading);
+    await expect(page.searchBox.getAttribute('placeholder')).toBe(expectedValues.placeholder);
+    await page.searchBox.clear();
+    await page.searchBox.sendKeys(data.defaultBdefName);
+    await validate();
 
-       // validate back tracking
-       await page.link.click();
-       await expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + _url + '/' +
-        data.defaultNamespace + '/' + data.defaultBdefName);
-       await expect((await page.backTrackLink.getText()).trim()).toEqual(page.dataEntitiesTitle);
-       await page.backTrackLink.click();
-       await validate();
+    // validate back tracking
+    await page.link.click();
+    await expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + _url + '/' +
+      data.defaultNamespace + '/' + data.defaultBdefName);
+    await expect((await page.backTrackLink.getText()).trim()).toEqual(page.dataEntitiesTitle);
+    await page.backTrackLink.click();
+    await validate();
   });
 
-    async function validate() {
-       await expect((await page.namespaceLabel.getText()).trim()).toEqual(expectedValues.namespaceLabel);
-       await expect(page.dataEntityRow.count()).toEqual(1);
-       await expect((await page.namespace.getText()).trim()).toEqual(data.defaultNamespace);
-       await expect(page.subHeading.getText()).toContain(expectedValues.showingOne);
-       await expect((await page.link.getText()).trim()).toEqual(expectedValues.linkText);
-       await expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + _url + '?searchTerm=' + data.defaultBdefName);
-    }
+  async function validate() {
+    await expect((await page.namespaceLabel.getText()).trim()).toEqual(expectedValues.namespaceLabel);
+    await expect(page.dataEntityRow.count()).toEqual(1);
+    await expect((await page.namespace.getText()).trim()).toEqual(data.defaultNamespace);
+    await expect(page.subHeading.getText()).toContain(expectedValues.showingOne);
+    await expect((await page.link.getText()).trim()).toEqual(expectedValues.linkText);
+    await expect(browser.getCurrentUrl()).toEqual(browser.baseUrl + _url + '?searchTerm=' + data.defaultBdefName);
+  }
 });
 

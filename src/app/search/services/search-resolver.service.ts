@@ -59,7 +59,7 @@ export class SearchResolverService implements Resolve<any> {
           retval.title = 'Global Search - ' + route.params.searchText;
           return retval;
         })
-      ) ;
+      );
 
     } else {
       return {

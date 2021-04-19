@@ -16,24 +16,25 @@
 <div class="sd-header">
   <div class="container">
     <nav class="navbar navbar-toggleable-xl navbar-light bg-faded">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+              class="navbar-toggler navbar-toggler-right"
+              data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand" [routerLink]="'/'">
+      <a [routerLink]="'/'" class="navbar-brand">
         <!--forceEvalStyles is needed for IE 11 to properly process the svg-->
-        <div [inlineSVG]="'/assets/svg/LOGO.svg'" [forceEvalStyles]='true'></div>
+        <div [forceEvalStyles]='true' [inlineSVG]="'/assets/svg/LOGO.svg'"></div>
       </a>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" [routerLink]="'/data-entities'">Data Entities<span class="sr-only">(current)</span></a>
+            <a [routerLink]="'/data-entities'" class="nav-link">Data Entities<span class="sr-only">(current)</span></a>
           </li>
         </ul>
         <div class="help">
-          <a target="_blank" href="{{helpUrl}}" title="Contact Us">
-           <i class="fa fa-question-circle"></i>
+          <a href="{{helpUrl}}" target="_blank" title="Contact Us">
+            <i class="fa fa-question-circle"></i>
           </a>
         </div>
       </div>

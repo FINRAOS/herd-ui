@@ -34,9 +34,9 @@ export class LoginComponent implements OnInit {
   public returnUrl: string;
 
   constructor(private activatedRoute: ActivatedRoute,
-    private alertService: AlertService,
-    private router: Router,
-    private currentUserService: UserService) {
+              private alertService: AlertService,
+              private router: Router,
+              private currentUserService: UserService) {
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
   }
 
   onSubmit() {
@@ -58,17 +58,17 @@ export class LoginComponent implements OnInit {
         .pipe(finalize(() => {
           this.loading = false;
         })).subscribe((response) => {
-          // navigate by url is used due to the fact that the returnUrl may have optional params which need to be parsed.
-          // same is true for query params
-          this.router.navigateByUrl(this.returnUrl, { replaceUrl: true });
-        }, (error) => {
-          this.alertService.alert({
-            title: 'Login failure!',
-            subTitle: 'Unable to login! Please try again or contact support team.',
-            text: error,
-            type: 'danger'
-          });
+        // navigate by url is used due to the fact that the returnUrl may have optional params which need to be parsed.
+        // same is true for query params
+        this.router.navigateByUrl(this.returnUrl, {replaceUrl: true});
+      }, (error) => {
+        this.alertService.alert({
+          title: 'Login failure!',
+          subTitle: 'Unable to login! Please try again or contact support team.',
+          text: error,
+          type: 'danger'
         });
+      });
     }
   }
 

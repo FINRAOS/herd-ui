@@ -24,7 +24,7 @@ export class MockFormat {
     'businessObjectFormatVersion': 0,
     'latestVersion': true,
     'partitionKey': 'PARTITION-KEY',
-    'description': '',
+    'description': 'format description',
     'documentSchema': 'test document schema',
     'attributes': [],
     'attributeDefinitions': [],
@@ -76,7 +76,12 @@ export class MockFormat {
     'businessObjectFormatParents': [],
     'businessObjectFormatChildren': []
   };
-  private _businessObjectDefinationColumnKeys = [
+
+  get formatDetail() {
+    return this._formatDetail;
+  }
+
+  private _businessObjectDefinitionColumnKeys = [
     {
       'namespace': 'testns',
       'businessObjectDefinitionName': 'ADMIN',
@@ -99,11 +104,7 @@ export class MockFormat {
       'businessObjectDefinitionColumnName': 'Test Agent Identifier',
     }];
 
-  get formatDetail() {
-    return this._formatDetail;
-  }
-
-  get businessObjectDefinationColumnKeys() {
-    return this._businessObjectDefinationColumnKeys;
+  get businessObjectDefinitionColumnKeys() {
+    return this._businessObjectDefinitionColumnKeys;
   }
 }

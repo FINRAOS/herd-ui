@@ -20,51 +20,51 @@ import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 
 @Component({
-    selector: 'sd-data-entity-list',
-    templateUrl: './data-entity-list.component.html',
-    styleUrls: ['./data-entity-list.component.scss']
+  selector: 'sd-data-entity-list',
+  templateUrl: './data-entity-list.component.html',
+  styleUrls: ['./data-entity-list.component.scss']
 })
 export class DataEntityListComponent implements OnInit {
-    public dataEntities: BusinessObjectDefinitionKey[];
-    public searchTerm: string;
-    public total: number;
-    public searchInput: HTMLInputElement;
-    private previousTime: Subscription;
+  public dataEntities: BusinessObjectDefinitionKey[];
+  public searchTerm: string;
+  public total: number;
+  public searchInput: HTMLInputElement;
+  private previousTime: Subscription;
 
-    constructor(private route: ActivatedRoute, private router: Router, private e: ElementRef) {
-        this.searchTerm = '';
-        this.dataEntities = [];
-    }
+  constructor(private route: ActivatedRoute, private router: Router, private e: ElementRef) {
+    this.searchTerm = '';
+    this.dataEntities = [];
+  }
 
-    ngOnInit() {
+  ngOnInit() {
 
-        this.searchInput = this.e.nativeElement.getElementsByTagName('input')[0];
-        this.route.data.subscribe((data) => {
-            this.dataEntities = data.resolvedData.dataEntities;
-            this.total = data.resolvedData.total;
-            this.searchInput.focus();
-        });
+    this.searchInput = this.e.nativeElement.getElementsByTagName('input')[0];
+    this.route.data.subscribe((data) => {
+      this.dataEntities = data.resolvedData.dataEntities;
+      this.total = data.resolvedData.total;
+      this.searchInput.focus();
+    });
 
-        this.route.queryParams.subscribe((params) => {
-            // set the search term to a default value if we don't have one
-            this.searchTerm = this.searchTerm || params.searchTerm || '';
-            this.searchInput.focus();
-        });
+    this.route.queryParams.subscribe((params) => {
+      // set the search term to a default value if we don't have one
+      this.searchTerm = this.searchTerm || params.searchTerm || '';
+      this.searchInput.focus();
+    });
 
-        fromEvent(this.searchInput, 'keyup')
-          .pipe(
-            map((i: any) => i.currentTarget.value),
-            debounceTime(500)
-          )
-          .subscribe((val) => {
-                this.router.navigate(['/data-entities'],
-                    {
-                        queryParams: {
-                            searchTerm: val
-                        },
-                        replaceUrl: true
-                    });
-            });
-    }
+    fromEvent(this.searchInput, 'keyup')
+      .pipe(
+        map((i: any) => i.currentTarget.value),
+        debounceTime(500)
+      )
+      .subscribe((val) => {
+        this.router.navigate(['/data-entities'],
+          {
+            queryParams: {
+              searchTerm: val
+            },
+            replaceUrl: true
+          });
+      });
+  }
 
 }

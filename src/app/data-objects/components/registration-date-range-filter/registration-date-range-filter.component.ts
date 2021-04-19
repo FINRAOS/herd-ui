@@ -33,6 +33,11 @@ export class RegistrationDateRangeFilterComponent implements OnInit, OnChanges {
   title = '';
   registrationDateRangeFilterForm: FormGroup;
 
+  constructor(private fb: FormBuilder) {
+    this.registrationDateRangeFilterForm = this.fb.group({startRegistrationDate: '', endRegistrationDate: ''},
+      {validator: this.registrationDateRangeValidation});
+  }
+
   get filterAsFormValues() {
     if (this.filter) {
       return {
@@ -45,11 +50,6 @@ export class RegistrationDateRangeFilterComponent implements OnInit, OnChanges {
         endRegistrationDate: ''
       };
     }
-  }
-
-  constructor(private fb: FormBuilder) {
-    this.registrationDateRangeFilterForm = this.fb.group({startRegistrationDate: '', endRegistrationDate: ''},
-      {validator: this.registrationDateRangeValidation});
   }
 
   ngOnInit() {
@@ -91,12 +91,12 @@ export class RegistrationDateRangeFilterComponent implements OnInit, OnChanges {
     this.registrationDateRangeFilterForm.updateValueAndValidity();
     if (!this.registrationDateRangeFilterForm.errors) {
 
-    this.filter.startRegistrationDate = this.registrationDateRangeFilterForm.value.startRegistrationDate || null;
-    this.filter.endRegistrationDate = this.registrationDateRangeFilterForm.value.endRegistrationDate || null;
+      this.filter.startRegistrationDate = this.registrationDateRangeFilterForm.value.startRegistrationDate || null;
+      this.filter.endRegistrationDate = this.registrationDateRangeFilterForm.value.endRegistrationDate || null;
 
-    this.setTitle();
-    this.filterChange.emit(this.filter);
-    this.close();
+      this.setTitle();
+      this.filterChange.emit(this.filter);
+      this.close();
     }
   }
 
@@ -104,7 +104,7 @@ export class RegistrationDateRangeFilterComponent implements OnInit, OnChanges {
     this.showContent = false;
   }
 
-  registrationDateRangeValidation(fg: FormGroup):  ValidationErrors {
+  registrationDateRangeValidation(fg: FormGroup): ValidationErrors {
     let retval: ValidationErrors = null;
     const startRegistrationDateCtrl = fg.controls['startRegistrationDate'];
     const endRegistrationDateCtrl = fg.controls['endRegistrationDate'];

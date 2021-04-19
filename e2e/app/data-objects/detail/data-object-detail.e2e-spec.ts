@@ -91,25 +91,25 @@ describe('data-objects detail', () => {
     });
 
     it('Details info: BData details page with Retention Expiration Date empty', async () => {
-        const pageTitle = browser.getTitle();
-        expect(await pageTitle).toContain(conf.docTitlePrefix + ' - Data Object');
-        expect(await page.detailsHeaderLabel.getText()).toBe('Details');
-        expect(await page.detailsLabelsRow2.getText()).toContain('Retention Expiration Date');
-        expect(await page.retentionexpirationDate.getText()).toBe('');
-     });
+      const pageTitle = browser.getTitle();
+      expect(await pageTitle).toContain(conf.docTitlePrefix + ' - Data Object');
+      expect(await page.detailsHeaderLabel.getText()).toBe('Details');
+      expect(await page.detailsLabelsRow2.getText()).toContain('Retention Expiration Date');
+      expect(await page.retentionexpirationDate.getText()).toBe('');
+    });
 
     // TODO:This test passes in jenkins but fails locally
     it('Details info: BData details page with Retention Expiration Date', async () => {
-        await page.navigateTo(baseDetail.replaceUrlParams(data.bdataWithRetentionExpirationDate, null, 0));
-        var dateFormat = require('dateformat');
-        var retentionExpirationDate = new Date('2019-04-12T18:03:03.399z');
-        var expectedExpirationDate = dateFormat (retentionExpirationDate,"UTC:yyyy-mm-dd HH:MM:ss");
-        console.log(expectedExpirationDate);
-        const pageTitle = browser.getTitle();
-        expect(await pageTitle).toContain(conf.docTitlePrefix + ' - Data Object');
-        expect(await page.detailsHeaderLabel.getText()).toBe('Details');
-        expect(await page.detailsLabelsRow2.getText()).toContain('Retention Expiration Date');
-        expect(await page.retentionexpirationDate.getText()).toContain(expectedExpirationDate);
+      await page.navigateTo(baseDetail.replaceUrlParams(data.bdataWithRetentionExpirationDate, null, 0));
+      const dateFormat = require('dateformat');
+      const retentionExpirationDate = new Date('2019-04-12T18:03:03.399z');
+      const expectedExpirationDate = dateFormat(retentionExpirationDate, 'UTC:yyyy-mm-dd HH:MM:ss');
+      console.log(expectedExpirationDate);
+      const pageTitle = browser.getTitle();
+      expect(await pageTitle).toContain(conf.docTitlePrefix + ' - Data Object');
+      expect(await page.detailsHeaderLabel.getText()).toBe('Details');
+      expect(await page.detailsLabelsRow2.getText()).toContain('Retention Expiration Date');
+      expect(await page.retentionexpirationDate.getText()).toContain(expectedExpirationDate);
     });
   });
 

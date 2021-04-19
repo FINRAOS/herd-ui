@@ -75,15 +75,15 @@ export class CategoryDetailResolverService implements Resolve<any> {
         this.searchService.search(searchText, indexSearchFilters, match)
       ).pipe(
         map((data) => {
-        const retval: CategoryDetailResolverData = {
-          category: data[0],
-          title: 'Category - ' + data[0].displayName + (route.params.searchText ? ' ( search: ' + route.params.searchText + ' )' : ''),
-          indexSearchResults: data[1].indexSearchResults,
-          facets: data[1].facets,
-          totalIndexSearchResults: data[1].totalIndexSearchResults,
-        };
-        return retval;
-      })
+          const retval: CategoryDetailResolverData = {
+            category: data[0],
+            title: 'Category - ' + data[0].displayName + (route.params.searchText ? ' ( search: ' + route.params.searchText + ' )' : ''),
+            indexSearchResults: data[1].indexSearchResults,
+            facets: data[1].facets,
+            totalIndexSearchResults: data[1].totalIndexSearchResults,
+          };
+          return retval;
+        })
       );
     } else {
       // If we do have the category return the title and prev stored category details

@@ -53,7 +53,7 @@ export function restBasePathFactory(apiConfig: Configuration): string {
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NgbModule.forRoot(),
+    NgbModule,
     CoreModule.forRoot(),
     ApiModule.forRoot(appApiConfigFactory)
   ],

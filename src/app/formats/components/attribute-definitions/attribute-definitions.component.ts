@@ -24,7 +24,8 @@ export class AttributeDefinitionsComponent implements OnInit {
 
   @Input() content;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

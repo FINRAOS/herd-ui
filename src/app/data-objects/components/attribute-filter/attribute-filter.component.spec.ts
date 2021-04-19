@@ -27,7 +27,7 @@ describe('AttributeFilterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule.forRoot(), ReactiveFormsModule],
+      imports: [NgbModule, ReactiveFormsModule],
       declarations: [AttributeFilterComponent,
         FilterTemplateComponent,
         EllipsisOverflowComponent],
@@ -60,9 +60,9 @@ describe('AttributeFilterComponent', () => {
   });
 
   it('should properly init title and form when filter is passed', () => {
-    component.filter = { attributeName: 'testName', attributeValue: 'testValue' };
+    component.filter = {attributeName: 'testName', attributeValue: 'testValue'};
     fixture.detectChanges();
-    expect(component.filter).toEqual({ attributeName: 'testName', attributeValue: 'testValue' });
+    expect(component.filter).toEqual({attributeName: 'testName', attributeValue: 'testValue'});
     expect(component.title).toEqual('Attribute: Name: testName - Value: testValue');
     // these should now be the new values
     expect(component.attributeFilterForm.get('name').value).toBe('testName');
@@ -79,7 +79,7 @@ describe('AttributeFilterComponent', () => {
     fixture.detectChanges();
     // form with no name is invalid
     expect(component.attributeFormValidator(component.attributeFilterForm))
-      .toEqual({ 'atLeastOneRequired': 'Must supply at least a name or a value.' });
+      .toEqual({'atLeastOneRequired': 'Must supply at least a name or a value.'});
 
     // form with just name is valid.
     component.attributeFilterForm.get('name').setValue('testName');
@@ -94,19 +94,19 @@ describe('AttributeFilterComponent', () => {
   });
 
   it('should clear form when clear() is called', () => {
-    component.filter = { attributeName: 'testName', attributeValue: 'testValue' };
+    component.filter = {attributeName: 'testName', attributeValue: 'testValue'};
     fixture.detectChanges();
     spyOn(component.attributeFilterForm, 'reset').and.callThrough();
 
     component.clear();
 
-    expect(component.attributeFilterForm.reset).toHaveBeenCalledWith({ name: '', value: '' });
+    expect(component.attributeFilterForm.reset).toHaveBeenCalledWith({name: '', value: ''});
     expect(component.attributeFilterForm.get('name').value).toBe('');
     expect(component.attributeFilterForm.get('value').value).toBe('');
   });
 
   it('should reset form to values from init and close when cancel() is called', () => {
-    component.filter = { attributeName: 'testName', attributeValue: 'testValue' };
+    component.filter = {attributeName: 'testName', attributeValue: 'testValue'};
     fixture.detectChanges();
     spyOn(component.attributeFilterForm, 'reset').and.callThrough();
     spyOn(component, 'close').and.callThrough();
@@ -128,7 +128,7 @@ describe('AttributeFilterComponent', () => {
   });
 
   it('should emit filter on delete call from output of filterDeleted', () => {
-    component.filter = { attributeName: 'testName', attributeValue: 'testValue' };
+    component.filter = {attributeName: 'testName', attributeValue: 'testValue'};
     fixture.detectChanges();
 
     spyOn(component.filterDeleted, 'emit').and.callThrough();
@@ -144,7 +144,7 @@ describe('AttributeFilterComponent', () => {
   // looking at this test in the browser since it is set to an async test
   // you can see the validator.  Since other tests are not set to async you won't be able
   // to see the validation message but it still touches all the needed code.
-  it('should apply values properly on apply()', async( () => {
+  it('should apply values properly on apply()', async(() => {
     fixture.detectChanges();
     spyOn(component.attributeFilterForm, 'updateValueAndValidity').and.callThrough();
     spyOn(component.attributeFilterForm, 'markAsTouched').and.callThrough();
@@ -216,7 +216,7 @@ describe('AttributeFilterComponent', () => {
   }));
 
   it('should init title properly with empty filter', () => {
-    component.filter = { };
+    component.filter = {};
     fixture.detectChanges();
 
     expect(component.title).toBe('Attribute: ');

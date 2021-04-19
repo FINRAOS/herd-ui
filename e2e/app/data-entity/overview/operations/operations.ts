@@ -34,7 +34,7 @@ const data = new Data();
  */
 
 export const postRequests = function () {
-  const setupOptions: {options: DMOption[] } = {
+  const setupOptions: { options: DMOption[] } = {
     'options': [
       {
         'order': 1,
@@ -44,7 +44,7 @@ export const postRequests = function () {
         'order': 2,
         'url': new schema.DataProvider().postUrl(),
         'body': new schema.DataProvider().postBody(data.defaultDataProvider)
-       }, {
+      }, {
         'order': 3,
         'url': new schema.BusinessObjectDefinitions().postUrl(),
         'body': data.bdefNoTagsNoSchema()
@@ -52,7 +52,7 @@ export const postRequests = function () {
         'order': 3,
         'url': new schema.BusinessObjectDefinitions().postUrl(),
         'body': data.bdefTest()
-       } , {
+      }, {
         'order': 4,
         'url': tagTypePostUrl,
         'body': new schema.TagType().postBody(data.tagTypeCode().code, data.tagTypeCode().displayName,
@@ -125,7 +125,7 @@ export const putDescriptiveFormatRequests = function () {
   };
 };
 
-export const putLineageRequests = (): { options: DMOption[] }  => {
+export const putLineageRequests = (): { options: DMOption[] } => {
   const single = data.bdefTestSingleFormatVersion();
   return {
     options: [
@@ -197,7 +197,7 @@ export const deleteRequests = function () {
       {
         'order': 4,
         'url': new schema.DataProvider().deleteUrl(data.defaultDataProvider)
-       }, {
+      }, {
         'order': 1,
         'url': new schema.Tags().deleteUrl(data.tagTypeCode().code, data.tagTypeCode().tags[0].code)
       },
@@ -359,8 +359,8 @@ export const clearEditDescInfoFrmt: { options: DMOption[] } = {
 export const initRequests = {
   posts: {
     options: postRequests().options
-     .concat(postBdefTagRequests().options)
-     .concat(postBdefFormatRequests().options)
+      .concat(postBdefTagRequests().options)
+      .concat(postBdefFormatRequests().options)
   },
   updates: {
     options: putLineageRequests().options.concat(putDescriptiveFormatRequests().options)

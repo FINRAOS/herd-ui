@@ -27,30 +27,36 @@ import { By } from '@angular/platform-browser';
 @Component({
   template: `
     <div sdAuthorized
-    [namespace]="'test_ns_2'"
-    [securityFunction]="authMap.editDescriptiveInfo"
-    [namespacePermissions]="'READ'">test_ns_2</div>
+         [namespace]="'test_ns_2'"
+         [securityFunction]="authMap.editDescriptiveInfo"
+         [namespacePermissions]="'READ'">test_ns_2
+    </div>
     <div sdAuthorized
-    [namespace]="'test_ns_2'"
-    [securityFunction]="authMap.editDescriptiveInfo"
-    [namespacePermissions]="'WRITE'">test_ns_2.1</div>
+         [namespace]="'test_ns_2'"
+         [securityFunction]="authMap.editDescriptiveInfo"
+         [namespacePermissions]="'WRITE'">test_ns_2.1
+    </div>
     <div sdAuthorized
-    [namespace]="'test_ns_2'"
-    [securityFunction]="authMap.editDescriptiveInfo"
-    [displayUnAuthorized]="'show'"
-    [namespacePermissions]="'WRITE'">test_ns_2.2</div>
+         [namespace]="'test_ns_2'"
+         [securityFunction]="authMap.editDescriptiveInfo"
+         [displayUnAuthorized]="'show'"
+         [namespacePermissions]="'WRITE'">test_ns_2.2
+    </div>
     <div sdAuthorized
-    [namespace]="'test_ns_1'"
-    [securityFunction]="authMap.editDescriptiveInfo"
-    [namespacePermissions]="['GRANT', 'WRITE']">test_ns_1</div>
+         [namespace]="'test_ns_1'"
+         [securityFunction]="authMap.editDescriptiveInfo"
+         [namespacePermissions]="['GRANT', 'WRITE']">test_ns_1
+    </div>
     <div sdAuthorized
-    [namespace]="'test_ns_1'"
-    [securityFunction]="'random_other_function'"
-    [namespacePermissions]="['WRITE', 'GRANT']">test_ns_1.1</div>
+         [namespace]="'test_ns_1'"
+         [securityFunction]="'random_other_function'"
+         [namespacePermissions]="['WRITE', 'GRANT']">test_ns_1.1
+    </div>
     <div sdAuthorized
-    [namespace]="finalNs"
-    [securityFunction]="finalSecurityFunction"
-    [namespacePermissions]="finalNsPermissions"> nothing passed</div>`
+         [namespace]="finalNs"
+         [securityFunction]="finalSecurityFunction"
+         [namespacePermissions]="finalNsPermissions"> nothing passed
+    </div>`
 })
 export class TestAuthorizedDirectiveComponent {
 
@@ -61,6 +67,7 @@ export class TestAuthorizedDirectiveComponent {
   finalNsPermissions = null;
   finalNs = null;
   finalSecurityFunction = null;
+
   constructor() {
   }
 }
@@ -98,7 +105,13 @@ describe('AuthorizedDirective', () => {
         AuthorizedDirective
       ],
       providers: [
-        {provide: UserService, useValue: { get user() { return of(userInfo); } } }
+        {
+          provide: UserService, useValue: {
+            get user() {
+              return of(userInfo);
+            }
+          }
+        }
       ]
     }).compileComponents();
     fixture = TestBed.createComponent(TestAuthorizedDirectiveComponent);
@@ -109,6 +122,10 @@ describe('AuthorizedDirective', () => {
 
     // all elements with an attached HighlightDirective
     des = fixture.debugElement.queryAll(By.directive(AuthorizedDirective));
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should create an instance of test component', () => {

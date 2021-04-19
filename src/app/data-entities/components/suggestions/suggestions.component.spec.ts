@@ -93,9 +93,9 @@ describe('SuggestionsComponent', () => {
   it(' should show edit icon on mouse enter', async () => {
     component.suggestions = suggestions;
     component.suggestions[0].editMode = true;
-    component.onMouseEnter({ someevent: 'nothing '}, index);
+    component.onMouseEnter({someevent: 'nothing '}, index);
     component.suggestions[0].editMode = false;
-    component.onMouseEnter({ someevent: 'nothing '}, index);
+    component.onMouseEnter({someevent: 'nothing '}, index);
     fixture.detectChanges();
     expect(query('.editing-block' + index).nativeElement.style.border).toBe('1px solid rgb(177, 174, 174)');
     expect(query('.content-edit-icon' + index).nativeElement.style.backgroundColor)
@@ -107,9 +107,9 @@ describe('SuggestionsComponent', () => {
   it(' should remove edit icon on mouse leave', async () => {
     component.suggestions = suggestions;
     component.suggestions[0].editMode = true;
-    component.onMouseLeave({ someevent: 'nothing '}, index);
+    component.onMouseLeave({someevent: 'nothing '}, index);
     component.suggestions[0].editMode = false;
-    component.onMouseLeave({ someevent: 'nothing '}, index);
+    component.onMouseLeave({someevent: 'nothing '}, index);
     expect(query('.content-edit-icon' + index).nativeElement.style.display).toBe('none');
   });
 
@@ -129,7 +129,11 @@ describe('SuggestionsComponent', () => {
 
   it(' editDone should display the suggestion difference and come out of edit mode', async () => {
     component.suggestions = suggestions;
-    component.editDone(index, { stopPropagation: () => {}, preventDefault: () => {} });
+    component.editDone(index, {
+      stopPropagation: () => {
+      }, preventDefault: () => {
+      }
+    });
     expect(query('.card-suggest' + index).nativeElement.style.boxShadow)
       .toBe('rgb(221, 221, 221) 1px 2px 2px 0px');
     expect(query('.content-diff' + index).nativeElement.style.display).toBe('');
@@ -182,7 +186,11 @@ describe('SuggestionsComponent', () => {
     component.suggestions = suggestions;
     component.suggestions.push(suggestions[0]);
     fixture.detectChanges();
-    component.approve(suggestions[0] as Suggestions, index, { stopPropagation: () => {}, preventDefault: () => {} });
+    component.approve(suggestions[0] as Suggestions, index, {
+      stopPropagation: () => {
+      }, preventDefault: () => {
+      }
+    });
     expect(component.suggestions.length).toBe(1);
     component.suggestions = suggestions;
     fixture.detectChanges();

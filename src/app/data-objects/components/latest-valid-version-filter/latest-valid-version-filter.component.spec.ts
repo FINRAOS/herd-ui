@@ -26,7 +26,7 @@ describe('LatestValidVersionFilterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule.forRoot()],
+      imports: [NgbModule],
       declarations: [LatestValidVersionFilterComponent,
         FilterTemplateComponent,
         EllipsisOverflowComponent]

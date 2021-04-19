@@ -18,8 +18,10 @@ sd-search {
     .search-box {
       margin: 5px 12px;
     }
+
     .row {
       margin: 15px 0;
+
       .sd-text-center {
         text-align: center;
       }
@@ -29,8 +31,10 @@ sd-search {
   .card {
     margin: 3px 0;
   }
+
   .card-header {
     font-weight: bold;
+
     .namespace-bdef-subtitle {
       color: #757575;
       font-size: 11px;
@@ -53,9 +57,11 @@ sd-search {
         box-shadow: 0 0 rgba(0, 0, 0, 0) !important;
         text-transform: lowercase !important;
       }
+
       .global-search {
         min-width: 805px;
       }
+
       div.result-type {
         cursor: default;
         border-radius: 5px;
@@ -76,6 +82,7 @@ sd-search {
       md-list-item {
         margin: 2px 0;
       }
+
       md-progress-linear {
         min-width: 848px;
       }

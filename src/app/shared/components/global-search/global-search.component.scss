@@ -21,10 +21,12 @@ $hit-match-color: #f19024;
   .input-group-addon:nth-of-type(2) {
     background-color: $search-icon-color;
   }
+
   .input-group-addon:nth-of-type(1) {
     background-color: $hit-match-background-color;
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     transition: all 0.5s;
+
     i {
       color: $hit-match-color;
     }
@@ -54,6 +56,7 @@ i {
   transition: all 0.5s;
   max-height: 0;
   overflow: hidden;
+
   .form-check {
     margin: 0;
   }

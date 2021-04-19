@@ -51,7 +51,7 @@ import {
   UploadAndDownloadService,
   UserAuthorizations
 } from '@herd/angular-client';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of, ReplaySubject, throwError } from 'rxjs';
 import { AlertService, DangerAlert, SuccessAlert, WarningAlert } from '../../../core/services/alert.service';
@@ -80,6 +80,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { ContactsComponent } from '../contacts/contacts.component';
 import { SuggestionsComponent } from '../suggestions/suggestions.component';
 import { DiffMatchPatchModule } from 'ng-diff-match-patch/dist';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 describe('DataEntityDetailComponent', () => {
   let component: DataEntityDetailComponent;
@@ -133,7 +134,7 @@ describe('DataEntityDetailComponent', () => {
 
   const tagType = {
     'tagType': {
-      'tagTypeKey': { 'tagTypeCode': 'test_type' },
+      'tagTypeKey': {'tagTypeCode': 'test_type'},
       'displayName': 'Test Type',
       'tagTypeOrder': 2,
       'description': ''
@@ -143,7 +144,7 @@ describe('DataEntityDetailComponent', () => {
   const tag = {
     'tag': {
       'id': null,
-      'tagKey': { 'tagTypeCode': 'test_tagtype_tag', 'tagCode': 'tag_code' },
+      'tagKey': {'tagTypeCode': 'test_tagtype_tag', 'tagCode': 'tag_code'},
       'displayName': 'Tag Code',
       'description': null,
       'userId': null,
@@ -160,11 +161,11 @@ describe('DataEntityDetailComponent', () => {
       'businessObjectDefinitionName': 'name',
       'userId': 'id1'
     },
-    {
-      'namespace': 'namespace',
-      'businessObjectDefinitionName': 'name',
-      'userId': 'id2'
-    }]
+      {
+        'namespace': 'namespace',
+        'businessObjectDefinitionName': 'name',
+        'userId': 'id2'
+      }]
   };
 
   const sme: SubjectMatterExpert = {
@@ -209,24 +210,28 @@ describe('DataEntityDetailComponent', () => {
     }
   };
 
-  const formatKeys: BusinessObjectFormatKey[] = [
+  const formatKeys: ExtendedFormatKey[] = [
     {
       namespace: 'ns',
       businessObjectDefinitionName: 'name',
       businessObjectFormatUsage: 'SRC',
       businessObjectFormatFileType: 'TXT',
-      businessObjectFormatVersion: 1
+      businessObjectFormatVersion: 1,
+      relationalSchemaName: undefined,
+      relationalTableName: undefined
     },
     {
       namespace: 'ns',
       businessObjectDefinitionName: 'name',
       businessObjectFormatUsage: 'SRC',
       businessObjectFormatFileType: 'CSV',
-      businessObjectFormatVersion: 1
+      businessObjectFormatVersion: 1,
+      relationalSchemaName: undefined,
+      relationalTableName: undefined
     }
   ];
 
-  const expectedFormats = { businessObjectFormatKeys: formatKeys };
+  const expectedFormats = {businessObjectFormatKeys: formatKeys};
 
   const formats: BusinessObjectFormat[] = [descriptiveFormat];
 
@@ -308,10 +313,15 @@ describe('DataEntityDetailComponent', () => {
     ]
   };
 
+  type ExtendedFormatKey = BusinessObjectFormatKey & {
+    relationalSchemaName: string,
+    relationalTableName: string
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         BrowserModule,
         RouterTestingModule,
         HttpClientModule,
@@ -437,7 +447,7 @@ describe('DataEntityDetailComponent', () => {
             businessObjectFormatGetBusinessObjectFormat: jasmine.createSpy('businessObjectFormatGetBusinessObjectFormat'),
             businessObjectFormatGetBusinessObjectFormats: jasmine.createSpy('businessObjectFormatGetBusinessObjectFormats'),
             businessObjectFormatGenerateBusinessObjectFormatDdl: jasmine.createSpy('businessObjectFormatGenerateBusinessObjectFormatDdl'),
-            defaultHeaders: new Headers(),
+            defaultHeaders: new HttpHeaders(),
             configuration: {
               withCredentials: true
             }
@@ -446,7 +456,7 @@ describe('DataEntityDetailComponent', () => {
         {
           provide: BusinessObjectDefinitionColumnService,
           useValue: {
-            defaultHeaders: new Headers(),
+            defaultHeaders: new HttpHeaders(),
             businessObjectDefinitionColumnSearchBusinessObjectDefinitionColumns:
               jasmine.createSpy('businessObjectDefinitionColumnSearchBusinessObjectDefinitionColumns'),
             businessObjectDefinitionColumnUpdateBusinessObjectDefinitionColumn:
@@ -458,11 +468,16 @@ describe('DataEntityDetailComponent', () => {
             configuration: {}
           }
         }
-        , { provide: ActivatedRoute, useClass: ActivatedRouteStub },
-        { provide: Router, useClass: RouterStub }
+        , {provide: ActivatedRoute, useClass: ActivatedRouteStub},
+        {provide: Router, useClass: RouterStub}
       ]
-    })
-      .compileComponents();
+    }).overrideComponent(
+      DataEntityDetailComponent, {
+        set: {
+          changeDetection: ChangeDetectionStrategy.Default
+        }
+      }
+    ).compileComponents();
   }));
 
   beforeEach(() => {
@@ -471,18 +486,18 @@ describe('DataEntityDetailComponent', () => {
   });
 
   beforeEach(async(inject([
-    BusinessObjectDefinitionSubjectMatterExpertService,
-    SubjectMatterExpertService,
-    TagTypeService,
-    TagService,
-    BusinessObjectDefinitionTagService,
-    BusinessObjectDefinitionService,
-    UploadAndDownloadService,
-    BusinessObjectFormatService,
-    BusinessObjectDefinitionColumnService,
-    ActivatedRoute,
-    BusinessObjectDefinitionDescriptionSuggestionService
-  ],
+      BusinessObjectDefinitionSubjectMatterExpertService,
+      SubjectMatterExpertService,
+      TagTypeService,
+      TagService,
+      BusinessObjectDefinitionTagService,
+      BusinessObjectDefinitionService,
+      UploadAndDownloadService,
+      BusinessObjectFormatService,
+      BusinessObjectDefinitionColumnService,
+      ActivatedRoute,
+      BusinessObjectDefinitionDescriptionSuggestionService
+    ],
     (
       bdefSmeApi: BusinessObjectDefinitionSubjectMatterExpertService,
       smeApi: SubjectMatterExpertService,
@@ -506,7 +521,7 @@ describe('DataEntityDetailComponent', () => {
         .and.returnValue(of(expectedFormats));
 
       spyBdefFormatDDLApi = (<jasmine.Spy>bformatApi.businessObjectFormatGenerateBusinessObjectFormatDdl)
-        .and.returnValue(of({ ddl: ddl }));
+        .and.returnValue(of({ddl: ddl}));
 
       spyDownloadApi = (<jasmine.Spy>downloadApi.uploadandDownloadInitiateDownloadSingleSampleFile).and.returnValue(
         of(sampleDataResponse));
@@ -518,7 +533,7 @@ describe('DataEntityDetailComponent', () => {
         .and.returnValue(of(expectedBdef));
 
       spyTagApi = (<jasmine.Spy>tagApi.tagGetTag).and.returnValue(of(tag.tag));
-      spyTagSearch = (<jasmine.Spy>tagApi.tagSearchTags).and.returnValue(of({ tags: [] }));
+      spyTagSearch = (<jasmine.Spy>tagApi.tagSearchTags).and.returnValue(of({tags: []}));
       spyTagTypeApi = (<jasmine.Spy>tagTypeApi.tagTypeGetTagType).and.returnValue(of(tagType.tagType));
 
       spyBdefSmeApi = (<jasmine.Spy>bdefSmeApi
@@ -532,6 +547,10 @@ describe('DataEntityDetailComponent', () => {
         .and.returnValue(of(bdefSuggestion));
     })));
 
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should set all data onInit', async(inject([ActivatedRoute], (activeRoute: ActivatedRouteStub) => {
 
     activeRoute.testData = {
@@ -541,47 +560,50 @@ describe('DataEntityDetailComponent', () => {
     };
 
     fixture.detectChanges();
-    expect(component.bdef).toEqual(activeRoute.testData.resolvedData.bdef);
-    expect(component.formats).toEqual(expectedFormats.businessObjectFormatKeys);
-    expect(component.descriptiveFormat).toEqual(descriptiveFormat);
-    expect(component.documentSchema).toEqual(descriptiveFormat.documentSchema);
-    expect(component.documentSchemaUrl).toEqual(descriptiveFormat.documentSchemaUrl);
-    expect(component.bdefColumns).toEqual(expectedCols);
-    // expect(component.bdefTags).toEqual(expectedBdefTags.businessObjectDefinitionTagKeys);
-    // expect(component.hasTag).toEqual(true);
-    expect(component.smes).toEqual(expectedSmes);
-    expect(component.businessObjectDefinitionDescriptionSuggestions).toEqual(bdefSuggestion.businessObjectDefinitionDescriptionSuggestions);
+    fixture.whenStable().then(() => {
+      expect(component.bdef).toEqual(activeRoute.testData.resolvedData.bdef);
+      expect(component.formats).toEqual(expectedFormats.businessObjectFormatKeys);
+      expect(component.descriptiveFormat).toEqual(descriptiveFormat);
+      expect(component.documentSchema).toEqual(descriptiveFormat.documentSchema);
+      expect(component.documentSchemaUrl).toEqual(descriptiveFormat.documentSchemaUrl);
+      expect(component.bdefColumns).toEqual(expectedCols);
+      // expect(component.bdefTags).toEqual(expectedBdefTags.businessObjectDefinitionTagKeys);
+      // expect(component.hasTag).toEqual(true);
+      expect(component.smes).toEqual(expectedSmes);
+      expect(component.businessObjectDefinitionDescriptionSuggestions)
+        .toEqual(bdefSuggestion.businessObjectDefinitionDescriptionSuggestions);
 
-    component.onSampleDataClick();
-    expect(component.sampleDataFileUrl).toEqual(sampleDataResponse.preSignedUrl);
-    expect(spyDownloadApi.calls.count()).toEqual(1);
+      component.onSampleDataClick();
+      expect(component.sampleDataFileUrl).toEqual(sampleDataResponse.preSignedUrl);
+      expect(spyDownloadApi.calls.count()).toEqual(1);
 
-    expect(spyBdefColApi.calls.count()).toEqual(1);
-    expect(spyBdefFormatApi.calls.count()).toEqual(1);
-    expect(spyBdefFormatAllApi.calls.count()).toEqual(1);
+      expect(spyBdefColApi.calls.count()).toEqual(1);
+      expect(spyBdefFormatApi.calls.count()).toEqual(1);
+      expect(spyBdefFormatAllApi.calls.count()).toEqual(1);
 
-    expect(spyBdefSmeApi.calls.count()).toEqual(1);
-    expect(spySmeApi.calls.count()).toEqual(2);
-    expect(spyBusinessObjectDefinitionDescriptionSuggestionServiceApi.calls.count()).toEqual(1);
+      expect(spyBdefSmeApi.calls.count()).toEqual(1);
+      expect(spySmeApi.calls.count()).toEqual(2);
+      expect(spyBusinessObjectDefinitionDescriptionSuggestionServiceApi.calls.count()).toEqual(1);
 
-    expect(spyTagApi.calls.count()).toEqual(2);
-    expect(spyTagTypeApi.calls.count()).toEqual(2);
-    expect(spyBdefTagApi.calls.count()).toEqual(1);
+      expect(spyTagApi.calls.count()).toEqual(2);
+      expect(spyTagTypeApi.calls.count()).toEqual(2);
+      expect(spyBdefTagApi.calls.count()).toEqual(1);
 
-    component.sideActions[3].onAction();
+      component.sideActions[3].onAction();
+    });
   })));
 
   it('should show error when suggestions call fails and ',
     async(inject([BusinessObjectDefinitionDescriptionSuggestionService, AlertService],
       (businessObjectDefinitionDescriptionSuggestionService: BusinessObjectDefinitionDescriptionSuggestionService,
-        alerter: AlertService) => {
+       alerter: AlertService) => {
 
         const bdefSuggestionSpy = businessObjectDefinitionDescriptionSuggestionService
           .businessObjectDefinitionDescriptionSuggestionSearchBusinessObjectDefinitionDescriptionSuggestions as jasmine.Spy;
         const alertSpy = alerter.alert as jasmine.Spy;
 
         // for failure on delete
-        bdefSuggestionSpy.and.returnValue(throwError({ status: 404 }));
+        bdefSuggestionSpy.and.returnValue(throwError({status: 404}));
 
         // fixture.detectChanges();
         component.getAllPendingSuggestion('xxx', 'yyy', 'PENDING');
@@ -593,18 +615,18 @@ describe('DataEntityDetailComponent', () => {
   it(' suggestionApprove should approve description suggestion', () => {
     component.open('');
     component.businessObjectDefinitionDescriptionSuggestions = [bdefSuggestion];
-    component.suggestionApproved({ text: 'xxx' });
+    component.suggestionApproved({text: 'xxx'});
     component.businessObjectDefinitionDescriptionSuggestions = [];
-    component.suggestionApproved({ text: 'xxx' });
+    component.suggestionApproved({text: 'xxx'});
     expect(component.bdef.description).toEqual('xxx');
   });
 
   it('should catch error when sme is invalid, should catch error when no access to formats, bdef with no descriptive format',
     async((inject([
-      BusinessObjectDefinitionSubjectMatterExpertService,
-      SubjectMatterExpertService,
-      BusinessObjectFormatService,
-      BusinessObjectDefinitionColumnService, ActivatedRoute],
+        BusinessObjectDefinitionSubjectMatterExpertService,
+        SubjectMatterExpertService,
+        BusinessObjectFormatService,
+        BusinessObjectDefinitionColumnService, ActivatedRoute],
       (
         bdefSmeApi: BusinessObjectDefinitionSubjectMatterExpertService,
         smeApi: SubjectMatterExpertService,
@@ -626,7 +648,7 @@ describe('DataEntityDetailComponent', () => {
 
         // throw error when sme is invalid
         spyBdefSmeApi = (<jasmine.Spy>bdefSmeApi
-          .businessObjectDefinitionSubjectMatterExpertGetBusinessObjectDefinitionSubjectMatterExpertsByBusinessObjectDefinition
+            .businessObjectDefinitionSubjectMatterExpertGetBusinessObjectDefinitionSubjectMatterExpertsByBusinessObjectDefinition
         ).and.returnValue(of(bdefSmes));
         spySmeApi = (<jasmine.Spy>smeApi.subjectMatterExpertGetSubjectMatterExpert)
           .and.returnValue(throwError(new Error()));
@@ -649,8 +671,8 @@ describe('DataEntityDetailComponent', () => {
 
   it('bdef with descriptive format and no schema columns',
     async((inject([
-      BusinessObjectFormatService,
-      BusinessObjectDefinitionColumnService, ActivatedRoute],
+        BusinessObjectFormatService,
+        BusinessObjectDefinitionColumnService, ActivatedRoute],
       (
         bformatApi: BusinessObjectFormatService,
         bColApi: BusinessObjectDefinitionColumnService, activeRoute: ActivatedRouteStub) => {
@@ -702,8 +724,8 @@ describe('DataEntityDetailComponent', () => {
 
   it('bdef with descriptive format and schema columns - with no matching schema column names ',
     async((inject([
-      BusinessObjectFormatService,
-      BusinessObjectDefinitionColumnService, ActivatedRoute],
+        BusinessObjectFormatService,
+        BusinessObjectDefinitionColumnService, ActivatedRoute],
       (
         bformatApi: BusinessObjectFormatService,
         bColApi: BusinessObjectDefinitionColumnService, activeRoute: ActivatedRouteStub) => {
@@ -808,7 +830,7 @@ describe('DataEntityDetailComponent', () => {
           }
         };
         fixture.detectChanges();
-        component.saveDataEntityDisplayName({ text: 'new save text' });
+        component.saveDataEntityDisplayName({text: 'new save text'});
 
         expect(updateSpy).toHaveBeenCalledWith(component.bdef.namespace, component.bdef.businessObjectDefinitionName, {
           description: component.bdef.description,
@@ -834,7 +856,7 @@ describe('DataEntityDetailComponent', () => {
         };
 
         fixture.detectChanges();
-        component.saveDataEntityDisplayName({ text: 'new save text' });
+        component.saveDataEntityDisplayName({text: 'new save text'});
 
         expect(updateSpy).toHaveBeenCalledWith(component.bdef.namespace, component.bdef.businessObjectDefinitionName, {
           description: component.bdef.description,
@@ -860,7 +882,7 @@ describe('DataEntityDetailComponent', () => {
           }
         };
         fixture.detectChanges();
-        component.saveDataEntityDescription({ text: 'new save text' });
+        component.saveDataEntityDescription({text: 'new save text'});
 
         expect(updateSpy).toHaveBeenCalledWith(component.bdef.namespace, component.bdef.businessObjectDefinitionName, {
           description: 'new save text',
@@ -886,7 +908,7 @@ describe('DataEntityDetailComponent', () => {
         };
 
         fixture.detectChanges();
-        component.saveDataEntityDescription({ text: 'new save text' });
+        component.saveDataEntityDescription({text: 'new save text'});
 
         expect(updateSpy).toHaveBeenCalledWith(component.bdef.namespace, component.bdef.businessObjectDefinitionName, {
           description: 'new save text',
@@ -918,7 +940,6 @@ describe('DataEntityDetailComponent', () => {
       expect(alertSpy).toHaveBeenCalledWith(new SuccessAlert('Success!', '', 'DDL Successfully copied to clipboard'));
     }));
 
-
   it('should close current modal on close()', () => {
     const modal = component.open('test modal close');
     spyOn(modal, 'close').and.callThrough();
@@ -931,38 +952,111 @@ describe('DataEntityDetailComponent', () => {
     component.descriptiveFormat = undefined;
     expect(component.hasDescriptiveLineage()).toBe(false);
 
-    component.descriptiveFormat = {} as BusinessObjectFormat;
+    resetDescriptiveFormat();
+
     // no children or parents
     expect(component.hasDescriptiveLineage()).toBe(false);
 
-    component.descriptiveFormat.businessObjectFormatChildren = [];
-    component.descriptiveFormat.businessObjectFormatParents = [];
-    // no children or parents (in the list);
-    expect(component.hasDescriptiveLineage()).toBe(false);
+    const childOne: BusinessObjectFormatKey = {
+      namespace: 'test',
+      businessObjectFormatUsage: 'child1',
+      businessObjectDefinitionName: 'testName',
+      businessObjectFormatFileType: 'fTp'
+    };
 
+    const childTwo: BusinessObjectFormatKey = {
+      namespace: 'test',
+      businessObjectFormatUsage: 'child2',
+      businessObjectDefinitionName: 'testName',
+      businessObjectFormatFileType: 'fTp'
+    };
+
+    const bFormatChildren: Array<BusinessObjectFormatKey> = new Array<BusinessObjectFormatKey>();
+    bFormatChildren.push(childOne, childTwo);
+
+    const parentOne = {
+      namespace: 'test',
+      businessObjectFormatUsage: 'parent1',
+      businessObjectDefinitionName: 'testName',
+      businessObjectFormatFileType: 'fTp'
+    };
+
+    const parentTwo = {
+      namespace: 'test',
+      businessObjectFormatUsage: 'parent2',
+      businessObjectDefinitionName: 'testName',
+      businessObjectFormatFileType: 'fTp'
+    };
+
+    const bFormatParents: Array<BusinessObjectFormatKey> = new Array<BusinessObjectFormatKey>();
+    bFormatParents.push(parentOne, parentTwo);
+
+    // add 1 parent
     component.descriptiveFormat.businessObjectFormatParents
-      .push({
-        namespace: 'test',
-        businessObjectFormatUsage: 'usg',
-        businessObjectDefinitionName: 'testName',
-        businessObjectFormatFileType: 'fTp'
-      });
-    // has just parents
+      .push(bFormatParents[0]);
+    // verify
     expect(component.hasDescriptiveLineage()).toBe(true);
+    expect(component.descriptiveFormat.businessObjectFormatParents.length).toEqual(1);
+    expect(component.descriptiveFormat.businessObjectFormatParents[0]).toBe(bFormatParents[0]);
+    expect(component.descriptiveFormat.businessObjectFormatChildren).toEqual([]);
 
+    // add another parent
+    component.descriptiveFormat.businessObjectFormatParents
+      .push(bFormatParents[1]);
+    // verify
+    expect(component.hasDescriptiveLineage()).toBe(true);
+    expect(component.descriptiveFormat.businessObjectFormatParents.length).toEqual(2);
+    expect(component.descriptiveFormat.businessObjectFormatParents[0]).toBe(bFormatParents[0]);
+    expect(component.descriptiveFormat.businessObjectFormatParents[1]).toBe(bFormatParents[1]);
+    expect(component.descriptiveFormat.businessObjectFormatChildren).toEqual([]);
+
+    // reset
+    resetDescriptiveFormat();
+
+    // add 1 child
     component.descriptiveFormat.businessObjectFormatChildren
-      .push({
-        namespace: 'test',
-        businessObjectFormatUsage: 'usg',
-        businessObjectDefinitionName: 'testname2',
-        businessObjectFormatFileType: 'ftp2'
-      });
-    // has parents and children
+      .push(bFormatChildren[0]);
+    // verify
     expect(component.hasDescriptiveLineage()).toBe(true);
+    expect(component.descriptiveFormat.businessObjectFormatChildren.length).toEqual(1);
+    expect(component.descriptiveFormat.businessObjectFormatChildren[0]).toBe(bFormatChildren[0]);
+    expect(component.descriptiveFormat.businessObjectFormatParents).toEqual([]);
 
-    component.descriptiveFormat.businessObjectFormatParents = [];
-    // just children
+    // add another child
+    component.descriptiveFormat.businessObjectFormatChildren
+      .push(bFormatChildren[1]);
+    // verify
     expect(component.hasDescriptiveLineage()).toBe(true);
+    expect(component.descriptiveFormat.businessObjectFormatChildren.length).toEqual(2);
+    expect(component.descriptiveFormat.businessObjectFormatChildren[0]).toBe(bFormatChildren[0]);
+    expect(component.descriptiveFormat.businessObjectFormatChildren[1]).toBe(bFormatChildren[1]);
+    expect(component.descriptiveFormat.businessObjectFormatParents).toEqual([]);
+
+    // reset
+    resetDescriptiveFormat();
+
+    // add children and parents
+    bFormatParents.forEach(parentFormat => {
+      component.descriptiveFormat.businessObjectFormatParents.push(parentFormat);
+    });
+    bFormatChildren.forEach(childFormat => {
+      component.descriptiveFormat.businessObjectFormatChildren.push(childFormat);
+    });
+    // verify
+    expect(component.hasDescriptiveLineage()).toBe(true);
+    expect(component.descriptiveFormat.businessObjectFormatChildren.length).toEqual(2);
+    expect(component.descriptiveFormat.businessObjectFormatParents.length).toEqual(2);
+
+    // helper function to reset state
+    function resetDescriptiveFormat() {
+      component.descriptiveFormat = undefined;
+      expect(component.hasDescriptiveLineage()).toBe(false);
+
+      component.descriptiveFormat = {} as BusinessObjectFormat;
+      component.descriptiveFormat.businessObjectFormatChildren = [];
+      component.descriptiveFormat.businessObjectFormatParents = [];
+    }
+
   });
 
   it('should update format to recommended format or show error in case of fail',
@@ -980,14 +1074,14 @@ describe('DataEntityDetailComponent', () => {
         fixture.detectChanges();
         detailsSpy.calls.reset();
 
-        const bdefWithDescriptiveFormat: BusinessObjectDefinition = { ...expectedBdef, descriptiveBusinessObjectFormat: formatKeys[1] };
+        const bdefWithDescriptiveFormat: BusinessObjectDefinition = {...expectedBdef, descriptiveBusinessObjectFormat: formatKeys[1]};
         putSpy.and.returnValue(of(bdefWithDescriptiveFormat));
         component.updateDescriptiveFormat(formatKeys[1], false);
         expect(component.bdef).toEqual(bdefWithDescriptiveFormat);
         expect(detailsSpy).toHaveBeenCalled();
         detailsSpy.calls.reset();
 
-        const withoutDescriptiveFormat: BusinessObjectDefinition = { ...expectedBdef, descriptiveBusinessObjectFormat: null };
+        const withoutDescriptiveFormat: BusinessObjectDefinition = {...expectedBdef, descriptiveBusinessObjectFormat: null};
         putSpy.and.returnValue(of(withoutDescriptiveFormat));
         component.updateDescriptiveFormat(formatKeys[1], true);
         expect(component.bdef).toEqual(withoutDescriptiveFormat);
@@ -1060,14 +1154,14 @@ describe('DataEntityDetailComponent', () => {
 
       component.hierarchialGraph = {
         nodes: [center, parentToShowFurther],
-        links: [{ source: parentToShowFurther.id, target: center.id }]
+        links: [{source: parentToShowFurther.id, target: center.id}]
       };
       const expectedGraph = {
         nodes: [...component.hierarchialGraph.nodes],
         links: [...component.hierarchialGraph.links]
       };
       expectedGraph.nodes.push(grandParent);
-      expectedGraph.links.push({ source: grandParent.id, target: parentToShowFurther.id });
+      expectedGraph.links.push({source: grandParent.id, target: parentToShowFurther.id});
       component.popover = {
         close: () => {
         }
@@ -1149,14 +1243,14 @@ describe('DataEntityDetailComponent', () => {
 
       component.hierarchialGraph = {
         nodes: [center, childToShowFurther],
-        links: [{ target: childToShowFurther.id, source: center.id }]
+        links: [{target: childToShowFurther.id, source: center.id}]
       };
       const expectedGraph = {
         nodes: [...component.hierarchialGraph.nodes],
         links: [...component.hierarchialGraph.links]
       };
       expectedGraph.nodes.push(grandChild);
-      expectedGraph.links.push({ target: grandChild.id, source: childToShowFurther.id });
+      expectedGraph.links.push({target: grandChild.id, source: childToShowFurther.id});
       component.popover = {
         close: () => {
         }
@@ -1178,7 +1272,6 @@ describe('DataEntityDetailComponent', () => {
       expect(component.hierarchialGraph.loaded).toBe(true);
 
     }));
-
 
   it('should alert when no more child or parent lineage can be shown', inject([BusinessObjectFormatService, AlertService],
     (formatApi: BusinessObjectFormatService, alerter: AlertService) => {
@@ -1215,7 +1308,7 @@ describe('DataEntityDetailComponent', () => {
 
       component.hierarchialGraph = {
         nodes: [center, toShowFurther],
-        links: [{ target: toShowFurther.id, source: center.id }]
+        links: [{target: toShowFurther.id, source: center.id}]
       };
       const expectedGraph = {
         nodes: [...component.hierarchialGraph.nodes],
@@ -1264,7 +1357,6 @@ describe('DataEntityDetailComponent', () => {
         expect(component.processChildren).not.toHaveBeenCalled();
       })));
 
-
   it('should have groupResultsBy that accepts a node and returns the node type', () => {
     expect(component.groupResultsBy({
       id: 'test__center',
@@ -1299,7 +1391,6 @@ describe('DataEntityDetailComponent', () => {
     expect(component.hierarchialGraph.loaded).toBe(true);
   });
 
-
   it('should create new lineage data on getLineage', () => {
 
     const center: DataEntityLineageNode = {
@@ -1321,7 +1412,7 @@ describe('DataEntityDetailComponent', () => {
         loadLineage: true,
         color: DAGNodeTypeColor.parent
       }],
-      links: [{ source: ['test', 'parent', 'node', 'id'].join(component.idDelimiter), target: center.id }]
+      links: [{source: ['test', 'parent', 'node', 'id'].join(component.idDelimiter), target: center.id}]
     };
 
     const childrenGraph: HierarchialGraph = {
@@ -1334,7 +1425,7 @@ describe('DataEntityDetailComponent', () => {
         loadLineage: true,
         color: DAGNodeTypeColor.child
       }],
-      links: [{ target: ['test', 'child', 'node', 'id'].join(component.idDelimiter), source: center.id }]
+      links: [{target: ['test', 'child', 'node', 'id'].join(component.idDelimiter), source: center.id}]
     };
 
     spyOn(component, 'processParents').and.returnValue(of(parentsGraph));
@@ -1373,7 +1464,7 @@ describe('DataEntityDetailComponent', () => {
     // testing the increment of the idDictionary items by using the same bdef / format for each one.
     const expectedCenterNode: DataEntityLineageNode = {
       id: [testFormatKey.namespace, testFormatKey.businessObjectDefinitionName, testFormatKey.businessObjectFormatUsage,
-      testFormatKey.businessObjectFormatFileType].join(component.idDelimiter) + component.idDelimiter + '1',
+        testFormatKey.businessObjectFormatFileType].join(component.idDelimiter) + component.idDelimiter + '1',
       label: testBdef.displayName,
       tooltip: [testFormatKey.businessObjectFormatUsage, testFormatKey.businessObjectFormatFileType].join(component.displayDelimiter),
       type: DAGNodeType.center,
@@ -1384,7 +1475,7 @@ describe('DataEntityDetailComponent', () => {
 
     const expectedParentNode: DataEntityLineageNode = {
       id: [testFormatKey.namespace, testFormatKey.businessObjectDefinitionName, testFormatKey.businessObjectFormatUsage,
-      testFormatKey.businessObjectFormatFileType].join(component.idDelimiter) + component.idDelimiter + '2',
+        testFormatKey.businessObjectFormatFileType].join(component.idDelimiter) + component.idDelimiter + '2',
       label: testBdef.displayName,
       tooltip: [testFormatKey.businessObjectFormatUsage, testFormatKey.businessObjectFormatFileType].join(component.displayDelimiter),
       type: DAGNodeType.parent,
@@ -1394,7 +1485,7 @@ describe('DataEntityDetailComponent', () => {
     };
     const expectedChildNode: DataEntityLineageNode = {
       id: [testFormatKey.namespace, testFormatKey.businessObjectDefinitionName, testFormatKey.businessObjectFormatUsage,
-      testFormatKey.businessObjectFormatFileType].join(component.idDelimiter) + component.idDelimiter + '3',
+        testFormatKey.businessObjectFormatFileType].join(component.idDelimiter) + component.idDelimiter + '3',
       label: testNoDisplayName.businessObjectDefinitionName,
       tooltip: [testFormatKey.businessObjectFormatUsage, testFormatKey.businessObjectFormatFileType].join(component.displayDelimiter),
       type: DAGNodeType.child,
@@ -1407,7 +1498,6 @@ describe('DataEntityDetailComponent', () => {
     expect(component.createNode(testBdef, testFormatKey, DAGNodeType.parent)).toEqual(expectedParentNode);
     expect(component.createNode(testNoDisplayName, testFormatKey, DAGNodeType.child)).toEqual(expectedChildNode);
   });
-
 
   it('should use fetchBdefs and constructGraph to processParents', () => {
 
@@ -1430,7 +1520,7 @@ describe('DataEntityDetailComponent', () => {
         loadLineage: true,
         color: DAGNodeTypeColor.parent
       }],
-      links: [{ source: ['testNS', 'testPBdefName', 'node', 'id'].join(component.idDelimiter), target: center.id }]
+      links: [{source: ['testNS', 'testPBdefName', 'node', 'id'].join(component.idDelimiter), target: center.id}]
     };
 
     const format: BusinessObjectFormat = {
@@ -1476,7 +1566,7 @@ describe('DataEntityDetailComponent', () => {
         loadLineage: true,
         color: DAGNodeTypeColor.child
       }],
-      links: [{ target: ['testNS', 'testCBdefName', 'node', 'id'].join(component.idDelimiter), source: center.id }]
+      links: [{target: ['testNS', 'testCBdefName', 'node', 'id'].join(component.idDelimiter), source: center.id}]
     };
     const format: BusinessObjectFormat = {
       namespace: 'testNS',
@@ -1517,22 +1607,22 @@ describe('DataEntityDetailComponent', () => {
       businessObjectFormatUsage: 'EFW',
       businessObjectFormatFileType: 'TXT'
     },
-    {
-      namespace: 'ns',
-      businessObjectDefinitionName: 'name2',
-      businessObjectFormatUsage: 'QQA',
-      businessObjectFormatFileType: 'CSV'
-    }];
+      {
+        namespace: 'ns',
+        businessObjectDefinitionName: 'name2',
+        businessObjectFormatUsage: 'QQA',
+        businessObjectFormatFileType: 'CSV'
+      }];
 
     (bdefApi.businessObjectDefinitionGetBusinessObjectDefinition as jasmine.Spy).and.returnValues(
-      of({ namespace: 'ns', businessObjectDefinitionName: 'name' }),
-      of({ namespace: 'ns', businessObjectDefinitionName: 'name2', displayName: 'test display Name' }));
+      of({namespace: 'ns', businessObjectDefinitionName: 'name'}),
+      of({namespace: 'ns', businessObjectDefinitionName: 'name2', displayName: 'test display Name'}));
 
 
     component.fetchBdefs(testFormatKeys).subscribe((bdefs) => {
       expect(bdefs).toEqual([{
         namespace: 'ns', businessObjectDefinitionName: 'name'
-      }, { namespace: 'ns', businessObjectDefinitionName: 'name2', displayName: 'test display Name' }]);
+      }, {namespace: 'ns', businessObjectDefinitionName: 'name2', displayName: 'test display Name'}]);
       expect(bdefApi.businessObjectDefinitionGetBusinessObjectDefinition).toHaveBeenCalledWith(
         testFormatKeys[0].namespace,
         testFormatKeys[0].businessObjectDefinitionName
@@ -1545,8 +1635,8 @@ describe('DataEntityDetailComponent', () => {
   }));
 
   it('should construct a graph for parents of a given node', () => {
-    const testBdefs: BusinessObjectDefinition[] = [{ namespace: 'testNS', businessObjectDefinitionName: 'testName' },
-    { namespace: 'testNS', businessObjectDefinitionName: 'testName2', displayName: 'test display Name' }];
+    const testBdefs: BusinessObjectDefinition[] = [{namespace: 'testNS', businessObjectDefinitionName: 'testName'},
+      {namespace: 'testNS', businessObjectDefinitionName: 'testName2', displayName: 'test display Name'}];
 
     const testFormatKeys = [{
       namespace: 'testNS',
@@ -1554,12 +1644,12 @@ describe('DataEntityDetailComponent', () => {
       businessObjectFormatUsage: 'EFW',
       businessObjectFormatFileType: 'TXT'
     },
-    {
-      namespace: 'testNS',
-      businessObjectDefinitionName: 'testName2',
-      businessObjectFormatUsage: 'QQA',
-      businessObjectFormatFileType: 'CSV'
-    }];
+      {
+        namespace: 'testNS',
+        businessObjectDefinitionName: 'testName2',
+        businessObjectFormatUsage: 'QQA',
+        businessObjectFormatFileType: 'CSV'
+      }];
 
     const center: DataEntityLineageNode = {
       id: ['testNS', 'testBdefName', 'testUsage', 'testFTp'].join(component.idDelimiter),
@@ -1572,7 +1662,7 @@ describe('DataEntityDetailComponent', () => {
 
     const parentNode1: DataEntityLineageNode = {
       id: [testFormatKeys[0].namespace, testBdefs[0].businessObjectDefinitionName, testFormatKeys[0].businessObjectFormatUsage,
-      testFormatKeys[0].businessObjectFormatFileType].join(component.idDelimiter) + component.idDelimiter + '1',
+        testFormatKeys[0].businessObjectFormatFileType].join(component.idDelimiter) + component.idDelimiter + '1',
       label: testBdefs[0].businessObjectDefinitionName,
       tooltip: [testFormatKeys[0].businessObjectFormatUsage, testFormatKeys[0].businessObjectFormatFileType]
         .join(component.displayDelimiter),
@@ -1584,7 +1674,7 @@ describe('DataEntityDetailComponent', () => {
 
     const parentNode2: DataEntityLineageNode = {
       id: [testFormatKeys[1].namespace, testBdefs[1].businessObjectDefinitionName, testFormatKeys[1].businessObjectFormatUsage,
-      testFormatKeys[1].businessObjectFormatFileType].join(component.idDelimiter) + component.idDelimiter + '1',
+        testFormatKeys[1].businessObjectFormatFileType].join(component.idDelimiter) + component.idDelimiter + '1',
       label: testBdefs[1].displayName,
       tooltip: [testFormatKeys[1].businessObjectFormatUsage, testFormatKeys[1].businessObjectFormatFileType]
         .join(component.displayDelimiter),
@@ -1596,7 +1686,7 @@ describe('DataEntityDetailComponent', () => {
 
     const expectedGraph: HierarchialGraph = {
       nodes: [parentNode1, parentNode2],
-      links: [{ source: parentNode1.id, target: center.id }, { source: parentNode2.id, target: center.id }]
+      links: [{source: parentNode1.id, target: center.id}, {source: parentNode2.id, target: center.id}]
     };
 
 
@@ -1606,10 +1696,9 @@ describe('DataEntityDetailComponent', () => {
     });
   });
 
-
   it('should construct a graph for children of a given node', () => {
-    const testBdefs: BusinessObjectDefinition[] = [{ namespace: 'testNS', businessObjectDefinitionName: 'testName' },
-    { namespace: 'testNS', businessObjectDefinitionName: 'testName2', displayName: 'test display Name' }];
+    const testBdefs: BusinessObjectDefinition[] = [{namespace: 'testNS', businessObjectDefinitionName: 'testName'},
+      {namespace: 'testNS', businessObjectDefinitionName: 'testName2', displayName: 'test display Name'}];
 
     const testFormatKeys = [{
       namespace: 'testNS',
@@ -1617,12 +1706,12 @@ describe('DataEntityDetailComponent', () => {
       businessObjectFormatUsage: 'EFW',
       businessObjectFormatFileType: 'TXT'
     },
-    {
-      namespace: 'testNS',
-      businessObjectDefinitionName: 'testName2',
-      businessObjectFormatUsage: 'QQA',
-      businessObjectFormatFileType: 'CSV'
-    }];
+      {
+        namespace: 'testNS',
+        businessObjectDefinitionName: 'testName2',
+        businessObjectFormatUsage: 'QQA',
+        businessObjectFormatFileType: 'CSV'
+      }];
 
     const center: DataEntityLineageNode = {
       id: ['testNS', 'testBdefName', 'testUsage', 'testFTp'].join(component.idDelimiter),
@@ -1635,7 +1724,7 @@ describe('DataEntityDetailComponent', () => {
 
     const childNode1: DataEntityLineageNode = {
       id: [testFormatKeys[0].namespace, testBdefs[0].businessObjectDefinitionName, testFormatKeys[0].businessObjectFormatUsage,
-      testFormatKeys[0].businessObjectFormatFileType].join(component.idDelimiter) + component.idDelimiter + '1',
+        testFormatKeys[0].businessObjectFormatFileType].join(component.idDelimiter) + component.idDelimiter + '1',
       label: testBdefs[0].businessObjectDefinitionName,
       tooltip: [testFormatKeys[0].businessObjectFormatUsage, testFormatKeys[0].businessObjectFormatFileType]
         .join(component.displayDelimiter),
@@ -1647,7 +1736,7 @@ describe('DataEntityDetailComponent', () => {
 
     const childNode2: DataEntityLineageNode = {
       id: [testFormatKeys[1].namespace, testBdefs[1].businessObjectDefinitionName, testFormatKeys[1].businessObjectFormatUsage,
-      testFormatKeys[1].businessObjectFormatFileType].join(component.idDelimiter) + component.idDelimiter + '1',
+        testFormatKeys[1].businessObjectFormatFileType].join(component.idDelimiter) + component.idDelimiter + '1',
       label: testBdefs[1].displayName,
       tooltip: [testFormatKeys[1].businessObjectFormatUsage, testFormatKeys[1].businessObjectFormatFileType]
         .join(component.displayDelimiter),
@@ -1659,7 +1748,7 @@ describe('DataEntityDetailComponent', () => {
 
     const expectedGraph: HierarchialGraph = {
       nodes: [childNode1, childNode2],
-      links: [{ target: childNode1.id, source: center.id }, { target: childNode2.id, source: center.id }]
+      links: [{target: childNode1.id, source: center.id}, {target: childNode2.id, source: center.id}]
     };
 
 
@@ -1706,7 +1795,7 @@ describe('DataEntityDetailComponent', () => {
         description: 'test current description',
         type: 'varchar (30)'
       };
-      let mockColumn = { ...initialMockColumn };
+      let mockColumn = {...initialMockColumn};
       const mockEvent: EditEvent = {
         text: 'test new description'
       };
@@ -1721,7 +1810,7 @@ describe('DataEntityDetailComponent', () => {
         description: mockEvent.text
       };
 
-      const successOutput = { ...mockColumn, description: mockEvent.text };
+      const successOutput = {...mockColumn, description: mockEvent.text};
 
       const updateSpy = columnApi.businessObjectDefinitionColumnUpdateBusinessObjectDefinitionColumn as jasmine.Spy;
       updateSpy.and.returnValue(of(successResponse));
@@ -1732,7 +1821,7 @@ describe('DataEntityDetailComponent', () => {
 
       expect(updateSpy).toHaveBeenCalledWith(component.bdef.namespace,
         component.bdef.businessObjectDefinitionName,
-        mockColumn.businessObjectDefinitionColumnName, { description: mockEvent.text });
+        mockColumn.businessObjectDefinitionColumnName, {description: mockEvent.text});
 
       expect(columnApi.defaultHeaders.get('skipAlert')).toBeNull();
       // updates the text on success
@@ -1751,14 +1840,14 @@ describe('DataEntityDetailComponent', () => {
 
       updateSpy.calls.reset();
 
-      mockColumn = { ...initialMockColumn };
+      mockColumn = {...initialMockColumn};
       // for failure
-      updateSpy.and.returnValue(throwError({ status: 404 }));
+      updateSpy.and.returnValue(throwError({status: 404}));
       component.saveDataEntityColumnDescriptionChange(mockEvent, mockColumn);
 
       expect(updateSpy).toHaveBeenCalledWith(component.bdef.namespace,
         component.bdef.businessObjectDefinitionName,
-        mockColumn.businessObjectDefinitionColumnName, { description: mockEvent.text });
+        mockColumn.businessObjectDefinitionColumnName, {description: mockEvent.text});
 
       expect(columnApi.defaultHeaders.get('skipAlert')).toBeNull();
       // does not update the text on error
@@ -1812,10 +1901,10 @@ describe('DataEntityDetailComponent', () => {
 
       const alertSpy = alerter.alert as jasmine.Spy;
 
-      const failedOutput = { ...mockColumn };
+      const failedOutput = {...mockColumn};
 
       // for failure on delete
-      deleteSpy.and.returnValue(throwError({ status: 404 }));
+      deleteSpy.and.returnValue(throwError({status: 404}));
       component.saveDataEntityColumnNameChange(mockEvent, mockColumn);
 
       expect(deleteSpy).toHaveBeenCalledWith(component.bdef.namespace,
@@ -1833,7 +1922,7 @@ describe('DataEntityDetailComponent', () => {
 
       // for failure after delete on create
       deleteSpy.and.returnValue(of(succesDeleteResponse));
-      createSpy.and.returnValue(throwError({ status: 500 }));
+      createSpy.and.returnValue(throwError({status: 500}));
       component.saveDataEntityColumnNameChange(mockEvent, mockColumn);
 
       expect(deleteSpy).toHaveBeenCalledWith(component.bdef.namespace,
@@ -1945,7 +2034,7 @@ describe('DataEntityDetailComponent', () => {
         // no namespace or roles set
         userSubject.next(testAuthorizations);
         fixture.detectChanges();
-        validateColumnsNotAuthorizaed();
+        validateColumnsNotAuthorized();
 
         // namespace but no write
         testAuthorizations.namespaceAuthorizations = [{
@@ -1954,22 +2043,105 @@ describe('DataEntityDetailComponent', () => {
         }];
         userSubject.next(testAuthorizations);
         fixture.detectChanges();
-        validateColumnsNotAuthorizaed();
+        validateColumnsNotAuthorized();
 
         // namespace with write but no role
-        testAuthorizations.namespaceAuthorizations[0].namespacePermissions.push(NamespaceAuthorization.NamespacePermissionsEnum.WRITE);
+        testAuthorizations.namespaceAuthorizations[0]
+          .namespacePermissions.push(NamespaceAuthorization.NamespacePermissionsEnum.WRITE);
         userSubject.next(testAuthorizations);
         fixture.detectChanges();
-        validateColumnsNotAuthorizaed();
+        validateColumnsNotAuthorized();
 
         // role but no namespace rights
         testAuthorizations.securityFunctions = ['FN_BUSINESS_OBJECT_DEFINITION_COLUMNS_POST'];
         userSubject.next(testAuthorizations);
         fixture.detectChanges();
-        validateColumnsAuthorizaed();
-      }));
+        validateColumnsAuthorized();
+      })
+  );
 
-  function validateColumnsNotAuthorizaed() {
+  it('should appropriately show \'radio buttons\' to change recommended format',
+    inject([UserService, ActivatedRoute],
+      (us: UserService, activeRoute: ActivatedRouteStub) => {
+
+        const testAuthorizations: UserAuthorizations = {
+          userId: 'test_user',
+          namespaceAuthorizations: [],
+          securityFunctions: [],
+          securityRoles: []
+        };
+
+        spyOn(component, 'getBdefDetails').and.callFake(() => {
+          component.descriptiveFormat = descriptiveFormat;
+        });
+
+        spyOn(component, 'getFormats').and.callFake(() => {
+          component.formats = expectedFormats.businessObjectFormatKeys;
+        });
+
+        activeRoute.testData = {
+          resolvedData: {
+            bdef: expectedBdef,
+            formats: expectedFormats.businessObjectFormatKeys,
+            descriptiveFormat: descriptiveFormat
+          }
+        };
+
+        const userSubject = new ReplaySubject<UserAuthorizations>();
+        // using a mocked UserService
+        (us as any).user = userSubject.asObservable();
+
+        // no namespace or roles set
+        testAuthorizations.namespaceAuthorizations = [];
+        testAuthorizations.securityFunctions = [];
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateEditRecommendedFormatIconVisibility(false);
+
+        // only read permissions
+        testAuthorizations.namespaceAuthorizations = [{
+          namespace: expectedBdef.namespace,
+          namespacePermissions: [
+            NamespaceAuthorization.NamespacePermissionsEnum.READ
+          ]
+        }];
+        testAuthorizations.securityFunctions = ['FN_BUSINESS_OBJECT_DATA_BY_BUSINESS_OBJECT_DEFINITION_GET'];
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateEditRecommendedFormatIconVisibility(false);
+
+        // valid permissions
+        testAuthorizations.namespaceAuthorizations = [{
+          namespace: expectedBdef.namespace,
+          namespacePermissions: [
+            NamespaceAuthorization.NamespacePermissionsEnum.WRITE,
+            NamespaceAuthorization.NamespacePermissionsEnum.WRITEDESCRIPTIVECONTENT]
+        }];
+        testAuthorizations.securityFunctions = [
+          'FN_BUSINESS_OBJECT_DEFINITIONS_DESCRIPTIVE_INFO_PUT',
+          'FN_BUSINESS_OBJECT_DATA_BY_BUSINESS_OBJECT_DEFINITION_GET'
+        ];
+
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateEditRecommendedFormatIconVisibility(true);
+
+      })
+  );
+
+  function validateEditRecommendedFormatIconVisibility(isVisible: boolean) {
+    // css selector which selects parent of the radio-button icon since that is controlled by the sd-authorize directive
+    const radioIconParent = fixture.debugElement.query(By.css('.col.card.format-whiteframe.pointer .row .col-2'));
+
+    const displayStyle = radioIconParent.nativeElement.style.display;
+    if (isVisible) {
+      expect(displayStyle).toEqual('');
+    } else {
+      expect(displayStyle).toEqual('none');
+    }
+  }
+
+  function validateColumnsNotAuthorized() {
     // make sure we are on the columns tab
     fixture.debugElement.query(By.css('ngb-tabset .nav-item:nth-child(2) .nav-link')).nativeElement.click();
     fixture.detectChanges();
@@ -1984,7 +2156,7 @@ describe('DataEntityDetailComponent', () => {
     });
   }
 
-  function validateColumnsAuthorizaed() {
+  function validateColumnsAuthorized() {
     // make sure we are on the columns tab
     fixture.debugElement.query(By.css('ngb-tabset .nav-item:nth-child(2) .nav-link')).nativeElement.click();
     fixture.detectChanges();

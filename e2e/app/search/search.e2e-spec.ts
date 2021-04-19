@@ -35,7 +35,7 @@ describe('Search page', () => {
     // goes to home page and searches from there
     await page.navigateTo();
     await page.search(searchTerm);
-    await expect(browser.getCurrentUrl()).toBe(await page.searchResultUrl);
+    await expect(browser.getCurrentUrl()).toContain('GlobalSearch');
 
     // verify that result count is same as displaying
     await expect(page.searchBoxContainer).toBeDefined();
@@ -54,7 +54,7 @@ describe('Search page', () => {
   it('Hit highlight is showing and working as expected', async () => {
     await page.navigateTo();
     await page.search(searchTerm);
-    await expect(browser.getCurrentUrl()).toBe(await page.searchResultUrl);
+    await expect(browser.getCurrentUrl()).toContain('GlobalSearch');
 
     // verify that result count is same as displaying
     await expect(page.searchBoxContainer).toBeDefined();
@@ -67,7 +67,7 @@ describe('Search page', () => {
   it('Search facets are behaving as expected', async () => {
     await page.navigateTo();
     await page.search(searchTerm);
-    await expect(browser.getCurrentUrl()).toBe(await page.searchResultUrl);
+    await expect(browser.getCurrentUrl()).toContain('GlobalSearch');
 
     // verify that result count more then zero at least
     await expect(page.facetComponent).toBeDefined();
@@ -102,7 +102,7 @@ describe('Search page', () => {
     await page.navigateTo();
     await page.selectHitMatchType('column');
     await page.search(searchTerm);
-    await expect(browser.getCurrentUrl()).toBe(page.searchResultUrl + 'column');
+    await expect(browser.getCurrentUrl()).toContain('GlobalSearch?match=column');
     await expect((await page.hitFilter.getSize()).width).toBeGreaterThan(0);
 
     // TODO: Possibly add data to verify results.  This may not need to be done because

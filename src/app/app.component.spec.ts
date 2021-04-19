@@ -60,7 +60,7 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        NgbModule.forRoot(),
+        NgbModule,
         InlineSVGModule,
         HttpClientTestingModule
       ],
@@ -94,36 +94,40 @@ describe('AppComponent', () => {
 
         }
       },*/ {
-        provide: AlertService,
-        useValue: {
-          alert: jasmine.createSpy('alert'),
-          alerts: of()
-        }
-      }, {
-        provide: Router,
-        useClass: RouterStub
-      }, {
-        provide: ActivatedRoute,
-        useClass: ActivatedRouteStub
-      },
-      {
-        provide: GoogleAnalyticsService, useValue: {
-          sendPageViewData: jasmine.createSpy('sendPageViewData')
-        }
-      }, {
-        provide: WINDOW,
-        useValue: {
-          history: {
-            scrollRestoration: 'auto'
-          },
-          scrollTo: jasmine.createSpy('scrollTo')
-        }
-      }]
+          provide: AlertService,
+          useValue: {
+            alert: jasmine.createSpy('alert'),
+            alerts: of()
+          }
+        }, {
+          provide: Router,
+          useClass: RouterStub
+        }, {
+          provide: ActivatedRoute,
+          useClass: ActivatedRouteStub
+        },
+        {
+          provide: GoogleAnalyticsService, useValue: {
+            sendPageViewData: jasmine.createSpy('sendPageViewData')
+          }
+        }, {
+          provide: WINDOW,
+          useValue: {
+            history: {
+              scrollRestoration: 'auto'
+            },
+            scrollTo: jasmine.createSpy('scrollTo')
+          }
+        }]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should create the app', async(() => {
@@ -168,7 +172,7 @@ describe('AppComponent', () => {
       expect(app.isLoading).toBeTruthy();
 
       // return nothing for the new route and something for the previous route since it exists
-      const prevSavedRoute = { route: route.snapshot, scrollPosition: undefined };
+      const prevSavedRoute = {route: route.snapshot, scrollPosition: undefined};
       router.routeReuseStrategy.getStorageUnit.and.returnValues(undefined, prevSavedRoute);
       router.emitEnd();
       fixture.detectChanges();
@@ -182,7 +186,7 @@ describe('AppComponent', () => {
 
 
       // return nothing for the old route and return something for new route to mock
-      router.routeReuseStrategy.getStorageUnit.and.returnValues({ route: route.snapshot, scrollPosition: 42 }, undefined);
+      router.routeReuseStrategy.getStorageUnit.and.returnValues({route: route.snapshot, scrollPosition: 42}, undefined);
       router.emitEnd();
       fixture.detectChanges();
       tick(501); // to get passed debounceTime
@@ -246,7 +250,6 @@ describe('AppComponent', () => {
       expect(app.previousScroll).toBe(42);
     })
   ));
-
 
 
 });

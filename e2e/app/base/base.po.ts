@@ -21,14 +21,14 @@ import request from 'sync-request';
 const conf = require('./../../config/conf.e2e.json');
 
 export class BasePo {
+  static fipAuth = true;
   backTrackLink: ElementFinder = element(by.className('back-track-wrapper')).element(by.tagName('a'));
-  private delimiterHypen = ' - ';
   dataEntitiesTitle = 'Data Entities';
   schemaPageTitle = 'Schema';
   loginPage = new LoginPage();
+  private delimiterHypen = ' - ';
   baseTitle = conf.docTitlePrefix + this.delimiterHypen;
   dataEntityTitle = 'Data Entity' + this.delimiterHypen;
-  static fipAuth = true;
 
   get currentAlerts(): ElementArrayFinder {
     return element.all(by.tagName('ngb-alert'));
@@ -97,10 +97,10 @@ export class BasePo {
   }
 
   /**
- * mouseOver has not been properly ported to newest FireFox yet
- * ie and safari were having issues with using the actions as well
- * same for mouseOver
- */
+   * mouseOver has not been properly ported to newest FireFox yet
+   * ie and safari were having issues with using the actions as well
+   * same for mouseOver
+   */
   async mouseOverShim(elm: ElementFinder) {
     if (process.env.CURRENT_BROWSER === 'firefox' || process.env.CURRENT_BROWSER === 'ie' || process.env.CURRENT_BROWSER === 'safari') {
       const script = `if(document.createEvent) {
@@ -118,57 +118,59 @@ export class BasePo {
     }
   }
 
-  async setFipCookieToBrowser(domainValue:string)
-  {
+  async setFipCookieToBrowser(domainValue: string) {
     // navigate to a finra page prior to setting FIP cookie.
-    var initialUrl = "https://www.finra.org/robots.txt";
-     if(conf.ags != "DATA-MGT"){
-          initialUrl = conf.baseUrlNoPassword;
+    let initialUrl = 'https://www.finra.org/robots.txt';
+    if (conf.ags !== 'DATA-MGT') {
+      initialUrl = conf.baseUrlNoPassword;
     }
     await browser.driver.get(initialUrl);
     await browser.sleep(2000);
 
     // make a rest call to FIP Api.
     const response = request('POST', environment.fipAuthEndpoint, {
-               headers: {
-                'Content-Type': 'application/json',
-                'X-OpenAM-Username': conf.loginUser,
-                'X-OpenAM-Password': conf.loginPwd,
-                'Authorization': conf.authorization.basicKey
-              }
-            });
+      headers: {
+        'Content-Type': 'application/json',
+        'X-OpenAM-Username': conf.loginUser,
+        'X-OpenAM-Password': conf.loginPwd,
+        'Authorization': conf.authorization.basicKey
+      }
+    });
 
     // get the response and set cookie.
     try {
-         const body = JSON.parse(response.getBody('utf8'));
+      const body = JSON.parse(response.getBody('utf8'));
 
-         // set the FIP cookie to the browser.
-         await browser.manage().addCookie({ name: environment.fipAuthCookieName, value: body.tokenId, domain: domainValue, secure: true, httpOnly: true });
-        }
-        catch (e)
-        {
-         console.log("Exception while setting fip cookie to the browser: " + e.message);
-        }
+      // set the FIP cookie to the browser.
+      await browser.manage().addCookie({
+        name: environment.fipAuthCookieName,
+        value: body.tokenId,
+        domain: domainValue,
+        secure: true,
+        httpOnly: true
+      });
+    } catch (e) {
+      console.log('Exception while setting fip cookie to the browser: ' + e.message);
+    }
   }
 
   async navigateTo(url?: string, user: string = conf.loginUser, pass: string = conf.loginPwd) {
-      console.log(BasePo.fipAuth)
-      if(BasePo.fipAuth === true)
-      {
-        var domainValue = ".finra.org";
-        if(conf.ags != "DATA-MGT"){
-          domainValue = ".catnms.com";
-        }
-        await this.setFipCookieToBrowser(domainValue);
-        BasePo.fipAuth = false;
+    console.log(BasePo.fipAuth);
+    if (BasePo.fipAuth === true) {
+      let domainValue = '.finra.org';
+      if (conf.ags !== 'DATA-MGT') {
+        domainValue = '.catnms.com';
       }
-        return browser.get(url || conf.baseUrlNoPassword);
-
-      // immediately return if the login scren isn't there.
-      return new Promise((resolve, reject) => {
-        resolve();
-      });
+      await this.setFipCookieToBrowser(domainValue);
+      BasePo.fipAuth = false;
     }
+    return browser.get(url || conf.baseUrlNoPassword);
+
+    // immediately return if the login scren isn't there.
+    return new Promise((resolve, reject) => {
+      resolve();
+    });
   }
+}
 
 

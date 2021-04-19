@@ -19,6 +19,7 @@ import { BasePo } from '../base/base.po';
 export class CategoryPage extends BasePo {
 
   private _relatedCategoriesContainer: ElementFinder = element(by.className('related-categories'));
+  private _hitFilter = element(by.css('sd-global-search .hit-match-filter'));
 
   get relatedCategoryTitle(): ElementFinder {
     return this._relatedCategoriesContainer.element(by.tagName('h2'));
@@ -59,8 +60,6 @@ export class CategoryPage extends BasePo {
   get searchBoxContainer() {
     return element(by.css('sd-search'));
   }
-
-  private _hitFilter = element(by.css('sd-global-search .hit-match-filter'));
 
   // first result verification
   get loadingIcon() {

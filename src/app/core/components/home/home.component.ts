@@ -45,27 +45,27 @@ export class HomeComponent implements OnInit {
     this.brandHeader = environment.brandHeader;
     this.tagTypes = this.tagTypeApi
       .tagTypeSearchTagTypes({}, 'displayName,tagTypeOrder,description').pipe(
-      map((data) => {
-        data.tagTypes = data.tagTypes.slice(0, 6);
-        data.tagTypes.forEach((tagType) => {
-          const body: TagSearchRequest = {
-            tagSearchFilters: [{
-              tagSearchKeys: [{
-                tagTypeCode: tagType.tagTypeKey.tagTypeCode,
-                isParentTagNull: true
+        map((data) => {
+          data.tagTypes = data.tagTypes.slice(0, 6);
+          data.tagTypes.forEach((tagType) => {
+            const body: TagSearchRequest = {
+              tagSearchFilters: [{
+                tagSearchKeys: [{
+                  tagTypeCode: tagType.tagTypeKey.tagTypeCode,
+                  isParentTagNull: true
+                }]
               }]
-            }]
-          };
+            };
 
-          this.tagApi
-            .tagSearchTags(body, 'displayName')
-            .subscribe((value: any) => {
-              (tagType as any).tags = value.tags;
-            });
-        });
+            this.tagApi
+              .tagSearchTags(body, 'displayName')
+              .subscribe((value: any) => {
+                (tagType as any).tags = value.tags;
+              });
+          });
 
-        return data.tagTypes;
-      }));
+          return data.tagTypes;
+        }));
   }
 
   search(event) {

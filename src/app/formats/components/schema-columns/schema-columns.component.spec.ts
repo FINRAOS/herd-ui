@@ -17,7 +17,7 @@ import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing'
 
 import { SchemaColumnsComponent } from './schema-columns.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Headers } from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
 import { BusinessObjectFormatDdlRequest, BusinessObjectFormatService } from '@herd/angular-client';
 import { AlertService, DangerAlert, SuccessAlert } from '../../../core/services/alert.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -25,6 +25,7 @@ import { of, throwError } from 'rxjs';
 import { CodemirrorModule } from 'ng2-codemirror';
 import { ClipboardModule } from 'ngx-clipboard';
 
+// this component is not used anymore, marked for removal
 describe('SchemaColumnsComponent', () => {
   let component: SchemaColumnsComponent;
   let fixture: ComponentFixture<SchemaColumnsComponent>;
@@ -34,7 +35,7 @@ describe('SchemaColumnsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         CodemirrorModule,
         ClipboardModule,
       ],
@@ -52,7 +53,7 @@ describe('SchemaColumnsComponent', () => {
           provide: BusinessObjectFormatService,
           useValue: {
             businessObjectFormatGenerateBusinessObjectFormatDdl: jasmine.createSpy('businessObjectFormatGenerateBusinessObjectFormatDdl'),
-            defaultHeaders: new Headers(),
+            defaultHeaders: new HttpHeaders(),
             configuration: {
               withCredentials: true
             }
@@ -67,6 +68,10 @@ describe('SchemaColumnsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SchemaColumnsComponent);
     component = fixture.componentInstance;
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should be created', () => {

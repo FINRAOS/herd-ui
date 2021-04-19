@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<div (mouseover)="showMore()" (mouseout)="showLess()" #truncatedWrapper class="truncated-content-wrapper">
+<div #truncatedWrapper (mouseout)="showLess()" (mouseover)="showMore()" class="truncated-content-wrapper">
 
   <div #truncatedContent class="truncated-content">
     <ng-content *ngIf="!content; else contentTemplate">
@@ -27,8 +27,7 @@
   </div>
 
 
-
 </div>
-<div (click)="processToggle()" #toggleContent class="toggle-content">
+<div #toggleContent (click)="processToggle()" class="toggle-content">
   {{ readMoreText }}
 </div>

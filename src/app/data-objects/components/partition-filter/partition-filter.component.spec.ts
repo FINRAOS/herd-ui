@@ -28,7 +28,7 @@ describe('PartitionFilterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule.forRoot(), ReactiveFormsModule],
+      imports: [NgbModule, ReactiveFormsModule],
       declarations: [PartitionFilterComponent, FilterTemplateComponent, EllipsisOverflowComponent],
       providers: [FormBuilder]
     })

@@ -23,6 +23,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 @Injectable()
 export class ActivatedRouteStub {
 
+  outlet: string;
   // ActivatedRoute.params is Observable
   private paramsSubject = new ReplaySubject(this.testParams);
   params = this.paramsSubject.asObservable();
@@ -30,22 +31,27 @@ export class ActivatedRouteStub {
   queryParams = this.queryParamsSubject.asObservable();
   private dataSubject = new ReplaySubject(this.testData);
   data = this.dataSubject.asObservable();
-
-  outlet: string;
-
+  private _children: ActivatedRouteStub[] = [];
 
   // Test parameters
   private _testQueryParams: any = {};
-  get testQueryParams(): any { return this._testQueryParams; }
+
+  get testQueryParams(): any {
+    return this._testQueryParams;
+  }
+
   set testQueryParams(queryParams: any) {
     this._testQueryParams = queryParams;
     this.queryParamsSubject.next(queryParams);
   }
 
-
   // Test parameters
   private _testParams: any = {};
-  get testParams(): any { return this._testParams; }
+
+  get testParams(): any {
+    return this._testParams;
+  }
+
   set testParams(params: any) {
     this._testParams = params;
     this.paramsSubject.next(params);
@@ -53,16 +59,14 @@ export class ActivatedRouteStub {
 
   // Test data
   private _testData: any = {};
-  get testData(): any { return this._testData; }
+
+  get testData(): any {
+    return this._testData;
+  }
+
   set testData(data: any) {
     this._testData = data;
     this.dataSubject.next(data);
-  }
-
-  private _children: ActivatedRouteStub[] = [];
-
-  setChildren(children: ActivatedRouteStub[]) {
-    this._children = children;
   }
 
   get snapshot() {
@@ -76,13 +80,14 @@ export class ActivatedRouteStub {
       })
     };
   }
+
+  setChildren(children: ActivatedRouteStub[]) {
+    this._children = children;
+  }
 }
 
 @Injectable()
 export class RouterStub {
-  private eventsSubject = new ReplaySubject<Event>();
-  private state: any;
-  private id = 1;
   navigateByUrl = jasmine.createSpy('navigateByUrl');
   navigate = jasmine.createSpy('navigate');
   routeReuseStrategy = {
@@ -94,25 +99,30 @@ export class RouterStub {
     makeKey: jasmine.createSpy('makeKey'),
     getStorageUnit: jasmine.createSpy('getStorageUnit')
   };
-
   // Router.events is Observable
   events: Observable<Event>;
   routerState: { root: ActivatedRouteStub, snapshot: any };
+  private eventsSubject = new ReplaySubject<Event>();
+  private state: any;
+  private id = 1;
 
   constructor() {
     this.events = this.eventsSubject.asObservable();
-    this.routerState = { root: new ActivatedRouteStub, snapshot: {} };
+    this.routerState = {root: new ActivatedRouteStub, snapshot: {}};
   }
 
   emitStart(id: number = 1, url: string = 'testUrl.com/test') {
     this.eventsSubject.next(new NavigationStart(this.id, url));
   }
+
   emitEnd(id: number = 1, url: string = 'testUrl.com/test') {
     this.eventsSubject.next(new NavigationEnd(this.id, url, url));
   }
+
   emitCancel(id: number = 1, url: string = 'testUrl.com/test', reason: string = 'Test Reason') {
     this.eventsSubject.next(new NavigationCancel(this.id, url, reason));
   }
+
   emitError(id: number = 1, url: string = 'testUrl.com/test', error: string = 'Test Error') {
     this.eventsSubject.next(new NavigationError(this.id, url, error));
   }

@@ -27,21 +27,23 @@ export class Data {
   userId1 = this.conf.smes[0].userId;
   userId2 = this.conf.smes[1].userId;
 
-  defaultBdef () {
+  defaultBdef() {
     return {
       'namespace': this.defaultNamespace,
       'dataProviderName': this.defaultDataProvider,
       'businessObjectDefinitionName': 'HERD_UI_SME_TEST'
     };
   }
-  badBdef () {
+
+  badBdef() {
     return {
       'namespace': this.defaultNamespace,
       'dataProviderName': this.defaultDataProvider,
       'businessObjectDefinitionName': 'HERD_UI_SME_BAD'
     };
   }
-  emptyBdef () {
+
+  emptyBdef() {
     return {
       'namespace': this.defaultNamespace,
       'dataProviderName': this.defaultDataProvider,

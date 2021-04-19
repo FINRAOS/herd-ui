@@ -22,32 +22,34 @@
   <div class="row search-result">
 
     <div class="col-3">
-      <sd-facet [newSearch]="newSearch" [facets]="facets" (facetChange)="facetChange($event)"></sd-facet>
+      <sd-facet (facetChange)="facetChange($event)" [facets]="facets" [newSearch]="newSearch"></sd-facet>
     </div>
 
     <div [hidden]="!loading" class="col-9 sd-text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></div>
 
-    <div class="col-9" *ngIf="indexSearchResults && indexSearchResults.length < 1 && !loading" >
+    <div *ngIf="indexSearchResults && indexSearchResults.length < 1 && !loading" class="col-9">
       <div class="bdefs-unavailable">No result found for the search text
         "{{searchText}}".
       </div>
     </div>
 
-    <div class="col-9" [hidden]="loading || !indexSearchResults || indexSearchResults.length === 0">
+    <div [hidden]="loading || !indexSearchResults || indexSearchResults.length === 0" class="col-9">
 
-      <div>Showing <b>{{indexSearchResults && indexSearchResults.length}} results</b> out of {{totalIndexSearchResults}} for <b>"{{searchText}}"</b></div>
+      <div>Showing <b>{{indexSearchResults && indexSearchResults.length}} results</b> out of {{totalIndexSearchResults}}
+        for <b>"{{searchText}}"</b></div>
 
-      <div class="card" *ngFor="let result of indexSearchResults">
-        <div class="card-header d-flex justify-content-between"
-             *ngIf="result.indexSearchResultType.includes('BUS_OBJCT_DFNTN'); else tagtemplate">
+      <div *ngFor="let result of indexSearchResults" class="card">
+        <div *ngIf="result.indexSearchResultType.includes('BUS_OBJCT_DFNTN'); else tagtemplate"
+             class="card-header d-flex justify-content-between">
           <div class="d-flex align-items-start flex-column">
             <a [routerLink]="['/data-entities', result.indexSearchResultKey.businessObjectDefinitionKey.namespace,
                result.indexSearchResultKey.businessObjectDefinitionKey.businessObjectDefinitionName]">
               {{result.displayName ||
-              result.indexSearchResultKey.businessObjectDefinitionKey.businessObjectDefinitionName }}
+            result.indexSearchResultKey.businessObjectDefinitionKey.businessObjectDefinitionName }}
             </a>
             <div class="namespace-bdef-subtitle">
-              {{result.indexSearchResultKey.businessObjectDefinitionKey.namespace}}.{{result.indexSearchResultKey.businessObjectDefinitionKey.businessObjectDefinitionName}}
+              {{result.indexSearchResultKey.businessObjectDefinitionKey.namespace}}
+              .{{result.indexSearchResultKey.businessObjectDefinitionKey.businessObjectDefinitionName}}
             </div>
           </div>
           <div>
@@ -69,14 +71,14 @@
         </ng-template>
 
         <div class="card-block">
-          <sd-read-more [text]="result.shortDescription" [maxLength]="200" [hideLink]="true"></sd-read-more>
+          <sd-read-more [hideLink]="true" [maxLength]="200" [text]="result.shortDescription"></sd-read-more>
 
           <div class="highlight-block">
             <sd-read-more
-              [text]="makeHighlightFull(result.highlight)"
-              [maxLength]="180"
+              [hideLink]="false"
               [linkLabel]="(result.highlight.fields.length -1 === 0 ? '...read ' : '...and '+ (result.highlight.fields.length - 1)) + ' more'"
-              [hideLink]="false">
+              [maxLength]="180"
+              [text]="makeHighlightFull(result.highlight)">
             </sd-read-more>
           </div>
         </div>

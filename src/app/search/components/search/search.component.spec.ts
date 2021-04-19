@@ -40,7 +40,7 @@ describe('SearchComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot(),
+        NgbModule,
         HttpClientModule,
         RouterTestingModule,
         SharedModule
@@ -114,6 +114,10 @@ describe('SearchComponent', () => {
     searchService = fixture.debugElement.injector.get(SearchService);
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should create the search component', async(() => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
@@ -126,6 +130,15 @@ describe('SearchComponent', () => {
     expect(component.indexSearchResults).toEqual(mockData.indexSearchResponse['indexSearchResults']);
     expect(searchCalled).toHaveBeenCalled();
   }));
+
+  it('Verify no results', () => {
+    const searchCalled = spyOn(searchService, 'search')
+      .and.returnValue(of(mockData.indexSearchResponseNoResponse));
+    component.search();
+
+    expect(component.indexSearchResults).toEqual(mockData.indexSearchResponseNoResponse['indexSearchResults']);
+    expect(searchCalled).toHaveBeenCalled();
+  });
 
   it('should navigate ro search page on search', inject([Router], (mock: RouterStub) => {
     component.globalSearch({searchText: 'test search', match: []});
@@ -156,6 +169,7 @@ describe('SearchComponent', () => {
     expect(searchCalled.calls.count()).toEqual(1);
   }));
 
+  // todo: improve this test for facet selections and verify changing results
   it('Facet change function is changing facets and effecting search result', async () => {
     const searchCalled = spyOn(searchService, 'search')
       .and.returnValue(of({indexSearchResults: mockData.indexSearchResponse['indexSearchResults']}));

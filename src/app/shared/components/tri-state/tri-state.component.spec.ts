@@ -32,6 +32,10 @@ describe('TriStateComponent', () => {
     component = fixture.componentInstance;
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should be created', () => {
     expect(component).toBeTruthy();
   });

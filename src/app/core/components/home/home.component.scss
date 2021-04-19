@@ -14,6 +14,7 @@
 * limitations under the License.
 */
 @import '../../../shared/styles/shared';
+
 $home-search-background: #1565c0;
 $search-icon-color: #31a244;
 $header-color: #ffffff;
@@ -22,17 +23,21 @@ $tooltip-color: #696969;
 .homepage {
   .home-search {
     background-color: $home-search-background;
+
     .container {
       padding: 20px 0;
+
       h2 {
-        padding-top:20px;
+        padding-top: 20px;
         color: $header-color;
-        font-weight:700;
+        font-weight: 700;
       }
+
       h5 {
-        padding:20px 0px;
+        padding: 20px 0px;
         color: $header-color;
       }
+
       form {
         div {
           div {
@@ -40,6 +45,7 @@ $tooltip-color: #696969;
           }
 
         }
+
         i {
           color: #FFFFFF;
         }
@@ -49,18 +55,22 @@ $tooltip-color: #696969;
 
   .container {
     padding: 20px 0px;
-    .card{
+
+    .card {
       border: none !important;
     }
+
     div {
       h3 {
         padding: 20px 0;
       }
 
     }
+
     ul {
       padding-left: 0;
       margin: 0;
+
       li {
         list-style-type: none;
       }
