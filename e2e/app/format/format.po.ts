@@ -18,8 +18,6 @@ import { BasePo } from '../base/base.po';
 
 export class FormatPage extends BasePo {
 
-  public dataEntityLink = this.subHeading.element(by.tagName('a'));
-  public physicalNameText = this.subHeading.element(by.tagName('span'));
   // tabs
   public _tabs = element.all(by.tagName('ngb-tabset'));
   public documentSchemaTab = this._tabs.get(0).all(by.tagName('a')).get(2);
@@ -28,13 +26,6 @@ export class FormatPage extends BasePo {
   public externalInterfacesTab = this._tabs.get(2).all(by.tagName('a')).get(0);
   public attrDefinitionTab = this._tabs.get(1).all(by.tagName('a')).get(0);
   public userDefinedAttrTab = this._tabs.get(1).all(by.tagName('a')).get(1);
-  public overviewSubHeaderLabels = this.overviewContainer.all(by.className('sub-header-label'));
-  public descBody = this.overviewContainer.element(by.className('description-body'));
-  // format version dropdown
-  public versionDropDown = this.overviewContainer.element(by.tagName('select'));
-  public getAllVersions = this.versionDropDown.all(by.tagName('option'));
-  // Partitions sub header
-  public partitionsUnavailable = this.overviewContainer.element(by.tagName('p'));
   // external interfaces
   public externalInterfacesSubHeader = element(by.id('externalInterfacesSubHeader'));
   // document schema
@@ -44,8 +35,18 @@ export class FormatPage extends BasePo {
   public heading = this._container.element(by.className('detail-title'));
   public dataObjectLink = this._container.element(by.className('data-object-link'));
   public subHeading = this._container.element(by.className('physical-name'));
+  public dataEntityLink = this.subHeading.element(by.tagName('a'));
+  public physicalNameText = this.subHeading.element(by.tagName('span'));
   // Overview tab
   public overviewContainer = this._container.element(by.className('overview'));
+  public overviewSubHeaderLabels = this.overviewContainer.all(by.className('sub-header-label'));
+  public descBody = this.overviewContainer.element(by.className('description-body'));
+  // format version dropdown
+  public versionDropDown = this.overviewContainer.element(by.tagName('select'));
+  public getAllVersions = this.versionDropDown.all(by.tagName('option'));
+  // Partitions sub header
+  public partitionsUnavailable = this.overviewContainer.element(by.tagName('p'));
+
   // Attributes Definitions sub header
   private attrDefnContainer = this.overviewContainer.element(by.tagName('sd-attribute-definitions'));
   public attrDefnUnavailable = this.attrDefnContainer.element(by.className('unavailable-label'));
