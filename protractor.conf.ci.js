@@ -82,18 +82,6 @@ const otherBrowsers = [
     "version": "10.1",
     maxInstances,
     shardTestFiles
-  }, */
-  {
-    idleTimeout,
-    screenResolution,
-    tunnelIdentifier,
-    seleniumVersion: "3.5.0",
-    name: "Windows 10 Edge latest",
-    platform: "Windows 10",
-    version: 'latest',
-    browserName: "microsoftedge",
-    maxInstances,
-    shardTestFiles
   },
   {
     idleTimeout,
@@ -107,6 +95,19 @@ const otherBrowsers = [
     browserName: "internet explorer",
     version: "11",
     unexpectedAlertBehaviour: "ignore",
+    maxInstances,
+    shardTestFiles
+  }
+  */
+  {
+    idleTimeout,
+    screenResolution,
+    tunnelIdentifier,
+    seleniumVersion: "3.5.0",
+    name: "Windows 10 Edge latest",
+    platform: "Windows 10",
+    version: 'latest',
+    browserName: "microsoftedge",
     maxInstances,
     shardTestFiles
   }
