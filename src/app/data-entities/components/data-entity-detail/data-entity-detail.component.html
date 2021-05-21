@@ -131,38 +131,8 @@
                 </div>
               </div>
               <div class="bdef-formats">
-                <div
-                  [displayUnAuthorized]="'show'"
-                  [namespacePermissions]="'READ'"
-                  [namespace]="bdef.namespace" [securityFunction]="authMap.getBData"
-                  sdAuthorized>
-                  <div class="inner-header">Recommended Format</div>
-                  <div *ngIf="bdef.descriptiveBusinessObjectFormat; else noFormats">
-                    <div class="row">
-                      <span class="col-6 descriptive-format-property">
-                        Usage
-                      </span>
-                      <span class="col-6">
-                        <sd-ellipsis-overflow
-                          [ellipsisContent]="bdef.descriptiveBusinessObjectFormat.businessObjectFormatUsage">
-                        </sd-ellipsis-overflow>
-                      </span>
-                    </div>
-                    <div class="row">
-                      <span class="col-6 descriptive-format-property">
-                        File Type
-                      </span>
-                      <span class="col-6">
-                        <sd-ellipsis-overflow
-                          [ellipsisContent]="bdef.descriptiveBusinessObjectFormat.businessObjectFormatFileType">
-                        </sd-ellipsis-overflow>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div [namespacePermissions]="'READ'" [namespace]="bdef.namespace" [securityFunction]="authMap.getBData"
-                     sdAuthorized>
-                  <div class="inner-header">Schema</div>
+                <div>
+                  <div class="inner-header">Format</div>
                   <div *ngIf="formats && formats.length; else noFormats">
                     <div (click)="$event.stopPropagation()" *ngFor="let frmt of formats"
                          [ngClass]="isRecommendedFormat(frmt)? 'recommended' : ''" [routerLink]="['/formats',
