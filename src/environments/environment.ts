@@ -31,6 +31,8 @@ export const environment = {
     key: '{{GA_KEY}}',
     iv: '{{GA_IV}}',
     trackingId: '{{TRACKING_ID}}'
-  }
+  },
+  dataObjectListPermissionsResolution: 'Please consult <a href="https://products.finra.org/display/UDC/UDC+User+Permissions" ' +
+    'target="_blank" rel="noopener noreferrer">UDC User Permissions</a> for details.'
 };
 

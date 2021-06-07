@@ -99,6 +99,11 @@ $button-color: #0074d9;
   @include text-styling(18px, 700, $recommended-format-color);
   text-decoration: none;
   padding: 20px 0px;
+  white-space: nowrap;
+
+  .inner-title {
+    padding: 0px 10px;
+  }
 }
 
 .modal-header {
