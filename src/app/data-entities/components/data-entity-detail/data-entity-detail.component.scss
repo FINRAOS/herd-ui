@@ -44,19 +44,6 @@ $button-hover-color: $table-header-color;
 
   .data-object-link {
     @include data-object-link;
-
-    .ui-state-disabled * {
-      cursor: not-allowed !important;
-    }
-
-    .tooltip-inner {
-      max-width: 450px;
-      width: 450px;
-
-      a {
-        color: #003b75;
-      }
-    }
   }
 
   .audit-details {
@@ -277,7 +264,6 @@ $button-hover-color: $table-header-color;
       }
     }
   }
-
 }
 
 .modal-header {

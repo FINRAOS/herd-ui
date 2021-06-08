@@ -97,12 +97,26 @@ $button-color: #0074d9;
 
 @mixin data-object-link {
   @include text-styling(18px, 700, $recommended-format-color);
+
   text-decoration: none;
   padding: 20px 0px;
   white-space: nowrap;
 
   .inner-title {
     padding: 0px 10px;
+  }
+
+  .ui-state-disabled * {
+    cursor: not-allowed !important;
+  }
+
+  .tooltip-inner {
+    max-width: 450px;
+    width: 450px;
+
+    a {
+      color: #003b75;
+    }
   }
 }
 

@@ -29,6 +29,8 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { AlertService, DangerAlert } from 'app/core/services/alert.service';
 import { finalize, flatMap, map, startWith } from 'rxjs/operators';
+import { AuthMap } from '../../../shared/directive/authorized/authorized.directive';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'sd-format-detail',
@@ -37,6 +39,8 @@ import { finalize, flatMap, map, startWith } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None
 })
 export class FormatDetailComponent implements OnInit {
+  authMap = AuthMap;
+
   sideActions;
 
   namespace;
@@ -62,6 +66,7 @@ export class FormatDetailComponent implements OnInit {
     scrollbarStyle: null,
     fixedGutter: true
   };
+  dataObjectListPermissionsResolution = environment.dataObjectListPermissionsResolution;
   private errorMessageNotFound = 'No data registered';
   private errorMessageAuthorization = 'Access Denied';
 
