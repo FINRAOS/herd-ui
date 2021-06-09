@@ -38,12 +38,24 @@
           </div>
         </div>
         <div [namespacePermissions]="'READ'" [namespace]="bdef.namespace" [securityFunction]="authMap.getBData"
-             class="col-2 data-object-link" sdAuthorized>
+             class="col-2 data-object-link data-object-link-authorized" sdAuthorized>
           <a [routerLink]="['/data-objects', bdef.namespace, bdef.businessObjectDefinitionName]">
             <i aria-hidden="true" class="fa fa-list"></i>
-            <span>Data Object List</span>
+            <span class="inner-title">Data Object List</span>
             <i aria-hidden="true" class="fa fa-angle-right"></i>
           </a>
+        </div>
+        <div [displayUnAuthorized]="'show'" [namespacePermissions]="'READ'" [namespace]="bdef.namespace" [securityFunction]="authMap.getBData"
+             class="col-2 data-object-link data-object-link-unauthorized" sdAuthorized>
+          <ng-template #dataObjectListUnauthorizedTipContent>
+            <span>Data Object List contains information such as partition values and storage location which require additional permissions. </span>
+            <span *ngIf="dataObjectListPermissionsResolution" [innerHTML]="dataObjectListPermissionsResolution" ></span>
+          </ng-template>
+          <div class="ui-state-disabled" [ngbTooltip]="dataObjectListUnauthorizedTipContent" [closeDelay]="1500">
+            <i aria-hidden="true" class="fa fa-list"></i>
+            <span class="inner-title">Data Object List</span>
+            <i aria-hidden="true" class="fa fa-angle-right"></i>
+          </div>
         </div>
       </div>
       <div class="row audit-details">Created by {{bdef.createdByUserId }}, last modified
@@ -131,39 +143,8 @@
                 </div>
               </div>
               <div class="bdef-formats">
-                <div
-                  [displayUnAuthorized]="'show'"
-                  [namespacePermissions]="'READ'"
-                  [namespace]="bdef.namespace" [securityFunction]="authMap.getBData"
-                  sdAuthorized>
-                  <div class="inner-header">Recommended Format</div>
-                  <div *ngIf="bdef.descriptiveBusinessObjectFormat; else noFormats">
-                    <div class="row">
-                      <span class="col-6 descriptive-format-property">
-                        Usage
-                      </span>
-                      <span class="col-6">
-                        <sd-ellipsis-overflow
-                          [ellipsisContent]="bdef.descriptiveBusinessObjectFormat.businessObjectFormatUsage">
-                        </sd-ellipsis-overflow>
-                      </span>
-                    </div>
-                    <div class="row">
-                      <span class="col-6 descriptive-format-property">
-                        File Type
-                      </span>
-                      <span class="col-6">
-                        <sd-ellipsis-overflow
-                          [ellipsisContent]="bdef.descriptiveBusinessObjectFormat.businessObjectFormatFileType">
-                        </sd-ellipsis-overflow>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div [namespacePermissions]="'READ'" [namespace]="bdef.namespace" [securityFunction]="authMap.getBData"
-                     sdAuthorized>
-                  <div class="inner-header">Schema</div>
-                  <div *ngIf="formats && formats.length; else noFormats">
+                <div class="inner-header">Format</div>
+                <div *ngIf="formats && formats.length; else noFormats">
                     <div (click)="$event.stopPropagation()" *ngFor="let frmt of formats"
                          [ngClass]="isRecommendedFormat(frmt)? 'recommended' : ''" [routerLink]="['/formats',
                              frmt.namespace,
@@ -220,7 +201,6 @@
                       </div>
                     </div>
                   </div>
-                </div>
                 <ng-template #noFormats>
                   <p>No schema defined for this Data Entity</p>
                 </ng-template>

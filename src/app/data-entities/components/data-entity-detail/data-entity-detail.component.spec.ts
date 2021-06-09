@@ -2129,6 +2129,148 @@ describe('DataEntityDetailComponent', () => {
       })
   );
 
+  it('should show formats to all users irrespective of their level of permissions',
+    inject([UserService, ActivatedRoute],
+      (us: UserService, activeRoute: ActivatedRouteStub) => {
+
+        const testAuthorizations: UserAuthorizations = {
+          userId: 'test_user',
+          namespaceAuthorizations: [],
+          securityFunctions: [],
+          securityRoles: []
+        };
+
+        spyOn(component, 'getBdefDetails').and.callFake(() => {
+          component.descriptiveFormat = descriptiveFormat;
+        });
+
+        spyOn(component, 'getFormats').and.callFake(() => {
+          component.formats = expectedFormats.businessObjectFormatKeys;
+        });
+
+        activeRoute.testData = {
+          resolvedData: {
+            bdef: expectedBdef,
+            formats: expectedFormats.businessObjectFormatKeys,
+            descriptiveFormat: descriptiveFormat
+          }
+        };
+
+        const userSubject = new ReplaySubject<UserAuthorizations>();
+        // using a mocked UserService
+        (us as any).user = userSubject.asObservable();
+
+        // no namespace or roles set
+        testAuthorizations.namespaceAuthorizations = [];
+        testAuthorizations.securityFunctions = [];
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateFormatsVisibility(true);
+
+        // only read permissions
+        testAuthorizations.namespaceAuthorizations = [{
+          namespace: expectedBdef.namespace,
+          namespacePermissions: [
+            NamespaceAuthorization.NamespacePermissionsEnum.READ
+          ]
+        }];
+        testAuthorizations.securityFunctions = ['FN_BUSINESS_OBJECT_DATA_BY_BUSINESS_OBJECT_DEFINITION_GET'];
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateFormatsVisibility(true);
+
+        // valid permissions
+        testAuthorizations.namespaceAuthorizations = [{
+          namespace: expectedBdef.namespace,
+          namespacePermissions: [
+            NamespaceAuthorization.NamespacePermissionsEnum.WRITE,
+            NamespaceAuthorization.NamespacePermissionsEnum.WRITEDESCRIPTIVECONTENT]
+        }];
+        testAuthorizations.securityFunctions = [
+          'FN_BUSINESS_OBJECT_DEFINITIONS_DESCRIPTIVE_INFO_PUT',
+          'FN_BUSINESS_OBJECT_DATA_BY_BUSINESS_OBJECT_DEFINITION_GET'
+        ];
+
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateFormatsVisibility(true);
+
+      })
+  );
+
+  it('should hide or show data objects link based on access level',
+    inject([UserService, ActivatedRoute],
+      (us: UserService, activeRoute: ActivatedRouteStub) => {
+
+        const testAuthorizations: UserAuthorizations = {
+          userId: 'test_user',
+          namespaceAuthorizations: [],
+          securityFunctions: []
+        };
+
+        spyOn(component, 'getBdefDetails').and.callFake(() => {
+          component.bdefColumns = [
+            {
+              businessObjectDefinitionColumnName: 'test name',
+              description: 'test description',
+              schemaColumnName: 'testSchemaColumnName',
+              type: 'varchar (30)',
+              exists: true
+            }
+          ];
+        });
+
+        activeRoute.testData = {
+          resolvedData: {
+            bdef: expectedBdef
+          }
+        };
+
+        const userSubject = new ReplaySubject<UserAuthorizations>();
+        // using a mocked UserService
+        (us as any).user = userSubject.asObservable();
+        // no namespace or roles set
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateElementVisibility('.data-object-link-authorized', false);
+        validateElementVisibility('.data-object-link-unauthorized', true);
+
+        // namespace READ
+        testAuthorizations.namespaceAuthorizations = [{
+          namespace: expectedBdef.namespace,
+          namespacePermissions: [NamespaceAuthorization.NamespacePermissionsEnum.READ]
+        }];
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateElementVisibility('.data-object-link-authorized', false);
+        validateElementVisibility('.data-object-link-unauthorized', true);
+
+        // namespace with write but no role
+        testAuthorizations.namespaceAuthorizations[0]
+          .namespacePermissions.push(NamespaceAuthorization.NamespacePermissionsEnum.WRITE);
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateElementVisibility('.data-object-link-authorized', false);
+        validateElementVisibility('.data-object-link-unauthorized', true);
+
+        // role but no namespace rights
+        testAuthorizations.namespaceAuthorizations[0].namespacePermissions = [];
+        testAuthorizations.securityFunctions = ['FN_BUSINESS_OBJECT_DATA_BY_BUSINESS_OBJECT_DEFINITION_GET'];
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateElementVisibility('.data-object-link-authorized', false);
+        validateElementVisibility('.data-object-link-unauthorized', true);
+
+        // has role and namespace rights
+        testAuthorizations.namespaceAuthorizations[0].namespacePermissions = [NamespaceAuthorization.NamespacePermissionsEnum.READ];
+        testAuthorizations.securityFunctions = ['FN_BUSINESS_OBJECT_DATA_BY_BUSINESS_OBJECT_DEFINITION_GET'];
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateElementVisibility('.data-object-link-authorized', true);
+        validateElementVisibility('.data-object-link-unauthorized', false);
+      })
+  );
+
   function validateEditRecommendedFormatIconVisibility(isVisible: boolean) {
     // css selector which selects parent of the radio-button icon since that is controlled by the sd-authorize directive
     const radioIconParent = fixture.debugElement.query(By.css('.col.card.format-whiteframe.pointer .row .col-2'));
@@ -2169,6 +2311,29 @@ describe('DataEntityDetailComponent', () => {
       expect(data[1].query(By.css('.no-auth-description')).nativeElement.style.display).toEqual('');
       expect(data[1].query(By.css('sd-edit')).nativeElement.style.display).toEqual('none');
     });
+  }
+
+  function validateFormatsVisibility(isVisible: boolean) {
+    // css selector which selects formats container
+    const formatsContainer = fixture.debugElement.query(By.css('.bdef-formats .inner-header'));
+    const displayStyle = formatsContainer.nativeElement.style.display;
+    if (isVisible) {
+      expect(displayStyle).toEqual('');
+    } else {
+      expect(displayStyle).toEqual('none');
+    }
+  }
+
+  function validateElementVisibility(selector: string,  isVisible: boolean) {
+    // css selector which selects parent of the radio-button icon since that is controlled by the sd-authorize directive
+    const element = fixture.debugElement.query(By.css(selector));
+
+    const displayStyle = element.nativeElement.style.display;
+    if (isVisible) {
+      expect(displayStyle).not.toEqual('none');
+    } else {
+      expect(displayStyle).toEqual('none');
+    }
   }
 });
 

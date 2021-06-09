@@ -27,14 +27,29 @@
         <span class="col-10 detail-title">
           {{businessObjectFormatUsage}}:{{businessObjectFormatFileType}}:{{businessObjectFormatVersion}}
         </span>
-        <div class="col-2 data-object-link">
+        <div [namespacePermissions]="'READ'" [namespace]="namespace" [securityFunction]="authMap.getBData"
+             class="col-2 data-object-link data-object-link-authorized" sdAuthorized>
           <a [routerLink]="['/data-objects',
            namespace, businessObjectDefinitionName, businessObjectFormatUsage,
            businessObjectFormatFileType, businessObjectFormatVersion]">
             <i aria-hidden="true" class="fa fa-list"></i>
-            <span>Data Object List</span>
+            <span class="inner-title">Data Object List</span>
             <i aria-hidden="true" class="fa fa-angle-right"></i>
           </a>
+        </div>
+        <div [displayUnAuthorized]="'show'" [namespacePermissions]="'READ'" [namespace]="namespace"
+             [securityFunction]="authMap.getBData" class="col-2 data-object-link data-object-link-unauthorized"
+             sdAuthorized>
+          <ng-template #dataObjectListUnauthorizedTipContent>
+            <span>Data Object List contains information such as partition values and storage location which require
+              additional permissions. </span>
+            <span *ngIf="dataObjectListPermissionsResolution" [innerHTML]="dataObjectListPermissionsResolution"></span>
+          </ng-template>
+          <div class="ui-state-disabled" [ngbTooltip]="dataObjectListUnauthorizedTipContent" [closeDelay]="1500">
+            <i aria-hidden="true" class="fa fa-list"></i>
+            <span class="inner-title">Data Object List</span>
+            <i aria-hidden="true" class="fa fa-angle-right"></i>
+          </div>
         </div>
       </div>
       <div class="row physical-name">
