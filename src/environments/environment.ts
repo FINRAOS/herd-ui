@@ -31,6 +31,7 @@ export const environment = {
     key: '{{GA_KEY}}',
     iv: '{{GA_IV}}',
     trackingId: '{{TRACKING_ID}}'
-  }
+  },
+  dataObjectListPermissionsResolution: '{{DATA_OBJECT_LINK_PERMISSIONS_RESOLUTION}}'
 };
 

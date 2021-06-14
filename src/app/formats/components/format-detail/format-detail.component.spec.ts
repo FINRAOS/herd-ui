@@ -24,15 +24,17 @@ import {
   BusinessObjectDataService,
   BusinessObjectDefinitionColumnService,
   BusinessObjectFormatExternalInterfaceDescriptiveInformationService,
-  BusinessObjectFormatService,
-  StorageService
+  BusinessObjectFormatService, NamespaceAuthorization,
+  StorageService, UserAuthorizations
 } from '@herd/angular-client';
-import { of, throwError } from 'rxjs';
+import { of, ReplaySubject, throwError } from 'rxjs';
 import { AlertService, DangerAlert } from '../../../core/services/alert.service';
 import { SchemaColumnsComponent } from 'app/formats/components/schema-columns/schema-columns.component';
 import { AttributeDefinitionsComponent } from 'app/formats/components/attribute-definitions/attribute-definitions.component';
 import { ActivatedRouteStub } from 'testing/router-stubs';
 import { MockFormat } from 'testing/mockFormat';
+import { UserService } from '../../../core/services/user.service';
+import { By } from '@angular/platform-browser';
 
 describe('FormatDetailComponent', () => {
   const mockData: MockFormat = new MockFormat();
@@ -149,7 +151,15 @@ describe('FormatDetailComponent', () => {
               .and
               .returnValue(of(businessObjectFormatExternalInterfaceDescriptiveInformation))
           }
-        }
+        },
+        {
+          provide: UserService,
+          useValue: {
+            user: of({
+              userId: 'test_user'
+            } as UserAuthorizations)
+          }
+        },
       ]
     })
       .compileComponents();
@@ -267,5 +277,72 @@ describe('FormatDetailComponent', () => {
     component.close();
     expect(modal.close).toHaveBeenCalled();
   });
+
+  it('should hide or show data objects link based on access level',
+    inject([UserService],
+      (us: UserService) => {
+
+        const testAuthorizations: UserAuthorizations = {
+          userId: 'test_user',
+          namespaceAuthorizations: [],
+          securityFunctions: []
+        };
+
+        const userSubject = new ReplaySubject<UserAuthorizations>();
+        // using a mocked UserService
+        (us as any).user = userSubject.asObservable();
+        // no namespace or roles set
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateElementVisibility('.data-object-link-authorized', false);
+        validateElementVisibility('.data-object-link-unauthorized', true);
+
+        // namespace READ
+        testAuthorizations.namespaceAuthorizations = [{
+          namespace: component.namespace,
+          namespacePermissions: [NamespaceAuthorization.NamespacePermissionsEnum.READ]
+        }];
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateElementVisibility('.data-object-link-authorized', false);
+        validateElementVisibility('.data-object-link-unauthorized', true);
+
+        // namespace with write but no role
+        testAuthorizations.namespaceAuthorizations[0]
+          .namespacePermissions.push(NamespaceAuthorization.NamespacePermissionsEnum.WRITE);
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateElementVisibility('.data-object-link-authorized', false);
+        validateElementVisibility('.data-object-link-unauthorized', true);
+
+        // role but no namespace rights
+        testAuthorizations.namespaceAuthorizations[0].namespacePermissions = [];
+        testAuthorizations.securityFunctions = ['FN_BUSINESS_OBJECT_DATA_BY_BUSINESS_OBJECT_DEFINITION_GET'];
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateElementVisibility('.data-object-link-authorized', false);
+        validateElementVisibility('.data-object-link-unauthorized', true);
+
+        // has role and namespace rights
+        testAuthorizations.namespaceAuthorizations[0].namespacePermissions = [NamespaceAuthorization.NamespacePermissionsEnum.READ];
+        testAuthorizations.securityFunctions = ['FN_BUSINESS_OBJECT_DATA_BY_BUSINESS_OBJECT_DEFINITION_GET'];
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateElementVisibility('.data-object-link-authorized', true);
+        validateElementVisibility('.data-object-link-unauthorized', false);
+      })
+  );
+
+  function validateElementVisibility(selector: string,  isVisible: boolean) {
+    // css selector which selects parent of the radio-button icon since that is controlled by the sd-authorize directive
+    const element = fixture.debugElement.query(By.css(selector));
+
+    const displayStyle = element.nativeElement.style.display;
+    if (isVisible) {
+      expect(displayStyle).not.toEqual('none');
+    } else {
+      expect(displayStyle).toEqual('none');
+    }
+  }
 
 });
