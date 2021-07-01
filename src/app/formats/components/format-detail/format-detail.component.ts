@@ -32,6 +32,11 @@ import { finalize, flatMap, map, startWith } from 'rxjs/operators';
 import { AuthMap } from '../../../shared/directive/authorized/authorized.directive';
 import { environment } from '../../../../environments/environment';
 
+function toPaddedHexString(num, len) {
+  var str = num.toString(16).toUpperCase();
+  return "0".repeat(len - str.length) + str;
+}
+
 @Component({
   selector: 'sd-format-detail',
   templateUrl: './format-detail.component.html',
@@ -49,6 +54,9 @@ export class FormatDetailComponent implements OnInit {
   businessObjectFormatFileType;
   businessObjectFormatVersion;
   businessObjectFormatDetail: any;
+  unicodeSchemaNullValue='';
+  unicodeSchemaDelimiter='';
+  unicodeSchemaEscapeCharacter='';
   businessObjectDefinitionColumns: any;
   minPrimaryPartitionValue: any;
   maxPrimaryPartitionValue: any;
@@ -118,6 +126,18 @@ export class FormatDetailComponent implements OnInit {
           this.businessObjectFormatVersion)
         .subscribe((bFormatResponse) => {
           this.businessObjectFormatDetail = bFormatResponse;
+          if (this.businessObjectFormatDetail.schema)
+          {
+            if (this.businessObjectFormatDetail.schema.nullValue && this.businessObjectFormatDetail.schema.nullValue.length === 1) {
+              this.unicodeSchemaNullValue = '(U+' + toPaddedHexString(this.businessObjectFormatDetail.schema.nullValue.charCodeAt(0), 4) + ')';
+            }
+            if (this.businessObjectFormatDetail.schema.delimiter && this.businessObjectFormatDetail.schema.delimiter.length === 1) {
+              this.unicodeSchemaDelimiter = '(U+' + toPaddedHexString(this.businessObjectFormatDetail.schema.delimiter.charCodeAt(0), 4) + ')';
+            }
+            if (this.businessObjectFormatDetail.schema.escapeCharacter && this.businessObjectFormatDetail.schema.escapeCharacter.length === 1) {
+              this.unicodeSchemaEscapeCharacter = '(U+' + toPaddedHexString(this.businessObjectFormatDetail.schema.escapeCharacter.charCodeAt(0), 4) + ')';
+            }
+          }
           this.businessObjectDefinitionColumnApi
             .businessObjectDefinitionColumnGetBusinessObjectDefinitionColumns(this.namespace, this.businessObjectDefinitionName)
             .subscribe((response) => {

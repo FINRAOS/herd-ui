@@ -191,8 +191,18 @@ describe('FormatDetailComponent', () => {
           .and.returnValue(of({businessObjectDefinitionColumnKeys: []}));
         (businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability as jasmine.Spy)
           .and.returnValue(throwError({status: 403}));
-
         fixture.detectChanges();
+
+        expect(component.namespace).toEqual('ns');
+        expect(component.businessObjectFormatUsage).toEqual('SRC');
+        expect(component.businessObjectFormatVersion).toEqual(1);
+        expect(component.businessObjectFormatDetail.retentionType).toBe('xyz');
+        expect(component.businessObjectFormatDetail.retentionPeriodInDays).toBe(14);
+        expect(component.businessObjectFormatDetail.recordFlag).toBe('no');
+        expect(component.businessObjectFormatDetail.documentSchema).toBe('test document schema');
+        expect(component.businessObjectFormatDetail.documentSchemaUrl).toBe('test document schema url');
+        expect(component.minPrimaryPartitionValue).toEqual('Access Denied');
+        expect(component.maxPrimaryPartitionValue).toEqual('Access Denied');
       }));
 
   it('ngOnInit should set data for the component',
@@ -219,6 +229,85 @@ describe('FormatDetailComponent', () => {
         expect(component.maxPrimaryPartitionValue).toEqual('4');
       }));
 
+  it('ngOnInit should not set unicode schema characters for the component when schema is not specified',
+    inject([BusinessObjectFormatService],
+      (businessObjectFormatApi) => {
+        (businessObjectFormatApi.businessObjectFormatGetBusinessObjectFormat as jasmine.Spy)
+          .and.returnValue(of({
+            businessObjectFormatUsage: 'SRC',
+            businessObjectFormatFileType: 'TXT',
+            businessObjectFormatVersion: 0
+          }));
+        fixture.detectChanges();
+
+        expect(component.unicodeSchemaNullValue).toEqual('');
+        expect(component.unicodeSchemaDelimiter).toEqual('');
+        expect(component.unicodeSchemaEscapeCharacter).toEqual('');
+      }));
+
+  it('ngOnInit should not set unicode schema characters for the component when schema nullValue, delimiter, and escape are not specified',
+    inject([BusinessObjectFormatService],
+      (businessObjectFormatApi) => {
+        (businessObjectFormatApi.businessObjectFormatGetBusinessObjectFormat as jasmine.Spy)
+          .and.returnValue(of({
+            businessObjectFormatUsage: 'SRC',
+            businessObjectFormatFileType: 'TXT',
+            businessObjectFormatVersion: 0,
+            schema: {
+              nullValue: null,
+              delimiter: null,
+              escapeCharacter: null
+            }
+          }));
+        fixture.detectChanges();
+
+        expect(component.unicodeSchemaNullValue).toEqual('');
+        expect(component.unicodeSchemaDelimiter).toEqual('');
+        expect(component.unicodeSchemaEscapeCharacter).toEqual('');
+      }));
+
+  it('ngOnInit should set unicode schema characters for the component when schema nullValue, delimiter, and escape specified as single unicode characters',
+    inject([BusinessObjectFormatService],
+      (businessObjectFormatApi) => {
+        (businessObjectFormatApi.businessObjectFormatGetBusinessObjectFormat as jasmine.Spy)
+          .and.returnValue(of({
+            businessObjectFormatUsage: 'SRC',
+            businessObjectFormatFileType: 'TXT',
+            businessObjectFormatVersion: 0,
+            schema: {
+              nullValue: '\u03A7',
+              delimiter: '\u03A8',
+              escapeCharacter: '\u03A9'
+            }
+          }));
+        fixture.detectChanges();
+
+        expect(component.unicodeSchemaNullValue).toEqual('(U+03A7)');
+        expect(component.unicodeSchemaDelimiter).toEqual('(U+03A8)');
+        expect(component.unicodeSchemaEscapeCharacter).toEqual('(U+03A9)');
+      }));
+
+  it('ngOnInit should not set unicode schema characters for the component when schema nullValue, delimiter, and escape specified as multiple characters',
+    inject([BusinessObjectFormatService],
+      (businessObjectFormatApi) => {
+        (businessObjectFormatApi.businessObjectFormatGetBusinessObjectFormat as jasmine.Spy)
+          .and.returnValue(of({
+            businessObjectFormatUsage: 'SRC',
+            businessObjectFormatFileType: 'TXT',
+            businessObjectFormatVersion: 0,
+            schema: {
+              nullValue: '\u03A7\u03A7',
+              delimiter: '\u03A8\u03A8',
+              escapeCharacter: '\u03A9\u03A9'
+            }
+          }));
+        fixture.detectChanges();
+
+        expect(component.unicodeSchemaNullValue).toEqual('');
+        expect(component.unicodeSchemaDelimiter).toEqual('');
+        expect(component.unicodeSchemaEscapeCharacter).toEqual('');
+      }));
+
   it('Min and Max primary partition function should handle partition values',
     inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService],
       (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService) => {
@@ -230,6 +319,9 @@ describe('FormatDetailComponent', () => {
           .and.returnValue(throwError({status: 404}));
 
         fixture.detectChanges();
+
+        expect(component.minPrimaryPartitionValue).toEqual('No data registered');
+        expect(component.maxPrimaryPartitionValue).toEqual('No data registered');
       }));
 
   it('should set external interface descriptive information when get external interface descriptive information is called',
