@@ -266,7 +266,8 @@ describe('FormatDetailComponent', () => {
         expect(component.unicodeSchemaEscapeCharacter).toEqual('');
       }));
 
-  it('ngOnInit should set unicode schema characters for the component when schema nullValue, delimiter, and escape specified as single unicode characters',
+  it('ngOnInit should set unicode schema characters for the component when schema nullValue, delimiter, and escape specified as single '
+       + 'unicode characters',
     inject([BusinessObjectFormatService],
       (businessObjectFormatApi) => {
         (businessObjectFormatApi.businessObjectFormatGetBusinessObjectFormat as jasmine.Spy)
@@ -287,7 +288,8 @@ describe('FormatDetailComponent', () => {
         expect(component.unicodeSchemaEscapeCharacter).toEqual('(U+03A9)');
       }));
 
-  it('ngOnInit should not set unicode schema characters for the component when schema nullValue, delimiter, and escape specified as multiple characters',
+  it('ngOnInit should not set unicode schema characters for the component when schema nullValue, delimiter, and escape specified as '
+       + 'multiple characters',
     inject([BusinessObjectFormatService],
       (businessObjectFormatApi) => {
         (businessObjectFormatApi.businessObjectFormatGetBusinessObjectFormat as jasmine.Spy)

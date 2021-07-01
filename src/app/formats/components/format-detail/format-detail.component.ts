@@ -33,8 +33,8 @@ import { AuthMap } from '../../../shared/directive/authorized/authorized.directi
 import { environment } from '../../../../environments/environment';
 
 function toPaddedHexString(num, len) {
-  var str = num.toString(16).toUpperCase();
-  return "0".repeat(len - str.length) + str;
+  const str = num.toString(16).toUpperCase();
+  return '0'.repeat(len - str.length) + str;
 }
 
 @Component({
@@ -54,9 +54,9 @@ export class FormatDetailComponent implements OnInit {
   businessObjectFormatFileType;
   businessObjectFormatVersion;
   businessObjectFormatDetail: any;
-  unicodeSchemaNullValue='';
-  unicodeSchemaDelimiter='';
-  unicodeSchemaEscapeCharacter='';
+  unicodeSchemaNullValue = '';
+  unicodeSchemaDelimiter = '';
+  unicodeSchemaEscapeCharacter = '';
   businessObjectDefinitionColumns: any;
   minPrimaryPartitionValue: any;
   maxPrimaryPartitionValue: any;
@@ -126,16 +126,21 @@ export class FormatDetailComponent implements OnInit {
           this.businessObjectFormatVersion)
         .subscribe((bFormatResponse) => {
           this.businessObjectFormatDetail = bFormatResponse;
-          if (this.businessObjectFormatDetail.schema)
-          {
-            if (this.businessObjectFormatDetail.schema.nullValue && this.businessObjectFormatDetail.schema.nullValue.length === 1) {
-              this.unicodeSchemaNullValue = '(U+' + toPaddedHexString(this.businessObjectFormatDetail.schema.nullValue.charCodeAt(0), 4) + ')';
+          if (this.businessObjectFormatDetail.schema) {
+            if (this.businessObjectFormatDetail.schema.nullValue
+                && this.businessObjectFormatDetail.schema.nullValue.length === 1) {
+              this.unicodeSchemaNullValue = '(U+' + toPaddedHexString(this.businessObjectFormatDetail.schema.nullValue.charCodeAt(0), 4)
+                + ')';
             }
-            if (this.businessObjectFormatDetail.schema.delimiter && this.businessObjectFormatDetail.schema.delimiter.length === 1) {
-              this.unicodeSchemaDelimiter = '(U+' + toPaddedHexString(this.businessObjectFormatDetail.schema.delimiter.charCodeAt(0), 4) + ')';
+            if (this.businessObjectFormatDetail.schema.delimiter
+                && this.businessObjectFormatDetail.schema.delimiter.length === 1) {
+              this.unicodeSchemaDelimiter = '(U+' + toPaddedHexString(this.businessObjectFormatDetail.schema.delimiter.charCodeAt(0), 4)
+                + ')';
             }
-            if (this.businessObjectFormatDetail.schema.escapeCharacter && this.businessObjectFormatDetail.schema.escapeCharacter.length === 1) {
-              this.unicodeSchemaEscapeCharacter = '(U+' + toPaddedHexString(this.businessObjectFormatDetail.schema.escapeCharacter.charCodeAt(0), 4) + ')';
+            if (this.businessObjectFormatDetail.schema.escapeCharacter
+                && this.businessObjectFormatDetail.schema.escapeCharacter.length === 1) {
+              this.unicodeSchemaEscapeCharacter = '(U+'
+                + toPaddedHexString(this.businessObjectFormatDetail.schema.escapeCharacter.charCodeAt(0), 4) + ')';
             }
           }
           this.businessObjectDefinitionColumnApi
