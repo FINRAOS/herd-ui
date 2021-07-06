@@ -24,15 +24,17 @@ import {
   BusinessObjectDataService,
   BusinessObjectDefinitionColumnService,
   BusinessObjectFormatExternalInterfaceDescriptiveInformationService,
-  BusinessObjectFormatService,
-  StorageService
+  BusinessObjectFormatService, NamespaceAuthorization,
+  StorageService, UserAuthorizations
 } from '@herd/angular-client';
-import { of, throwError } from 'rxjs';
+import { of, ReplaySubject, throwError } from 'rxjs';
 import { AlertService, DangerAlert } from '../../../core/services/alert.service';
 import { SchemaColumnsComponent } from 'app/formats/components/schema-columns/schema-columns.component';
 import { AttributeDefinitionsComponent } from 'app/formats/components/attribute-definitions/attribute-definitions.component';
 import { ActivatedRouteStub } from 'testing/router-stubs';
 import { MockFormat } from 'testing/mockFormat';
+import { UserService } from '../../../core/services/user.service';
+import { By } from '@angular/platform-browser';
 
 describe('FormatDetailComponent', () => {
   const mockData: MockFormat = new MockFormat();
@@ -149,7 +151,15 @@ describe('FormatDetailComponent', () => {
               .and
               .returnValue(of(businessObjectFormatExternalInterfaceDescriptiveInformation))
           }
-        }
+        },
+        {
+          provide: UserService,
+          useValue: {
+            user: of({
+              userId: 'test_user'
+            } as UserAuthorizations)
+          }
+        },
       ]
     })
       .compileComponents();
@@ -181,8 +191,18 @@ describe('FormatDetailComponent', () => {
           .and.returnValue(of({businessObjectDefinitionColumnKeys: []}));
         (businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability as jasmine.Spy)
           .and.returnValue(throwError({status: 403}));
-
         fixture.detectChanges();
+
+        expect(component.namespace).toEqual('ns');
+        expect(component.businessObjectFormatUsage).toEqual('SRC');
+        expect(component.businessObjectFormatVersion).toEqual(1);
+        expect(component.businessObjectFormatDetail.retentionType).toBe('xyz');
+        expect(component.businessObjectFormatDetail.retentionPeriodInDays).toBe(14);
+        expect(component.businessObjectFormatDetail.recordFlag).toBe('no');
+        expect(component.businessObjectFormatDetail.documentSchema).toBe('test document schema');
+        expect(component.businessObjectFormatDetail.documentSchemaUrl).toBe('test document schema url');
+        expect(component.minPrimaryPartitionValue).toEqual('Access Denied');
+        expect(component.maxPrimaryPartitionValue).toEqual('Access Denied');
       }));
 
   it('ngOnInit should set data for the component',
@@ -209,6 +229,87 @@ describe('FormatDetailComponent', () => {
         expect(component.maxPrimaryPartitionValue).toEqual('4');
       }));
 
+  it('ngOnInit should not set unicode schema characters for the component when schema is not specified',
+    inject([BusinessObjectFormatService],
+      (businessObjectFormatApi) => {
+        (businessObjectFormatApi.businessObjectFormatGetBusinessObjectFormat as jasmine.Spy)
+          .and.returnValue(of({
+            businessObjectFormatUsage: 'SRC',
+            businessObjectFormatFileType: 'TXT',
+            businessObjectFormatVersion: 0
+          }));
+        fixture.detectChanges();
+
+        expect(component.unicodeSchemaNullValue).toEqual('');
+        expect(component.unicodeSchemaDelimiter).toEqual('');
+        expect(component.unicodeSchemaEscapeCharacter).toEqual('');
+      }));
+
+  it('ngOnInit should not set unicode schema characters for the component when schema nullValue, delimiter, and escape are not specified',
+    inject([BusinessObjectFormatService],
+      (businessObjectFormatApi) => {
+        (businessObjectFormatApi.businessObjectFormatGetBusinessObjectFormat as jasmine.Spy)
+          .and.returnValue(of({
+            businessObjectFormatUsage: 'SRC',
+            businessObjectFormatFileType: 'TXT',
+            businessObjectFormatVersion: 0,
+            schema: {
+              nullValue: null,
+              delimiter: null,
+              escapeCharacter: null
+            }
+          }));
+        fixture.detectChanges();
+
+        expect(component.unicodeSchemaNullValue).toEqual('');
+        expect(component.unicodeSchemaDelimiter).toEqual('');
+        expect(component.unicodeSchemaEscapeCharacter).toEqual('');
+      }));
+
+  it('ngOnInit should set unicode schema characters for the component when schema nullValue, delimiter, and escape specified as single '
+       + 'unicode characters',
+    inject([BusinessObjectFormatService],
+      (businessObjectFormatApi) => {
+        (businessObjectFormatApi.businessObjectFormatGetBusinessObjectFormat as jasmine.Spy)
+          .and.returnValue(of({
+            businessObjectFormatUsage: 'SRC',
+            businessObjectFormatFileType: 'TXT',
+            businessObjectFormatVersion: 0,
+            schema: {
+              nullValue: '\u03A7',
+              delimiter: '\u03A8',
+              escapeCharacter: '\u03A9'
+            }
+          }));
+        fixture.detectChanges();
+
+        expect(component.unicodeSchemaNullValue).toEqual('(U+03A7)');
+        expect(component.unicodeSchemaDelimiter).toEqual('(U+03A8)');
+        expect(component.unicodeSchemaEscapeCharacter).toEqual('(U+03A9)');
+      }));
+
+  it('ngOnInit should not set unicode schema characters for the component when schema nullValue, delimiter, and escape specified as '
+       + 'multiple characters',
+    inject([BusinessObjectFormatService],
+      (businessObjectFormatApi) => {
+        (businessObjectFormatApi.businessObjectFormatGetBusinessObjectFormat as jasmine.Spy)
+          .and.returnValue(of({
+            businessObjectFormatUsage: 'SRC',
+            businessObjectFormatFileType: 'TXT',
+            businessObjectFormatVersion: 0,
+            schema: {
+              nullValue: '\u03A7\u03A7',
+              delimiter: '\u03A8\u03A8',
+              escapeCharacter: '\u03A9\u03A9'
+            }
+          }));
+        fixture.detectChanges();
+
+        expect(component.unicodeSchemaNullValue).toEqual('');
+        expect(component.unicodeSchemaDelimiter).toEqual('');
+        expect(component.unicodeSchemaEscapeCharacter).toEqual('');
+      }));
+
   it('Min and Max primary partition function should handle partition values',
     inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService],
       (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService) => {
@@ -220,6 +321,9 @@ describe('FormatDetailComponent', () => {
           .and.returnValue(throwError({status: 404}));
 
         fixture.detectChanges();
+
+        expect(component.minPrimaryPartitionValue).toEqual('No data registered');
+        expect(component.maxPrimaryPartitionValue).toEqual('No data registered');
       }));
 
   it('should set external interface descriptive information when get external interface descriptive information is called',
@@ -267,5 +371,72 @@ describe('FormatDetailComponent', () => {
     component.close();
     expect(modal.close).toHaveBeenCalled();
   });
+
+  it('should hide or show data objects link based on access level',
+    inject([UserService],
+      (us: UserService) => {
+
+        const testAuthorizations: UserAuthorizations = {
+          userId: 'test_user',
+          namespaceAuthorizations: [],
+          securityFunctions: []
+        };
+
+        const userSubject = new ReplaySubject<UserAuthorizations>();
+        // using a mocked UserService
+        (us as any).user = userSubject.asObservable();
+        // no namespace or roles set
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateElementVisibility('.data-object-link-authorized', false);
+        validateElementVisibility('.data-object-link-unauthorized', true);
+
+        // namespace READ
+        testAuthorizations.namespaceAuthorizations = [{
+          namespace: component.namespace,
+          namespacePermissions: [NamespaceAuthorization.NamespacePermissionsEnum.READ]
+        }];
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateElementVisibility('.data-object-link-authorized', false);
+        validateElementVisibility('.data-object-link-unauthorized', true);
+
+        // namespace with write but no role
+        testAuthorizations.namespaceAuthorizations[0]
+          .namespacePermissions.push(NamespaceAuthorization.NamespacePermissionsEnum.WRITE);
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateElementVisibility('.data-object-link-authorized', false);
+        validateElementVisibility('.data-object-link-unauthorized', true);
+
+        // role but no namespace rights
+        testAuthorizations.namespaceAuthorizations[0].namespacePermissions = [];
+        testAuthorizations.securityFunctions = ['FN_BUSINESS_OBJECT_DATA_BY_BUSINESS_OBJECT_DEFINITION_GET'];
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateElementVisibility('.data-object-link-authorized', false);
+        validateElementVisibility('.data-object-link-unauthorized', true);
+
+        // has role and namespace rights
+        testAuthorizations.namespaceAuthorizations[0].namespacePermissions = [NamespaceAuthorization.NamespacePermissionsEnum.READ];
+        testAuthorizations.securityFunctions = ['FN_BUSINESS_OBJECT_DATA_BY_BUSINESS_OBJECT_DEFINITION_GET'];
+        userSubject.next(testAuthorizations);
+        fixture.detectChanges();
+        validateElementVisibility('.data-object-link-authorized', true);
+        validateElementVisibility('.data-object-link-unauthorized', false);
+      })
+  );
+
+  function validateElementVisibility(selector: string,  isVisible: boolean) {
+    // css selector which selects parent of the radio-button icon since that is controlled by the sd-authorize directive
+    const element = fixture.debugElement.query(By.css(selector));
+
+    const displayStyle = element.nativeElement.style.display;
+    if (isVisible) {
+      expect(displayStyle).not.toEqual('none');
+    } else {
+      expect(displayStyle).toEqual('none');
+    }
+  }
 
 });

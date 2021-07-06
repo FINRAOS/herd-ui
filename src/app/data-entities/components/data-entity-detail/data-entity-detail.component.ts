@@ -49,6 +49,7 @@ import { forkJoin, Observable, throwError } from 'rxjs';
 import { catchError, finalize, flatMap, map } from 'rxjs/operators';
 import { AuthMap } from '../../../shared/directive/authorized/authorized.directive';
 import { of } from 'rxjs/internal/observable/of';
+import { environment } from '../../../../environments/environment';
 
 export enum DAGNodeType {
   parent = 'parent',
@@ -144,6 +145,7 @@ export class DataEntityDetailComponent implements OnInit {
   modalReference: NgbModalRef;
   displayDelimiter = ':';
   idDelimiter = '__';
+  dataObjectListPermissionsResolution = environment.dataObjectListPermissionsResolution;
 
   nodeIdCount: { [baseId: string]: number } = {};
 

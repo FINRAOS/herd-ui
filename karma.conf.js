@@ -30,10 +30,13 @@ module.exports = function (config) {
       require('karma-scss-preprocessor')
     ],
     client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: false, // leave Jasmine Spec Runner output visible in browser
+      jasmine: {
+        random: false
+      }
     },
     files: [
-      
+
       { pattern: './src/**/*.scss', watched: false, included: false, served: true },
       { pattern: './node_modules/primeng/resources/themes/omega/**/*.+(woff2|woff|ttf)', watched: false, included: false, served: true },
       { pattern: './node_modules/font-awesome/fonts/*.+(woff2|woff|ttf)', watched: false, included: false, served: true },
