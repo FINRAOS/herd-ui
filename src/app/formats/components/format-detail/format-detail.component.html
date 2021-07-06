@@ -113,30 +113,30 @@
                       <div *ngIf="businessObjectFormatDetail && (businessObjectFormatDetail.businessObjectFormatFileType != 'RELATIONAL_TABLE'); else relationalInfo"
                            class="row justify-content-around">
                         <div class="col">
-                          <div class="row">
-                            <div class="col-8"><b>Null Value:</b></div>
+                          <div class="row" style="display: flex">
+                            <div class="col-7"><b>Null Value:</b></div>
                             <div class="col-4">
                               {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
-                            businessObjectFormatDetail.schema.nullValue || ' '}}
+                            businessObjectFormatDetail.schema.nullValue || ' '}} {{this.unicodeSchemaNullValue}}
                             </div>
                           </div>
-                          <div class="row">
-                            <div class="col-8"><b>Delimiter:</b></div>
+                          <div class="row" style="display: flex">
+                            <div class="col-7"><b>Delimiter:</b></div>
                             <div class="col-4">
                               {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
-                            businessObjectFormatDetail.schema.delimiter || ' '}}
+                            businessObjectFormatDetail.schema.delimiter || ' '}} {{this.unicodeSchemaDelimiter}}
                             </div>
                           </div>
-                          <div class="row">
-                            <div class="col-8"><b>Escape Character:</b></div>
+                          <div class="row" style="display: flex">
+                            <div class="col-7"><b>Escape Character:</b></div>
                             <div class="col-4">
                               {{ businessObjectFormatDetail && businessObjectFormatDetail.schema &&
                             businessObjectFormatDetail.schema.escapeCharacter ||
-                            ' '}}
+                            ' '}} {{this.unicodeSchemaEscapeCharacter}}
                             </div>
                           </div>
-                          <div class="row">
-                            <div class="col-8"><b>Partition Key Group:</b></div>
+                          <div class="row" style="display: flex">
+                            <div class="col-7"><b>Partition Key Group:</b></div>
                             <div class="col-4">
                               {{businessObjectFormatDetail && businessObjectFormatDetail.schema &&
                             businessObjectFormatDetail.schema.partitionKeyGroup
