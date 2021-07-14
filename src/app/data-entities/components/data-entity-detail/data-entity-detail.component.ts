@@ -50,6 +50,7 @@ import { catchError, finalize, flatMap, map } from 'rxjs/operators';
 import { AuthMap } from '../../../shared/directive/authorized/authorized.directive';
 import { of } from 'rxjs/internal/observable/of';
 import { environment } from '../../../../environments/environment';
+import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 
 export enum DAGNodeType {
   parent = 'parent',
@@ -134,6 +135,10 @@ export class DataEntityDetailComponent implements OnInit {
     fixedGutter: true
   };
 
+  editorOptions: JsonEditorOptions;
+  documentSchemaJson: any;
+  @ViewChild(JsonEditorComponent) editor: JsonEditorComponent;
+
   // variables for lineage visualization
   @ViewChild('viewLineage') viewLineage: TemplateRef<any>;
   public popover: NgbPopover;
@@ -212,6 +217,14 @@ export class DataEntityDetailComponent implements OnInit {
     this.getSMEContactDetails().subscribe((data: any) => {
       this.smes = data;
     });
+
+    this.editorOptions = new JsonEditorOptions();
+    this.editorOptions.modes = ['code', 'tree'];
+  }
+
+  alertForEditingSchema(event = null) {
+    this.alertService.alert(new WarningAlert('Editing document schema is not supported. Any changes made will be lost.',
+      '', '', 8));
   }
 
   alertSuccessfulCopy() {
@@ -219,7 +232,6 @@ export class DataEntityDetailComponent implements OnInit {
       'Success!', '', 'DDL Successfully copied to clipboard'
     ));
   }
-
 
   saveDataEntityColumnNameChange(event: EditEvent, col: DataEntityWithFormatColumn) {
     const createColumn = (): Observable<BusinessObjectDefinitionColumn> => {
@@ -368,6 +380,11 @@ export class DataEntityDetailComponent implements OnInit {
           this.descriptiveFormat = response;
           if (this.descriptiveFormat && (this.descriptiveFormat.documentSchema || this.descriptiveFormat.documentSchemaUrl)) {
             this.documentSchema = this.descriptiveFormat.documentSchema;
+            try {
+              this.documentSchemaJson = JSON.parse(this.documentSchema);
+            } catch (e) {
+              this.documentSchemaJson = this.documentSchema;
+            }
             this.documentSchemaUrl = this.descriptiveFormat.documentSchemaUrl;
           }
           // Fetch the columns

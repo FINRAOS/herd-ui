@@ -291,10 +291,10 @@
 
           <div class="card container document-schema">
             <div class="card-block">
-              <div class="row">
-                <codemirror [(ngModel)]="documentSchema" [config]="documentSchemaConfig"
-                            class="ace-editor">
-                </codemirror>
+              <div>
+                <json-editor
+                  (change)="alertForEditingSchema($event)" [options]="editorOptions" [data]="documentSchemaJson">
+                </json-editor>
               </div>
             </div>
           </div>
