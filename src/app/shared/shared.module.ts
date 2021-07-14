@@ -41,6 +41,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { InlineSVGModule } from 'ng-inline-svg/lib';
 import { ClipboardModule } from 'ngx-clipboard';
 import { CodemirrorModule } from 'ng2-codemirror';
+import { NgJsonEditorModule } from 'ang-jsoneditor';
 
 @NgModule({
   imports: [
@@ -54,6 +55,7 @@ import { CodemirrorModule } from 'ng2-codemirror';
     NgxChartsModule,
     InlineSVGModule,
     CodemirrorModule,
+    NgJsonEditorModule,
     ClipboardModule,
   ],
   declarations: [
@@ -101,6 +103,7 @@ import { CodemirrorModule } from 'ng2-codemirror';
     NgxGraphModule,
     NgxChartsModule,
     CodemirrorModule,
+    NgJsonEditorModule,
     ClipboardModule,
   ]
 })
