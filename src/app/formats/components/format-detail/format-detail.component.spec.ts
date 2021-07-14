@@ -54,6 +54,11 @@ describe('FormatDetailComponent', () => {
     'externalInterfaceDescription': 'Description of the external interface.'
   };
 
+  activeRoute.testParams = {
+    namespace: 'ns', dataEntityname: 'name',
+    formatUsage: 'SRC', formatFileType: 'TXT', formatVersion: '1'
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -166,10 +171,6 @@ describe('FormatDetailComponent', () => {
   }));
 
   beforeEach(() => {
-    activeRoute.testParams = {
-      namespace: 'ns', dataEntityname: 'name',
-      formatUsage: 'SRC', formatFileType: 'TXT', formatVersion: '1'
-    };
     fixture = TestBed.createComponent(FormatDetailComponent);
     component = fixture.componentInstance;
   });
@@ -336,7 +337,6 @@ describe('FormatDetailComponent', () => {
         businessObjectFormatExternalInterfaceDescriptiveInformationSpy
           .and
           .returnValue(of(businessObjectFormatExternalInterfaceDescriptiveInformation));
-        component.ngOnInit();
         component.getExternalInterface('EXTERNAL_INTERFACE');
         expect(component.externalInterfaceDisplayName).toEqual('External Interface Display Name');
         expect(component.externalInterfaceDescription).toEqual('Description of the external interface.');
