@@ -30,6 +30,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { HttpInterceptService } from './core/services/http-intercept.service';
 import { InlineSVGService } from '../../node_modules/ng-inline-svg/lib/inline-svg.service';
+import { NgJsonEditorModule } from 'ang-jsoneditor';
 
 export function appApiConfigFactory(): Configuration {
   return new Configuration();
@@ -54,6 +55,7 @@ export function restBasePathFactory(apiConfig: Configuration): string {
     AppRoutingModule,
     BrowserAnimationsModule,
     NgbModule,
+    NgJsonEditorModule,
     CoreModule.forRoot(),
     ApiModule.forRoot(appApiConfigFactory)
   ],
