@@ -48,7 +48,7 @@ export class GlobalSearchComponent implements OnInit {
       });
     }
   }
-  @Input() placeHolder = 'I can help you to find anything you want!';
+  @Input() placeHolder = 'Search UDC...';
   @Input() searchText: string;
   @Output() search = new EventEmitter<Object>();
   public error = false;
