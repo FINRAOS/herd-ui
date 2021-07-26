@@ -20,6 +20,20 @@ $hit-match-color: #f19024;
 .input-group {
   .input-group-addon:nth-of-type(2) {
     background-color: $search-icon-color;
+    &:hover {
+      transform: scale(1.2);
+      box-shadow:  5px 5px rgba(0,0,0,0.15);
+      .icon-hover {
+        transform: rotate(0deg) scale(1);
+        opacity: 1;
+        color: deepskyblue;
+      }
+    }
+  }
+  .icon-hover {
+    transition: opacity .3s, transform 1s;
+    transform: rotate(-360deg) scale(1);
+    opacity: 1;
   }
 
   .input-group-addon:nth-of-type(1) {
