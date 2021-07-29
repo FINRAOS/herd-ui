@@ -19,7 +19,7 @@
   <input #searchTextBox [(ngModel)]="searchText" class="form-control" placeholder="{{placeHolder}}" type="text">
   <span (click)="showHitMatchFilter = !showHitMatchFilter" [class.hit-match-opened]="showHitMatchFilter"
         class="input-group-addon"><i class="fa fa-filter"></i></span>
-  <span (click)="makeSearch(searchText)" class="input-group-addon"><i class="fa fa-search"></i></span>
+  <span (click)="makeSearch(searchText)" class="input-group-addon"><i class="fa fa-search icon-hover"></i></span>
 </div>
 
 <div [class.show-hit-match-filter]="showHitMatchFilter" class="row hit-match-filter">

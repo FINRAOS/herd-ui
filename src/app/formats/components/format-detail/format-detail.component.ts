@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { Component, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { Action } from '../../../shared/components/side-action/side-action.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,10 +27,11 @@ import {
 } from '@herd/angular-client';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { AlertService, DangerAlert } from 'app/core/services/alert.service';
+import { AlertService, DangerAlert, WarningAlert } from 'app/core/services/alert.service';
 import { finalize, flatMap, map, startWith } from 'rxjs/operators';
 import { AuthMap } from '../../../shared/directive/authorized/authorized.directive';
 import { environment } from '../../../../environments/environment';
+import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 
 function toPaddedHexString(num, len) {
   const str = num.toString(16).toUpperCase();
@@ -77,6 +78,9 @@ export class FormatDetailComponent implements OnInit {
   dataObjectListPermissionsResolution = environment.dataObjectListPermissionsResolution;
   private errorMessageNotFound = 'No data registered';
   private errorMessageAuthorization = 'Access Denied';
+  editorOptions: JsonEditorOptions;
+  documentSchemaJson: any;
+  @ViewChild(JsonEditorComponent) editor: JsonEditorComponent;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -93,7 +97,14 @@ export class FormatDetailComponent implements OnInit {
   ) {
   }
 
+  alertForEditingSchema(event = null) {
+    this.alertService.alert(new WarningAlert('Editing document schema is not supported. Any changes made will be lost.',
+      '', '', 8));
+  }
+
   ngOnInit() {
+    this.editorOptions = new JsonEditorOptions();
+    this.editorOptions.modes = ['code', 'tree'];
     this.activatedRoute.params.subscribe((param) => {
       this.namespace = param['namespace'];
       this.businessObjectDefinitionName = param['dataEntityname'];
@@ -127,6 +138,13 @@ export class FormatDetailComponent implements OnInit {
         .subscribe((bFormatResponse) => {
           this.businessObjectFormatDetail = bFormatResponse;
           if (this.businessObjectFormatDetail.schema) {
+            if (this.businessObjectFormatDetail && (this.businessObjectFormatDetail.documentSchema)) {
+              try {
+                this.documentSchemaJson = JSON.parse(this.businessObjectFormatDetail.documentSchema);
+              } catch (e) {
+                this.documentSchemaJson = this.businessObjectFormatDetail.documentSchema;
+              }
+            }
             if (this.businessObjectFormatDetail.schema.nullValue
                 && this.businessObjectFormatDetail.schema.nullValue.length === 1) {
               this.unicodeSchemaNullValue = '(U+' + toPaddedHexString(this.businessObjectFormatDetail.schema.nullValue.charCodeAt(0), 4)

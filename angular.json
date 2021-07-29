@@ -41,6 +41,7 @@
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeng/resources/themes/omega/theme.css",
               "node_modules/codemirror/lib/codemirror.css",
+              "node_modules/jsoneditor/dist/jsoneditor.min.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -96,6 +97,7 @@
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeng/resources/themes/omega/theme.css",
               "node_modules/codemirror/lib/codemirror.css",
+              "node_modules/jsoneditor/dist/jsoneditor.min.css",
               "src/styles.scss"
             ],
             "scripts": [],

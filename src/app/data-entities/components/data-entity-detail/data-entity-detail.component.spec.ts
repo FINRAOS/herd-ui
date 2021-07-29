@@ -68,6 +68,7 @@ import { DataTableModule } from 'primeng/components/datatable/datatable';
 import { ButtonModule } from 'primeng/components/button/button';
 import { GenericViewComponent } from 'app/shared/components/generic-view/generic-view.component';
 import { CodemirrorModule } from 'ng2-codemirror/lib';
+import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { ClipboardModule } from 'ngx-clipboard';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { SelectModule } from 'ng-select';
@@ -81,6 +82,7 @@ import { ContactsComponent } from '../contacts/contacts.component';
 import { SuggestionsComponent } from '../suggestions/suggestions.component';
 import { DiffMatchPatchModule } from 'ng-diff-match-patch/dist';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { JsonEditorOptions } from 'ang-jsoneditor';
 
 describe('DataEntityDetailComponent', () => {
   let component: DataEntityDetailComponent;
@@ -235,6 +237,9 @@ describe('DataEntityDetailComponent', () => {
 
   const formats: BusinessObjectFormat[] = [descriptiveFormat];
 
+  const expectedEditorOption = new JsonEditorOptions();
+  expectedEditorOption.modes = ['code', 'tree'];
+
   let expectedBdef: BusinessObjectDefinition = {
     namespace: 'ns',
     businessObjectDefinitionName: 'bdef',
@@ -329,6 +334,7 @@ describe('DataEntityDetailComponent', () => {
         ButtonModule,
         FormsModule,
         CodemirrorModule,
+        NgJsonEditorModule,
         ClipboardModule,
         ReactiveFormsModule,
         SelectModule,
@@ -565,8 +571,10 @@ describe('DataEntityDetailComponent', () => {
       expect(component.formats).toEqual(expectedFormats.businessObjectFormatKeys);
       expect(component.descriptiveFormat).toEqual(descriptiveFormat);
       expect(component.documentSchema).toEqual(descriptiveFormat.documentSchema);
+      expect(component.documentSchemaJson).toEqual(descriptiveFormat.documentSchema);
       expect(component.documentSchemaUrl).toEqual(descriptiveFormat.documentSchemaUrl);
       expect(component.bdefColumns).toEqual(expectedCols);
+      expect(component.editorOptions).toEqual(expectedEditorOption);
       // expect(component.bdefTags).toEqual(expectedBdefTags.businessObjectDefinitionTagKeys);
       // expect(component.hasTag).toEqual(true);
       expect(component.smes).toEqual(expectedSmes);
