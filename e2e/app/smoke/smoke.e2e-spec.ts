@@ -31,7 +31,7 @@ describe('Smoke Tests', () => {
   const searchTerm = 'smoketest';
   const searchHeading = environment.brandHeader;
   const searchSubHeading = environment.brandMotto;
-  const searchBoxDescription = 'I can help you to find anything you want!';
+  const searchBoxDescription = 'Search UDC...';
   const searchResultUrl = browser.baseUrl + '/search/' + searchTerm + '?match=';
   const searchPage = new SearchPage();
   const homePage = new HomePage();
