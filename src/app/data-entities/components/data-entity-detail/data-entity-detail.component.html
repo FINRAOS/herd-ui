@@ -143,8 +143,9 @@
                 </div>
               </div>
               <div class="bdef-formats">
-                <div class="inner-header">Format</div>
-                <div *ngIf="formats && formats.length; else noFormats">
+                <div>
+                  <div class="inner-header">Format</div>
+                  <div *ngIf="formats && formats.length; else noFormats">
                     <div (click)="$event.stopPropagation()" *ngFor="let frmt of formats"
                          [ngClass]="isRecommendedFormat(frmt)? 'recommended' : ''" [routerLink]="['/formats',
                              frmt.namespace,
@@ -201,9 +202,10 @@
                       </div>
                     </div>
                   </div>
-                <ng-template #noFormats>
-                  <p>No schema defined for this Data Entity</p>
-                </ng-template>
+                  <ng-template #noFormats>
+                    <p>No schema defined for this Data Entity</p>
+                  </ng-template>
+                </div>
               </div>
             </div>
           </div>
