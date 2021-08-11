@@ -133,3 +133,9 @@ $description-body-color: #3c3c3c;
   }
 
 }
+
+// ang-jsoneditor config
+.ace_editor.ace-jsoneditor {
+  min-height: 500px;
+  min-width: 500px;
+}

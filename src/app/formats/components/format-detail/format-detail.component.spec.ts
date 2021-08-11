@@ -35,6 +35,7 @@ import { ActivatedRouteStub } from 'testing/router-stubs';
 import { MockFormat } from 'testing/mockFormat';
 import { UserService } from '../../../core/services/user.service';
 import { By } from '@angular/platform-browser';
+import { JsonEditorOptions } from 'ang-jsoneditor';
 
 describe('FormatDetailComponent', () => {
   const mockData: MockFormat = new MockFormat();
@@ -53,6 +54,9 @@ describe('FormatDetailComponent', () => {
     'externalInterfaceDisplayName': 'External Interface Display Name',
     'externalInterfaceDescription': 'Description of the external interface.'
   };
+
+  const expectedEditorOption = new JsonEditorOptions();
+  expectedEditorOption.modes = ['code', 'tree'];
 
   activeRoute.testParams = {
     namespace: 'ns', dataEntityname: 'name',
@@ -204,6 +208,8 @@ describe('FormatDetailComponent', () => {
         expect(component.businessObjectFormatDetail.documentSchemaUrl).toBe('test document schema url');
         expect(component.minPrimaryPartitionValue).toEqual('Access Denied');
         expect(component.maxPrimaryPartitionValue).toEqual('Access Denied');
+        expect(component.editorOptions).toEqual(expectedEditorOption);
+        expect(component.documentSchemaJson).toEqual('test document schema');
       }));
 
   it('ngOnInit should set data for the component',
@@ -225,6 +231,7 @@ describe('FormatDetailComponent', () => {
         expect(component.businessObjectFormatDetail.retentionPeriodInDays).toBe(14);
         expect(component.businessObjectFormatDetail.recordFlag).toBe('no');
         expect(component.businessObjectFormatDetail.documentSchema).toBe('test document schema');
+        expect(component.documentSchemaJson).toBe('test document schema');
         expect(component.businessObjectFormatDetail.documentSchemaUrl).toBe('test document schema url');
         expect(component.minPrimaryPartitionValue).toEqual('3');
         expect(component.maxPrimaryPartitionValue).toEqual('4');

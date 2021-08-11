@@ -1,6 +1,6 @@
 {
   "name": "herd-ui",
-  "version": "0.122.0",
+  "version": "0.123.0",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -40,10 +40,11 @@
     "@angular/platform-browser": "7.0.0-beta.7",
     "@angular/platform-browser-dynamic": "7.0.0-beta.7",
     "@angular/router": "7.0.0-beta.7",
-    "@herd/angular-client": "^0.152.0 || >0.152.0-SNAPSHOT",
+    "@herd/angular-client": "^0.153.0 || >0.153.0-SNAPSHOT",
     "@ng-bootstrap/ng-bootstrap": "^4.1.0",
     "@swimlane/ngx-charts": "9.0.0",
     "@swimlane/ngx-graph": "5.1.1",
+    "ang-jsoneditor": "^1.10.5",
     "bootstrap": "4.0.0-alpha.6",
     "ckeditor": "4.10.1",
     "classlist.js": "1.1.20150312",
@@ -52,6 +53,7 @@
     "d3": "4.10.0",
     "font-awesome": "4.7.0",
     "install": "0.10.1",
+    "jsoneditor": "^9.5.1",
     "ng-diff-match-patch": "2.0.6",
     "ng-inline-svg": "8.0.2",
     "ng-select": "1.0.0-rc.3",

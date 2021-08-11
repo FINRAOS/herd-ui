@@ -24,8 +24,8 @@ sd-tri-state {
   div {
     span.fa-stack {
       width: 17px;
-      height: 21px;;
-      line-height: 0.75em;;
+      height: 21px;
+      line-height: 0.75em;
     }
 
     span {
@@ -41,6 +41,10 @@ sd-tri-state {
         font-size: 16px;
       }
     }
+  }
+
+  .tri-state-label {
+    margin-left: 6px;
   }
 
   /*.tri-state-checkbox {
