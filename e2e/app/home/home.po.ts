@@ -94,7 +94,7 @@ export class HomePage extends BasePo {
   }
 
   getSearchTextBox() {
-    return element(by.css('input[placeholder="I can help you to find anything you want!"]'));
+    return element(by.css('input[placeholder="Search UDC..."]'));
   }
 
   getHeaderLogo() {
