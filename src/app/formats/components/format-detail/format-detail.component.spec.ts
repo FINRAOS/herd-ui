@@ -100,7 +100,7 @@ describe('FormatDetailComponent', () => {
                 retentionType: 'xyz',
                 retentionPeriodInDays: 14,
                 recordFlag: 'no',
-                documentSchema: 'test document schema',
+                documentSchema: '{"name": "test document json schema"}',
                 documentSchemaUrl: 'test document schema url',
                 schema: {
                   columns: [
@@ -204,12 +204,12 @@ describe('FormatDetailComponent', () => {
         expect(component.businessObjectFormatDetail.retentionType).toBe('xyz');
         expect(component.businessObjectFormatDetail.retentionPeriodInDays).toBe(14);
         expect(component.businessObjectFormatDetail.recordFlag).toBe('no');
-        expect(component.businessObjectFormatDetail.documentSchema).toBe('test document schema');
+        expect(component.businessObjectFormatDetail.documentSchema).toBe('{"name": "test document json schema"}');
         expect(component.businessObjectFormatDetail.documentSchemaUrl).toBe('test document schema url');
         expect(component.minPrimaryPartitionValue).toEqual('Access Denied');
         expect(component.maxPrimaryPartitionValue).toEqual('Access Denied');
         expect(component.editorOptions).toEqual(expectedEditorOption);
-        expect(component.documentSchemaJson).toEqual('test document schema');
+        expect(component.documentSchemaJson).toEqual(JSON.parse('{"name": "test document json schema"}'));
       }));
 
   it('ngOnInit should set data for the component',
@@ -230,8 +230,8 @@ describe('FormatDetailComponent', () => {
         expect(component.businessObjectFormatDetail.retentionType).toBe('xyz');
         expect(component.businessObjectFormatDetail.retentionPeriodInDays).toBe(14);
         expect(component.businessObjectFormatDetail.recordFlag).toBe('no');
-        expect(component.businessObjectFormatDetail.documentSchema).toBe('test document schema');
-        expect(component.documentSchemaJson).toBe('test document schema');
+        expect(component.businessObjectFormatDetail.documentSchema).toBe('{"name": "test document json schema"}');
+        expect(component.documentSchemaJson).toEqual(JSON.parse('{"name": "test document json schema"}'));
         expect(component.businessObjectFormatDetail.documentSchemaUrl).toBe('test document schema url');
         expect(component.minPrimaryPartitionValue).toEqual('3');
         expect(component.maxPrimaryPartitionValue).toEqual('4');
