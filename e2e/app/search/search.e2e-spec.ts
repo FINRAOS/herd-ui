@@ -48,7 +48,7 @@ describe('Search page', () => {
 
     // verify the first result functionality
     await expect(page.headingAnchor).toBeDefined();
-    await expect(page.headingBadge).toMatch(/('Category' || 'Data Entity')/);
+    await expect(page.headingBadge).toMatch(/('Tag' || 'Data Entity')/);
   });
 
   it('Hit highlight is showing and working as expected', async () => {

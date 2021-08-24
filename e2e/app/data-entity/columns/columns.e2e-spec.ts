@@ -31,7 +31,7 @@ describe('Bdef Columns Page', () => {
     heading: 'COLUMNS',
     noDescriptiveFormatMessage: 'Cannot display columns - No Descriptive Format defined for this Data Entity',
     noSchemaColumnsMessage: 'Cannot display columns - No Schema columns present in specified Descriptive Format',
-    headers: ['Business Name', 'Definition', 'Physical Name', 'Data Type'],
+    headers: ['Business Name', 'Description', 'Physical Name', 'Data Type'],
     ddlString: 'CREATE EXTERNAL TABLE',
     data1: {
       businessName: data.bdefColumnName1,

@@ -1067,7 +1067,7 @@ describe('DataEntityDetailComponent', () => {
 
   });
 
-  it('should update format to recommended format or show error in case of fail',
+  it('should update format to udc display format or show error in case of fail',
     async(inject([ActivatedRoute, BusinessObjectDefinitionService],
       (activeRoute: ActivatedRouteStub, businessObjectDefinitionApi: BusinessObjectDefinitionService) => {
         const detailsSpy = spyOn(component, 'getBdefDetails');
@@ -2068,7 +2068,7 @@ describe('DataEntityDetailComponent', () => {
       })
   );
 
-  it('should appropriately show \'radio buttons\' to change recommended format',
+  it('should appropriately show \'radio buttons\' to change udc display format',
     inject([UserService, ActivatedRoute],
       (us: UserService, activeRoute: ActivatedRouteStub) => {
 
