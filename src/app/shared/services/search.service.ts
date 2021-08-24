@@ -58,7 +58,7 @@ export class SearchService {
         const toSlice = [];
         response.facets = response.facets.map((val, ind) => {
           if (val.facetType === 'ResultType') {
-            const dispalyName = (val.facetId.match('TAG')) ? 'Category' : 'Data Entity';
+            const dispalyName = (val.facetId.match('TAG')) ? 'Tag' : 'Data Entity';
             resultType.facets.push({
               facetDisplayName: dispalyName,
               facetCount: val.facetCount,
