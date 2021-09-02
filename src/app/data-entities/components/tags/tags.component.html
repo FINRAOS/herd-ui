@@ -22,7 +22,7 @@
        sdAuthorized>
     <ul *ngIf="displayingTags.length > 0; else noTags" class="list-inline">
       <li *ngFor="let existingTag of displayingTags" class="list-inline-item">
-        <button [routerLink]="['/categories', existingTag.tagKey.tagTypeCode, existingTag.tagKey.tagCode]"
+        <button [routerLink]="['/tags', existingTag.tagKey.tagTypeCode, existingTag.tagKey.tagCode]"
                 class="tag-button"
                 ngbTooltip="{{existingTag.tagTypeDisplayName}}" placement="right">
           {{existingTag.tagDisplayName}}
@@ -47,7 +47,7 @@
       <ul *ngIf="displayingTags.length > 0; else noTagsEdit" class="list-inline">
         <li *ngFor="let existingTag of displayingTags" class="list-inline-item">
           <button (click)="$event.stopPropagation()"
-                  [routerLink]="['/categories', existingTag.tagKey.tagTypeCode, existingTag.tagKey.tagCode]" class="tag-button"
+                  [routerLink]="['/tags', existingTag.tagKey.tagTypeCode, existingTag.tagKey.tagCode]" class="tag-button"
                   ngbTooltip="{{existingTag.tagTypeDisplayName}}" placement="right">
             {{existingTag.tagDisplayName || existingTag.displayName}}
           </button>

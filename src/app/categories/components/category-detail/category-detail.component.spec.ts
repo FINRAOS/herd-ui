@@ -205,7 +205,7 @@ describe('CategoryDetailComponent', () => {
 
   it('should navigate with search text and match', inject([Router], (mock: RouterStub) => {
     component.globalSearch({searchText: 'test search', match: []});
-    expect(mock.navigate).toHaveBeenCalledWith(['categories', undefined, undefined, 'test search'], {
+    expect(mock.navigate).toHaveBeenCalledWith(['tags', undefined, undefined, 'test search'], {
       queryParams: {
         match: ''
       }
@@ -214,7 +214,7 @@ describe('CategoryDetailComponent', () => {
 
   it('should navigate without any search text', inject([Router], (mock: RouterStub) => {
     component.globalSearch({});
-    expect(mock.navigate).toHaveBeenCalledWith(['categories', undefined, undefined, null], {
+    expect(mock.navigate).toHaveBeenCalledWith(['tags', undefined, undefined, null], {
       queryParams: {
         match: ''
       }

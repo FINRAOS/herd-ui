@@ -44,7 +44,7 @@
             <sd-truncated-content [readMoreText]="'more'" [showLines]="6">
               <ul>
                 <li *ngFor="let tag of tagType.tags">
-                  <a [routerLink]="['categories',
+                  <a [routerLink]="['tags',
                 tagType.tagTypeKey.tagTypeCode,
                 tag.tagKey.tagCode]" class="card-link">{{tag.displayName}}</a>
                 </li>

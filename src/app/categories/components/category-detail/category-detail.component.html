@@ -99,7 +99,7 @@
                 <div class="card-header d-flex justify-content-between">
                   <div class="d-flex align-items-start flex-column">
                     <a *ngIf="result.indexSearchResultType.includes('TAG')"
-                       [routerLink]="['/categories', result.indexSearchResultKey.tagKey.tagTypeCode, result.indexSearchResultKey.tagKey.tagCode]">
+                       [routerLink]="['/tags', result.indexSearchResultKey.tagKey.tagTypeCode, result.indexSearchResultKey.tagKey.tagCode]">
                       {{result.displayName }}
                     </a>
                   </div>

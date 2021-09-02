@@ -9,7 +9,7 @@
   "searchUrl": "/search",
   "dataEntityDetailPath": "/data-entities",
   "dataEntityBdefPath": "/data-entities/{namespace}/{businessObjectDefinitionName}",
-  "categoryDetailPath": "/categories/",
+  "categoryDetailPath": "/tags/",
   "formatPage": "/formats/",
   "bdataListPath": "/data-objects/{namespace}/{definitionName}/{usage}/{fileType}/{version}",
   "bdataDetailPath": "/data-objects/{namespace}/{definitionName}/{usage}/{fileType}/{formatVersion}/{partitionValue}/{dataVersion};{subPartitions}",
