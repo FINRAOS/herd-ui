@@ -40,7 +40,7 @@ like backend url, home page link, other page link, specific data, etc.
     "globalSearchPage": "/GlobalSearch",
     "buildInfoPage": "/DisplayBuildInfo",
     "dataEntityDetailPath": "/data-entities",
-    "categoryDetailPath": "/categories/",
+    "categoryDetailPath": "/tags/",
     "bdataListPath": "data-objects/{namespace}/{definitionName}/{usage}/{fileType}/{version}",
     "bdataListPath": "/data-objects/{namespace}/{definitionName}",
     "bdataDetailPath": "/data-objects/{namespace}/{definitionName}/{usage}/{fileType}/{formatVersion}/{partitionValue}/{dataVersion}/{subPartitions}",

@@ -19,7 +19,7 @@ const uniqueId = utils.uniqueId();
 
 export default {
   description: 'Sample description text for testing purpose. Used for all description fields',
-  searchBoxDescription: 'I can help you to find anything you want!',
+  searchBoxDescription: 'Search UDC...',
   tagTypeCode1: function () {
     const randomNumber = Math.floor(Math.random() * 9000) + 1000;
     const tagTypeCode1 = {

@@ -20,7 +20,7 @@
     </div>
     <div header-content>
       <div class="rectangle"></div>
-      <h3 class="detail-header">CATEGORY</h3>
+      <h3 class="detail-header">TAG</h3>
       <div class="header">
         <span class="detail-title">{{category.displayName}}</span>
       </div>
@@ -99,12 +99,12 @@
                 <div class="card-header d-flex justify-content-between">
                   <div class="d-flex align-items-start flex-column">
                     <a *ngIf="result.indexSearchResultType.includes('TAG')"
-                       [routerLink]="['/categories', result.indexSearchResultKey.tagKey.tagTypeCode, result.indexSearchResultKey.tagKey.tagCode]">
+                       [routerLink]="['/tags', result.indexSearchResultKey.tagKey.tagTypeCode, result.indexSearchResultKey.tagKey.tagCode]">
                       {{result.displayName }}
                     </a>
                   </div>
                   <div>
-                    <span class="badge badge-warning">Category</span>
+                    <span class="badge badge-warning">Tag</span>
                   </div>
                 </div>
               </ng-template>

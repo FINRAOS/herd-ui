@@ -165,7 +165,7 @@ export class DataEntityDetailComponent implements OnInit {
     }, {
       templateField: 'description',
       field: 'description',
-      header: 'Definition',
+      header: 'Description',
       hide: false,
       sortable: true,
       style: {'width': '250px'}
@@ -507,11 +507,11 @@ export class DataEntityDetailComponent implements OnInit {
         this.hierarchialGraph.loaded = false;
         this.descriptiveFormat = undefined;
         this.getBdefDetails();
-        this.alertService.alert(new SuccessAlert('', 'Recommended Format changed successfully', '', 5
+        this.alertService.alert(new SuccessAlert('', 'UDC Display Format changed successfully', '', 5
         ));
       },
       (error) => {
-        this.alertService.alert(new DangerAlert('Unable to set Recommended Format', '',
+        this.alertService.alert(new DangerAlert('Unable to set UDC Display Format', '',
           `Format with businessObjectFormatUsage: ${format.businessObjectFormatUsage} and businessObjectFormatFileType:
            ${format.businessObjectFormatFileType} did not change due to some error. Try again later.`, 5
         ));

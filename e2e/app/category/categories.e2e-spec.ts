@@ -120,7 +120,7 @@ describe('Categories Page', () => {
     // goes to home page and searches from there
     await page.navigateTo(_url + data.tagTypeCode().code + '/' + data.tagTypeCode().tags[3].code + '/');
     await page.search(searchTerm);
-    const searchResultUrl = browser.baseUrl + '/categories/'
+    const searchResultUrl = browser.baseUrl + '/tags/'
       + data.tagTypeCode().code + '/' + data.tagTypeCode().tags[3].code + '/' + searchTerm + '?match=';
     await expect(browser.getCurrentUrl()).toBe(await searchResultUrl);
 
@@ -135,7 +135,7 @@ describe('Categories Page', () => {
 
     // Search again to see the search is working
     await page.search(searchTermAgain);
-    const searchResultUrlAgain = browser.baseUrl + '/categories/'
+    const searchResultUrlAgain = browser.baseUrl + '/tags/'
       + data.tagTypeCode().code + '/' + data.tagTypeCode().tags[3].code + '/' + searchTermAgain + '?match=';
     await expect(browser.getCurrentUrl()).toBe(await searchResultUrlAgain);
     await expect(page.backTrackLinkArea.getText()).toContain(searchTerm);

@@ -39,7 +39,7 @@ const routes: Routes = [
         path: 'data-entities',
         loadChildren: 'app/data-entities/data-entities.module#DataEntitiesModule'
       }, {
-        path: 'categories',
+        path: 'tags',
         loadChildren: 'app/categories/categories.module#CategoriesModule'
       }, {
         path: 'data-objects',

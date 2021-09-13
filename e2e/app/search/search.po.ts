@@ -34,7 +34,7 @@ export class SearchPage extends BasePo {
     return this._homePage;
   }
 
-  private _searchBox = element(by.css('input[placeholder="I can help you to find anything you want!"]'));
+  private _searchBox = element(by.css('input[placeholder="Search UDC..."]'));
 
   get searchBox(): ElementFinder {
     return this._searchBox;

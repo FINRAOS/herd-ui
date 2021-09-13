@@ -137,14 +137,14 @@ export class FormatDetailComponent implements OnInit {
           this.businessObjectFormatVersion)
         .subscribe((bFormatResponse) => {
           this.businessObjectFormatDetail = bFormatResponse;
-          if (this.businessObjectFormatDetail.schema) {
-            if (this.businessObjectFormatDetail && (this.businessObjectFormatDetail.documentSchema)) {
-              try {
-                this.documentSchemaJson = JSON.parse(this.businessObjectFormatDetail.documentSchema);
-              } catch (e) {
-                this.documentSchemaJson = this.businessObjectFormatDetail.documentSchema;
-              }
+          if (this.businessObjectFormatDetail && (this.businessObjectFormatDetail.documentSchema)) {
+            try {
+              this.documentSchemaJson = JSON.parse(this.businessObjectFormatDetail.documentSchema);
+            } catch (e) {
+              this.documentSchemaJson = this.businessObjectFormatDetail.documentSchema;
             }
+          }
+          if (this.businessObjectFormatDetail.schema) {
             if (this.businessObjectFormatDetail.schema.nullValue
                 && this.businessObjectFormatDetail.schema.nullValue.length === 1) {
               this.unicodeSchemaNullValue = '(U+' + toPaddedHexString(this.businessObjectFormatDetail.schema.nullValue.charCodeAt(0), 4)
