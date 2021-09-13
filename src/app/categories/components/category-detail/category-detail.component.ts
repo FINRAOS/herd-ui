@@ -110,7 +110,7 @@ export class CategoryDetailComponent implements OnInit {
   }
 
   public onCategoryLinkClick(tag) {
-    this.router.navigate(['categories', tag.tagKey.tagTypeCode, tag.tagKey.tagCode]);
+    this.router.navigate(['tags', tag.tagKey.tagTypeCode, tag.tagKey.tagCode]);
   }
 
   public facetChange(event) {
@@ -196,7 +196,7 @@ export class CategoryDetailComponent implements OnInit {
     if (event && event.match) {
       match = event.match.join(',');
     }
-    this.router.navigate(['categories', this.tagTypeCode, this.tagCode, searchText], {
+    this.router.navigate(['tags', this.tagTypeCode, this.tagCode, searchText], {
       queryParams: {
         match: match
       }

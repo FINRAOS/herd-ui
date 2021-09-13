@@ -142,9 +142,9 @@ export class ColumnsPage extends OverviewPage {
       && await nameEditor.element(by.css('div.row > div.col')).getText()) ||
       await nameDisplay.getText();
 
-    const definitionEditor = await rows.get(rowIndex).element(by.cssContainingText('td > span.ui-column-title', 'Definition'))
+    const definitionEditor = await rows.get(rowIndex).element(by.cssContainingText('td > span.ui-column-title', 'Description'))
       .element(by.xpath('following-sibling::span')).element(by.tagName('sd-edit'));
-    const definitionDisplay = await rows.get(rowIndex).element(by.cssContainingText('td > span.ui-column-title', 'Definition'))
+    const definitionDisplay = await rows.get(rowIndex).element(by.cssContainingText('td > span.ui-column-title', 'Description'))
       .element(by.xpath('following-sibling::span')).element(by.className('no-auth-description'));
 
     let definition = '';

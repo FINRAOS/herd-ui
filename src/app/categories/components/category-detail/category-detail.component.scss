@@ -18,7 +18,7 @@
 .category-detail-view {
   sd-generic-view {
     .rectangle {
-      @include detail-rectangle(102px, 6px, black);
+      @include detail-rectangle(37px, 6px, black);
     }
 
     .detail-header {

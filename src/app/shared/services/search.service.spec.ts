@@ -56,7 +56,7 @@ describe('SearchService', () => {
             facets: null
           },
           {
-            facetDisplayName: 'Category',
+            facetDisplayName: 'Tag',
             facetCount: data.facets[data.facets.length - 1].facetCount,
             facetType: data.facets[data.facets.length - 1].facetType,
             facetId: data.facets[data.facets.length - 1].facetId,

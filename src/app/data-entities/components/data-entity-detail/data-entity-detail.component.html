@@ -191,12 +191,12 @@
                           <div *ngIf="isRecommendedFormat(frmt); else otherFormat">
                             <i (click)="$event.stopPropagation(); updateDescriptiveFormat(frmt, isRecommendedFormat(frmt))" aria-hidden="true"
                                class="fa fa-dot-circle-o"
-                               ngbTooltip="Recommended Format (click to unset)" style="color: black"></i>
+                               ngbTooltip="UDC Display Format (click to unset)" style="color: black"></i>
                           </div>
                           <ng-template #otherFormat>
                             <i (click)="$event.stopPropagation(); updateDescriptiveFormat(frmt, isRecommendedFormat(frmt))"
                                aria-hidden="true"
-                               class="fa fa-circle-o" ngbTooltip="Click to set as Recommended Format"></i>
+                               class="fa fa-circle-o" ngbTooltip="Click to set as UDC Display Format"></i>
                           </ng-template>
                         </div>
                       </div>
