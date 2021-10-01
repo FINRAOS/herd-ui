@@ -199,4 +199,12 @@ describe('HomeComponent', () => {
       });
     });
   }));
+
+  it('should call showAllTags method when Explore button is clicked', async(() => {
+    spyOn(component, 'showAllTags');
+    const explorebButton = fixture.debugElement.nativeElement.querySelector('button');
+    explorebButton.click();
+    fixture.detectChanges();
+    expect(component.showAllTags).toHaveBeenCalled();
+  }));
 });

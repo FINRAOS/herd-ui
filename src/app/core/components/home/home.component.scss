@@ -91,4 +91,25 @@ $tooltip-color: #696969;
     @include tooltip-style;
   }
 
+  .exploreButton {
+    background-color: white;
+    border-color: transparent;
+  }
+
+  button:hover + .hide {
+    display: block;
+  }
+
+  button:hover {
+    font-size: 105%;
+  }
+
+  .hide {
+    display: none;
+    position:relative;
+    bottom:60px;
+    left:40px;
+    font-size: x-small;
+  }
+
 }

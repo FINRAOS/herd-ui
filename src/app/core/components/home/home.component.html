@@ -31,7 +31,8 @@
       <h3 class="col">
         <!--forceEvalStyles is needed for IE 11 to properly process the svg-->
         <div [forceEvalStyles]="true" [inlineSVG]="'/assets/svg/maze.svg'" class="maze-logo align-middle"></div>
-        Explore
+        <button type="button" class="exploreButton" (click)="showAllTags()">Explore</button>
+        <div class="hide">Click Explore to expand the categories.</div>
       </h3>
     </div>
 
