@@ -31,7 +31,8 @@ export class HomeComponent implements OnInit {
   public tagTypes: Observable<TagType[]>;
   public brandMotto: string;
   public brandHeader: string;
-
+  private DEFAULT_TAG_NUMBER = 6;
+  private MAX_TAG_NUMBER = 15;
 
   constructor(
     private tagTypeApi: TagTypeService,
@@ -40,13 +41,13 @@ export class HomeComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  showTags(tagNumber: number) {
     this.brandMotto = environment.brandMotto;
     this.brandHeader = environment.brandHeader;
     this.tagTypes = this.tagTypeApi
       .tagTypeSearchTagTypes({}, 'displayName,tagTypeOrder,description').pipe(
         map((data) => {
-          data.tagTypes = data.tagTypes.slice(0, 6);
+          data.tagTypes = data.tagTypes.slice(0, tagNumber);
           data.tagTypes.forEach((tagType) => {
             const body: TagSearchRequest = {
               tagSearchFilters: [{
@@ -66,6 +67,14 @@ export class HomeComponent implements OnInit {
 
           return data.tagTypes;
         }));
+  }
+
+  ngOnInit() {
+    this.showTags(this.DEFAULT_TAG_NUMBER);
+  }
+
+  showAllTags() {
+    this.showTags(this.MAX_TAG_NUMBER);
   }
 
   search(event) {
