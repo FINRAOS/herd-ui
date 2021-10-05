@@ -31,8 +31,8 @@ export class HomeComponent implements OnInit {
   public tagTypes: Observable<TagType[]>;
   public brandMotto: string;
   public brandHeader: string;
-  private defaultTagNumber = 6;
-  private defaultMaxTagNumber = 15;
+  private DEFAULT_TAG_NUMBER = 6;
+  private MAX_TAG_NUMBER = 15;
 
   constructor(
     private tagTypeApi: TagTypeService,
@@ -70,11 +70,11 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.showTags(this.defaultTagNumber);
+    this.showTags(this.DEFAULT_TAG_NUMBER);
   }
 
   showAllTags() {
-    this.showTags(this.defaultMaxTagNumber);
+    this.showTags(this.MAX_TAG_NUMBER);
   }
 
   search(event) {
