@@ -95,7 +95,7 @@
     "karma-phantomjs-launcher": "1.0.4",
     "karma-scss-preprocessor": "3.0.0",
     "lighthouse": "3.1.1",
-    "node-sass": "4.9.3",
+    "node-sass": "4.12.0",
     "pg-promise": "8.4.6",
     "pre-commit": "1.2.2",
     "protractor": "5.4.1",
