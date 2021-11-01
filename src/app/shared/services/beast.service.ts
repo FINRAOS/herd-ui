@@ -124,42 +124,28 @@ export class BeastService {
     }
 
     const event: BeastEvent = <BeastEvent>{};
-    event.sessionId = postParams.sessionId;
-    event.correlationId = postParams.correlationId;
     event.eventId = postParams.eventId;
     event.ags = postParams.ags;
     event.component = postParams.component;
     event.eventTime = (new Date()).toISOString();
     event.userId = postParams.userId;
-    event.serviceAccountId = '';
-    event.orgId = postParams.orgId;
-    event.orgClass = postParams.orgClass;
     event.action = postParams.action;
-    event.resource = postParams.resource;
-    event.detailsFormatVersion = postParams.detailsFormatVersion;
-    event.details = postParams.details;
     event.eventDataVersion = '1.0.0';
-
+    event.details = postParams.details;
 
     return JSON.stringify(event);
   }
 
   public sendEvent() {
     const postParams: BeastEvent = <BeastEvent>{};
-    postParams.sessionId = '691864989818';
-    postParams.correlationId = '92643775';
-    postParams.eventId = '20190716-1741449131466494';
+    postParams.eventId = '20211101-1741449131466494';
     postParams.ags = 'DATAMGT';
-    postParams.component = 'Form211';
-    postParams.userId = 'K30199';
-    postParams.orgId = '70';
-    postParams.orgClass = 'Firm';
-    postParams.action = 'Submit';
-    postParams.resource = 'Form211.save';
-    postParams.detailsFormatVersion = '1';
+    postParams.component = 'Homepage';
+    postParams.userId = 'k30199';
+    postParams.action = 'view';
     postParams.details = {
       'FilingSave': {
-        'filingId': '10749550',
+        'filingId': 'k30199',
         'filingName': 'Form211',
         'filingStatus': 'Saved'
       }

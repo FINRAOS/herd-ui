@@ -121,27 +121,14 @@ fdescribe('Beast Service', () => {
 
     it('tests that makeRequest async / await works',  () => {
       const beastServic: BeastService = new BeastService();
-      // const res2 = beastServic.sendEvent();
+      const res2 = beastServic.sendEvent();
       const url = 'https://beast.dev.finra.org/events';
       const postParams: BeastEvent = <BeastEvent>{};
-      postParams.sessionId = '691864989818';
-      postParams.correlationId = '92643775';
-      postParams.eventId = '20190716-1741449131466494';
+      postParams.eventId = '20211101-1741449131466494';
       postParams.ags = 'DATAMGT';
-      postParams.component = 'Form211';
+      postParams.component = 'Homepage';
       postParams.userId = 'K30199';
-      postParams.orgId = '70';
-      postParams.orgClass = 'Firm';
-      postParams.action = 'Submit';
-      postParams.resource = 'Form211.save';
-      postParams.detailsFormatVersion = '1';
-      postParams.details = {
-        'FilingSave': {
-          'filingId': '10749550',
-          'filingName': 'Form211',
-          'filingStatus': 'Saved'
-        }
-      };
+      postParams.action = 'view';
       const event = JSON.stringify(postParams);
       const res = beastServic.makeRequest('POST', url, event);
       // const res = await beastServic.sendEvent();
@@ -149,8 +136,7 @@ fdescribe('Beast Service', () => {
       console.log('sending event...');
 
       expect(res).toEqual(true);
-
-      // expect(res2).toEqual(true);
+      expect(res2).toEqual(true);
     });
   });
 
