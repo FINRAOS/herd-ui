@@ -14,6 +14,7 @@
 * limitations under the License.
 */
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
+import { BeastService, BeastEvent } from './../../services/beast.service';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { Facet } from '@herd/angular-client';
 import { FacetTriState } from '../../services/facet-tri-state.enum';
@@ -32,7 +33,7 @@ export class FacetComponent implements OnInit, OnChanges {
   @Input() newSearch = false;
   public viewFacets: Facet[];
 
-  constructor(private googleAnalyticsService: GoogleAnalyticsService) {
+  constructor(private googleAnalyticsService: GoogleAnalyticsService, private beastService: BeastService) {
   }
 
   ngOnInit() {
@@ -60,6 +61,8 @@ export class FacetComponent implements OnInit, OnChanges {
         FacetTriState[childFacet.state],
         parentFacet.facetDisplayName + ';' + childFacet.facetDisplayName
       );
+
+      this.beastService.sendEvent();
     }
 
     this.facetChange.emit({facets: this.viewFacets, newSearch: false, state: event.facets});
