@@ -63,11 +63,12 @@ export class BeastService {
         url = 'https://beast.finra.org/events';
       }
 
-      url = 'https://beast.dev.finra.org/events';
+      url = 'https://beast-api-int.dev.finra.org/events';
       if (url) {
         const event = this.createEvent(postParams);
         const xhr = new XMLHttpRequest();
         xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
         xhr.timeout = 2000;
         xhr.onload = function (e) {
           if (xhr.readyState === 4) {
@@ -83,7 +84,7 @@ export class BeastService {
         xhr.ontimeout = function (e) {
           throw new Error('An error occurred during the ontimeout');
         };
-        console.error('send event in postEvent');
+        console.log('send event in postEvent');
         xhr.send(event);
         // const res = await this.makeRequest('POST', url, event);
         // console.log('res sent', res);
@@ -132,6 +133,8 @@ export class BeastService {
     event.action = postParams.action;
     event.eventDataVersion = '1.0.0';
     event.details = postParams.details;
+    event.orgId = postParams.orgId;
+    event.orgClass = postParams.orgClass;
 
     return JSON.stringify(event);
   }
@@ -143,6 +146,8 @@ export class BeastService {
     postParams.component = 'Homepage';
     postParams.userId = 'k30199';
     postParams.action = 'view';
+    postParams.orgId = '1';
+    postParams.orgClass = 'Finra';
     postParams.details = {
       'FilingSave': {
         'filingId': 'k30199',
