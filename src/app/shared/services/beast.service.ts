@@ -52,18 +52,18 @@ export class BeastService {
 
     try {
       if (document.location.host.indexOf('dev.finra.org') !== -1) {
-        url = 'https://beast.dev.finra.org/events';
+        url = 'https://beast-api-int.dev.finra.org/events';
       } else if (document.location.host.indexOf('int.finra.org') !== -1) {
-        url = 'https://beast.dev.finra.org/events';
+        url = 'https://beast-api-int.dev.finra.org/events';
       } else if (document.location.host.indexOf('qa.finra.org') !== -1) {
-        url = 'https://beast.qa.finra.org/events';
+        url = 'https://beast-api.qa.finra.org/events';
       } else if (document.location.host.indexOf('ct.finra.org') !== -1) {
-        url = 'https://beast.qa.finra.org/events';
+        url = 'https://beast-api.qa.finra.org/events';
       } else if (document.location.host.indexOf('finra.org') !== -1) {
-        url = 'https://beast.finra.org/events';
+        url = 'https://beast-api.finra.org/events';
       }
-
-      url = 'https://beast-api-int.dev.finra.org/events';
+      console.log('document.location.host', document.location.host);
+      // url = 'https://beast-api-int.dev.finra.org/events';
       if (url) {
         const event = this.createEvent(postParams);
         const xhr = new XMLHttpRequest();
@@ -86,8 +86,6 @@ export class BeastService {
         };
         console.log('send event in postEvent');
         xhr.send(event);
-        // const res = await this.makeRequest('POST', url, event);
-        // console.log('res sent', res);
       }
     } catch (e) {
       console.error(e);

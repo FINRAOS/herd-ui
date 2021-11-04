@@ -15,7 +15,7 @@
 */
 import { UserService } from 'app/core/services/user.service';
 import { GoogleAnalyticsService } from './shared/services/google-analytics.service';
-import { BeastService, BeastEvent } from './shared/services/beast.service';
+import { BeastService } from './shared/services/beast.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AlertService } from 'app/core/services/alert.service';
 import { debounceTime, filter, tap } from 'rxjs/operators';

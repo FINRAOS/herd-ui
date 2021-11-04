@@ -99,30 +99,10 @@ fdescribe('Beast Service', () => {
 
   fdescribe('with beast service send async request', () => {
 
-
-    it('tests that async / await works', async () => {
-      function resolveAfter2Seconds(x) {
-        return new Promise(resolve => {
-          setTimeout(() => {
-            resolve(x);
-          }, 2000);
-        });
-      }
-
-      async function add1(x) {
-        const a = resolveAfter2Seconds(20);
-        const b = resolveAfter2Seconds(30);
-        return x + await a + await b;
-      }
-
-      const v = await add1(10);
-      expect(v).toBe(60);
-    });
-
     it('tests that makeRequest async / await works',  () => {
       const beastServic: BeastService = new BeastService();
       const res2 = beastServic.sendEvent();
-      const url = 'https://beast.dev.finra.org/events';
+      const url = 'https://beast-api-int.dev.finra.org/events';
       const postParams: BeastEvent = <BeastEvent>{};
       postParams.eventId = '20211101-1741449131466494';
       postParams.ags = 'DATAMGT';
@@ -131,7 +111,6 @@ fdescribe('Beast Service', () => {
       postParams.action = 'view';
       const event = JSON.stringify(postParams);
       const res = beastServic.makeRequest('POST', url, event);
-      // const res = await beastServic.sendEvent();
       console.log('res', res);
       console.log('sending event...');
 
