@@ -15,7 +15,6 @@
 */
 import { UserService } from 'app/core/services/user.service';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
 
 declare let beast: Function;
 
@@ -44,11 +43,15 @@ export class BeastService {
    * This is first initialized in the app shell (app component)
    * therefore it is fine to put the ga('create') in its constructor.
    */
-  constructor() {
+  constructor(private cu: UserService) {
   }
 
   public postEvent(postParams: BeastEvent) {
     let url;
+
+    console.log('getCurrentUser', this.cu.getCurrentUser());
+    console.log('encryptedUserIdentifier', this.cu.encryptedUserIdentifier);
+    console.log('userAuthorizations', this.cu.userAuthorizations.userId);
 
     try {
       if (document.location.host.indexOf('dev.finra.org') !== -1) {
@@ -142,7 +145,7 @@ export class BeastService {
     postParams.eventId = '20211101-1741449131466494';
     postParams.ags = 'DATAMGT';
     postParams.component = 'Homepage';
-    postParams.userId = 'k30199';
+    postParams.userId = this.cu.userAuthorizations.userId;
     postParams.action = 'view';
     postParams.orgId = '1';
     postParams.orgClass = 'Finra';
