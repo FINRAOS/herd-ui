@@ -71,13 +71,6 @@ export class FacetComponent implements OnInit, OnChanges {
       postParams.action = FacetTriState[childFacet.state];
       postParams.orgId = '1';
       postParams.orgClass = 'Finra';
-      // postParams.details = {
-      //   'FilingSave': {
-      //     'filingId': 'k30199',
-      //     'filingName': 'Form211',
-      //     'filingStatus': 'Saved'
-      //   }
-      // };
       this.beastService.postEvent(postParams);
       // this.beastService.sendEvent();
     }

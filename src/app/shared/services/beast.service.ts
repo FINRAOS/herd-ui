@@ -66,7 +66,7 @@ export class BeastService {
         url = 'https://beast-api.finra.org/events';
       }
       console.log('document.location.host', document.location.host);
-      // url = 'https://beast-api-int.dev.finra.org/events';
+      url = 'https://beast-api-int.dev.finra.org/events';
       if (url) {
         const event = this.createEvent(postParams);
         const xhr = new XMLHttpRequest();
@@ -149,14 +149,23 @@ export class BeastService {
     postParams.action = 'view';
     postParams.orgId = '1';
     postParams.orgClass = 'Finra';
-    postParams.details = {
-      'FilingSave': {
-        'filingId': 'k30199',
-        'filingName': 'Form211',
-        'filingStatus': 'Saved'
-      }
-    };
     this.postEvent(postParams);
     return true;
+  }
+
+  public convertUrlToComponent(url: string) {
+    let redirectComponent: string;
+    if (url.indexOf('/tag') !== -1) {
+      redirectComponent = 'Tag';
+    } else if (url.indexOf('/data-entities') !== -1) {
+      redirectComponent = 'Data Entities';
+    } else if (url.indexOf('/data-objects') !== -1) {
+      redirectComponent = 'Data Objects';
+    } else if (url.indexOf('/formats') !== -1) {
+      redirectComponent = 'Formats';
+    } else {
+      redirectComponent = 'Homepage';
+    }
+    return redirectComponent;
   }
 }
