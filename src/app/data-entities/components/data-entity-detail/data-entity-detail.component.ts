@@ -51,6 +51,8 @@ import { AuthMap } from '../../../shared/directive/authorized/authorized.directi
 import { of } from 'rxjs/internal/observable/of';
 import { environment } from '../../../../environments/environment';
 import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
+import { DataTable } from 'primeng/components/datatable/datatable';
+import { BeastService, BeastEvent } from '../../../shared/services/beast.service';
 
 export enum DAGNodeType {
   parent = 'parent',
@@ -195,6 +197,7 @@ export class DataEntityDetailComponent implements OnInit {
     private subjectMatterExpertApi: SubjectMatterExpertService,
     private alertService: AlertService,
     private modalService: NgbModal,
+    private bs: BeastService,
     private businessObjectDefinitionDescriptionSuggestionService: BusinessObjectDefinitionDescriptionSuggestionService
   ) {
   }
@@ -231,6 +234,19 @@ export class DataEntityDetailComponent implements OnInit {
     this.alertService.alert(new SuccessAlert(
       'Success!', '', 'DDL Successfully copied to clipboard'
     ));
+  }
+
+  export(e: DataTable) {
+    const postParams: BeastEvent = <BeastEvent>{};
+    postParams.eventId = 'Download CSV';
+    postParams.ags = 'DATAMGT';
+    postParams.component = 'Data Object';
+    postParams.action = 'Download CSV';
+    postParams.orgId = '1';
+    postParams.orgClass = 'Finra';
+    this.bs.postEvent(postParams);
+    console.log('BEAST Action: Download CSV');
+    e.exportCSV();
   }
 
   saveDataEntityColumnNameChange(event: EditEvent, col: DataEntityWithFormatColumn) {

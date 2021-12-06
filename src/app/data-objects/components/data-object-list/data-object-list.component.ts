@@ -32,6 +32,7 @@ import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { Observable, Subscription } from 'rxjs';
 import { Action } from 'app/shared/components/side-action/side-action.component';
 import { DataTable } from 'primeng/components/datatable/datatable';
+import { BeastEvent, BeastService } from '../../../shared/services/beast.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // tslint:disable-next-line:max-line-length
 import { DataObjectListFiltersChangeEventData } from 'app/data-objects/components/data-object-list-filters/data-object-list-filters.component';
@@ -179,6 +180,7 @@ export class DataObjectListComponent implements OnInit {
               private alerter: AlertService,
               private modalService: NgbModal,
               private formatService: BusinessObjectFormatService,
+              private bs: BeastService,
               private alertService: AlertService) {
   }
 
@@ -272,6 +274,15 @@ export class DataObjectListComponent implements OnInit {
   }
 
   export(e: DataTable) {
+    const postParams: BeastEvent = <BeastEvent>{};
+    postParams.eventId = 'Download CSV';
+    postParams.ags = 'DATAMGT';
+    postParams.component = 'Data Object';
+    postParams.action = 'Download CSV';
+    postParams.orgId = '1';
+    postParams.orgClass = 'Finra';
+    this.bs.postEvent(postParams);
+    console.log('BEAST Action: Download CSV');
     e.exportCSV();
   }
 

@@ -33,6 +33,7 @@ import {
 import { IndexSearchMockData } from 'testing/IndexSearchMockData';
 import { RelatedDataEntities } from 'testing/RelatedDataEntities';
 import { GoogleAnalyticsService } from '../../../shared/services/google-analytics.service';
+import { BeastService } from '../../../shared/services/beast.service';
 import { SearchService } from '../../../shared/services/search.service';
 
 describe('CategoryDetailComponent', () => {

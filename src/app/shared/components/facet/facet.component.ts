@@ -62,7 +62,24 @@ export class FacetComponent implements OnInit, OnChanges {
         parentFacet.facetDisplayName + ';' + childFacet.facetDisplayName
       );
 
-      this.beastService.sendEvent();
+      console.log('event action', FacetTriState[childFacet.state]);
+      console.log('event label', parentFacet.facetDisplayName + ';' + childFacet.facetDisplayName);
+      const postParams: BeastEvent = <BeastEvent>{};
+      postParams.eventId = parentFacet.facetDisplayName + ';' + childFacet.facetDisplayName;
+      postParams.ags = 'DATAMGT';
+      postParams.component = 'Tag';
+      postParams.action = FacetTriState[childFacet.state];
+      postParams.orgId = '1';
+      postParams.orgClass = 'Finra';
+      // postParams.details = {
+      //   'FilingSave': {
+      //     'filingId': 'k30199',
+      //     'filingName': 'Form211',
+      //     'filingStatus': 'Saved'
+      //   }
+      // };
+      this.beastService.postEvent(postParams);
+      // this.beastService.sendEvent();
     }
 
     this.facetChange.emit({facets: this.viewFacets, newSearch: false, state: event.facets});

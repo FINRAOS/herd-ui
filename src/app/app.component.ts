@@ -15,7 +15,7 @@
 */
 import { UserService } from 'app/core/services/user.service';
 import { GoogleAnalyticsService } from './shared/services/google-analytics.service';
-import { BeastService } from './shared/services/beast.service';
+import { BeastEvent, BeastService } from './shared/services/beast.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AlertService } from 'app/core/services/alert.service';
 import { debounceTime, filter, tap } from 'rxjs/operators';
@@ -33,6 +33,7 @@ import {
 import { CustomRouteReuseStrategy } from 'app/core/services/custom-route-reuse-strategy.service';
 import { WINDOW } from 'app/core/core.module';
 import { Utils } from 'app/utils/utils';
+import { FacetTriState } from './shared/services/facet-tri-state.enum';
 
 
 @Component({
@@ -110,7 +111,17 @@ export class AppComponent implements OnInit {
           }
 
           this.ga.sendPageViewData(event.urlAfterRedirects);
-          this.bs.sendEvent();
+
+          const redirectComponent = this.bs.convertUrlToComponent(event.urlAfterRedirects);
+          console.log('redirectComponent', redirectComponent);
+          const postParams: BeastEvent = <BeastEvent>{};
+          postParams.eventId = (event.id).toString();
+          postParams.ags = 'DATAMGT';
+          postParams.component = redirectComponent;
+          postParams.action = 'view';
+          postParams.orgId = '1';
+          postParams.orgClass = 'Finra';
+          this.bs.postEvent(postParams);
         }
 
         if (event instanceof NavigationStart) {
