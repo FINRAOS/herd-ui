@@ -88,7 +88,7 @@ export class BeastService {
 
     const pos = this.cu.userAuthorizations.userId.indexOf('@');
     const userId = this.cu.userAuthorizations.userId.substring(0, pos);
-    console.log('user id: ', userId);
+    console.log('User id: ', userId);
     console.log('environment.bs.beastAgs: ', environment.bs.beastAgs);
 
     const event: BeastEvent = <BeastEvent>{};
