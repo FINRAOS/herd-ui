@@ -112,15 +112,12 @@ export class AppComponent implements OnInit {
 
           this.ga.sendPageViewData(event.urlAfterRedirects);
 
-          const redirectComponent = this.bs.convertUrlToComponent(event.urlAfterRedirects);
+          const redirectComponent = this.bs.mapUrlToComponent(event.urlAfterRedirects);
           console.log('redirectComponent', redirectComponent);
           const postParams: BeastEvent = <BeastEvent>{};
           postParams.eventId = (event.id).toString();
-          postParams.ags = 'DATAMGT';
           postParams.component = redirectComponent;
-          postParams.action = 'view';
-          postParams.orgId = '1';
-          postParams.orgClass = 'Finra';
+          postParams.action = 'View';
           this.bs.postEvent(postParams);
         }
 

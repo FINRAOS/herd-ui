@@ -33,7 +33,7 @@
            namespace, businessObjectDefinitionName, businessObjectFormatUsage,
            businessObjectFormatFileType, businessObjectFormatVersion]">
             <i aria-hidden="true" class="fa fa-list"></i>
-            <span class="inner-title">Data Object List</span>
+            <span class="inner-title" (click)="sendViewDataObjectListActionEvent()">Data Object List</span>
             <i aria-hidden="true" class="fa fa-angle-right"></i>
           </a>
         </div>
@@ -278,11 +278,13 @@
 
       <ngb-tab>
         <ng-template ngbTabTitle>
-          COLUMNS
-          <span
-            *ngIf="businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns">
-            ({{businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns.length}})
-          </span>
+          <div (click)="sendViewColumnsActionEvent()">
+            COLUMNS
+            <span
+              *ngIf="businessObjectFormatDetail && businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns">
+              ({{businessObjectFormatDetail.schema && businessObjectFormatDetail.schema.columns.length}})
+            </span>
+         </div>
         </ng-template>
         <ng-template ngbTabContent>
           <sd-schema-columns [bdef]="businessObjectFormatDetail"
@@ -330,7 +332,7 @@
       <ngb-tab
         *ngIf="businessObjectFormatDetail && (businessObjectFormatDetail.documentSchema ||businessObjectFormatDetail.documentSchemaUrl)">
         <ng-template ngbTabTitle>
-          DOCUMENT SCHEMA
+          <div (click)="sendViewDocumentSchemaActionEvent()">DOCUMENT SCHEMA</div>
         </ng-template>
         <ng-template ngbTabContent>
           <div *ngIf="businessObjectFormatDetail.documentSchemaUrl && businessObjectFormatDetail.documentSchemaUrl.length >0"

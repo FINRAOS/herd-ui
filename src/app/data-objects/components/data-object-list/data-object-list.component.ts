@@ -38,6 +38,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataObjectListFiltersChangeEventData } from 'app/data-objects/components/data-object-list-filters/data-object-list-filters.component';
 import { AlertService, DangerAlert, SuccessAlert } from 'app/core/services/alert.service';
 import { of } from 'rxjs/internal/observable/of';
+import { BeastActions } from '../../../shared/services/beast-actions.enum';
+import { BeastComponents } from '../../../shared/services/beast-components.enum';
 
 class AttributeField implements Attribute {
   constructor(public name: string, public value: string) {
@@ -274,16 +276,14 @@ export class DataObjectListComponent implements OnInit {
   }
 
   export(e: DataTable) {
-    const postParams: BeastEvent = <BeastEvent>{};
-    postParams.eventId = 'Download CSV';
-    postParams.ags = 'DATAMGT';
-    postParams.component = 'Data Object';
-    postParams.action = 'Download CSV';
-    postParams.orgId = '1';
-    postParams.orgClass = 'Finra';
-    this.bs.postEvent(postParams);
-    console.log('BEAST Action: Download CSV');
+    this.bs.sendBeastActionEvent(BeastActions.downloadCsv, BeastComponents.dataObjects);
+    console.log('BEAST Action data object list: Download CSV');
     e.exportCSV();
+  }
+
+  sendViewDataObjectDetailsAction() {
+    console.log('BEAST Action data object list: View Data Object Details');
+    this.bs.sendBeastActionEvent(BeastActions.viewDataObjectDetails, BeastComponents.dataObjects);
   }
 
   loadData(event?: DataObjectListFiltersChangeEventData) {

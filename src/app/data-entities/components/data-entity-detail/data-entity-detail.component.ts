@@ -52,7 +52,9 @@ import { of } from 'rxjs/internal/observable/of';
 import { environment } from '../../../../environments/environment';
 import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 import { DataTable } from 'primeng/components/datatable/datatable';
-import { BeastService, BeastEvent } from '../../../shared/services/beast.service';
+import { BeastService } from '../../../shared/services/beast.service';
+import { BeastComponents } from '../../../shared/services/beast-components.enum';
+import { BeastActions } from '../../../shared/services/beast-actions.enum';
 
 export enum DAGNodeType {
   parent = 'parent',
@@ -237,16 +239,44 @@ export class DataEntityDetailComponent implements OnInit {
   }
 
   export(e: DataTable) {
-    const postParams: BeastEvent = <BeastEvent>{};
-    postParams.eventId = 'Download CSV';
-    postParams.ags = 'DATAMGT';
-    postParams.component = 'Data Object';
-    postParams.action = 'Download CSV';
-    postParams.orgId = '1';
-    postParams.orgClass = 'Finra';
-    this.bs.postEvent(postParams);
-    console.log('BEAST Action: Download CSV');
+    this.bs.sendBeastActionEvent(BeastActions.downloadCsv, BeastComponents.dataObjects);
+    console.log('BEAST Action data object detail: Download CSV');
     e.exportCSV();
+  }
+
+  sendViewDataObjectListActionEvent() {
+    this.bs.sendBeastActionEvent(BeastActions.viewDataObejctList, BeastComponents.dataObjects);
+    console.log('BEAST Action Data Entity Detail page: View Data Object List');
+  }
+
+  sendViewDocumentSchemaActionEvent() {
+    console.log('BEAST Action Data Entity Detail: View Document Schema');
+    this.bs.sendBeastActionEvent(BeastActions.viewDocumentSchema, BeastComponents.dataObjects);
+  }
+
+  sendViewColumnsActionEvent() {
+    console.log('BEAST Action Data Entity Detail: View Columns');
+    this.bs.sendBeastActionEvent(BeastActions.viewColumns, BeastComponents.dataObjects);
+  }
+
+  sendEditDescriptionActionEvent() {
+    console.log('BEAST Action Data Entity Detail: Edit Description');
+    this.bs.sendBeastActionEvent(BeastActions.editDescription, BeastComponents.dataEntities);
+  }
+
+  sendDownloadSampleDataActionEvent() {
+    console.log('BEAST Action Data Entity Detail: Download Sample Data');
+    this.bs.sendBeastActionEvent(BeastActions.downloadSampleData, BeastComponents.dataEntities);
+  }
+
+  sendViewLineageActionEvent() {
+    console.log('BEAST Action Data Entity Detail: View Lineage');
+    this.bs.sendBeastActionEvent(BeastActions.viewLieage, BeastComponents.dataEntities);
+  }
+
+  sendEditNameActionEvent() {
+    console.log('BEAST Action Data Entity Detail: Edit Name');
+    this.bs.sendBeastActionEvent(BeastActions.editName, BeastComponents.dataEntities);
   }
 
   saveDataEntityColumnNameChange(event: EditEvent, col: DataEntityWithFormatColumn) {
@@ -337,6 +367,8 @@ export class DataEntityDetailComponent implements OnInit {
         (error) => {
           this.alertService.alert(new DangerAlert('Failure!', 'Unable to save your edit. Try again or contact support team.', ''));
         });
+
+    this.sendEditNameActionEvent();
   }
 
   saveDataEntityDescription(event: EditEvent) {
@@ -357,6 +389,8 @@ export class DataEntityDetailComponent implements OnInit {
         (error) => {
           this.alertService.alert(new DangerAlert('Failure!', 'Unable to save your edit. Try again or contact support team.', ''));
         });
+
+    this.sendEditDescriptionActionEvent();
   }
 
   suggestionApproved(event) {
@@ -559,6 +593,8 @@ export class DataEntityDetailComponent implements OnInit {
       this.hierarchialGraph.links = [...graphs[0].links, ...graphs[1].links];
       this.hierarchialGraph.loaded = true;
     });
+
+    this.sendViewLineageActionEvent();
   }
 
   processParents(node: DataEntityLineageNode, format: BusinessObjectFormat): Observable<HierarchialGraph> {
@@ -720,6 +756,8 @@ export class DataEntityDetailComponent implements OnInit {
       .subscribe((data) => {
         this.sampleDataFileUrl = data.preSignedUrl;
       });
+
+    this.sendDownloadSampleDataActionEvent();
   }
 
   isRecommendedFormat(format: BusinessObjectFormat) {

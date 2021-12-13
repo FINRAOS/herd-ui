@@ -32,6 +32,9 @@ import { finalize, flatMap, map, startWith } from 'rxjs/operators';
 import { AuthMap } from '../../../shared/directive/authorized/authorized.directive';
 import { environment } from '../../../../environments/environment';
 import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
+import { BeastService } from '../../../shared/services/beast.service';
+import { BeastComponents } from '../../../shared/services/beast-components.enum';
+import { BeastActions } from '../../../shared/services/beast-actions.enum';
 
 function toPaddedHexString(num, len) {
   const str = num.toString(16).toUpperCase();
@@ -93,6 +96,7 @@ export class FormatDetailComponent implements OnInit {
       BusinessObjectFormatExternalInterfaceDescriptiveInformationService,
     private storageApi: StorageService,
     private alerter: AlertService,
+    private bs: BeastService,
     private router: Router
   ) {
   }
@@ -202,6 +206,21 @@ export class FormatDetailComponent implements OnInit {
       this.businessObjectDefinitionName,
       this.businessObjectFormatUsage,
       this.businessObjectFormatFileType, version]);
+  }
+
+  sendViewDataObjectListActionEvent() {
+    this.bs.sendBeastActionEvent(BeastActions.viewDataObejctList, BeastComponents.dataObjects);
+    console.log('BEAST Action Format detail: View Data Object List');
+  }
+
+  sendViewDocumentSchemaActionEvent() {
+    console.log('BEAST Action Format detail: View Document Schema');
+    this.bs.sendBeastActionEvent(BeastActions.viewDocumentSchema, BeastComponents.dataObjects);
+  }
+
+  sendViewColumnsActionEvent() {
+    console.log('BEAST Action Format detail: View Columns');
+    this.bs.sendBeastActionEvent(BeastActions.viewColumns, BeastComponents.dataObjects);
   }
 
   getExternalInterface(externalInterfaceName: string) {
