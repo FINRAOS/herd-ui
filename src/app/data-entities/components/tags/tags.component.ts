@@ -161,7 +161,6 @@ export class TagsComponent implements OnInit {
   }
 
   sendEditTagActionEvent() {
-    console.log('BEAST Action Data Entity Detail page: Edit Tag');
     this.bs.sendBeastActionEvent(BeastActions.editTag, BeastComponents.dataEntities);
   }
 

@@ -84,7 +84,6 @@ export class ContactsComponent implements OnInit, OnChanges {
   }
 
   sendEditSmeActionEvent() {
-    console.log('BEAST Action Data Entity Detail: Edit SME');
     this.bs.sendBeastActionEvent(BeastActions.editSme, BeastComponents.dataEntities);
   }
 

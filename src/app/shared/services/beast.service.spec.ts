@@ -78,7 +78,6 @@ fdescribe('Beast Service', () => {
     beastService: BeastService) => {
     spyOn(XMLHttpRequest.prototype, 'open').and.callThrough();
     spyOn(XMLHttpRequest.prototype, 'send');
-    // const bsSpy = spyOn(beastService, 'postEvent');
     beastService.postEvent(postParams);
     expect(XMLHttpRequest.prototype.open).toHaveBeenCalled();
   }));

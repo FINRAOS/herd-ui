@@ -240,42 +240,34 @@ export class DataEntityDetailComponent implements OnInit {
 
   export(e: DataTable) {
     this.bs.sendBeastActionEvent(BeastActions.downloadCsv, BeastComponents.dataObjects);
-    console.log('BEAST Action data object detail: Download CSV');
     e.exportCSV();
   }
 
   sendViewDataObjectListActionEvent() {
     this.bs.sendBeastActionEvent(BeastActions.viewDataObejctList, BeastComponents.dataObjects);
-    console.log('BEAST Action Data Entity Detail page: View Data Object List');
   }
 
   sendViewDocumentSchemaActionEvent() {
-    console.log('BEAST Action Data Entity Detail: View Document Schema');
     this.bs.sendBeastActionEvent(BeastActions.viewDocumentSchema, BeastComponents.dataObjects);
   }
 
   sendViewColumnsActionEvent() {
-    console.log('BEAST Action Data Entity Detail: View Columns');
     this.bs.sendBeastActionEvent(BeastActions.viewColumns, BeastComponents.dataObjects);
   }
 
   sendEditDescriptionActionEvent() {
-    console.log('BEAST Action Data Entity Detail: Edit Description');
     this.bs.sendBeastActionEvent(BeastActions.editDescription, BeastComponents.dataEntities);
   }
 
   sendDownloadSampleDataActionEvent() {
-    console.log('BEAST Action Data Entity Detail: Download Sample Data');
     this.bs.sendBeastActionEvent(BeastActions.downloadSampleData, BeastComponents.dataEntities);
   }
 
   sendViewLineageActionEvent() {
-    console.log('BEAST Action Data Entity Detail: View Lineage');
     this.bs.sendBeastActionEvent(BeastActions.viewLieage, BeastComponents.dataEntities);
   }
 
   sendEditNameActionEvent() {
-    console.log('BEAST Action Data Entity Detail: Edit Name');
     this.bs.sendBeastActionEvent(BeastActions.editName, BeastComponents.dataEntities);
   }
 

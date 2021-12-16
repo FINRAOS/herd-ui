@@ -277,12 +277,10 @@ export class DataObjectListComponent implements OnInit {
 
   export(e: DataTable) {
     this.bs.sendBeastActionEvent(BeastActions.downloadCsv, BeastComponents.dataObjects);
-    console.log('BEAST Action data object list: Download CSV');
     e.exportCSV();
   }
 
   sendViewDataObjectDetailsAction() {
-    console.log('BEAST Action data object list: View Data Object Details');
     this.bs.sendBeastActionEvent(BeastActions.viewDataObjectDetails, BeastComponents.dataObjects);
   }
 

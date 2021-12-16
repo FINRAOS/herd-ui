@@ -126,6 +126,7 @@ export class BeastService {
   }
 
   public sendBeastActionEvent(action: string, component: string) {
+    console.log('BEAST Action event in component: ' + component + ', and action: ' + action);
     const postParams: BeastEvent = <BeastEvent>{};
     postParams.component = component;
     postParams.action = action;

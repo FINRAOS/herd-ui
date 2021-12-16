@@ -210,16 +210,13 @@ export class FormatDetailComponent implements OnInit {
 
   sendViewDataObjectListActionEvent() {
     this.bs.sendBeastActionEvent(BeastActions.viewDataObejctList, BeastComponents.dataObjects);
-    console.log('BEAST Action Format detail: View Data Object List');
   }
 
   sendViewDocumentSchemaActionEvent() {
-    console.log('BEAST Action Format detail: View Document Schema');
     this.bs.sendBeastActionEvent(BeastActions.viewDocumentSchema, BeastComponents.dataObjects);
   }
 
   sendViewColumnsActionEvent() {
-    console.log('BEAST Action Format detail: View Columns');
     this.bs.sendBeastActionEvent(BeastActions.viewColumns, BeastComponents.dataObjects);
   }
 
