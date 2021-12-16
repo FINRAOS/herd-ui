@@ -48,7 +48,7 @@ export class BeastService {
 
     try {
       console.log('document.location.host', document.location.host);
-      url = document.location.host.indexOf('finra') !== -1 ? environment.bs.beastEndpointUrl : 'https://beast-api-int.dev.finra.org/events';
+      url = environment.bs.beastEndpointUrl;
       console.log('BEAST URL: ', url);
       console.log('environment.bs.beastEndpointUrl: ', environment.bs.beastEndpointUrl);
 
