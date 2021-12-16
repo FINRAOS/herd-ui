@@ -36,8 +36,9 @@ import { MockFormat } from 'testing/mockFormat';
 import { UserService } from '../../../core/services/user.service';
 import { By } from '@angular/platform-browser';
 import { JsonEditorOptions } from 'ang-jsoneditor';
+import { BeastService } from '../../../shared/services/beast.service';
 
-describe('FormatDetailComponent', () => {
+fdescribe('FormatDetailComponent', () => {
   const mockData: MockFormat = new MockFormat();
   let component: FormatDetailComponent;
   let fixture: ComponentFixture<FormatDetailComponent>;
@@ -78,6 +79,12 @@ describe('FormatDetailComponent', () => {
       ],
       providers: [
         AlertService,
+        {
+          provide: BeastService,
+          useValue: {
+            sendBeastActionEvent: jasmine.createSpy('sendBeastActionEvent')
+          }
+        },
         {
           provide: StorageService,
           useValue: {
@@ -379,7 +386,7 @@ describe('FormatDetailComponent', () => {
     expect(modal.close).toHaveBeenCalled();
   });
 
-  it('should hide or show data objects link based on access level',
+  fit('should hide or show data objects link based on access level and send view data object list action event when button is clicked',
     inject([UserService],
       (us: UserService) => {
 
@@ -431,6 +438,13 @@ describe('FormatDetailComponent', () => {
         fixture.detectChanges();
         validateElementVisibility('.data-object-link-authorized', true);
         validateElementVisibility('.data-object-link-unauthorized', false);
+
+        spyOn(component, 'sendViewDataObjectListActionEvent');
+        const button = fixture.debugElement.nativeElement.querySelector('#viewDataObjectList');
+        console.log('sendViewDataObjectListActionEvent Button: ', button);
+        button.click();
+        fixture.detectChanges();
+        expect(component.sendViewDataObjectListActionEvent).toHaveBeenCalled();
       })
   );
 
@@ -446,4 +460,23 @@ describe('FormatDetailComponent', () => {
     }
   }
 
+  fit('should send view document schema action event',
+    inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService, StorageService],
+      (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService, storageApi: StorageService) => {
+        (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumn as jasmine.Spy)
+          .and.returnValue(of(mockData.formatDetail.schema.columns[2]));
+        (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumns as jasmine.Spy)
+          .and.returnValue(of({businessObjectDefinitionColumnKeys: mockData.businessObjectDefinitionColumnKeys}));
+        (storageApi.storageGetStorages as jasmine.Spy).and.returnValue(of({storageKeys: [{storageName: 'S3'}]}));
+        (businessObjectDataApi.businessObjectDataCheckBusinessObjectDataAvailability as jasmine.Spy)
+          .and.returnValue(of({availableStatuses: [{partitionValue: '3'}, {partitionValue: '4'}]}));
+        fixture.detectChanges();
+
+        spyOn(component, 'sendViewDocumentSchemaActionEvent');
+        const button = fixture.debugElement.nativeElement.querySelector('#viewDocumentSchema');
+        // console.log('sendViewDocumentSchemaActionEvent Button: ', button);
+        button.click();
+        fixture.detectChanges();
+        expect(component.sendViewDocumentSchemaActionEvent).toHaveBeenCalled();
+      }));
 });

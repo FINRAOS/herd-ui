@@ -61,4 +61,7 @@ export class UserService {
       }));
   }
 
+  getUserAuthorizationsUserId() {
+    return this.userAuthorizations.userId;
+  }
 }

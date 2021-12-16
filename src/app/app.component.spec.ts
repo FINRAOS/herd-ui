@@ -34,6 +34,7 @@ import { Utils } from 'app/utils/utils';
 import { Component } from '@angular/core';
 import { UserService } from 'app/core/services/user.service';
 import { SpinnerComponent } from 'app/shared/components/spinner/spinner.component';
+import { BeastService } from './shared/services/beast.service';
 
 let ui: any = null;
 // support needed here for phantomJS until we switdch to headless chrome
@@ -53,7 +54,7 @@ class MockBackTrackComponent {
 
 }
 
-describe('AppComponent', () => {
+fdescribe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
 
   beforeEach(async(() => {
@@ -74,7 +75,10 @@ describe('AppComponent', () => {
       ],
       providers: [
         {
-          provide: UserService, useValue: {}
+          provide: UserService,
+          useValue: {
+            userAuthorizations: {userId: 'K30199@gmail.com'}
+          }
         },
         /*{
         provide: HttpInterceptorService, useFactory: () => {
@@ -110,7 +114,9 @@ describe('AppComponent', () => {
           provide: GoogleAnalyticsService, useValue: {
             sendPageViewData: jasmine.createSpy('sendPageViewData')
           }
-        }, {
+        },
+        BeastService,
+        {
           provide: WINDOW,
           useValue: {
             history: {
@@ -147,6 +153,17 @@ describe('AppComponent', () => {
       router.emitEnd(1, 'awesomeUrlEnd.com');
       fixture.detectChanges();
       expect(ga.sendPageViewData).toHaveBeenCalledWith('awesomeUrlEnd.com');
+    }
+  ));
+
+  fit('should send data to Beast Service on navigation end', inject([BeastService, Router],
+    (bs: BeastService, router: RouterStub) => {
+      const bsSpy = spyOn(bs, 'postEvent');
+      const app = fixture.componentInstance;
+      // will send on every navigation end
+      router.emitEnd(1, 'awesomeUrlEnd.com');
+      fixture.detectChanges();
+      expect(bsSpy).toHaveBeenCalled();
     }
   ));
 

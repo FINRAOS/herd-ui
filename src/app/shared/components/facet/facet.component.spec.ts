@@ -22,8 +22,9 @@ import { EventEmitter, NO_ERRORS_SCHEMA, SimpleChange, SimpleChanges } from '@an
 import { Facet } from '@herd/angular-client';
 import { TriStateEnum } from 'app/shared/components/tri-state/tri-state.component';
 import { FacetTriState } from 'app/shared/services/facet-tri-state.enum';
+import { BeastService } from '../../services/beast.service';
 
-describe('FacetComponent', () => {
+fdescribe('FacetComponent', () => {
   const mockData: IndexSearchMockData = new IndexSearchMockData();
   let component: FacetComponent;
   let fixture: ComponentFixture<FacetComponent>;
@@ -41,6 +42,12 @@ describe('FacetComponent', () => {
           provide: GoogleAnalyticsService,
           useValue: {
             sendEventData: jasmine.createSpy('sendEventData')
+          }
+        },
+        {
+          provide: BeastService,
+          useValue: {
+            postEvent: jasmine.createSpy('postEvent')
           }
         }
       ],
@@ -76,7 +83,21 @@ describe('FacetComponent', () => {
       const spyGA = (<jasmine.Spy>ga.sendEventData).and.callThrough();
       component.propagateSelection(event, childFacets, mockData.indexSearchResponse['facets'][0]);
       expect(spyGA.calls.count()).toEqual(0);
+    })));
 
+  fit('PropageSelection method is propagating facet changes from the service in default state', async(
+    inject([BeastService], (bs: BeastService) => {
+
+      const childFacets = {fieldName: 'description', fragments: ['kamal', 'managets']};
+      const event = {
+        fieldName: 'description', fragments: ['kamal', 'managets'],
+        facetState: FacetTriState.default
+      };
+
+      component.facetChange = new EventEmitter<Object>();
+      const spyBs = (<jasmine.Spy>bs.postEvent).and.callThrough();
+      component.propagateSelection(event, childFacets, mockData.indexSearchResponse['facets'][0]);
+      expect(spyBs.calls.count()).toEqual(0);
     })));
 
   it('clear facet is clearing selected facets and refreshing search', async(() => {
@@ -136,5 +157,18 @@ describe('FacetComponent', () => {
       const spyGA = (<jasmine.Spy>ga.sendEventData).and.callThrough();
       component.propagateSelection(event, childFacets, mockData.indexSearchResponse['facets'][0]);
       expect(spyGA.calls.count()).toEqual(1);
+    })));
+
+  fit('send data to beast service on facet event change', async(
+    inject([BeastService], (bs: BeastService) => {
+      const childFacets = {fieldName: 'description', fragments: ['kamal', 'managets']};
+      const event = {
+        fieldName: 'description', fragments: ['kamal', 'managets'],
+        facetState: TriStateEnum.State2
+      };
+      component.facetChange = new EventEmitter<Object>();
+      const spyBs = (<jasmine.Spy>bs.postEvent).and.callThrough();
+      component.propagateSelection(event, childFacets, mockData.indexSearchResponse['facets'][0]);
+      expect(spyBs.calls.count()).toEqual(1);
     })));
 });

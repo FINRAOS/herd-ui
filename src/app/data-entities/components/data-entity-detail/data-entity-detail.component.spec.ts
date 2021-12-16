@@ -83,8 +83,9 @@ import { SuggestionsComponent } from '../suggestions/suggestions.component';
 import { DiffMatchPatchModule } from 'ng-diff-match-patch/dist';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { JsonEditorOptions } from 'ang-jsoneditor';
+import { BeastService } from '../../../shared/services/beast.service';
 
-describe('DataEntityDetailComponent', () => {
+fdescribe('DataEntityDetailComponent', () => {
   let component: DataEntityDetailComponent;
   let fixture: ComponentFixture<DataEntityDetailComponent>;
   let spyBdefSmeApi, spySmeApi;
@@ -360,6 +361,12 @@ describe('DataEntityDetailComponent', () => {
       ],
       providers: [
         {
+          provide: BeastService,
+          useValue: {
+            sendBeastActionEvent: jasmine.createSpy('sendBeastActionEvent')
+          }
+        },
+        {
           provide: Configuration,
           useValue: {} as Configuration,
           multi: false
@@ -557,7 +564,7 @@ describe('DataEntityDetailComponent', () => {
     TestBed.resetTestingModule();
   });
 
-  it('should set all data onInit', async(inject([ActivatedRoute], (activeRoute: ActivatedRouteStub) => {
+  fit('should set all data onInit', async(inject([ActivatedRoute], (activeRoute: ActivatedRouteStub) => {
 
     activeRoute.testData = {
       resolvedData: {
@@ -565,6 +572,8 @@ describe('DataEntityDetailComponent', () => {
       }
     };
 
+    spyOn(component, 'sendDownloadSampleDataActionEvent');
+    spyOn(component, 'sendViewColumnsActionEvent');
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(component.bdef).toEqual(activeRoute.testData.resolvedData.bdef);
@@ -596,6 +605,11 @@ describe('DataEntityDetailComponent', () => {
       expect(spyTagApi.calls.count()).toEqual(2);
       expect(spyTagTypeApi.calls.count()).toEqual(2);
       expect(spyBdefTagApi.calls.count()).toEqual(1);
+      expect(component.sendDownloadSampleDataActionEvent).toHaveBeenCalled();
+      const button = fixture.debugElement.nativeElement.querySelector('#viewColumns');
+      button.click();
+      fixture.detectChanges();
+      expect(component.sendViewColumnsActionEvent).toHaveBeenCalled();
 
       component.sideActions[3].onAction();
     });
@@ -826,9 +840,10 @@ describe('DataEntityDetailComponent', () => {
 
       }))));
 
-  it('Should save edited display name on click of save button and alert success',
+  fit('Should save edited display name on click of save button, alert success and send edit name action event',
     inject([BusinessObjectDefinitionService, AlertService, ActivatedRoute],
       (defApi: BusinessObjectDefinitionService, alerter: AlertService, activeRoute: ActivatedRouteStub) => {
+        spyOn(component, 'sendEditNameActionEvent');
         const alertSpy = alerter.alert as jasmine.Spy;
         const updateSpy = defApi.businessObjectDefinitionUpdateBusinessObjectDefinitionDescriptiveInformation as jasmine.Spy;
         const expectedDisplayName = expectedBdef.displayName;
@@ -847,6 +862,7 @@ describe('DataEntityDetailComponent', () => {
         } as BusinessObjectDefinitionDescriptiveInformationUpdateRequest);
         expect(alertSpy).toHaveBeenCalledWith(new SuccessAlert('Success!', 'Your edit saved successfully.', ''));
         expect(component.bdef.displayName).toEqual('new save text');
+        expect(component.sendEditNameActionEvent).toHaveBeenCalled();
       }));
 
   it('Should not save edited display name and alert failure on error',
@@ -878,12 +894,13 @@ describe('DataEntityDetailComponent', () => {
         expect(component.bdef.displayName).toEqual(expectedDisplayName);
       }));
 
-  it('Should save edited description on click of save button and alert success',
+  fit('Should save edited description on click of save button and alert success',
     inject([BusinessObjectDefinitionService, AlertService, ActivatedRoute],
       (defApi: BusinessObjectDefinitionService, alerter: AlertService, activeRoute: ActivatedRouteStub) => {
         const alertSpy = alerter.alert as jasmine.Spy;
         const updateSpy = defApi.businessObjectDefinitionUpdateBusinessObjectDefinitionDescriptiveInformation as jasmine.Spy;
         const expectedDescription = expectedBdef.description;
+        spyOn(component, 'sendEditDescriptionActionEvent');
         activeRoute.testData = {
           resolvedData: {
             bdef: expectedBdef
@@ -899,6 +916,7 @@ describe('DataEntityDetailComponent', () => {
         } as BusinessObjectDefinitionDescriptiveInformationUpdateRequest);
         expect(alertSpy).toHaveBeenCalledWith(new SuccessAlert('Success!', 'Your edit saved successfully.', ''));
         expect(component.bdef.description).toEqual('new save text');
+        expect(component.sendEditDescriptionActionEvent).toHaveBeenCalled();
       }));
 
   it('Should not save edited description and alert failure on error',
@@ -1399,7 +1417,7 @@ describe('DataEntityDetailComponent', () => {
     expect(component.hierarchialGraph.loaded).toBe(true);
   });
 
-  it('should create new lineage data on getLineage', () => {
+  fit('should create new lineage data on getLineage and send view lineage action event', () => {
 
     const center: DataEntityLineageNode = {
       id: ['testNS', 'testBdefName', 'testUsage', 'testFTp'].join(component.idDelimiter),
@@ -1440,6 +1458,7 @@ describe('DataEntityDetailComponent', () => {
     spyOn(component, 'processChildren').and.returnValue(of(childrenGraph));
     spyOn(component, 'createNode').and.returnValue(center);
     spyOn(component, 'open');
+    spyOn(component, 'sendViewLineageActionEvent');
 
     component.getLineage();
 
@@ -1448,6 +1467,7 @@ describe('DataEntityDetailComponent', () => {
     expect(component.hierarchialGraph.nodes).toEqual(parentsGraph.nodes.concat(center).concat(childrenGraph.nodes));
     expect(component.hierarchialGraph.links).toEqual(parentsGraph.links.concat(childrenGraph.links));
     expect(component.hierarchialGraph.loaded).toBe(true);
+    expect(component.sendViewLineageActionEvent).toHaveBeenCalled();
   });
 
   it('should create a node that fits the schema for the graph data', () => {
@@ -2206,7 +2226,7 @@ describe('DataEntityDetailComponent', () => {
       })
   );
 
-  it('should hide or show data objects link based on access level',
+  fit('should hide or show data objects link based on access level, and send view data object list action event',
     inject([UserService, ActivatedRoute],
       (us: UserService, activeRoute: ActivatedRouteStub) => {
 
@@ -2276,6 +2296,12 @@ describe('DataEntityDetailComponent', () => {
         fixture.detectChanges();
         validateElementVisibility('.data-object-link-authorized', true);
         validateElementVisibility('.data-object-link-unauthorized', false);
+
+        spyOn(component, 'sendViewDataObjectListActionEvent');
+        const button = fixture.debugElement.nativeElement.querySelector('#viewDataObjectList');
+        button.click();
+        fixture.detectChanges();
+        expect(component.sendViewDataObjectListActionEvent).toHaveBeenCalled();
       })
   );
 

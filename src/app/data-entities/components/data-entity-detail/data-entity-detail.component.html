@@ -41,7 +41,7 @@
              class="col-2 data-object-link data-object-link-authorized" sdAuthorized>
           <a [routerLink]="['/data-objects', bdef.namespace, bdef.businessObjectDefinitionName]">
             <i aria-hidden="true" class="fa fa-list"></i>
-            <span class="inner-title" (click)="sendViewDataObjectListActionEvent()">Data Object List</span>
+            <span class="inner-title" id="viewDataObjectList" (click)="sendViewDataObjectListActionEvent()">Data Object List</span>
             <i aria-hidden="true" class="fa fa-angle-right"></i>
           </a>
         </div>
@@ -213,7 +213,7 @@
       </ngb-tab>
       <ngb-tab id="columns">
         <ng-template ngbTabTitle>
-          <div (click)="sendViewColumnsActionEvent()">
+          <div id="viewColumns" (click)="sendViewColumnsActionEvent()">
             COLUMNS
             <span
               *ngIf="bdefColumns && bdefColumns.length">

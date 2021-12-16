@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { BusinessObjectDefinitionSubjectMatterExpertService, SubjectMatterExpertService } from '@herd/angular-client';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { BusinessObjectDefinitionSubjectMatterExpertService, SubjectMatterExpertService, TagService } from '@herd/angular-client';
 import { ContactsComponent } from './contacts.component';
 import { AuthorizedDirective } from '../../../shared/directive/authorized/authorized.directive';
 import { SharedModule } from '../../../shared/shared.module';
@@ -24,9 +24,10 @@ import { EncryptionService } from '../../../shared/services/encryption.service';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SimpleChange } from '@angular/core';
+import { Inject, SimpleChange } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClientModule } from '@angular/common/http';
+import { BeastService } from '../../../shared/services/beast.service';
 
 const userRoles = {
   'authorizedUserRoles': {
@@ -74,7 +75,7 @@ export class MockUser {
 }
 
 
-describe('ContactsComponent', () => {
+fdescribe('ContactsComponent', () => {
   let component: ContactsComponent;
   let fixture: ComponentFixture<ContactsComponent>;
   let businessObjectDefinitionSubjectMatterExpertApi, subjectMatterExpertApi;
@@ -92,6 +93,12 @@ describe('ContactsComponent', () => {
       ],
       providers: [
         AlertService,
+        {
+          provide: BeastService,
+          useValue: {
+            sendBeastActionEvent: jasmine.createSpy('sendBeastActionEvent')
+          }
+        },
         AuthorizedDirective,
         EncryptionService,
         BusinessObjectDefinitionSubjectMatterExpertService,
@@ -180,7 +187,8 @@ describe('ContactsComponent', () => {
     expect(fixture.nativeElement.querySelector('.card').style.display).toBe('none');
   });
 
-  it('should save the new user to database on click of save', () => {
+  fit('should save the new user to database on click of save and send edit sme action event', () => {
+    spyOn(component, 'sendEditSmeActionEvent');
 
     const content = fixture.nativeElement.querySelector('.contacts-content');
     const userInput = fixture.debugElement.query(By.css('input')).nativeElement;
@@ -218,6 +226,7 @@ describe('ContactsComponent', () => {
     editDoneButton.dispatchEvent(click);
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.card').style.display).toBe('none');
+    expect(component.sendEditSmeActionEvent).toHaveBeenCalled();
   });
 
   it('should show error when unable to show new user', () => {

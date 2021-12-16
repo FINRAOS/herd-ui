@@ -80,7 +80,7 @@ export class BeastService {
     }
   }
 
-  public createEvent(postParams: BeastEvent) {
+   createEvent(postParams: BeastEvent) {
 
     if (!postParams.details) {
       postParams.details = {};
@@ -88,7 +88,7 @@ export class BeastService {
 
     const pos = this.cu.userAuthorizations.userId.indexOf('@');
     const userId = this.cu.userAuthorizations.userId.substring(0, pos);
-    console.log('User id: ', userId);
+    console.log('getUserAuthorizationsUserId(): ', userId);
     console.log('environment.bs.beastAgs: ', environment.bs.beastAgs);
 
     const event: BeastEvent = <BeastEvent>{};
@@ -131,4 +131,5 @@ export class BeastService {
     postParams.action = action;
     this.postEvent(postParams);
   }
+
 }

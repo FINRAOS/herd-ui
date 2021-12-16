@@ -17,30 +17,19 @@ import { UserService } from 'app/core/services/user.service';
 import { BeastService, BeastEvent } from './beast.service';
 import { inject, TestBed } from '@angular/core/testing';
 
-declare var window: any;
-let beast: jasmine.Spy;
-let warn: jasmine.Spy | Function;
-const originalWarn = window.console.warn;
-
 fdescribe('Beast Service', () => {
 
   const beastEvent: BeastEvent = <BeastEvent>{};
-  beastEvent.sessionId = 'postParams.sessionId';
-  beastEvent.correlationId = 'postParams.correlationId';
-  beastEvent.eventId = 'postParams.eventId';
+  beastEvent.eventId = 'K30199';
   beastEvent.ags = 'DATAMGT';
-  beastEvent.component = 'postParams.component';
+  beastEvent.component = 'Homepage';
   beastEvent.eventTime = '(new Date()).toISOString()';
-  beastEvent.userId = 'postParams.userId';
-  beastEvent.serviceAccountId = '';
-  beastEvent.orgId = 'postParams.orgId';
-  beastEvent.orgClass = 'postParams.orgClass';
-  beastEvent.action = 'postParams.action';
-  beastEvent.resource = 'postParams.resource';
-  beastEvent.detailsFormatVersion = 'postParams.detailsFormatVersion';
-  beastEvent.details = 'postParams.details';
+  beastEvent.userId = 'k30199';
+  beastEvent.orgId = '1';
+  beastEvent.orgClass = 'FINRA';
+  beastEvent.action = 'View';
   beastEvent.eventDataVersion = '1.0.0';
-  // const beastServic: BeastService = new BeastService();
+  beastEvent.details = {};
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,74 +38,68 @@ fdescribe('Beast Service', () => {
         {
           provide: UserService,
           useValue: {
-            encryptedUserIdentifier: 'encryptedUserIdentifier'
+            userAuthorizations: {userId: 'K30199@gmail.com'}
           }
         }
       ]
     });
-
-    window.beast = beast = jasmine.createSpy('beast');
-    // for the test take out the warnings to clear logs a bit
-    window.console.warn = warn = jasmine.createSpy('warn');
   });
 
-  afterAll(() => {
-    // set the warn back
-    window.console.warn = originalWarn;
-  });
+  it('should be defined', inject([BeastService, UserService], (beastService: BeastService, cu: UserService) => {
+    expect(beastService).toBeTruthy();
+  }));
 
-  describe('with beast service turned on', () => {
+  it('should return mapped components', inject([BeastService], (
+    beastService: BeastService) => {
+    const url1 = 'test.com';
+    const res1 = beastService.mapUrlToComponent(url1);
+    expect(res1).toEqual('Homepage');
 
+    const url2 = 'test.com/tag';
+    const res2 = beastService.mapUrlToComponent(url2);
+    expect(res2).toEqual('Tag');
 
-    it('should initialize beast service',
-      inject([BeastService], (beastService: BeastService) => {
-        expect(beast).toHaveBeenCalled();
-      }));
+    const url3 = 'test.com/formats';
+    const res3 = beastService.mapUrlToComponent(url3);
+    expect(res3).toEqual('Formats');
 
-    it('should send data to beast service', inject([BeastService, UserService], (
-      service: BeastService, cu: UserService) => {
-      service.postEvent(beastEvent);
-      expect(beastEvent).toHaveBeenCalled();
-    }));
+    const url4 = 'test.com/data-entities';
+    const res4 = beastService.mapUrlToComponent(url4);
+    expect(res4).toEqual('Data Entities');
 
-  });
+    const url5 = 'test.com/data-objects';
+    const res5 = beastService.mapUrlToComponent(url5);
+    expect(res5).toEqual('Data Objects');
 
-  describe('with beast service send event', () => {
+    const url6 = 'test.com/search';
+    const res6 = beastService.mapUrlToComponent(url6);
+    expect(res6).toEqual('Global Search');
+  }));
 
+  it('should return correct BeastEvent Data', inject([BeastService, UserService], (
+    beastService: BeastService, cu: UserService) => {
+    const postParams: BeastEvent = <BeastEvent>{};
+    postParams.component = 'Homepage';
+    postParams.action = 'View';
+    const res = beastService.createEvent(postParams);
+    expect(JSON.parse(res).eventId).toEqual('K30199');
+  }));
 
-    it('should send event',
-      inject([BeastService], (beastService: BeastService) => {
-        expect(beast).toHaveBeenCalled();
-      }));
+  it('should send data to beast service', inject([BeastService, UserService], (
+    beastService: BeastService) => {
+    const bsSpy = spyOn(beastService, 'postEvent');
+    const postParams: BeastEvent = <BeastEvent>{};
+    postParams.component = 'Homepage';
+    postParams.action = 'View';
+    beastService.postEvent(postParams);
+    expect(bsSpy).toHaveBeenCalledWith(postParams);
+  }));
 
-    // fit('should send data to beast service', inject([BeastService, UserService], (
-    //   service: BeastService, cu: UserService) => {
-    //   const res = service.sendEvent();
-    //   expect(res).toEqual(true);
-    // }));
-
-  });
-
-  fdescribe('with beast service send async request', () => {
-
-    it('tests that makeRequest async / await works',  () => {
-      const beastServic: BeastService = new BeastService();
-      const res2 = beastServic.sendEvent();
-      const url = 'https://beast-api-int.dev.finra.org/events';
-      const postParams: BeastEvent = <BeastEvent>{};
-      postParams.eventId = '20211101-1741449131466494';
-      postParams.ags = 'DATAMGT';
-      postParams.component = 'Homepage';
-      postParams.userId = 'K30199';
-      postParams.action = 'view';
-      const event = JSON.stringify(postParams);
-      const res = beastServic.makeRequest('POST', url, event);
-      console.log('res', res);
-      console.log('sending event...');
-
-      expect(res).toEqual(true);
-      expect(res2).toEqual(true);
-    });
-  });
+  it('should send action event to beast service', inject([BeastService, UserService], (
+    beastService: BeastService) => {
+    const bsSpy = spyOn(beastService, 'sendBeastActionEvent');
+    beastService.sendBeastActionEvent('View', 'Homepage');
+    expect(bsSpy).toHaveBeenCalledWith('View', 'Homepage');
+  }));
 
 });
