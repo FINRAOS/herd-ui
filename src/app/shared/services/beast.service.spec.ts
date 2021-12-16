@@ -19,17 +19,9 @@ import { inject, TestBed } from '@angular/core/testing';
 
 fdescribe('Beast Service', () => {
 
-  const beastEvent: BeastEvent = <BeastEvent>{};
-  beastEvent.eventId = 'K30199';
-  beastEvent.ags = 'DATAMGT';
-  beastEvent.component = 'Homepage';
-  beastEvent.eventTime = '(new Date()).toISOString()';
-  beastEvent.userId = 'k30199';
-  beastEvent.orgId = '1';
-  beastEvent.orgClass = 'FINRA';
-  beastEvent.action = 'View';
-  beastEvent.eventDataVersion = '1.0.0';
-  beastEvent.details = {};
+  const postParams: BeastEvent = <BeastEvent>{};
+  postParams.component = 'Homepage';
+  postParams.action = 'View';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -78,28 +70,24 @@ fdescribe('Beast Service', () => {
 
   it('should return correct BeastEvent Data', inject([BeastService, UserService], (
     beastService: BeastService, cu: UserService) => {
-    const postParams: BeastEvent = <BeastEvent>{};
-    postParams.component = 'Homepage';
-    postParams.action = 'View';
     const res = beastService.createEvent(postParams);
     expect(JSON.parse(res).eventId).toEqual('K30199');
   }));
 
   it('should send data to beast service', inject([BeastService, UserService], (
     beastService: BeastService) => {
-    const bsSpy = spyOn(beastService, 'postEvent');
-    const postParams: BeastEvent = <BeastEvent>{};
-    postParams.component = 'Homepage';
-    postParams.action = 'View';
+    spyOn(XMLHttpRequest.prototype, 'open').and.callThrough();
+    spyOn(XMLHttpRequest.prototype, 'send');
+    // const bsSpy = spyOn(beastService, 'postEvent');
     beastService.postEvent(postParams);
-    expect(bsSpy).toHaveBeenCalledWith(postParams);
+    expect(XMLHttpRequest.prototype.open).toHaveBeenCalled();
   }));
 
   it('should send action event to beast service', inject([BeastService, UserService], (
     beastService: BeastService) => {
-    const bsSpy = spyOn(beastService, 'sendBeastActionEvent');
+    const bsSpy = spyOn(beastService, 'postEvent');
     beastService.sendBeastActionEvent('View', 'Homepage');
-    expect(bsSpy).toHaveBeenCalledWith('View', 'Homepage');
+    expect(bsSpy).toHaveBeenCalled();
   }));
 
 });

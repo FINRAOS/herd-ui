@@ -49,8 +49,8 @@ export class BeastService {
     try {
       console.log('document.location.host', document.location.host);
       url = environment.bs.beastEndpointUrl;
-      console.log('BEAST URL: ', url);
       console.log('environment.bs.beastEndpointUrl: ', environment.bs.beastEndpointUrl);
+      console.log('environment.ga.trackingId: ', environment.ga.trackingId);
 
       if (url) {
         const event = this.createEvent(postParams);
