@@ -16,7 +16,7 @@
 import { UserService } from 'app/core/services/user.service';
 import { Injectable } from '@angular/core';
 import { BeastComponents } from './beast-components.enum';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.prod';
 
 declare let beast: Function;
 
