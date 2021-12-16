@@ -60,8 +60,4 @@ export class UserService {
         return res;
       }));
   }
-
-  getUserAuthorizationsUserId() {
-    return this.userAuthorizations.userId;
-  }
 }
