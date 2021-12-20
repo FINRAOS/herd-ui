@@ -27,11 +27,6 @@ export const environment = {
   fipAuthEndpoint: '{{FIP_AUTH_ENDPOINT}}',
   alertDelayInSeconds: 10,
   trackAnalytics: true,
-  ga: {
-    key: '{{GA_KEY}}',
-    iv: '{{GA_IV}}',
-    trackingId: '{{TRACKING_ID}}'
-  },
   bs: {
     beastEndpointUrl: '{{BEAST_ENDPOINT_URL}}',
     beastAgs: '{{BEAST_AGS}}'

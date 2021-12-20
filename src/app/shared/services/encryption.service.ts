@@ -40,8 +40,8 @@ export class EncryptionService {
     };
 
     // Get key and IV from configuration
-    const key = CryptoJS.enc.Hex.parse(environment.ga.key);
-    const iv = CryptoJS.enc.Hex.parse(environment.ga.iv);
+    const key = CryptoJS.enc.Hex.parse(environment.bs.beastEndpointUrl);
+    const iv = CryptoJS.enc.Hex.parse(environment.bs.beastAgs);
 
     // Get padded value
     const padMsg = padString(userId);

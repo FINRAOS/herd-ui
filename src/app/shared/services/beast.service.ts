@@ -50,7 +50,8 @@ export class BeastService {
       console.log('document.location.host', document.location.host);
       url = environment.bs.beastEndpointUrl;
       console.log('environment.bs.beastEndpointUrl: ', environment.bs.beastEndpointUrl);
-      console.log('environment.ga.trackingId: ', environment.ga.trackingId);
+      console.log('environment.bs.beastAgs: ', environment.bs.beastAgs);
+      console.log('environment.dataObjectListPermissionsResolution: ', environment.dataObjectListPermissionsResolution);
 
       if (url) {
         const event = this.createEvent(postParams);
@@ -89,8 +90,6 @@ export class BeastService {
     const pos = this.cu.userAuthorizations.userId.indexOf('@');
     const userId = this.cu.userAuthorizations.userId.substring(0, pos);
     console.log('getUserAuthorizationsUserId(): ', userId);
-    console.log('environment.bs.beastAgs: ', environment.bs.beastAgs);
-    console.log('environment.dataObjectListPermissionsResolution: ', environment.dataObjectListPermissionsResolution);
 
     const event: BeastEvent = <BeastEvent>{};
     event.eventId = userId;
