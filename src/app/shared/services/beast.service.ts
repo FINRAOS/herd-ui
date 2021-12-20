@@ -90,6 +90,7 @@ export class BeastService {
     const userId = this.cu.userAuthorizations.userId.substring(0, pos);
     console.log('getUserAuthorizationsUserId(): ', userId);
     console.log('environment.bs.beastAgs: ', environment.bs.beastAgs);
+    console.log('environment.dataObjectListPermissionsResolution: ', environment.dataObjectListPermissionsResolution);
 
     const event: BeastEvent = <BeastEvent>{};
     event.eventId = userId;
