@@ -29,6 +29,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterStub } from '../../../../testing/router-stubs';
 import { HttpClientModule } from '@angular/common/http';
+import { BeastService } from '../../../shared/services/beast.service';
 
 describe('SearchComponent', () => {
   const mockData: IndexSearchMockData = new IndexSearchMockData();
@@ -55,6 +56,12 @@ describe('SearchComponent', () => {
         {
           provide: APP_BASE_HREF,
           useValue: '/'
+        },
+        {
+          provide: BeastService,
+          useValue: {
+            postEvent: jasmine.createSpy('postEvent')
+          }
         },
         UserService,
         EncryptionService,

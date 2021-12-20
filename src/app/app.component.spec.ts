@@ -112,7 +112,8 @@ describe('AppComponent', () => {
         {
           provide: BeastService,
           useValue: {
-            postEvent: jasmine.createSpy('postEvent')
+            postEvent: jasmine.createSpy('postEvent'),
+            mapUrlToComponent: jasmine.createSpy('mapUrlToComponent')
           }
         },
         {
@@ -147,12 +148,11 @@ describe('AppComponent', () => {
 
   it('should send data to Beast Service on navigation end', inject([BeastService, Router],
     (bs: BeastService, router: RouterStub) => {
-      const bsSpy = spyOn(bs, 'postEvent');
       const app = fixture.componentInstance;
       // will send on every navigation end
       router.emitEnd(1, 'awesomeUrlEnd.com');
       fixture.detectChanges();
-      expect(bsSpy).toHaveBeenCalled();
+      expect(bs.postEvent).toHaveBeenCalled();
     }
   ));
 

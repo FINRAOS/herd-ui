@@ -33,6 +33,7 @@ import {
 import { IndexSearchMockData } from 'testing/IndexSearchMockData';
 import { RelatedDataEntities } from 'testing/RelatedDataEntities';
 import { SearchService } from '../../../shared/services/search.service';
+import { BeastService } from '../../../shared/services/beast.service';
 
 describe('CategoryDetailComponent', () => {
   const indexSearchMockData: IndexSearchMockData = new IndexSearchMockData();
@@ -84,6 +85,12 @@ describe('CategoryDetailComponent', () => {
             tagGetTag: jasmine.createSpy('tagGetTag'),
             tagSearchTags: jasmine.createSpy('tagSearchTags'),
             configuration: {}
+          }
+        },
+        {
+          provide: BeastService,
+          useValue: {
+            postEvent: jasmine.createSpy('postEvent'),
           }
         },
         {
