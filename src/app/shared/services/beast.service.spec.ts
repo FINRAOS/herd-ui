@@ -17,7 +17,7 @@ import { UserService } from 'app/core/services/user.service';
 import { BeastService, BeastEvent } from './beast.service';
 import { inject, TestBed } from '@angular/core/testing';
 
-fdescribe('Beast Service', () => {
+describe('Beast Service', () => {
 
   const postParams: BeastEvent = <BeastEvent>{};
   postParams.component = 'Homepage';

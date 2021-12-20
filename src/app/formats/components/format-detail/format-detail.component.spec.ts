@@ -38,7 +38,7 @@ import { By } from '@angular/platform-browser';
 import { JsonEditorOptions } from 'ang-jsoneditor';
 import { BeastService } from '../../../shared/services/beast.service';
 
-fdescribe('FormatDetailComponent', () => {
+describe('FormatDetailComponent', () => {
   const mockData: MockFormat = new MockFormat();
   let component: FormatDetailComponent;
   let fixture: ComponentFixture<FormatDetailComponent>;
@@ -386,7 +386,7 @@ fdescribe('FormatDetailComponent', () => {
     expect(modal.close).toHaveBeenCalled();
   });
 
-  fit('should hide or show data objects link based on access level and send view data object list action event when button is clicked',
+  it('should hide or show data objects link based on access level and send view data object list action event when button is clicked',
     inject([UserService],
       (us: UserService) => {
 
@@ -460,7 +460,7 @@ fdescribe('FormatDetailComponent', () => {
     }
   }
 
-  fit('should send view document schema action event',
+  it('should send view document schema action event',
     inject([BusinessObjectDefinitionColumnService, BusinessObjectDataService, StorageService],
       (businessObjectDefinitionColumnApi, businessObjectDataApi: BusinessObjectDataService, storageApi: StorageService) => {
         (businessObjectDefinitionColumnApi.businessObjectDefinitionColumnGetBusinessObjectDefinitionColumn as jasmine.Spy)

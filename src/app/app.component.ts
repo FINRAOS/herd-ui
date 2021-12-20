@@ -14,7 +14,6 @@
 * limitations under the License.
 */
 import { UserService } from 'app/core/services/user.service';
-import { GoogleAnalyticsService } from './shared/services/google-analytics.service';
 import { BeastEvent, BeastService } from './shared/services/beast.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AlertService } from 'app/core/services/alert.service';
@@ -49,7 +48,6 @@ export class AppComponent implements OnInit {
 
   constructor(private alerter: AlertService,
               private router: Router,
-              private ga: GoogleAnalyticsService,
               private bs: BeastService,
               public cu: UserService,
               private route: ActivatedRoute,
@@ -109,8 +107,6 @@ export class AppComponent implements OnInit {
           } else {
             this.window.scrollTo(0, 0);
           }
-
-          this.ga.sendPageViewData(event.urlAfterRedirects);
 
           const redirectComponent = this.bs.mapUrlToComponent(event.urlAfterRedirects);
           console.log('redirectComponent', redirectComponent);

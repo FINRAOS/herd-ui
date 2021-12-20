@@ -21,7 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 import { BeastService } from '../../../shared/services/beast.service';
 
-fdescribe('TagsComponent', () => {
+describe('TagsComponent', () => {
   let component: TagsComponent;
   let fixture: ComponentFixture<TagsComponent>;
   let tagApi, tagTypeApi, businessObjectDefinitionTagApi;
@@ -184,7 +184,7 @@ fdescribe('TagsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should send edit tag action event',  inject([BeastService], (bs: BeastService) => {
+  it('should send edit tag action event',  inject([BeastService], (bs: BeastService) => {
     const spyBs = (<jasmine.Spy>bs.sendBeastActionEvent).and.callThrough();
     component.sendEditTagActionEvent();
     expect(spyBs.calls.count()).toEqual(1);

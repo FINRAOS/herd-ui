@@ -23,7 +23,6 @@ import { of } from 'rxjs';
 import { IndexSearchMockData } from 'testing/IndexSearchMockData';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GoogleAnalyticsService } from '../../../shared/services/google-analytics.service';
 import { UserService } from '../../../core/services/user.service';
 import { EncryptionService } from '../../../shared/services/encryption.service';
 import { APP_BASE_HREF } from '@angular/common';
@@ -56,13 +55,6 @@ describe('SearchComponent', () => {
         {
           provide: APP_BASE_HREF,
           useValue: '/'
-        },
-        {
-          provide: GoogleAnalyticsService,
-          useValue: {
-            sendPageViewData: jasmine.createSpy('sendPageViewData'),
-            sendEventData: jasmine.createSpy('sendEventData')
-          }
         },
         UserService,
         EncryptionService,

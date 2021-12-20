@@ -13,7 +13,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { BeastService, BeastEvent } from './../../services/beast.service';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { Facet } from '@herd/angular-client';
@@ -33,7 +32,7 @@ export class FacetComponent implements OnInit, OnChanges {
   @Input() newSearch = false;
   public viewFacets: Facet[];
 
-  constructor(private googleAnalyticsService: GoogleAnalyticsService, private beastService: BeastService) {
+  constructor(private beastService: BeastService) {
   }
 
   ngOnInit() {
@@ -56,12 +55,6 @@ export class FacetComponent implements OnInit, OnChanges {
     childFacet.state = event.facetState;
 
     if (childFacet.state !== FacetTriState.default) {
-      this.googleAnalyticsService.sendEventData(
-        'Global Search Facets',
-        FacetTriState[childFacet.state],
-        parentFacet.facetDisplayName + ';' + childFacet.facetDisplayName
-      );
-
       const postParams: BeastEvent = <BeastEvent>{};
       postParams.action = FacetTriState[childFacet.state];
       postParams.component = 'Tag';

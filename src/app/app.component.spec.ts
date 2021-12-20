@@ -13,7 +13,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { GoogleAnalyticsService } from './shared/services/google-analytics.service';
 import { ActivatedRouteStub, RouterStub } from 'testing/router-stubs';
 import { async, ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -54,7 +53,7 @@ class MockBackTrackComponent {
 
 }
 
-fdescribe('AppComponent', () => {
+describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
 
   beforeEach(async(() => {
@@ -111,11 +110,11 @@ fdescribe('AppComponent', () => {
           useClass: ActivatedRouteStub
         },
         {
-          provide: GoogleAnalyticsService, useValue: {
-            sendPageViewData: jasmine.createSpy('sendPageViewData')
+          provide: BeastService,
+          useValue: {
+            postEvent: jasmine.createSpy('postEvent')
           }
         },
-        BeastService,
         {
           provide: WINDOW,
           useValue: {
@@ -146,17 +145,7 @@ fdescribe('AppComponent', () => {
       const app = fixture.componentInstance;
     })));
 
-  it('should send data to Google analytics on navigation end', inject([GoogleAnalyticsService, Router],
-    (ga: GoogleAnalyticsService, router: RouterStub) => {
-      const app = fixture.componentInstance;
-      // will send on every navigation end
-      router.emitEnd(1, 'awesomeUrlEnd.com');
-      fixture.detectChanges();
-      expect(ga.sendPageViewData).toHaveBeenCalledWith('awesomeUrlEnd.com');
-    }
-  ));
-
-  fit('should send data to Beast Service on navigation end', inject([BeastService, Router],
+  it('should send data to Beast Service on navigation end', inject([BeastService, Router],
     (bs: BeastService, router: RouterStub) => {
       const bsSpy = spyOn(bs, 'postEvent');
       const app = fixture.componentInstance;

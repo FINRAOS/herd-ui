@@ -75,7 +75,7 @@ export class MockUser {
 }
 
 
-fdescribe('ContactsComponent', () => {
+describe('ContactsComponent', () => {
   let component: ContactsComponent;
   let fixture: ComponentFixture<ContactsComponent>;
   let businessObjectDefinitionSubjectMatterExpertApi, subjectMatterExpertApi;
@@ -187,7 +187,7 @@ fdescribe('ContactsComponent', () => {
     expect(fixture.nativeElement.querySelector('.card').style.display).toBe('none');
   });
 
-  fit('should save the new user to database on click of save and send edit sme action event', () => {
+  it('should save the new user to database on click of save and send edit sme action event', () => {
     spyOn(component, 'sendEditSmeActionEvent');
 
     const content = fixture.nativeElement.querySelector('.contacts-content');

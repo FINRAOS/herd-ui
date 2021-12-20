@@ -13,7 +13,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { FacetComponent } from './facet.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -24,7 +23,7 @@ import { TriStateEnum } from 'app/shared/components/tri-state/tri-state.componen
 import { FacetTriState } from 'app/shared/services/facet-tri-state.enum';
 import { BeastService } from '../../services/beast.service';
 
-fdescribe('FacetComponent', () => {
+describe('FacetComponent', () => {
   const mockData: IndexSearchMockData = new IndexSearchMockData();
   let component: FacetComponent;
   let fixture: ComponentFixture<FacetComponent>;
@@ -38,12 +37,6 @@ fdescribe('FacetComponent', () => {
         FacetComponent,
       ],
       providers: [
-        {
-          provide: GoogleAnalyticsService,
-          useValue: {
-            sendEventData: jasmine.createSpy('sendEventData')
-          }
-        },
         {
           provide: BeastService,
           useValue: {
@@ -71,21 +64,6 @@ fdescribe('FacetComponent', () => {
   }));
 
   it('PropageSelection method is propagating facet changes from the service in default state', async(
-    inject([GoogleAnalyticsService], (ga: GoogleAnalyticsService) => {
-
-      const childFacets = {fieldName: 'description', fragments: ['kamal', 'managets']};
-      const event = {
-        fieldName: 'description', fragments: ['kamal', 'managets'],
-        facetState: FacetTriState.default
-      };
-
-      component.facetChange = new EventEmitter<Object>();
-      const spyGA = (<jasmine.Spy>ga.sendEventData).and.callThrough();
-      component.propagateSelection(event, childFacets, mockData.indexSearchResponse['facets'][0]);
-      expect(spyGA.calls.count()).toEqual(0);
-    })));
-
-  fit('PropageSelection method is propagating facet changes from the service in default state', async(
     inject([BeastService], (bs: BeastService) => {
 
       const childFacets = {fieldName: 'description', fragments: ['kamal', 'managets']};
@@ -146,20 +124,7 @@ fdescribe('FacetComponent', () => {
     expect(component.viewFacets).toEqual(newExpectedFacets);
   }));
 
-  it('send data to google analytics on facet event change', async(
-    inject([GoogleAnalyticsService], (ga: GoogleAnalyticsService) => {
-      const childFacets = {fieldName: 'description', fragments: ['kamal', 'managets']};
-      const event = {
-        fieldName: 'description', fragments: ['kamal', 'managets'],
-        facetState: TriStateEnum.State2
-      };
-      component.facetChange = new EventEmitter<Object>();
-      const spyGA = (<jasmine.Spy>ga.sendEventData).and.callThrough();
-      component.propagateSelection(event, childFacets, mockData.indexSearchResponse['facets'][0]);
-      expect(spyGA.calls.count()).toEqual(1);
-    })));
-
-  fit('send data to beast service on facet event change', async(
+  it('send data to beast service on facet event change', async(
     inject([BeastService], (bs: BeastService) => {
       const childFacets = {fieldName: 'description', fragments: ['kamal', 'managets']};
       const event = {

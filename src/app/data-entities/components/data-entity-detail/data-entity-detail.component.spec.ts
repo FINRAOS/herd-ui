@@ -85,7 +85,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { JsonEditorOptions } from 'ang-jsoneditor';
 import { BeastService } from '../../../shared/services/beast.service';
 
-fdescribe('DataEntityDetailComponent', () => {
+describe('DataEntityDetailComponent', () => {
   let component: DataEntityDetailComponent;
   let fixture: ComponentFixture<DataEntityDetailComponent>;
   let spyBdefSmeApi, spySmeApi;
@@ -564,7 +564,7 @@ fdescribe('DataEntityDetailComponent', () => {
     TestBed.resetTestingModule();
   });
 
-  fit('should set all data onInit', async(inject([ActivatedRoute], (activeRoute: ActivatedRouteStub) => {
+  it('should set all data onInit', async(inject([ActivatedRoute], (activeRoute: ActivatedRouteStub) => {
 
     activeRoute.testData = {
       resolvedData: {
@@ -840,7 +840,7 @@ fdescribe('DataEntityDetailComponent', () => {
 
       }))));
 
-  fit('Should save edited display name on click of save button, alert success and send edit name action event',
+  it('Should save edited display name on click of save button, alert success and send edit name action event',
     inject([BusinessObjectDefinitionService, AlertService, ActivatedRoute],
       (defApi: BusinessObjectDefinitionService, alerter: AlertService, activeRoute: ActivatedRouteStub) => {
         spyOn(component, 'sendEditNameActionEvent');
@@ -894,7 +894,7 @@ fdescribe('DataEntityDetailComponent', () => {
         expect(component.bdef.displayName).toEqual(expectedDisplayName);
       }));
 
-  fit('Should save edited description on click of save button and alert success',
+  it('Should save edited description on click of save button and alert success',
     inject([BusinessObjectDefinitionService, AlertService, ActivatedRoute],
       (defApi: BusinessObjectDefinitionService, alerter: AlertService, activeRoute: ActivatedRouteStub) => {
         const alertSpy = alerter.alert as jasmine.Spy;
@@ -1417,7 +1417,7 @@ fdescribe('DataEntityDetailComponent', () => {
     expect(component.hierarchialGraph.loaded).toBe(true);
   });
 
-  fit('should create new lineage data on getLineage and send view lineage action event', () => {
+  it('should create new lineage data on getLineage and send view lineage action event', () => {
 
     const center: DataEntityLineageNode = {
       id: ['testNS', 'testBdefName', 'testUsage', 'testFTp'].join(component.idDelimiter),
@@ -2226,7 +2226,7 @@ fdescribe('DataEntityDetailComponent', () => {
       })
   );
 
-  fit('should hide or show data objects link based on access level, and send view data object list action event',
+  it('should hide or show data objects link based on access level, and send view data object list action event',
     inject([UserService, ActivatedRoute],
       (us: UserService, activeRoute: ActivatedRouteStub) => {
 

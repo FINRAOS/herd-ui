@@ -32,8 +32,6 @@ import {
 } from '@herd/angular-client';
 import { IndexSearchMockData } from 'testing/IndexSearchMockData';
 import { RelatedDataEntities } from 'testing/RelatedDataEntities';
-import { GoogleAnalyticsService } from '../../../shared/services/google-analytics.service';
-import { BeastService } from '../../../shared/services/beast.service';
 import { SearchService } from '../../../shared/services/search.service';
 
 describe('CategoryDetailComponent', () => {
@@ -99,11 +97,6 @@ describe('CategoryDetailComponent', () => {
         },
         {provide: ActivatedRoute, useClass: ActivatedRouteStub},
         {provide: Router, useClass: RouterStub},
-        {
-          provide: GoogleAnalyticsService, useValue: {
-            sendEventData: jasmine.createSpy('sendEventData')
-          }
-        }
       ]
     })
       .compileComponents();
