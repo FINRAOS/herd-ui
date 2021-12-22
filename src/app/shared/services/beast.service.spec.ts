@@ -30,7 +30,7 @@ describe('Beast Service', () => {
         {
           provide: UserService,
           useValue: {
-            userAuthorizations: {userId: 'K30199@gmail.com'}
+            userAuthorizations: {userId: 'testBeast@gmail.com'}
           }
         }
       ]
@@ -71,7 +71,7 @@ describe('Beast Service', () => {
   it('should return correct BeastEvent Data', inject([BeastService, UserService], (
     beastService: BeastService, cu: UserService) => {
     const res = beastService.createEvent(postParams);
-    expect(JSON.parse(res).eventId).toEqual('K30199');
+    expect(JSON.parse(res).eventId).toEqual('testBeast');
   }));
 
   it('should send data to beast service', inject([BeastService, UserService], (

@@ -76,7 +76,7 @@ describe('AppComponent', () => {
         {
           provide: UserService,
           useValue: {
-            userAuthorizations: {userId: 'K30199@gmail.com'}
+            userAuthorizations: {userId: 'testBeast@gmail.com'}
           }
         },
         /*{
