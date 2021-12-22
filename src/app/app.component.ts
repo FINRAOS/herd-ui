@@ -109,7 +109,6 @@ export class AppComponent implements OnInit {
           }
 
           const redirectComponent = this.bs.mapUrlToComponent(event.urlAfterRedirects);
-          console.log('redirectComponent', redirectComponent);
           const postParams: BeastEvent = <BeastEvent>{};
           postParams.eventId = (event.id).toString();
           postParams.component = redirectComponent;

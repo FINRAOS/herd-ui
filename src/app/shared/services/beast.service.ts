@@ -47,12 +47,7 @@ export class BeastService {
     let url: string;
 
     try {
-      console.log('document.location.host', document.location.host);
       url = environment.bs.beastEndpointUrl;
-      console.log('environment.bs.beastEndpointUrl: ', environment.bs.beastEndpointUrl);
-      console.log('environment.bs.beastAgs: ', environment.bs.beastAgs);
-      console.log('environment.dataObjectListPermissionsResolution: ', environment.dataObjectListPermissionsResolution);
-
       if (url) {
         const event = this.createEvent(postParams);
         const xhr = new XMLHttpRequest();
@@ -73,7 +68,6 @@ export class BeastService {
         xhr.ontimeout = function (e) {
           throw new Error('An error occurred during the ontimeout');
         };
-        console.log('send event in postEvent');
         xhr.send(event);
       }
     } catch (e) {
@@ -89,8 +83,6 @@ export class BeastService {
 
     const pos = this.cu.userAuthorizations.userId.indexOf('@');
     const userId = this.cu.userAuthorizations.userId.substring(0, pos);
-    console.log('getUserAuthorizationsUserId(): ', userId);
-
     const event: BeastEvent = <BeastEvent>{};
     event.eventId = userId;
     event.ags = environment.bs.beastAgs;
@@ -126,7 +118,6 @@ export class BeastService {
   }
 
   public sendBeastActionEvent(action: string, component: string) {
-    console.log('BEAST Action event in component: ' + component + ', and action: ' + action);
     const postParams: BeastEvent = <BeastEvent>{};
     postParams.component = component;
     postParams.action = action;
