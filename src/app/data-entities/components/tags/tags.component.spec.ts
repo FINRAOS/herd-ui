@@ -13,12 +13,13 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { BusinessObjectDefinitionTagService, TagService, TagTypeService } from '@herd/angular-client';
 import { TagsComponent } from './tags.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
+import { BeastService } from '../../../shared/services/beast.service';
 
 describe('TagsComponent', () => {
   let component: TagsComponent;
@@ -86,6 +87,12 @@ describe('TagsComponent', () => {
         TagService,
         TagTypeService,
         BusinessObjectDefinitionTagService,
+        {
+          provide: BeastService,
+          useValue: {
+            sendBeastActionEvent: jasmine.createSpy('sendBeastActionEvent')
+          }
+        }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -176,4 +183,10 @@ describe('TagsComponent', () => {
     component.removed({tagKey: {tagTypeCode: 'test-tag-type-code', tagCode: 'test-tag-code'}});
     expect(component).toBeTruthy();
   });
+
+  it('should send edit tag action event',  inject([BeastService], (bs: BeastService) => {
+    const spyBs = (<jasmine.Spy>bs.sendBeastActionEvent).and.callThrough();
+    component.sendEditTagActionEvent();
+    expect(spyBs.calls.count()).toEqual(1);
+  }));
 });
