@@ -13,7 +13,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { GoogleAnalyticsService } from './shared/services/google-analytics.service';
 import { ActivatedRouteStub, RouterStub } from 'testing/router-stubs';
 import { async, ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -34,6 +33,7 @@ import { Utils } from 'app/utils/utils';
 import { Component } from '@angular/core';
 import { UserService } from 'app/core/services/user.service';
 import { SpinnerComponent } from 'app/shared/components/spinner/spinner.component';
+import { BeastService } from './shared/services/beast.service';
 
 let ui: any = null;
 // support needed here for phantomJS until we switdch to headless chrome
@@ -74,7 +74,10 @@ describe('AppComponent', () => {
       ],
       providers: [
         {
-          provide: UserService, useValue: {}
+          provide: UserService,
+          useValue: {
+            userAuthorizations: {userId: 'testBeast@gmail.com'}
+          }
         },
         /*{
         provide: HttpInterceptorService, useFactory: () => {
@@ -107,10 +110,13 @@ describe('AppComponent', () => {
           useClass: ActivatedRouteStub
         },
         {
-          provide: GoogleAnalyticsService, useValue: {
-            sendPageViewData: jasmine.createSpy('sendPageViewData')
+          provide: BeastService,
+          useValue: {
+            postEvent: jasmine.createSpy('postEvent'),
+            mapUrlToComponent: jasmine.createSpy('mapUrlToComponent')
           }
-        }, {
+        },
+        {
           provide: WINDOW,
           useValue: {
             history: {
@@ -140,13 +146,13 @@ describe('AppComponent', () => {
       const app = fixture.componentInstance;
     })));
 
-  it('should send data to Google analytics on navigation end', inject([GoogleAnalyticsService, Router],
-    (ga: GoogleAnalyticsService, router: RouterStub) => {
+  it('should send data to Beast Service on navigation end', inject([BeastService, Router],
+    (bs: BeastService, router: RouterStub) => {
       const app = fixture.componentInstance;
       // will send on every navigation end
       router.emitEnd(1, 'awesomeUrlEnd.com');
       fixture.detectChanges();
-      expect(ga.sendPageViewData).toHaveBeenCalledWith('awesomeUrlEnd.com');
+      expect(bs.postEvent).toHaveBeenCalled();
     }
   ));
 

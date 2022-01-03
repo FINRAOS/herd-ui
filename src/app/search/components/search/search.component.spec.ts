@@ -23,13 +23,13 @@ import { of } from 'rxjs';
 import { IndexSearchMockData } from 'testing/IndexSearchMockData';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GoogleAnalyticsService } from '../../../shared/services/google-analytics.service';
 import { UserService } from '../../../core/services/user.service';
 import { EncryptionService } from '../../../shared/services/encryption.service';
 import { APP_BASE_HREF } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterStub } from '../../../../testing/router-stubs';
 import { HttpClientModule } from '@angular/common/http';
+import { BeastService } from '../../../shared/services/beast.service';
 
 describe('SearchComponent', () => {
   const mockData: IndexSearchMockData = new IndexSearchMockData();
@@ -58,10 +58,9 @@ describe('SearchComponent', () => {
           useValue: '/'
         },
         {
-          provide: GoogleAnalyticsService,
+          provide: BeastService,
           useValue: {
-            sendPageViewData: jasmine.createSpy('sendPageViewData'),
-            sendEventData: jasmine.createSpy('sendEventData')
+            postEvent: jasmine.createSpy('postEvent')
           }
         },
         UserService,

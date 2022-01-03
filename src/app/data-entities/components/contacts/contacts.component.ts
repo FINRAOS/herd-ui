@@ -22,6 +22,9 @@ import {
 import { AlertService, DangerAlert } from '../../../core/services/alert.service';
 import { AuthMap } from '../../../shared/directive/authorized/authorized.directive';
 import { finalize } from 'rxjs/operators';
+import { BeastService } from '../../../shared/services/beast.service';
+import { BeastComponents } from '../../../shared/services/beast-components.enum';
+import { BeastActions } from '../../../shared/services/beast-actions.enum';
 
 @Component({
   selector: 'sd-contacts',
@@ -46,6 +49,7 @@ export class ContactsComponent implements OnInit, OnChanges {
     private alertService: AlertService,
     private businessObjectDefinitionSubjectMatterExpert: BusinessObjectDefinitionSubjectMatterExpertService,
     private subjectMatterExpertApi: SubjectMatterExpertService,
+    private bs: BeastService,
     private elementRef: ElementRef
   ) {
   }
@@ -79,6 +83,10 @@ export class ContactsComponent implements OnInit, OnChanges {
     this.elementRef.nativeElement.querySelector('.card').style.display = 'none';
   }
 
+  sendEditSmeActionEvent() {
+    this.bs.sendBeastActionEvent(BeastActions.editSme, BeastComponents.dataEntities);
+  }
+
   save() {
     const request = {
       businessObjectDefinitionSubjectMatterExpertKey: {
@@ -110,6 +118,8 @@ export class ContactsComponent implements OnInit, OnChanges {
     } else {
       this.validationError = 'Please enter user id.';
     }
+
+    this.sendEditSmeActionEvent();
   }
 
   remove(event: any) {

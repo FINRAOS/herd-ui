@@ -32,11 +32,14 @@ import { default as AppIcons } from '../../../shared/utils/app-icons';
 import { Observable, Subscription } from 'rxjs';
 import { Action } from 'app/shared/components/side-action/side-action.component';
 import { DataTable } from 'primeng/components/datatable/datatable';
+import { BeastService } from '../../../shared/services/beast.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // tslint:disable-next-line:max-line-length
 import { DataObjectListFiltersChangeEventData } from 'app/data-objects/components/data-object-list-filters/data-object-list-filters.component';
 import { AlertService, DangerAlert, SuccessAlert } from 'app/core/services/alert.service';
 import { of } from 'rxjs/internal/observable/of';
+import { BeastActions } from '../../../shared/services/beast-actions.enum';
+import { BeastComponents } from '../../../shared/services/beast-components.enum';
 
 class AttributeField implements Attribute {
   constructor(public name: string, public value: string) {
@@ -179,6 +182,7 @@ export class DataObjectListComponent implements OnInit {
               private alerter: AlertService,
               private modalService: NgbModal,
               private formatService: BusinessObjectFormatService,
+              private bs: BeastService,
               private alertService: AlertService) {
   }
 
@@ -272,7 +276,12 @@ export class DataObjectListComponent implements OnInit {
   }
 
   export(e: DataTable) {
+    this.bs.sendBeastActionEvent(BeastActions.downloadCsv, BeastComponents.dataObjects);
     e.exportCSV();
+  }
+
+  sendViewDataObjectDetailsAction() {
+    this.bs.sendBeastActionEvent(BeastActions.viewDataObjectDetails, BeastComponents.dataObjects);
   }
 
   loadData(event?: DataObjectListFiltersChangeEventData) {

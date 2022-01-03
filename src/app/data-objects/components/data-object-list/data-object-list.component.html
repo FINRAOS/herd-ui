@@ -93,9 +93,10 @@
         <ng-template *ngIf="col.templateField === 'link'" let-dataEntity="rowData.dataEntity"
                      let-format="rowData.format" let-partition="rowData.partition"
                      let-subPartitions="rowData.subPartitions" let-version="rowData.version" pTemplate="body">
-          <a
+          <a (click)="sendViewDataObjectDetailsAction()"
             [routerLink]="['/data-objects', dataEntity.namespace, dataEntity.businessObjectDefinitionName, format.usage, format.fileType, format.version, partition.value, version, {subPartitionValues: subPartitions.join('|')}]">
-            View Data Object</a>
+            View Data Object
+          </a>
         </ng-template>
       </p-column>
     </p-dataTable>

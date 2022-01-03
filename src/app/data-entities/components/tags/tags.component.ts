@@ -23,6 +23,9 @@ import {
   TagTypeService
 } from '@herd/angular-client';
 import { AuthMap } from '../../../shared/directive/authorized/authorized.directive';
+import { BeastService } from '../../../shared/services/beast.service';
+import { BeastComponents } from '../../../shared/services/beast-components.enum';
+import { BeastActions } from '../../../shared/services/beast-actions.enum';
 
 @Component({
   selector: 'sd-tags',
@@ -49,6 +52,7 @@ export class TagsComponent implements OnInit {
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private elementRef: ElementRef, private tagApi: TagService, private tagTypeApi: TagTypeService,
+              private bs: BeastService,
               private businessObjectDefinitionTagApi: BusinessObjectDefinitionTagService) {
   }
 
@@ -155,4 +159,9 @@ export class TagsComponent implements OnInit {
       this.initialSelectedTags = this.selectedTags;
     });
   }
+
+  sendEditTagActionEvent() {
+    this.bs.sendBeastActionEvent(BeastActions.editTag, BeastComponents.dataEntities);
+  }
+
 }
