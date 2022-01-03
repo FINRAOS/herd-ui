@@ -66,7 +66,7 @@
 
   <div class="card">
     <div class="card-block">
-      <div class="form-group">
+      <div class="form-group" (click)="sendEditTagActionEvent()">
         <ng-select
           (blur)="blur($event)"
           (deselected)="removed($event)"

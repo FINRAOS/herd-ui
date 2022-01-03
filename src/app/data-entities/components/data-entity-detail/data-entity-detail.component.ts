@@ -51,6 +51,10 @@ import { AuthMap } from '../../../shared/directive/authorized/authorized.directi
 import { of } from 'rxjs/internal/observable/of';
 import { environment } from '../../../../environments/environment';
 import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
+import { DataTable } from 'primeng/components/datatable/datatable';
+import { BeastService } from '../../../shared/services/beast.service';
+import { BeastComponents } from '../../../shared/services/beast-components.enum';
+import { BeastActions } from '../../../shared/services/beast-actions.enum';
 
 export enum DAGNodeType {
   parent = 'parent',
@@ -195,6 +199,7 @@ export class DataEntityDetailComponent implements OnInit {
     private subjectMatterExpertApi: SubjectMatterExpertService,
     private alertService: AlertService,
     private modalService: NgbModal,
+    private bs: BeastService,
     private businessObjectDefinitionDescriptionSuggestionService: BusinessObjectDefinitionDescriptionSuggestionService
   ) {
   }
@@ -231,6 +236,39 @@ export class DataEntityDetailComponent implements OnInit {
     this.alertService.alert(new SuccessAlert(
       'Success!', '', 'DDL Successfully copied to clipboard'
     ));
+  }
+
+  export(e: DataTable) {
+    this.bs.sendBeastActionEvent(BeastActions.downloadCsv, BeastComponents.dataObjects);
+    e.exportCSV();
+  }
+
+  sendViewDataObjectListActionEvent() {
+    this.bs.sendBeastActionEvent(BeastActions.viewDataObejctList, BeastComponents.dataObjects);
+  }
+
+  sendViewDocumentSchemaActionEvent() {
+    this.bs.sendBeastActionEvent(BeastActions.viewDocumentSchema, BeastComponents.dataObjects);
+  }
+
+  sendViewColumnsActionEvent() {
+    this.bs.sendBeastActionEvent(BeastActions.viewColumns, BeastComponents.dataObjects);
+  }
+
+  sendEditDescriptionActionEvent() {
+    this.bs.sendBeastActionEvent(BeastActions.editDescription, BeastComponents.dataEntities);
+  }
+
+  sendDownloadSampleDataActionEvent() {
+    this.bs.sendBeastActionEvent(BeastActions.downloadSampleData, BeastComponents.dataEntities);
+  }
+
+  sendViewLineageActionEvent() {
+    this.bs.sendBeastActionEvent(BeastActions.viewLieage, BeastComponents.dataEntities);
+  }
+
+  sendEditNameActionEvent() {
+    this.bs.sendBeastActionEvent(BeastActions.editName, BeastComponents.dataEntities);
   }
 
   saveDataEntityColumnNameChange(event: EditEvent, col: DataEntityWithFormatColumn) {
@@ -321,6 +359,8 @@ export class DataEntityDetailComponent implements OnInit {
         (error) => {
           this.alertService.alert(new DangerAlert('Failure!', 'Unable to save your edit. Try again or contact support team.', ''));
         });
+
+    this.sendEditNameActionEvent();
   }
 
   saveDataEntityDescription(event: EditEvent) {
@@ -341,6 +381,8 @@ export class DataEntityDetailComponent implements OnInit {
         (error) => {
           this.alertService.alert(new DangerAlert('Failure!', 'Unable to save your edit. Try again or contact support team.', ''));
         });
+
+    this.sendEditDescriptionActionEvent();
   }
 
   suggestionApproved(event) {
@@ -543,6 +585,8 @@ export class DataEntityDetailComponent implements OnInit {
       this.hierarchialGraph.links = [...graphs[0].links, ...graphs[1].links];
       this.hierarchialGraph.loaded = true;
     });
+
+    this.sendViewLineageActionEvent();
   }
 
   processParents(node: DataEntityLineageNode, format: BusinessObjectFormat): Observable<HierarchialGraph> {
@@ -704,6 +748,8 @@ export class DataEntityDetailComponent implements OnInit {
       .subscribe((data) => {
         this.sampleDataFileUrl = data.preSignedUrl;
       });
+
+    this.sendDownloadSampleDataActionEvent();
   }
 
   isRecommendedFormat(format: BusinessObjectFormat) {

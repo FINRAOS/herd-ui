@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 import { EncryptionService } from './../shared/services/encryption.service';
-import { GoogleAnalyticsService } from './../shared/services/google-analytics.service';
+import { BeastService, BeastEvent } from './../shared/services/beast.service';
 import { UserService } from './services/user.service';
 import { InjectionToken, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { HomeComponent } from 'app/core/components/home/home.component';
@@ -61,7 +61,7 @@ export class CoreModule {
         },
         UserService,
         EncryptionService,
-        GoogleAnalyticsService]
+        BeastService]
     };
   }
 

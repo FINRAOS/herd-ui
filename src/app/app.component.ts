@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 import { UserService } from 'app/core/services/user.service';
-import { GoogleAnalyticsService } from './shared/services/google-analytics.service';
+import { BeastEvent, BeastService } from './shared/services/beast.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AlertService } from 'app/core/services/alert.service';
 import { debounceTime, filter, tap } from 'rxjs/operators';
@@ -32,6 +32,7 @@ import {
 import { CustomRouteReuseStrategy } from 'app/core/services/custom-route-reuse-strategy.service';
 import { WINDOW } from 'app/core/core.module';
 import { Utils } from 'app/utils/utils';
+import { FacetTriState } from './shared/services/facet-tri-state.enum';
 
 
 @Component({
@@ -47,7 +48,7 @@ export class AppComponent implements OnInit {
 
   constructor(private alerter: AlertService,
               private router: Router,
-              private ga: GoogleAnalyticsService,
+              private bs: BeastService,
               public cu: UserService,
               private route: ActivatedRoute,
               @Inject(WINDOW) private window: any
@@ -107,7 +108,12 @@ export class AppComponent implements OnInit {
             this.window.scrollTo(0, 0);
           }
 
-          this.ga.sendPageViewData(event.urlAfterRedirects);
+          const redirectComponent = this.bs.mapUrlToComponent(event.urlAfterRedirects);
+          const postParams: BeastEvent = <BeastEvent>{};
+          postParams.eventId = (event.id).toString();
+          postParams.component = redirectComponent;
+          postParams.action = 'View';
+          this.bs.postEvent(postParams);
         }
 
         if (event instanceof NavigationStart) {
