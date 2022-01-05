@@ -47,7 +47,7 @@ export class BeastService {
     let url: string;
     try {
       url = environment.bs.beastEndpointUrl;
-      if (url && url !== '' && url !== '{{BEAST_ENDPOINT_URL}}') {
+      if (url && url !== '') {
         const event = this.createEvent(postParams);
         const xhr = new XMLHttpRequest();
         xhr.open('POST', url, true);
