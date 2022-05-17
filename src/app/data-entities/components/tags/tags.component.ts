@@ -161,7 +161,6 @@ export class TagsComponent implements OnInit {
   }
 
   sendEditTagActionEvent() {
-    this.bs.sendBeastActionEvent(BeastActions.editTag, BeastComponents.dataEntities);
+    this.bs.sendBeastActionEvent(BeastActions.editTag, BeastComponents.dataEntities, this.namespace, this.dataEntityName);
   }
-
 }

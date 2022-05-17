@@ -33,6 +33,7 @@ import { CustomRouteReuseStrategy } from 'app/core/services/custom-route-reuse-s
 import { WINDOW } from 'app/core/core.module';
 import { Utils } from 'app/utils/utils';
 import { FacetTriState } from './shared/services/facet-tri-state.enum';
+import { BeastComponents } from './shared/services/beast-components.enum';
 
 
 @Component({
@@ -113,6 +114,10 @@ export class AppComponent implements OnInit {
           postParams.eventId = (event.id).toString();
           postParams.component = redirectComponent;
           postParams.action = 'View';
+          if (redirectComponent === BeastComponents.dataEntities) {
+            postParams.resource = this.bs.getDataEntityDataFromUrl(event.urlAfterRedirects);
+            console.log('Event resource: ', postParams.resource);
+          }
           this.bs.postEvent(postParams);
         }
 

@@ -85,7 +85,7 @@ describe('Beast Service', () => {
   it('should send action event to beast service', inject([BeastService, UserService], (
     beastService: BeastService) => {
     const bsSpy = spyOn(beastService, 'postEvent');
-    beastService.sendBeastActionEvent('View', 'Homepage');
+    beastService.sendBeastActionEvent('View', 'Homepage', null, null);
     expect(bsSpy).toHaveBeenCalled();
   }));
 

@@ -276,12 +276,14 @@ export class DataObjectListComponent implements OnInit {
   }
 
   export(e: DataTable) {
-    this.bs.sendBeastActionEvent(BeastActions.downloadCsv, BeastComponents.dataObjects);
+    this.bs.sendBeastActionEvent(BeastActions.downloadCsv, BeastComponents.dataObjects,
+      this.dataEntity.namespace, this.dataEntity.businessObjectDefinitionName);
     e.exportCSV();
   }
 
   sendViewDataObjectDetailsAction() {
-    this.bs.sendBeastActionEvent(BeastActions.viewDataObjectDetails, BeastComponents.dataObjects);
+    this.bs.sendBeastActionEvent(BeastActions.viewDataObjectDetails, BeastComponents.dataObjects,
+      this.dataEntity.namespace, this.dataEntity.businessObjectDefinitionName);
   }
 
   loadData(event?: DataObjectListFiltersChangeEventData) {
