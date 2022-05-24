@@ -95,7 +95,6 @@ export class BeastService {
     event.orgId = '1';
     event.orgClass = 'FINRA';
     event.resource = postParams.resource;
-    console.log('Current Event with Resource: ', event);
 
     return JSON.stringify(event);
   }

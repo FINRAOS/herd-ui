@@ -116,7 +116,6 @@ export class AppComponent implements OnInit {
           postParams.action = 'View';
           if (redirectComponent === BeastComponents.dataEntities) {
             postParams.resource = this.bs.getDataEntityDataFromUrl(event.urlAfterRedirects);
-            console.log('Event resource: ', postParams.resource);
           }
           this.bs.postEvent(postParams);
         }

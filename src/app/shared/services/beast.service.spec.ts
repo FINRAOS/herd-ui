@@ -89,4 +89,11 @@ describe('Beast Service', () => {
     expect(bsSpy).toHaveBeenCalled();
   }));
 
+  it('should return correct namespace and business definition', inject([BeastService], (
+    beastService: BeastService) => {
+    const url1 = 'testUDC/data-entity/testNamespace/testBDef/';
+    const res1 = beastService.getDataEntityDataFromUrl(url1);
+    expect(res1).toEqual('testNamespace|testBDef');
+  }));
+
 });
