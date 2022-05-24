@@ -3,7 +3,7 @@ export enum BeastActions {
   viewDataObejctList = 'View Data Object List',
   viewColumns = 'View Columns',
   viewDocumentSchema = 'View Document Schema',
-  viewLieage = 'View Lineage',
+  viewLineage = 'View Lineage',
   downloadSampleData = 'Download Sample Data',
   downloadCsv = 'Download CSV',
   editTag = 'Edit Tag',

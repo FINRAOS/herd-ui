@@ -31,6 +31,7 @@ export interface BeastEvent {
   action: string;
   details: any;
   eventDataVersion: string;
+  resource: string;
 }
 
 @Injectable()
@@ -93,6 +94,7 @@ export class BeastService {
     event.details = postParams.details;
     event.orgId = '1';
     event.orgClass = 'FINRA';
+    event.resource = postParams.resource;
 
     return JSON.stringify(event);
   }
@@ -116,11 +118,26 @@ export class BeastService {
     return redirectComponent;
   }
 
-  public sendBeastActionEvent(action: string, component: string) {
+  public sendBeastActionEvent(action: string, component: string, namespace: string | undefined, bdefName: string | undefined) {
     const postParams: BeastEvent = <BeastEvent>{};
     postParams.component = component;
     postParams.action = action;
+    if (namespace && bdefName) {
+      postParams.resource = namespace + '|' + bdefName;
+    }
     this.postEvent(postParams);
   }
 
+  public getDataEntityDataFromUrl(url: string) {
+    // The data entity url has the format "domain/data-entity/namespaec/bdefName/...".
+    // Split the url.
+    const splittedUrl = url.split('/', 4);
+
+    if (splittedUrl.length < 4) {
+      return;
+    }
+
+    // Join the namespaec and bdefName with pipe.
+    return splittedUrl[2] + '|' + splittedUrl[3];
+  }
 }

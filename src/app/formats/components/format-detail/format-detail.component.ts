@@ -209,15 +209,15 @@ export class FormatDetailComponent implements OnInit {
   }
 
   sendViewDataObjectListActionEvent() {
-    this.bs.sendBeastActionEvent(BeastActions.viewDataObejctList, BeastComponents.dataObjects);
+    this.bs.sendBeastActionEvent(BeastActions.viewDataObejctList, BeastComponents.dataObjects, null, null);
   }
 
   sendViewDocumentSchemaActionEvent() {
-    this.bs.sendBeastActionEvent(BeastActions.viewDocumentSchema, BeastComponents.dataObjects);
+    this.bs.sendBeastActionEvent(BeastActions.viewDocumentSchema, BeastComponents.dataObjects, null, null);
   }
 
   sendViewColumnsActionEvent() {
-    this.bs.sendBeastActionEvent(BeastActions.viewColumns, BeastComponents.dataObjects);
+    this.bs.sendBeastActionEvent(BeastActions.viewColumns, BeastComponents.dataObjects, null, null);
   }
 
   getExternalInterface(externalInterfaceName: string) {

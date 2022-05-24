@@ -84,7 +84,7 @@ export class ContactsComponent implements OnInit, OnChanges {
   }
 
   sendEditSmeActionEvent() {
-    this.bs.sendBeastActionEvent(BeastActions.editSme, BeastComponents.dataEntities);
+    this.bs.sendBeastActionEvent(BeastActions.editSme, BeastComponents.dataEntities, this.namespace, this.businessObjectDefinitionName);
   }
 
   save() {

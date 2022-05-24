@@ -239,36 +239,44 @@ export class DataEntityDetailComponent implements OnInit {
   }
 
   export(e: DataTable) {
-    this.bs.sendBeastActionEvent(BeastActions.downloadCsv, BeastComponents.dataObjects);
+    this.bs.sendBeastActionEvent(BeastActions.downloadCsv, BeastComponents.dataObjects,
+      this.bdef.namespace, this.bdef.businessObjectDefinitionName);
     e.exportCSV();
   }
 
   sendViewDataObjectListActionEvent() {
-    this.bs.sendBeastActionEvent(BeastActions.viewDataObejctList, BeastComponents.dataObjects);
+    this.bs.sendBeastActionEvent(BeastActions.viewDataObejctList, BeastComponents.dataObjects,
+      this.bdef.namespace, this.bdef.businessObjectDefinitionName);
   }
 
   sendViewDocumentSchemaActionEvent() {
-    this.bs.sendBeastActionEvent(BeastActions.viewDocumentSchema, BeastComponents.dataObjects);
+    this.bs.sendBeastActionEvent(BeastActions.viewDocumentSchema, BeastComponents.dataObjects,
+      this.bdef.namespace, this.bdef.businessObjectDefinitionName);
   }
 
   sendViewColumnsActionEvent() {
-    this.bs.sendBeastActionEvent(BeastActions.viewColumns, BeastComponents.dataObjects);
+    this.bs.sendBeastActionEvent(BeastActions.viewColumns, BeastComponents.dataObjects,
+      this.bdef.namespace, this.bdef.businessObjectDefinitionName);
   }
 
   sendEditDescriptionActionEvent() {
-    this.bs.sendBeastActionEvent(BeastActions.editDescription, BeastComponents.dataEntities);
+    this.bs.sendBeastActionEvent(BeastActions.editDescription, BeastComponents.dataEntities,
+      this.bdef.namespace, this.bdef.businessObjectDefinitionName);
   }
 
   sendDownloadSampleDataActionEvent() {
-    this.bs.sendBeastActionEvent(BeastActions.downloadSampleData, BeastComponents.dataEntities);
+    this.bs.sendBeastActionEvent(BeastActions.downloadSampleData, BeastComponents.dataEntities,
+      this.bdef.namespace, this.bdef.businessObjectDefinitionName);
   }
 
   sendViewLineageActionEvent() {
-    this.bs.sendBeastActionEvent(BeastActions.viewLieage, BeastComponents.dataEntities);
+    this.bs.sendBeastActionEvent(BeastActions.viewLineage, BeastComponents.dataEntities,
+      this.bdef.namespace, this.bdef.businessObjectDefinitionName);
   }
 
   sendEditNameActionEvent() {
-    this.bs.sendBeastActionEvent(BeastActions.editName, BeastComponents.dataEntities);
+    this.bs.sendBeastActionEvent(BeastActions.editName, BeastComponents.dataEntities,
+      this.bdef.namespace, this.bdef.businessObjectDefinitionName);
   }
 
   saveDataEntityColumnNameChange(event: EditEvent, col: DataEntityWithFormatColumn) {
