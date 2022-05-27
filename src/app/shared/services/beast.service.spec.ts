@@ -85,8 +85,15 @@ describe('Beast Service', () => {
   it('should send action event to beast service', inject([BeastService, UserService], (
     beastService: BeastService) => {
     const bsSpy = spyOn(beastService, 'postEvent');
-    beastService.sendBeastActionEvent('View', 'Homepage');
+    beastService.sendBeastActionEvent('View', 'Homepage', null, null);
     expect(bsSpy).toHaveBeenCalled();
+  }));
+
+  it('should return correct namespace and business definition', inject([BeastService], (
+    beastService: BeastService) => {
+    const url1 = 'testUDC/data-entity/testNamespace/testBDef/';
+    const res1 = beastService.getDataEntityDataFromUrl(url1);
+    expect(res1).toEqual('testNamespace|testBDef');
   }));
 
 });
