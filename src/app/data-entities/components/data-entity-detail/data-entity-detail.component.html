@@ -217,14 +217,14 @@
             COLUMNS
             <span
               *ngIf="bdefColumns && bdefColumns.length">
-              ({{bdefColumns.length}})
+              ({{mergedBdefColumns.length}})
             </span>
           </div>
         </ng-template>
         <ng-template ngbTabContent>
           <!--TODO: use csvSeparator to allow commas in html data when primeNG updates-->
           <p-dataTable #dt [emptyMessage]="emptyColumnsMessage" [loading]="loading" [responsive]="true" [rows]="10"
-                       [value]="bdefColumns"
+                       [value]="mergedBdefColumns"
                        exportFilename="data-entity-columns" reorderableColumns="true" resizableColumns="true">
             <p-header *ngIf="bdefColumns && bdefColumns.length">
               <div class="table-header row justify-content-end">
