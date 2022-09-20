@@ -508,17 +508,13 @@ export class DataEntityDetailComponent implements OnInit {
     }
   }
 
-  // This method merges partitions and bdef columns without duplicate column name
+  // This method merges Bdef partitions and Bdef columns without duplicate
   getMergedBdefColumns() {
-    console.log('Start getting columns');
-
     // Add partition name to the hashset.
     const partitionNameSet: Set<string> = new Set<string>();
     for (let i = 0; i < this.bdefPartitions.length; i++) {
       partitionNameSet.add(this.bdefPartitions[i].schemaColumnName);
-      console.log(this.bdefPartitions[i].schemaColumnName);
     }
-    console.log('partitionNameSet', partitionNameSet);
 
     // Create a deep copy of partition entries.
     this.mergedBdefColumns = this.bdefPartitions.map(x => Object.assign({}, x));
@@ -530,9 +526,6 @@ export class DataEntityDetailComponent implements OnInit {
       }
       this.mergedBdefColumns.push(this.bdefColumns[i]);
     }
-    console.log('allColumns: ', this.mergedBdefColumns);
-
-    console.log('End getting columns');
   }
 
   getFormats() {
@@ -607,6 +600,8 @@ export class DataEntityDetailComponent implements OnInit {
         // getBdefDetails handles updating with the new proper format
         this.bdef = businessObjectDefinition;
         this.bdefColumns = undefined;
+        this.bdefPartitions = undefined;
+        this.mergedBdefColumns = undefined;
         this.hierarchialGraph.nodes = [];
         this.hierarchialGraph.links = [];
         this.hierarchialGraph.loaded = false;
