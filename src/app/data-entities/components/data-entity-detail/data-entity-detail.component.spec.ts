@@ -215,8 +215,8 @@ describe('DataEntityDetailComponent', () => {
       ],
       partitions: [
         {
-          name: 'begindate',
-          type: 'date',
+          name: 'nonDuplicateCol',
+          type: 'string',
           size: null,
           required: null,
           defaultValue: null,
@@ -323,8 +323,8 @@ describe('DataEntityDetailComponent', () => {
   const expectedBdefPartitions: DataEntityWithFormatColumn[] = [{
     businessObjectDefinitionColumnName: '',
     description: '',
-    schemaColumnName: 'begindate',
-    type: 'date',
+    schemaColumnName: 'nonDuplicateCol',
+    type: 'string',
     exists: false
   }, {
     businessObjectDefinitionColumnName: '',
@@ -337,8 +337,8 @@ describe('DataEntityDetailComponent', () => {
   const expectedMergedBdefCols: DataEntityWithFormatColumn[] = [{
     businessObjectDefinitionColumnName: '',
     description: '',
-    schemaColumnName: 'begindate',
-    type: 'date',
+    schemaColumnName: 'nonDuplicateCol',
+    type: 'string',
     exists: false
   }, {
     businessObjectDefinitionColumnName: '',
