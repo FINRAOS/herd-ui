@@ -128,6 +128,8 @@ export class DataEntityDetailComponent implements OnInit {
   documentSchema: string;
   documentSchemaUrl: string;
   bdefColumns: DataEntityWithFormatColumn[] = [];
+  bdefPartitions: DataEntityWithFormatColumn[] = [];
+  mergedBdefColumns: DataEntityWithFormatColumn[] = [];
   smes: SubjectMatterExpert[];
 
   documentSchemaConfig = {
@@ -470,6 +472,32 @@ export class DataEntityDetailComponent implements OnInit {
                   exists
                 };
               });
+              this.bdefPartitions = this.descriptiveFormat.schema.partitions.map<DataEntityWithFormatColumn>((formatColumn) => {
+                let searchColumnBusinessName = '';
+                let searchColumnDescription = '';
+                const exists: boolean = columns.businessObjectDefinitionColumns.some((searchColumn) => {
+                  if (searchColumn.schemaColumnName === formatColumn.name) {
+                    searchColumnBusinessName = searchColumn.businessObjectDefinitionColumnKey
+                      .businessObjectDefinitionColumnName;
+                    searchColumnDescription = searchColumn.description;
+                    return true;
+                  }
+                  return false;
+                });
+
+                let dataType = formatColumn.type;
+                if (formatColumn.size !== null) {
+                  dataType += ' (' + formatColumn.size + ')';
+                }
+                return {
+                  businessObjectDefinitionColumnName: searchColumnBusinessName,
+                  description: searchColumnDescription,
+                  schemaColumnName: formatColumn.name,
+                  type: dataType,
+                  exists
+                };
+              });
+              this.getMergedBdefColumns();
             } else {
               this.emptyColumnsMessage = 'Cannot display columns - No Schema columns present in specified Descriptive Format';
             }
@@ -477,6 +505,26 @@ export class DataEntityDetailComponent implements OnInit {
         });
     } else {
       this.emptyColumnsMessage = 'Cannot display columns - No Descriptive Format defined for this Data Entity';
+    }
+  }
+
+  // This method merges Bdef partitions and Bdef columns without duplicate
+  getMergedBdefColumns() {
+    // Add partition name to the hashset.
+    const partitionNameSet: Set<string> = new Set<string>();
+    for (let i = 0; i < this.bdefPartitions.length; i++) {
+      partitionNameSet.add(this.bdefPartitions[i].schemaColumnName);
+    }
+
+    // Create a deep copy of partition entries.
+    this.mergedBdefColumns = this.bdefPartitions.map(x => Object.assign({}, x));
+
+    // Add non-duplicated bdef column to mergedBdefColumns.
+    for (let i = 0; i < this.bdefColumns.length; i++) {
+      if (partitionNameSet.has(this.bdefColumns[i].schemaColumnName)) {
+        continue;
+      }
+      this.mergedBdefColumns.push(this.bdefColumns[i]);
     }
   }
 
@@ -552,6 +600,8 @@ export class DataEntityDetailComponent implements OnInit {
         // getBdefDetails handles updating with the new proper format
         this.bdef = businessObjectDefinition;
         this.bdefColumns = undefined;
+        this.bdefPartitions = undefined;
+        this.mergedBdefColumns = undefined;
         this.hierarchialGraph.nodes = [];
         this.hierarchialGraph.links = [];
         this.hierarchialGraph.loaded = false;
