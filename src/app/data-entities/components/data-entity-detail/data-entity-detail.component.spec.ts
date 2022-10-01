@@ -195,21 +195,42 @@ describe('DataEntityDetailComponent', () => {
     documentSchema: 'test document schema',
     documentSchemaUrl: 'test document schema url',
     schema: {
-      columns: [{
-        name: 'col',
-        type: 'string',
-        size: 'varchar',
-        required: true,
-        defaultValue: 'string',
-        description: 'string'
-      }, {
-        name: 'testcol',
-        type: 'string',
-        size: null,
-        required: true,
-        defaultValue: 'string',
-        description: 'string'
-      }]
+      columns: [
+        {
+          name: 'col',
+          type: 'string',
+          size: 'varchar',
+          required: true,
+          defaultValue: 'string',
+          description: 'string'
+        },
+        {
+          name: 'testcol',
+          type: 'string',
+          size: null,
+          required: true,
+          defaultValue: 'string',
+          description: 'string'
+        }
+      ],
+      partitions: [
+        {
+          name: 'nonDuplicateCol',
+          type: 'string',
+          size: null,
+          required: null,
+          defaultValue: null,
+          description: null,
+        },
+        {
+          name: 'testcol',
+          type: 'string',
+          size: null,
+          required: true,
+          defaultValue: 'string',
+          description: 'string'
+        },
+      ]
     }
   };
 
@@ -297,6 +318,40 @@ describe('DataEntityDetailComponent', () => {
     schemaColumnName: 'testcol',
     type: 'string',
     exists: false
+  }];
+
+  const expectedBdefPartitions: DataEntityWithFormatColumn[] = [{
+    businessObjectDefinitionColumnName: '',
+    description: '',
+    schemaColumnName: 'nonDuplicateCol',
+    type: 'string',
+    exists: false
+  }, {
+    businessObjectDefinitionColumnName: '',
+    description: '',
+    schemaColumnName: 'testcol',
+    type: 'string',
+    exists: false
+  }];
+
+  const expectedMergedBdefCols: DataEntityWithFormatColumn[] = [{
+    businessObjectDefinitionColumnName: '',
+    description: '',
+    schemaColumnName: 'nonDuplicateCol',
+    type: 'string',
+    exists: false
+  }, {
+    businessObjectDefinitionColumnName: '',
+    description: '',
+    schemaColumnName: 'testcol',
+    type: 'string',
+    exists: false
+  }, {
+    businessObjectDefinitionColumnName: 'col',
+    description: 'desc',
+    schemaColumnName: 'col',
+    type: 'string (varchar)',
+    exists: true
   }];
 
   const sampleDataResponse = {
@@ -583,6 +638,8 @@ describe('DataEntityDetailComponent', () => {
       expect(component.documentSchemaJson).toEqual(descriptiveFormat.documentSchema);
       expect(component.documentSchemaUrl).toEqual(descriptiveFormat.documentSchemaUrl);
       expect(component.bdefColumns).toEqual(expectedCols);
+      expect(component.bdefPartitions).toEqual(expectedBdefPartitions);
+      expect(component.mergedBdefColumns).toEqual(expectedMergedBdefCols);
       expect(component.editorOptions).toEqual(expectedEditorOption);
       // expect(component.bdefTags).toEqual(expectedBdefTags.businessObjectDefinitionTagKeys);
       // expect(component.hasTag).toEqual(true);
@@ -767,7 +824,8 @@ describe('DataEntityDetailComponent', () => {
               required: true,
               defaultValue: 'string',
               description: 'string'
-            }]
+            }],
+            partitions: []
           }
         };
 
@@ -2038,7 +2096,7 @@ describe('DataEntityDetailComponent', () => {
         };
 
         spyOn(component, 'getBdefDetails').and.callFake(() => {
-          component.bdefColumns = [
+          component.mergedBdefColumns = [
             {
               businessObjectDefinitionColumnName: 'test name',
               description: 'test description',
